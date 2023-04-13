@@ -1,0 +1,48 @@
+
+.virtuosway-hr-header-list-part-one ul{
+    list-style-type: none;
+    display: flex;
+    justify-content: left;
+}
+
+.virtuosway-hr-header-list-part-two ul{
+    justify-content: end;
+    list-style-type: none;
+    display: flex;
+}
+.virtuosway-hr-header-list-part-one ul li {
+     color: var(--whitesmoke);
+     font-size: 1rem;
+     padding: 8px;
+     cursor: pointer;
+    
+}
+.virtuosway-hr-header-list-part-two ul li{
+     color: var(--whitesmoke);
+     font-size: 0.8rem;
+     padding: 8px 10px;
+     
+    
+}
+.virtuosway-hr-header{
+background-color:  var(--voilet);
+position: relative;
+}
+.virtuosway-hr-header-content{
+    padding:25px 0px;
+    
+}
+.virtuosway-hr-title span{
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--whitesmoke);
+    
+}
+.virtuosway-hr-header-icon{
+    padding:0px 3px;
+}
+.ham-menu{
+    width: 24px;
+}
+

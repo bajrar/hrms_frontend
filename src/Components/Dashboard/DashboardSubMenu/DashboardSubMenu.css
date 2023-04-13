@@ -1,0 +1,31 @@
+.virtuosway-hr-sub-menu-content{
+    background-color: var(--white);
+    padding-top: 8px;
+    padding-bottom: 0px;
+    border:0.5px solid var(--dashboardSubMenuBorderColor);
+    border-radius:4px;
+
+}
+.virtuosway-hr-sub-menu-content ul{
+    list-style-type: none;
+    display: flex;
+    justify-content: left;
+    margin-bottom: 8px;
+}
+.virtuosway-hr-sub-menu-content ul li{
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    padding: 0px 10px;
+    color: var(--dashboardSubMenuTextColor);
+    cursor: pointer;
+}
+.virtuosway-hr-dashboard-submenu-icon{
+    color:var(--voilet);
+    padding-right:5px;
+      font-size: 1rem;
+      font-weight: 800;
+
+}
+.virtuosway-hr-sub-menu{
+    padding: 40px 0px;
+}

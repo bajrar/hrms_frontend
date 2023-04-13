@@ -1,0 +1,13 @@
+.nav-container{
+    margin-bottom: 40px;
+}
+.body-container{
+    max-width: 1042px;
+    background-color: black;
+    margin: 0 auto;
+}
+.applyjobs{
+    width: 100%;
+    height:max-content;
+    background-color: rgb(230, 225, 225);
+}

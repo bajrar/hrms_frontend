@@ -1,0 +1,53 @@
+/* .virtuosway-hr-dashboard-jobs{
+    border:1px solid var(--dashboardSubMenuBorderColor);
+  
+   
+
+} */
+.virtuosway-hr-dashboard-interview{
+    padding:30px 0px;
+}
+.virtuosway-hr-dashboard-interview-body-section{
+    border:1px solid var(--dashboardSubMenuBorderColor);
+    background-color: var(--whitesmoke);
+
+}
+.virtuosway-hr-dashboard-interview-title-section{
+     background-color: var(--dashboardMyInteriewTab);
+     padding: 8px 5px;
+       border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.virtuosway-hr-dashboard-interview-content-title text{
+    padding-left: 10px;
+
+}
+
+.virtuosway-hr-dashboard-interview-content-title{
+    color:white;
+    font-size: 1rem;
+    font-weight: 600;
+ 
+    
+}
+.virtuosway-hr-dashboard-interview-title-section-icon{
+    text-align: right;
+}
+.virtuosway-hr-dashboard-interview-title-icon{
+    color:white;
+}
+.virtuosway-hr-dashboard-interview-body-content{
+    padding: 50px;
+}
+.virtuosway-hr-dashboard-interview-body-content p{
+    text-align: center;
+}
+.virtuosway-hr-dashboard-interview-body-content-icon{
+    font-size: 40px;
+    color: var(--dashboardMyInteriewTab);
+
+}
+.virtuosway-hr-dashboard-interview-body-content-text{
+    color:var(--voilet);
+    font-size: 0.9rem;
+}

@@ -1,0 +1,122 @@
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+}
+.breadcrumbs > * {
+  padding: 0;
+}
+.bread-crumbs-image {
+  width: 20px;
+}
+.location:not(:last-child) {
+  color: #3333f1;
+  width: fit-content;
+}
+.location-container {
+  width: fit-content;
+}
+.add-employee__section-header {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #023c87;
+  border-bottom: 2px solid #023c87;
+  width: fit-content;
+  margin: 0;
+}
+.add-employee__section {
+  /* padding: 0 !important; */
+  display: flex;
+  gap: 60px;
+}
+.form-input {
+  padding: 0 !important;
+}
+.form-input-wrapper {
+  height: 48px;
+}
+.form-input-container {
+  width: calc((100% - 120px) / 3);
+}
+.form-input-container-fourth {
+  width: calc((100% - 180px) / 4);
+}
+.form-input-contain {
+  width: 100% !important;
+  height: 48px;
+}
+.form-footer {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.selects {
+  height: 48px;
+}
+.selects > .ant-select-selector {
+  height: 100% !important;
+
+  border: 1px solid rgba(2, 60, 135, 0.4) !important;
+  border-radius: 4px !important;
+}
+.selects > .ant-select-selector > .ant-select-selection-search > input {
+  height: 100% !important;
+}
+.selects > .ant-select-selector > .ant-select-selection-item {
+  display: flex;
+  align-items: center;
+}
+.selects > .ant-select-selector > .ant-select-selection-placeholder {
+  height: 100% !important;
+  display: flex;
+  align-items: center;
+}
+.probation-input {
+  background: rgba(2, 60, 135, 0.02);
+  /* Primary color/Primary Color/Primary Color/40 */
+
+  border: 1px solid rgba(2, 60, 135, 0.4);
+
+  border-radius: 8px;
+}
+.calendar-container {
+  width: 24px;
+}
+.date-picker {
+  height: 48px;
+  width: 285px;
+  border: 1px solid rgba(2, 60, 135, 0.4);
+  border-radius: 4px;
+  padding-left: 10px;
+  width: 100%;
+}
+.calender-container-picker {
+  border: 1px solid rgba(2, 60, 135, 0.4);
+  border-radius: 4px;
+  width: 316px;
+  height: 48px;
+  padding-left: 10px;
+}
+@media screen and (min-width: 1920px) {
+  .add-employee__section {
+    gap: 120px;
+  }
+  .form-input-container {
+    width: calc((100% - 240px) / 3);
+  }
+  .form-input-container-fourth {
+    width: calc((100% - 360px) / 4);
+  }
+}

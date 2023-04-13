@@ -1,0 +1,29 @@
+.job-summary-header__right {
+  gap: 16px;
+}
+.job-summary-selects {
+  height: 40px;
+}
+.search-field {
+  height: 40px;
+}
+.add-jobs-bottom {
+  flex-wrap: wrap;
+}
+.job-description-input {
+  margin-bottom: 20px;
+}
+.job-description-text {
+  border-radius: 6px !important;
+  overflow: hidden;
+}
+.ql-toolbar {
+  height: 48px;
+  border-radius: 6px 6px 0 0;
+}
+.ql-editor {
+  height: 200px;
+}
+.ql-container {
+  border-radius: 0 0 6px 6px;
+}

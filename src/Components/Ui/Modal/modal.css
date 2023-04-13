@@ -1,0 +1,13 @@
+.assign-shift-modal {
+  width: 936px !important;
+}
+.ant-modal-content {
+  padding: 32px !important;
+}
+.holidays-modal,
+.add-leave-modal,
+.assign-leave-modal,
+.add-device-modal,
+.add-jobs-modal {
+  width: 936px !important;
+}

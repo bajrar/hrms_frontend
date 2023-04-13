@@ -1,0 +1,14 @@
+.unit-input {
+  display: flex;
+}
+
+.unit-container {
+  width: 100%;
+  gap: 16px;
+}
+.leave-unit-selects {
+  min-width: 264px !important;
+}
+.start-end-container {
+  gap: 22px;
+}

@@ -1,0 +1,35 @@
+.jobs-navbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    height: 80px;
+    width:100%;
+    margin: auto;
+    margin-bottom: 40px;
+}
+
+.left{
+   max-width: 1024px;
+   margin: auto;
+}
+
+.left h1{
+    font-size: 30px;
+    font-weight: 300;
+}
+.right{
+    margin-right: 40px;
+}
+ .right button{
+    background-color: #c5c0c0;
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: 300;
+    cursor: pointer;
+    margin-right: 40px;
+ }

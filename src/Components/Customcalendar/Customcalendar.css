@@ -1,0 +1,82 @@
+.calendar-wrapper {
+  margin-block: 50px 100px;
+}
+.calendar-title {
+  margin-bottom: 20px;
+}
+.calendar-container {
+  width: 100%;
+  border-collapse: separate;
+}
+.calendar-head {
+  text-align: center;
+  min-width: 220px;
+}
+
+.table-row-container {
+  border-bottom: 1px solid #ddd;
+  height: 100px;
+}
+.table-data-container {
+  font-size: 22px;
+  line-height: 19px;
+  padding: 10px 16px;
+  border-radius: 4px 0 0 4px;
+  color: #333333;
+  min-width: 220px;
+}
+.table-data-container:first-child {
+  color: #f0ad4e;
+  background: rgba(240, 173, 78, 0.05);
+  /* Warning/100 */
+
+  border-left: 2px solid #f0ad4e;
+}
+.table-data-container:last-child {
+  color: #f0ad4e;
+  background: rgba(240, 173, 78, 0.05);
+  border-left: 2px solid #f0ad4e;
+}
+
+.table-data-container:not(:first-child, :last-child) {
+  border-left: 2px solid #00b9f1;
+  border-radius: 4px;
+}
+.date-selector {
+  outline: none;
+  border: 1px solid #000;
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 5px 10px;
+}
+.date-selector:hover {
+  opacity: 0.7;
+}
+.date-selector-list {
+  border-radius: 6px;
+  padding-inline: 6px;
+}
+.date-selector-list:hover {
+  color: var(--primary);
+  background-color: rgba(237, 236, 236, 0.5);
+}
+.button-container {
+  gap: 16px;
+  align-items: center;
+}
+.status-container {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  gap: 8px;
+  margin-top: 10px;
+}
+.status-container > .employee-stats {
+  padding: 0 8px;
+  font-size: 12px;
+  text-transform: lowercase;
+}
+.status-container > .holiday-container {
+  text-transform: capitalize;
+  color: #333333;
+}

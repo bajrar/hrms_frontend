@@ -1,0 +1,122 @@
+.main-logo-container {
+  width: 100%;
+}
+
+.logo {
+  width: 253px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logo > img {
+  width: 100%;
+  height: 100%;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+}
+.right h3 {
+  margin-right: 20px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
+}
+.right h3 > a {
+  text-decoration: none;
+  color: rgb(66, 36, 199);
+}
+.virtuosway-hr-login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0px;
+  /* height: 80vh;
+  width: 100vw; */
+  /* background-color: #f5f5f5; */
+}
+.virtuosway-hr-login-page form {
+  text-align: center;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  min-width: fit-content;
+  max-width: 40vw;
+  width: 553px;
+  padding: 64px;
+  background: #fff;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  gap: 0;
+}
+
+.form_container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.form_container input {
+  border: 1px solid #9ab1cf;
+  padding: 8px;
+  border-radius: 4px;
+}
+.form_container input:focus {
+  outline: none;
+}
+.form_container:not(:last-child) {
+  margin-bottom: 24px;
+}
+.login-button {
+  border: none;
+  background-color: var(--primary);
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 5px;
+}
+.virtuosway-hr-login-page .labels {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.forgot-password {
+  font-family: 'Helvetica';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #3333f1;
+  text-align: end;
+}
+.sign-up-header {
+  text-align: start;
+  margin-bottom: 8px;
+}
+.sign-up-text {
+  margin-bottom: 32px;
+}
+
+.note-message {
+  font-family: 'Helvetica';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #72777a;
+  margin-bottom: 0;
+}
+
+@media only screen and (max-width: 600px) {
+  .virtuosway-hr-login-page .right {
+    display: none;
+  }
+  .virtuosway-hr-login-page form {
+    width: 300px;
+    height: 450px;
+  }
+}
