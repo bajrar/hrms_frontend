@@ -33,6 +33,7 @@ export const CompareFunction = (compareList: any) => {
 const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
   const dispatch = useAppDispatch();
   const [attendanceData, setAttendanceData] = useState<any>([]);
+  console.log(defaultDate, 'defaultdata');
 
   useEffect(() => {
     dispatch(getUsers() as any);
@@ -146,7 +147,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
       userData?.attendanceRecords[0]?.attendanceByDate?.map(
         (attendance: any) => {
           if (
-            attendance.date === defaultDate &&
+            attendance?.date === defaultDate &&
             userData.employeeName.toLowerCase().includes(searchText) &&
             (attendance?.morningStatus
               ?.toLowerCase()

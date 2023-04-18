@@ -32,7 +32,7 @@ const ShiftDetails = () => {
         location3='Assign Shifts'
       />
       <hr />
-      <Selects placeHolder='Employee name' />
+      <Selects placeHolder='Shift name' />
       <div className='d-flex justify-content-between align-items-end'>
         <ShiftDetailsTable />
       </div>
