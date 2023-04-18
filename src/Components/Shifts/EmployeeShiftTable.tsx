@@ -56,6 +56,7 @@ const EmployeeShiftTable = () => {
   const dispatch = useDispatch();
 
   const { data } = useAppSelector((state) => state.singleShiftSlice);
+  console.log(data, 'data');
 
   useEffect(() => {
     const shifts: DataType[] = [];
