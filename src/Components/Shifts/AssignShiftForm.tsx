@@ -119,7 +119,6 @@ const AssignShiftForm = ({ setIsModalOpen }: IForm) => {
             onSelect={onShiftName}
           />
         </Form.Item>
-        kw
         <Form.Item
           className='form-input col'
           name='assignTo'
