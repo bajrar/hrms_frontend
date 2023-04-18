@@ -24,11 +24,26 @@
   display: flex;
   flex-direction: column;
 }
+.sidebar-menus > .ant-menu-item-selected {
+  background-color: transparent !important;
+}
 .sidenav-link {
   text-decoration: none;
 }
+
+.sidebar-icon {
+  /* padding-left: 24px !important; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
 .sidebar-menus {
   background-color: transparent !important;
+}
+.sidebar-menu-small > .ant-menu-item {
+  padding-left: 0 !important;
+  padding-inline: 0 !important;
 }
 .sidebar-menus > .ant-menu-submenu > .ant-menu-sub {
   background-color: transparent !important;

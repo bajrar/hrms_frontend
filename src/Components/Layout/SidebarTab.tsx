@@ -153,7 +153,10 @@ const SideBarTab = () => {
     getItem(
       '',
       'sub1',
-      <div className='icons-container' onClick={() => openSidebar()}>
+      <div
+        className='icons-container sidebar-icon'
+        onClick={() => openSidebar()}
+      >
         <img src='/images/employee.svg' alt='employee' />
       </div>
     ),
@@ -161,7 +164,10 @@ const SideBarTab = () => {
     getItem(
       '',
       'sub2',
-      <div className='icons-container' onClick={() => openSidebar()}>
+      <div
+        className='icons-container sidebar-icon'
+        onClick={() => openSidebar()}
+      >
         <img src='/images/leave.svg' alt='leave' />
       </div>
     ),
@@ -169,14 +175,20 @@ const SideBarTab = () => {
     getItem(
       '',
       'sub3',
-      <div className='icons-container' onClick={() => openSidebar()}>
+      <div
+        className='icons-container sidebar-icon'
+        onClick={() => openSidebar()}
+      >
         <img src='/images/vacancy.svg' alt='vacancy' />
       </div>
     ),
     getItem(
       '',
       'sub4',
-      <div className='icons-container' onClick={() => openSidebar()}>
+      <div
+        className='icons-container sidebar-icon'
+        onClick={() => openSidebar()}
+      >
         <img src='/images/attendance.svg' alt='attendance' />
       </div>
     ),
@@ -196,7 +208,9 @@ const SideBarTab = () => {
         <Menu
           mode='inline'
           items={smallSidebar ? itemss : items}
-          className='sidebar-menus'
+          className={
+            smallSidebar ? 'sidebar-menus sidebar-menu-small' : 'sidebar-menus'
+          }
         />
       </div>
     </div>
