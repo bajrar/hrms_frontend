@@ -56,11 +56,11 @@ const EmployeeShiftTable = () => {
   const dispatch = useDispatch();
 
   const { data } = useAppSelector((state) => state.singleShiftSlice);
-  console.log(data, 'data');
 
   useEffect(() => {
     const shifts: DataType[] = [];
     data?.assignedTo?.map((shiftData: any) => {
+      // if () {}
       const tableData = {
         id: shiftData?.userSn,
         employeeName: shiftData?.employeeName,

@@ -3,5 +3,6 @@
   /* align-items: center; */
 }
 .main-container {
-  width: calc(100% - 342px);
+  /* width: calc(100% - 342px); */
+  width: 100%;
 }
