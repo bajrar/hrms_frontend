@@ -33,7 +33,6 @@ export const CompareFunction = (compareList: any) => {
 const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
   const dispatch = useAppDispatch();
   const [attendanceData, setAttendanceData] = useState<any>([]);
-  console.log(defaultDate, 'defaultdata');
 
   useEffect(() => {
     dispatch(getUsers() as any);

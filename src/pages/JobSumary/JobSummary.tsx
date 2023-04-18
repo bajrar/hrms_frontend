@@ -33,6 +33,7 @@ const JobSummary = () => {
   const [openUpdateJob, setOpenUpdateJob] = useState<boolean>(false);
   const [shiftId, setShiftId] = useState<string>('');
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
+  const [searchText, setSearchText] = useState('');
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -119,17 +120,19 @@ const JobSummary = () => {
   useEffect(() => {
     const shifts: DataType[] = [];
     jobs?.map((job: any) => {
-      const tableData = {
-        jobTitle: job?.title,
-        jobsStatus: job?.status,
-        action: job?._id,
-        view: job?._id,
-      };
-      shifts.push(tableData);
+      if (job.title.toLowerCase().includes(searchText)) {
+        const tableData = {
+          jobTitle: job?.title,
+          jobsStatus: job?.status,
+          action: job?._id,
+          view: job?._id,
+        };
+        shifts.push(tableData);
+      }
     });
 
     setJobsArray(shifts);
-  }, [jobs]);
+  }, [jobs, searchText]);
 
   return (
     <div className='job-summary-page padding'>
@@ -145,6 +148,8 @@ const JobSummary = () => {
           type='text'
           className='search-field'
           placeholder='Search positions'
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value.toLowerCase())}
         />
         <div className='d-flex job-summary-header__right'>
           <Selects
