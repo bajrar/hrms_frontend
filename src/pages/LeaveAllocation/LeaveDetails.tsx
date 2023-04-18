@@ -58,6 +58,7 @@ const LeaveDetails = () => {
       } as any) as any
     );
   }, [dispatch]);
+
   const { leave } = useAppSelector((state) => state.singleLeave);
 
   // useEffect(() => {
