@@ -39,19 +39,21 @@ const ShiftsMappingTab = () => {
 
   return (
     <div className='shift-mapping-container'>
-      <Selects
-        defaultValue='All'
-        onSelect={onSelect}
-        value={shiftType}
-        options={WorkingCondition}
-      />
-      <input
-        type='text'
-        placeholder='Search'
-        className='search-field search-shift'
-        value={searchText}
-        onChange={(e) => setSearchText(e.target.value.toLowerCase())}
-      />
+      <div className='d-flex align-items-center shift-header'>
+        <Selects
+          defaultValue='All'
+          onSelect={onSelect}
+          value={shiftType}
+          options={WorkingCondition}
+        />
+        <input
+          type='text'
+          placeholder='Search'
+          className='search-field '
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value.toLowerCase())}
+        />
+      </div>
       <Table
         columns={columns}
         dataSource={[]}

@@ -170,7 +170,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
                 ? 'Absent'
                 : attendance?.holiday
                 ? 'Absent'
-                : `${formatTime(attendance?.entryTime)} `,
+                : `${formatTime(attendance?.entryTime)}`,
               clockOut: attendance?.absent
                 ? 'Absent'
                 : attendance?.holiday

@@ -90,19 +90,21 @@ const AddLeave = () => {
   useEffect(() => {
     const leaveData: DataType[] = [];
     leaves?.leave?.map((leave: any) => {
-      const tableData = {
-        leaveName: leave.leaveName,
-        unit: leave?.leaveUnit,
-        maximumUnit: leave?.maximumUnitAllowed,
-        leaveDetails: leave?.leaveNote,
-        accumulated: leave?.accumulated,
-        action: leave?._id,
-        view: leave?._id,
-      };
-      leaveData.push(tableData);
+      if (leave?.leaveName?.toLowerCase().includes(searchText)) {
+        const tableData = {
+          leaveName: leave.leaveName,
+          unit: leave?.leaveUnit,
+          maximumUnit: leave?.maximumUnitAllowed,
+          leaveDetails: leave?.leaveNote,
+          accumulated: leave?.accumulated,
+          action: leave?._id,
+          view: leave?._id,
+        };
+        leaveData.push(tableData);
+      }
     });
     setLeaveArray(leaveData);
-  }, [leaves.leave]);
+  }, [leaves.leave, searchText]);
 
   return (
     <div className='add-leave'>
