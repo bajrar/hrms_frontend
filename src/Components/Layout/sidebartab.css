@@ -1,13 +1,19 @@
 .sidebar {
   border-right: 1px solid #d8d8d8;
   min-height: 100vh;
-  width: 342px !important;
+  /* width: 342px !important; */
   background-color: #f2f5f9;
+  transition: all 0.5s ease-in;
 }
 .logo-container {
   margin-top: 32px;
   margin-bottom: 68px;
   width: 290px;
+  height: 116px;
+}
+.small-logo-container {
+  margin-top: 32px;
+  margin-bottom: 68px;
   height: 116px;
 }
 .icons-container {
@@ -18,11 +24,25 @@
   display: flex;
   flex-direction: column;
 }
+.sidebar-menus > .ant-menu-item-selected {
+  background-color: transparent !important;
+}
 .sidenav-link {
   text-decoration: none;
 }
+
+.sidebar-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
 .sidebar-menus {
   background-color: transparent !important;
+}
+.sidebar-menu-small > .ant-menu-item {
+  padding-left: 0 !important;
+  padding-inline: 0 !important;
 }
 .sidebar-menus > .ant-menu-submenu > .ant-menu-sub {
   background-color: transparent !important;

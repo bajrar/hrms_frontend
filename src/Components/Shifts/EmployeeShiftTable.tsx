@@ -60,6 +60,7 @@ const EmployeeShiftTable = () => {
   useEffect(() => {
     const shifts: DataType[] = [];
     data?.assignedTo?.map((shiftData: any) => {
+      // if () {}
       const tableData = {
         id: shiftData?.userSn,
         employeeName: shiftData?.employeeName,

@@ -146,7 +146,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
       userData?.attendanceRecords[0]?.attendanceByDate?.map(
         (attendance: any) => {
           if (
-            attendance.date === defaultDate &&
+            attendance?.date === defaultDate &&
             userData.employeeName.toLowerCase().includes(searchText) &&
             (attendance?.morningStatus
               ?.toLowerCase()
@@ -170,7 +170,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
                 ? 'Absent'
                 : attendance?.holiday
                 ? 'Absent'
-                : `${formatTime(attendance?.entryTime)} `,
+                : `${formatTime(attendance?.entryTime)}`,
               clockOut: attendance?.absent
                 ? 'Absent'
                 : attendance?.holiday

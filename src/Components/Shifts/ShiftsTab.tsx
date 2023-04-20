@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Table } from 'antd';
+import { Button, Table, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -122,7 +122,7 @@ const ShiftsTab = () => {
         dispatch(getShift() as any);
       }
     } catch {
-      console.log('error');
+      message.error('Something went wrong');
     } finally {
       setDeleteModal(false);
     }

@@ -21,7 +21,6 @@ export interface DataType {
 }
 
 const ApplyLeave = () => {
-  const [searchText, setSearchText] = useState('');
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -69,10 +68,6 @@ const ApplyLeave = () => {
     setIsModalOpen(true);
   };
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
   return (
     <div className='assign-leave'>
       <div className='d-flex justify-content-between align-items-center daily-report-search'>
@@ -86,14 +81,13 @@ const ApplyLeave = () => {
           To
           <Calendar
             onChange={onEndDateChange}
-            // defaultValue={dayjs(defaultDate)}
-            className=' date-picker calender-container-picker leave-inputs'
+            className='date-picker calender-container-picker leave-inputs'
             dateFormat='YYYY/MM/DD'
             language='en'
           />
         </div>
         <div className='d-flex daily-report-saerch-right'>
-          <Selects placeHolder='Search project name' className='leave-inputs' />
+          <Selects placeHolder='Search leave name' className='leave-inputs' />
           <button className='primary-btn' onClick={showModal}>
             <FontAwesomeIcon icon={faPlus} /> Apply Leave
           </button>
