@@ -1,8 +1,8 @@
 .shifts-table {
   margin-top: 32px;
 }
-.search-shift {
-  margin-top: 16px;
+.shift-header {
+  gap: 16px;
 }
 .shift-Mapping-table {
   margin-top: 32px;
