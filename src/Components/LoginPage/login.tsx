@@ -28,6 +28,7 @@ export const LoginPage = ({}: LoginPageProps) => {
       [e.target.name]: e.target.value,
     }));
   };
+
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
@@ -42,6 +43,7 @@ export const LoginPage = ({}: LoginPageProps) => {
       console.log(e);
     }
   };
+
   return (
     <main>
       <div className='main_container container virtuosway-hr-login-page'>
