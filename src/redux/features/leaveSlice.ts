@@ -6,7 +6,12 @@ export const getLeave = createAsyncThunk(
   'leaves/getLeaves',
   async (data, thunkApi) => {
     try {
-      const response = await axios.get(`${API_URL}/leave`);
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${API_URL}/leave`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response.data;
     } catch (err: any) {
       return thunkApi.rejectWithValue(err.message);

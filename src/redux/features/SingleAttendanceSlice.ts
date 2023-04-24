@@ -13,9 +13,15 @@ export const getEmployeeData = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
+      const token = localStorage.getItem('token');
       const response = await axios.get(
         `${API_URL}/getAttendanceByDateRange?userSn=${userSn}&&startDate=${startDate}&&endDate=${endDate}
-        `
+        `,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       return response.data;
     } catch (err: any) {

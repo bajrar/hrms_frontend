@@ -6,7 +6,12 @@ export const getAttedanceStatus = createAsyncThunk(
   'attendanceStatus/getAttendanceStatus',
   async (data, thunkApi) => {
     try {
-      const response = await axios.get(`${API_URL}/attendanceStatus`);
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${API_URL}/attendanceStatus`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response.data;
     } catch (err: any) {
       return thunkApi.rejectWithValue(err.message);

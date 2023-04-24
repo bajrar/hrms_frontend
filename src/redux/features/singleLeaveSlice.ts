@@ -6,7 +6,12 @@ export const getSingleLeave = createAsyncThunk(
   'singleLeave/getSingleLeave',
   async ({ leaveId }: { leaveId: string }, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API_URL}/leave/${leaveId}`);
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${API_URL}/leave/${leaveId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response.data;
     } catch (err: any) {
       return rejectWithValue(err.message);

@@ -6,8 +6,14 @@ export const getUsers = createAsyncThunk(
   'users/getUsers',
   async (data, thunkApi) => {
     try {
+      const token = localStorage.getItem('token');
       const response = await axios.get(
-        `${API_URL}/getEmployeeRecordWithAttendance`
+        `${API_URL}/getEmployeeRecordWithAttendance`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       return response.data;
     } catch (err: any) {

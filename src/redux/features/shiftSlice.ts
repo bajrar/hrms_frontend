@@ -6,7 +6,12 @@ export const getShift = createAsyncThunk(
   'shift/getShift',
   async (data, thunkApi) => {
     try {
-      const response = await axios.get(`${API_URL}/shift`);
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${API_URL}/shift`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response.data;
     } catch (err: any) {
       return thunkApi.rejectWithValue(err.message);

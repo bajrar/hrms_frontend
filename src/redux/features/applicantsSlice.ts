@@ -6,7 +6,12 @@ export const getApplicants = createAsyncThunk(
   'applicants/getApplicants',
   async (data, thunkApi) => {
     try {
-      const response = await axios.get(`${API_URL}/applicant`);
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${API_URL}/applicant`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response.data;
     } catch (err: any) {
       return thunkApi.rejectWithValue(err.message);

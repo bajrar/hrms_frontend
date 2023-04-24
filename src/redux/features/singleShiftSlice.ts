@@ -4,9 +4,16 @@ import { API_URL } from '../../Components/apis/constants/constant';
 
 export const getSingleShift = createAsyncThunk(
   'singleShift/getSingleShift',
-  async ({ shiftId }: { shiftId: string }, { rejectWithValue }) => {
+  async ({ shiftId }: { shiftId: string }, { rejectWithValue, getState }) => {
     try {
-      const response = await axios.get(`${API_URL}/shift/${shiftId}`);
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${API_URL}/shift/${shiftId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(token, 'token');
+
       return response.data;
     } catch (err: any) {
       return rejectWithValue(err.message);

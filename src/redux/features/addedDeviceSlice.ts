@@ -6,7 +6,12 @@ export const getDevices = createAsyncThunk(
   'devices, getDevices',
   async (data, thunkApi) => {
     try {
-      const response = await axios.get(`${API_URL}/device`);
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${API_URL}/device`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response.data;
     } catch (err: any) {
       return thunkApi.rejectWithValue(err.message);

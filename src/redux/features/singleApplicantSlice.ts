@@ -6,7 +6,12 @@ export const getSingleApplicant = createAsyncThunk(
   'singleApplicant/getSingleApplicant',
   async ({ applicantId }: { applicantId: string }, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API_URL}/applicant/${applicantId}`);
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${API_URL}/applicant/${applicantId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response.data;
     } catch (err: any) {
       return rejectWithValue(err.message);
