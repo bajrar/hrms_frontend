@@ -1,6 +1,6 @@
 import { faPen, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Table } from 'antd';
+import { Table, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import type { ColumnsType } from 'antd/es/table';
 import ModalComponent from '../Ui/Modal/Modal';
@@ -10,6 +10,8 @@ import { useDispatch } from 'react-redux';
 import { getLeave } from '../../redux/features/leaveSlice';
 import { Link } from 'react-router-dom';
 import AssignLeaveForm from './AssignLeaveForm';
+import DeleteModal from '../Ui/DeleteModal/DeleteModal';
+import { apis } from '../apis/constants/ApisService';
 
 export interface DataType {
   leaveName?: string;
@@ -26,6 +28,8 @@ const AddLeave = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [leaveArray, setLeaveArray] = useState<DataType[]>([]);
   const [isAssignOpen, setIsAssignOpen] = useState<boolean>(false);
+  const [deleteModal, setDeleteModal] = useState<boolean>(false);
+  const [deleteLeaveId, setDeleteLeaveId] = useState<string>('');
 
   const dispatch = useDispatch();
 
@@ -62,8 +66,12 @@ const AddLeave = () => {
       key: 'action',
       render: (record) => (
         <div className='d-flex action-btn-container'>
-          <FontAwesomeIcon icon={faPen} color='#35639F' />
-          <FontAwesomeIcon icon={faTrash} color='#35639F' />
+          <FontAwesomeIcon icon={faPen} color='#35639F' />{' '}
+          <FontAwesomeIcon
+            icon={faTrash}
+            color='#35639F'
+            onClick={() => openDeleteModal(record)}
+          />
         </div>
       ),
     },
@@ -105,6 +113,24 @@ const AddLeave = () => {
     });
     setLeaveArray(leaveData);
   }, [leaves.leave, searchText]);
+
+  const openDeleteModal = (id: string) => {
+    setDeleteModal(true);
+    setDeleteLeaveId(id);
+  };
+
+  const deletLeave = async () => {
+    try {
+      const res = await apis.deleteLeave(deleteLeaveId);
+      if (res.status === 200) {
+        dispatch(getLeave() as any);
+      }
+    } catch {
+      message.error('Something went wrong');
+    } finally {
+      setDeleteModal(false);
+    }
+  };
 
   return (
     <div className='add-leave'>
@@ -149,6 +175,11 @@ const AddLeave = () => {
         <h3 className='modal-title'>ASSIGN LEAVE</h3>
         <AssignLeaveForm setIsAssignOpen={setIsAssignOpen} />
       </ModalComponent>
+      <DeleteModal
+        openModal={deleteModal}
+        setOpenModal={setDeleteModal}
+        deleteItem={deletLeave}
+      />
     </div>
   );
 };

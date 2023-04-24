@@ -5,7 +5,6 @@ export const getSingleShift = createAsyncThunk(
   'singleShift/getSingleShift',
   async ({ shiftId }: { shiftId: string }, { rejectWithValue, getState }) => {
     try {
-      const token = localStorage.getItem('token');
       const response = await getApis(`shift/${shiftId}`);
       return response.data;
     } catch (err: any) {

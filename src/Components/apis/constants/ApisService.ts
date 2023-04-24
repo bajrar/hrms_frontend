@@ -29,6 +29,7 @@ type JobCredentialsT = {
 
 const axiosApiInstance = axios.create();
 
+const token = localStorage.getItem('token');
 export const apis = {
   getLogin: ({ email, password }: LoginCredntialsT) => {
     return axiosApiInstance.post(`${API_URL}/users/login`, {
@@ -147,5 +148,10 @@ export const apis = {
     `,
       values
     );
+  },
+  deleteLeave: (leaveId: string) => {
+    return axiosApiInstance.delete(`${API_URL}/leave/${leaveId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
   },
 };
