@@ -1,17 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { API_URL } from '../../Components/apis/constants/constant';
+import getApis from '../../Components/apis/constants/Api';
 
 export const getSingleJob = createAsyncThunk(
   'singleJob/getSingleJob',
   async ({ jobId }: { jobId: string }, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get(`${API_URL}/jobs/${jobId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await getApis(`jobs/${jobId}`);
       return response.data;
     } catch (err: any) {
       return rejectWithValue(err.message);

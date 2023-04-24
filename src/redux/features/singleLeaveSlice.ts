@@ -1,17 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { API_URL } from '../../Components/apis/constants/constant';
+import getApis from '../../Components/apis/constants/Api';
 
 export const getSingleLeave = createAsyncThunk(
   'singleLeave/getSingleLeave',
   async ({ leaveId }: { leaveId: string }, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get(`${API_URL}/leave/${leaveId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await getApis(`leave/${leaveId}`);
       return response.data;
     } catch (err: any) {
       return rejectWithValue(err.message);

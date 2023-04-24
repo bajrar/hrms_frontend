@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { API_URL } from '../../Components/apis/constants/constant';
+import getApis from '../../Components/apis/constants/Api';
 
 export const getEmployeeData = createAsyncThunk(
   'employee/getEmployeeData',
@@ -13,15 +12,8 @@ export const getEmployeeData = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get(
-        `${API_URL}/getAttendanceByDateRange?userSn=${userSn}&&startDate=${startDate}&&endDate=${endDate}
-        `,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      const response = await getApis(
+        `getAttendanceByDateRange?userSn=${userSn}&&startDate=${startDate}&&endDate=${endDate}`
       );
       return response.data;
     } catch (err: any) {
