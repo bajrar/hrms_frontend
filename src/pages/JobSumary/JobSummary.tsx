@@ -12,9 +12,7 @@ import AddJobsForm from '../../Components/Jobs/AddJobsForm';
 import { useAppSelector } from '../../hooks/useTypedSelector';
 import { useDispatch } from 'react-redux';
 import { getJobs } from '../../redux/features/getJobsSlice';
-import { Link } from 'react-router-dom';
 import { getSingleJob } from '../../redux/features/singleJobSlice';
-import Updatejob from '../../Components/ApplyJobs/UpdateJob/UpdateJobs';
 import DeleteModal from '../../Components/Ui/DeleteModal/DeleteModal';
 import { apis } from '../../Components/apis/constants/ApisService';
 
@@ -38,7 +36,7 @@ const JobSummary = () => {
 
   useEffect(() => {
     dispatch(getJobs() as any);
-  }, []);
+  }, [dispatch]);
 
   const { jobs } = useAppSelector((state) => state.jobsSlice);
   const { job } = useAppSelector((state) => state.singleJobSlice);

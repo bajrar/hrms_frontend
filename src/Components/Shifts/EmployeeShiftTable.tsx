@@ -1,4 +1,4 @@
-import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';

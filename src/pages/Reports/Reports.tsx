@@ -1,5 +1,3 @@
-import { DatePickerProps } from 'antd';
-import moment from 'moment';
 import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 

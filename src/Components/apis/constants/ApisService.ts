@@ -71,86 +71,136 @@ export const apis = {
     return axiosApiInstance.get(`${API_URL}/getJob/${id}`);
   },
   deleteJob: (id: string) => {
-    return axiosApiInstance.delete(`${API_URL}/jobs/${id}`);
+    return axiosApiInstance.delete(`${API_URL}/jobs/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
   },
   updateJob: (id: any, values: any) => {
-    return axiosApiInstance.put(`${API_URL}/job/${id}`, values);
+    return axiosApiInstance.put(`${API_URL}/job/${id}`, values, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
   },
 
   //applicants
   createApplicant: (values: any) => {
-    return axiosApiInstance.post(`${API_URL}/createApplicant`, values);
+    return axiosApiInstance.post(`${API_URL}/createApplicant`, values, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
   },
   getApplicants: () => {
-    return axiosApiInstance.get(`${API_URL}/getApllicant`);
+    return axiosApiInstance.get(`${API_URL}/getApllicant`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
   },
   getApplicantsById: (id: string) => {
-    return axiosApiInstance.get(`${API_URL}/getApllicantById/${id}`);
+    return axiosApiInstance.get(`${API_URL}/getApllicantById/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
   },
 
   // Employee
   addEmployee: (values: any) => {
-    return axiosApiInstance.post(`${API_URL}/employee`, values);
+    return axiosApiInstance.post(`${API_URL}/employee`, values, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
   },
   addUserInDevice: (values: any) => {
-    return axiosApiInstance.post(`${API_URL}/createUserAttendance`, values);
+    return axiosApiInstance.post(`${API_URL}/createUserAttendance`, values, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
   },
 
   addShift: (values: any) => {
-    return axiosApiInstance.post(`${API_URL}/createShift`, values);
+    return axiosApiInstance.post(`${API_URL}/createShift`, values, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
   },
   attendanceReport: () => {
     return axiosApiInstance.get(
-      `${API_URL}/getEmployeeAttendanceWithAttendance`
+      `${API_URL}/getEmployeeAttendanceWithAttendance`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
   },
   getEmplpoyeeAttendanceRecord: () => {
-    return axiosApiInstance.get(`${API_URL}/getEmployeeRecordWithAttendance`);
+    return axiosApiInstance.get(`${API_URL}/getEmployeeRecordWithAttendance`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
   },
 
   //shift
   addShifts: (values: any) => {
-    return axiosApiInstance.post(`${API_URL}/shift`, values);
+    return axiosApiInstance.post(`${API_URL}/shift`, values, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
   },
   deleteShifts: (shiftId: string) => {
-    return axiosApiInstance.delete(`${API_URL}/shift/${shiftId}`);
+    return axiosApiInstance.delete(`${API_URL}/shift/${shiftId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
   },
   assignShifts: (values: any, shiftId: string) => {
-    return axiosApiInstance.post(`${API_URL}/shift/${shiftId}`, values);
+    return axiosApiInstance.post(`${API_URL}/shift/${shiftId}`, values, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
   },
   updateShifts: (values: any, shiftId: string | undefined) => {
-    return axiosApiInstance.patch(`${API_URL}/shift/${shiftId}`, values);
+    return axiosApiInstance.patch(`${API_URL}/shift/${shiftId}`, values, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
   },
   deleteEmployeeFromShift: (userSn: string) => {
-    return axiosApiInstance.delete(`${API_URL}/shift/${userSn}/deleteIndividual
-    `);
+    return axiosApiInstance.delete(
+      `${API_URL}/shift/${userSn}/deleteIndividual
+    `,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
   },
 
   //device
   addDevice: (values: any) => {
-    return axiosApiInstance.post(`${API_URL}/device`, values);
+    return axiosApiInstance.post(`${API_URL}/device`, values, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
   },
   deleteDevices: (deviceId: string) => {
-    return axiosApiInstance.delete(`${API_URL}/device/${deviceId}`);
+    return axiosApiInstance.delete(`${API_URL}/device/${deviceId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
   },
 
   //holidays
   addHolidays: (values: any) => {
-    return axiosApiInstance.post(`${API_URL}/holiday`, values);
+    return axiosApiInstance.post(`${API_URL}/holiday`, values, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
   },
   // leave
   addLeave: (values: any) => {
-    return axiosApiInstance.post(`${API_URL}/leave`, values);
+    return axiosApiInstance.post(`${API_URL}/leave`, values, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
   },
   assignLeave: (values: any, leaveId: string) => {
     return axiosApiInstance.post(
       `${API_URL}/leave/${leaveId}
     `,
-      values
+      values,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
   },
   deleteLeave: (leaveId: string) => {
     return axiosApiInstance.delete(`${API_URL}/leave/${leaveId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  },
+  updateLeave: (values: any, leaveId: string) => {
+    return axiosApiInstance.patch(`${API_URL}/leave/${leaveId}`, values, {
       headers: { Authorization: `Bearer ${token}` },
     });
   },

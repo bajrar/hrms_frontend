@@ -30,6 +30,9 @@ const AddLeave = () => {
   const [isAssignOpen, setIsAssignOpen] = useState<boolean>(false);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const [deleteLeaveId, setDeleteLeaveId] = useState<string>('');
+  const [shiftId, setShiftId] = useState<string>('');
+  const [updateModalIsOpen, setUpdateModalIsModal] = useState<boolean>(false);
+  const [isAssignShiftModalOpen, setIsAssignShiftModalOpen] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -66,7 +69,11 @@ const AddLeave = () => {
       key: 'action',
       render: (record) => (
         <div className='d-flex action-btn-container'>
-          <FontAwesomeIcon icon={faPen} color='#35639F' />{' '}
+          <FontAwesomeIcon
+            icon={faPen}
+            color='#35639F'
+            onClick={() => openUpdateModal(record)}
+          />{' '}
           <FontAwesomeIcon
             icon={faTrash}
             color='#35639F'
@@ -131,6 +138,14 @@ const AddLeave = () => {
       setDeleteModal(false);
     }
   };
+  const openUpdateModal = (shiftId: any) => {
+    setShiftId(shiftId);
+    setUpdateModalIsModal(true);
+  };
+
+  const handleAssignShiftOk = () => {
+    setIsAssignShiftModalOpen(false);
+  };
 
   return (
     <div className='add-leave'>
@@ -174,6 +189,20 @@ const AddLeave = () => {
       >
         <h3 className='modal-title'>ASSIGN LEAVE</h3>
         <AssignLeaveForm setIsAssignOpen={setIsAssignOpen} />
+      </ModalComponent>
+      <ModalComponent
+        openModal={updateModalIsOpen}
+        handleOk={handleAssignShiftOk}
+        closeModal={setUpdateModalIsModal}
+        classNames='assign-shift-modal'
+        okText='Save'
+      >
+        <h3 className='modal-title'>UPDATE LEAVE</h3>
+        <AssignLeaveForm
+          setUpdateModalIsModal={setUpdateModalIsModal}
+          fromUpdate
+          shiftId={shiftId}
+        />
       </ModalComponent>
       <DeleteModal
         openModal={deleteModal}

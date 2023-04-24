@@ -13,7 +13,6 @@ import AddHolidaysForm from '../../Components/Holidays/AddHolidaysForm';
 import { useDispatch } from 'react-redux';
 import { getHolidays } from '../../redux/features/holidaysSlice';
 import { useAppSelector } from '../../hooks/useTypedSelector';
-import { log } from 'console';
 
 export interface DataType {
   holidayName?: string;

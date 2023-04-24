@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
@@ -89,9 +89,6 @@ const EmployeeAttendance = () => {
   const [month, setMonth] = useState<any>(todayInBs.getMonth());
   const [openYearList, setOpenYearList] = useState<boolean>(false);
   const [openMonthList, setOpenMonthList] = useState<boolean>(false);
-  const [openSlide, setopenSlide] = useState<boolean>(true);
-
-  const catMenu = useRef(null);
 
   const onStartDateChange = ({ bsDate }: any) => {
     setStartDate(bsDate);

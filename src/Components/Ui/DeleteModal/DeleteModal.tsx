@@ -1,5 +1,3 @@
-import React from 'react';
-import ModalComponent from '../Modal/Modal';
 import { Button, Modal } from 'antd';
 interface IDeleteModal {
   openModal: boolean;

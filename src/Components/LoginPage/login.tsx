@@ -1,15 +1,10 @@
 import './Login.css';
-import { AiOutlineMail } from 'react-icons/ai';
-import { HiOutlineKey } from 'react-icons/hi';
-import { FcGoogle } from 'react-icons/fc';
 import { useEffect, useState } from 'react';
 import { apis } from '../apis/constants/ApisService';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getToken } from '../../features/authSlice';
 import { useDispatch } from 'react-redux';
-import { message } from 'antd';
 
 type LoginPageProps = {};
 
