@@ -12,12 +12,13 @@ import { apis } from '../apis/constants/ApisService';
 import Selects from '../Ui/Selects/Selects';
 import { getJobs } from '../../redux/features/getJobsSlice';
 import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../../hooks/useTypedSelector';
+import { getSingleJob } from '../../redux/features/singleJobSlice';
+import { useEffect } from 'react';
 
-const AddJobsForm = ({ setIsModalOpen, fromUpdateJobs, shiftId }: any) => {
+const AddJobsForm = ({ setIsModalOpen, fromUpdateJobs, jobId }: any) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-
-  console.log(shiftId, 'shiftid');
 
   const onFinish = async (values: any) => {
     try {
@@ -36,7 +37,7 @@ const AddJobsForm = ({ setIsModalOpen, fromUpdateJobs, shiftId }: any) => {
 
   const onUpdateJobs = async (values: any) => {
     try {
-      const res = await apis.updateJob(shiftId, values);
+      const res = await apis.updateJob(jobId, values);
       if (res.status === 201) {
         message.success('Job created Sucesfully');
         form.resetFields();
@@ -79,6 +80,17 @@ const AddJobsForm = ({ setIsModalOpen, fromUpdateJobs, shiftId }: any) => {
     form.resetFields();
     setIsModalOpen(false);
   };
+  const { job } = useAppSelector((state) => state.singleJobSlice);
+
+  useEffect(() => {
+    dispatch(
+      getSingleJob({
+        jobId,
+      }) as any
+    );
+  }, []);
+
+  console.log(job, 'job');
 
   return (
     <div className='add-jobs-form'>

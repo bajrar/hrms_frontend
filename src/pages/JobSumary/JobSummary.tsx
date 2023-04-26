@@ -29,7 +29,7 @@ const JobSummary = () => {
   const [isResumeModalOpen, setResumeIsModalOpen] = useState<boolean>(false);
   const [jobsArray, setJobsArray] = useState<any[]>([]);
   const [openUpdateJob, setOpenUpdateJob] = useState<boolean>(false);
-  const [shiftId, setShiftId] = useState<string>('');
+  const [jobId, setJobId] = useState<string>('');
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [searchText, setSearchText] = useState('');
   const dispatch = useDispatch();
@@ -52,17 +52,17 @@ const JobSummary = () => {
 
   const updateJobModal = (id: string) => {
     setOpenUpdateJob(true);
-    setShiftId(id);
+    setJobId(id);
   };
 
   const openDeleteJobs = (id: string) => {
     setOpenDeleteModal(true);
-    setShiftId(id);
+    setJobId(id);
   };
 
   const deleteJobs = async () => {
     try {
-      const res = await apis.deleteJob(shiftId);
+      const res = await apis.deleteJob(jobId);
       if (res.status === 200) {
         dispatch(getJobs() as any);
       }
@@ -235,7 +235,7 @@ const JobSummary = () => {
         <AddJobsForm
           setIsModalOpen={setOpenUpdateJob}
           fromUpdateJobs
-          shiftId={shiftId}
+          jobId={jobId}
         />
       </ModalComponent>
       <DeleteModal

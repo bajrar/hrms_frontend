@@ -22,7 +22,9 @@ export interface DataType {
 const DeviceManager = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isImportModalOpen, setIsImportModalOpen] = useState<boolean>(false);
+  const [openUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
   const [deviceArray, setDeviceArray] = useState<any>();
+  const [deviceId, setDeviceId] = useState('');
   const dispatch = useDispatch();
 
   const columns: ColumnsType<DataType> = [
@@ -42,7 +44,11 @@ const DeviceManager = () => {
       key: 'action',
       render: (record) => (
         <div className='d-flex action-btn-container'>
-          <FontAwesomeIcon icon={faPen} color='#35639F' />
+          <FontAwesomeIcon
+            icon={faPen}
+            color='#35639F'
+            onClick={() => openUpdateModals(record)}
+          />
           <FontAwesomeIcon
             icon={faTrash}
             color='#35639F'
@@ -82,6 +88,10 @@ const DeviceManager = () => {
     } catch {
       console.log('error');
     }
+  };
+  const openUpdateModals = (deviceNumber: string) => {
+    setOpenUpdateModal(true);
+    setDeviceId(deviceNumber);
   };
 
   return (
@@ -132,6 +142,20 @@ const DeviceManager = () => {
       >
         <h3 className='modal-title'>IMPORT FILE</h3>
         <ImportAttendanceForm />
+      </ModalComponent>
+
+      <ModalComponent
+        openModal={openUpdateModal}
+        // handleCancel={handleCancel}
+        classNames='add-device-modal'
+        closeModal={setOpenUpdateModal}
+      >
+        <h3 className='modal-title'>Update DEVICE</h3>
+        <AddDeviceForm
+          setIsModalOpen={setOpenUpdateModal}
+          fromUpdate
+          deviceId={deviceId}
+        />
       </ModalComponent>
     </div>
   );

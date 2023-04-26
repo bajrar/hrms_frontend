@@ -139,6 +139,9 @@ export const apis = {
   deleteDevices: (deviceId: string) => {
     return axiosApiInstance.delete(`/device/${deviceId}`);
   },
+  updateDevice: (values: any, deviceId: string) => {
+    return axiosApiInstance.patch(`/device/${deviceId}`, values);
+  },
 
   //holidays
   addHolidays: (values: any) => {

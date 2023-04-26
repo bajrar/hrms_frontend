@@ -155,7 +155,6 @@ const EmployeeAttendance = () => {
   //       setopenSlide(false)
   //     }
   // }
-  console.log(employee, 'emm');
 
   return (
     <div className='attendace-page'>
