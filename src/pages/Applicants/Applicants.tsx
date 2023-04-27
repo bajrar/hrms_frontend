@@ -1,6 +1,6 @@
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Table } from 'antd';
+import { Button, Form, Select, Table, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -13,6 +13,8 @@ import { useAppSelector } from '../../hooks/useTypedSelector';
 import { getApplicants } from '../../redux/features/applicantsSlice';
 import { getSingleApplicant } from '../../redux/features/singleApplicantSlice';
 import './applicants.css';
+import { API_URL } from '../../Components/apis/constants/constant';
+import { apis } from '../../Components/apis/constants/ApisService';
 
 export interface DataType {
   position?: string;
@@ -30,6 +32,9 @@ const Applicants = () => {
   const dispatch = useDispatch();
   const [applicantArray, setApplicantArray] = useState<any[]>();
   const [applicantModal, setApplicantModal] = useState<boolean>(false);
+  const [updateStatus, setUpdateStatus] = useState<boolean>(false);
+  const [applicantId, setApplicantId] = useState<string>('');
+  const [form] = Form.useForm();
 
   const filterByType = [
     {
@@ -91,7 +96,11 @@ const Applicants = () => {
       key: 'action',
       render: (record) => (
         <div className='d-flex action-btn-container'>
-          <FontAwesomeIcon icon={faPen} color='#35639F' />
+          <FontAwesomeIcon
+            icon={faPen}
+            color='#35639F'
+            onClick={() => openUdateModal(record)}
+          />
           <span
             className='viewMoreBtn'
             onClick={() => viewSingleApplicant(record)}
@@ -127,6 +136,30 @@ const Applicants = () => {
     setApplicantArray(applicantsData);
   }, [applicants]);
 
+  const openUdateModal = (applicantIds: string) => {
+    setUpdateStatus(true);
+    setApplicantId(applicantIds);
+  };
+
+  const handleUpdateStatus = async (values: any) => {
+    try {
+      const res = await apis.updateApplicantStatus(values, applicantId);
+      if (res.status === 201) {
+        message.success('Status Updated');
+        form.resetFields();
+        dispatch(getApplicants() as any);
+      }
+    } catch (err) {
+      message.error(`${err}`);
+    } finally {
+      setUpdateStatus(false);
+    }
+  };
+  const handleCancel = () => {
+    setUpdateStatus(false);
+    form.resetFields();
+  };
+
   return (
     <div className='applicants-page padding'>
       <hr />
@@ -161,7 +194,7 @@ const Applicants = () => {
             <tr className='application-table-row'>
               <th className='application-table-head'>POSITION</th>
               <td className='application-table-body'>
-                {applicant?.applicant?.title}
+                {applicant?.applicant?.position}
               </td>
             </tr>
             <tr className='application-table-row'>
@@ -206,11 +239,41 @@ const Applicants = () => {
               </th>
               <td className='application-table-body'>
                 {/* <Document file='./pdf/dummy.pdf' /> */}
-                <Document file={`${applicant?.applicant?.resume}`} />
+                <Document file='/pdf/e-passport.pdf' />
+                {/* <Document file={`${API_URL}${applicant?.applicant?.resume}`} /> */}
               </td>
             </tr>
           </tbody>
         </table>
+      </ModalComponent>
+      <ModalComponent openModal={updateStatus} closeModal={setUpdateStatus}>
+        <Form onFinish={handleUpdateStatus} form={form} autoComplete='off'>
+          <Form.Item
+            className='form-input col'
+            name='status'
+            label='Status *'
+            rules={[{ required: true, message: 'Status is Required' }]}
+          >
+            <Select
+              options={[
+                { value: 'selected', label: 'Selected' },
+                { value: 'confirmed', label: 'Confirmed' },
+                { value: 'rejected', label: 'Rejected' },
+                { value: 'pending', label: 'Pending' },
+              ]}
+              className='selects status-selects'
+              placeholder='Update status'
+            ></Select>
+          </Form.Item>
+          <div className='form-btn-container'>
+            <Button type='default' onClick={handleCancel}>
+              Cancel
+            </Button>
+            <Button type='primary' htmlType='submit'>
+              Add
+            </Button>
+          </div>
+        </Form>
       </ModalComponent>
     </div>
   );

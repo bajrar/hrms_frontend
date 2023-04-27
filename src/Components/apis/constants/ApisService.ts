@@ -93,6 +93,9 @@ export const apis = {
   getApplicantsById: (id: string) => {
     return axiosApiInstance.get(`/getApllicantById/${id}`);
   },
+  updateApplicantStatus: (values: any, id: string) => {
+    return axiosApiInstance.patch(`/applicant/${id}`, values);
+  },
 
   // Employee
   addEmployee: (values: any) => {

@@ -4,6 +4,9 @@
 .applicants-select {
   height: 40px;
 }
+.status-selects {
+  width: 96%;
+}
 .application-table {
   border-collapse: separate;
   border-spacing: 0 24px;

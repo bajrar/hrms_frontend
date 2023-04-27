@@ -18,6 +18,8 @@ import { apis } from '../apis/constants/ApisService';
 import { daysOfWeek, workingDay } from '../../utils/Constants';
 import { useDispatch } from 'react-redux';
 import { getShift } from '../../redux/features/shiftSlice';
+import { useAppSelector } from '../../hooks/useTypedSelector';
+import { getSingleShift } from '../../redux/features/singleShiftSlice';
 
 dayjs.extend(customParseFormat);
 const CheckboxGroup = Checkbox.Group;
@@ -117,6 +119,17 @@ const AddShiftForm = ({
     setUpdateModalIsModal(false);
     form.resetFields();
   };
+  useEffect(() => {
+    if (shiftId) {
+      dispatch(
+        getSingleShift({
+          shiftId,
+        }) as any
+      );
+    }
+  }, [dispatch]);
+
+  const { data, loading } = useAppSelector((state) => state.singleShiftSlice);
 
   const CustomDayArray = () => {
     return (
@@ -140,7 +153,9 @@ const AddShiftForm = ({
     );
   };
 
-  return (
+  return fromUpdate && loading ? (
+    <span>...Loading</span>
+  ) : (
     <div>
       <Form
         layout='vertical'
@@ -154,6 +169,7 @@ const AddShiftForm = ({
           name='shiftName'
           label='Shift Name *'
           rules={[{ required: true, message: 'Shift Name is Required' }]}
+          initialValue={fromUpdate ? data?.shiftName : ''}
         >
           <Input
             name='shiftName'
@@ -206,6 +222,7 @@ const AddShiftForm = ({
                   message: 'Start time is Required',
                 },
               ]}
+              // initialValue={fromUpdate ? data?.startDate : null}
             >
               <TimePicker
                 name='startTime'
@@ -229,6 +246,7 @@ const AddShiftForm = ({
                   message: 'End time is Required',
                 },
               ]}
+              // initialValue={fromUpdate ? data?.endTime : null}
             >
               <TimePicker
                 name='endTime'
@@ -249,6 +267,7 @@ const AddShiftForm = ({
             name='shiftSchedule'
             label='Shift Scheduling (Auto Generate)'
             rules={[{ required: false }]}
+            initialValue={fromUpdate ? data?.shiftSchedule : null}
           >
             <Input
               name='shiftScheduling'
@@ -262,6 +281,7 @@ const AddShiftForm = ({
             name='device'
             label='Device *'
             rules={[{ required: true, message: 'Device name is required' }]}
+            initialValue={fromUpdate ? data?.device : null}
           >
             <Input
               name='device'
