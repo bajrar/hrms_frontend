@@ -37,6 +37,7 @@ export const LoginPage = ({}: LoginPageProps) => {
       dispatch(getToken(res.data.token));
       if (res.status === 200) {
         localStorage.setItem('token', res.data.token);
+        localStorage.setItem('email', data?.email);
         navigate('/dashboard');
       }
     } catch (e) {

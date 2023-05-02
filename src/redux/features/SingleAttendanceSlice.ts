@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import getApis from '../../Components/apis/constants/Api';
+import { axiosApiInstance } from '../../Components/apis/constants/ApisService';
 
 export const getEmployeeData = createAsyncThunk(
   'employee/getEmployeeData',
@@ -12,7 +12,7 @@ export const getEmployeeData = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await getApis(
+      const response = await axiosApiInstance(
         `getAttendanceByDateRange?userSn=${userSn}&&startDate=${startDate}&&endDate=${endDate}`
       );
       return response.data;

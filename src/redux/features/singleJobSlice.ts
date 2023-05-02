@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import getApis from '../../Components/apis/constants/Api';
+import { axiosApiInstance } from '../../Components/apis/constants/ApisService';
 
 export const getSingleJob = createAsyncThunk(
   'singleJob/getSingleJob',
   async ({ jobId }: { jobId: string }, { rejectWithValue }) => {
     try {
-      const response = await getApis(`jobs/${jobId}`);
+      const response = await axiosApiInstance(`jobs/${jobId}`);
       return response.data;
     } catch (err: any) {
       return rejectWithValue(err.message);

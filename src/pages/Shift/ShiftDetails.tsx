@@ -6,6 +6,8 @@ import ShiftDetailsTable from '../../Components/Shifts/ShiftDetailsTables';
 import BreadCrumbs from '../../Components/Ui/BreadCrumbs/BreadCrumbs';
 import Selects from '../../Components/Ui/Selects/Selects';
 import { getSingleShift } from '../../redux/features/singleShiftSlice';
+import Layout from '../../Components/Layout';
+import Navbar from '../../Components/Ui/Navbar';
 
 const ShiftDetails = () => {
   const { shiftId } = useParams();
@@ -22,22 +24,25 @@ const ShiftDetails = () => {
   }, [dispatch]);
 
   return (
-    <div className='padding'>
-      <hr />
-      <BreadCrumbs
-        imagesrc='/images/employee.svg'
-        location='Attendance /Shift Management'
-        location1='Shift Schedule'
-        location2='Shift'
-        location3='Assign Shifts'
-      />
-      <hr />
-      <Selects placeHolder='Shift name' />
-      <div className='d-flex justify-content-between align-items-end'>
-        <ShiftDetailsTable />
+    <Layout>
+      <Navbar />
+      <div className='padding'>
+        <hr />
+        <BreadCrumbs
+          imagesrc='/images/employee.svg'
+          location='Attendance /Shift Management'
+          location1='Shift Schedule'
+          location2='Shift'
+          location3='Assign Shifts'
+        />
+        <hr />
+        <Selects placeHolder='Shift name' />
+        <div className='d-flex justify-content-between align-items-end'>
+          <ShiftDetailsTable />
+        </div>
+        <EmployeeShiftTable />
       </div>
-      <EmployeeShiftTable />
-    </div>
+    </Layout>
   );
 };
 

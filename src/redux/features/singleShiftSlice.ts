@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import getApis from '../../Components/apis/constants/Api';
+import { axiosApiInstance } from '../../Components/apis/constants/ApisService';
 
 export const getSingleShift = createAsyncThunk(
   'singleShift/getSingleShift',
   async ({ shiftId }: { shiftId: string }, { rejectWithValue, getState }) => {
     try {
-      const response = await getApis(`shift/${shiftId}`);
+      const response = await axiosApiInstance(`shift/${shiftId}`);
       return response.data;
     } catch (err: any) {
       return rejectWithValue(err.message);

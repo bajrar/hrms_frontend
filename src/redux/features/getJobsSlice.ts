@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import getApis from '../../Components/apis/constants/Api';
+import { axiosApiInstance } from '../../Components/apis/constants/ApisService';
 
 export const getJobs = createAsyncThunk(
   'jobs/ getJobs',
   async (data, thunkApi) => {
     try {
-      const response = await getApis('jobs');
+      const response = await axiosApiInstance('jobs');
       return response.data;
     } catch (err: any) {
       return thunkApi.rejectWithValue(err.message);

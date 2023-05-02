@@ -15,6 +15,8 @@ import { getJobs } from '../../redux/features/getJobsSlice';
 import { getSingleJob } from '../../redux/features/singleJobSlice';
 import DeleteModal from '../../Components/Ui/DeleteModal/DeleteModal';
 import { apis } from '../../Components/apis/constants/ApisService';
+import Layout from '../../Components/Layout';
+import Navbar from '../../Components/Ui/Navbar';
 
 export interface DataType {
   jobTitle?: string;
@@ -133,117 +135,123 @@ const JobSummary = () => {
   }, [jobs, searchText]);
 
   return (
-    <div className='job-summary-page padding'>
-      <hr />
-      <BreadCrumbs
-        imagesrc='/images/vacancy.svg'
-        location='Vacancy Management'
-        location1='Job Summary'
-      />
-      <hr />
-      <div className='d-flex justify-content-between job-summary-header'>
-        <input
-          type='text'
-          className='search-field'
-          placeholder='Search positions'
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value.toLowerCase())}
+    <Layout>
+      <Navbar />
+      <div className='job-summary-page padding'>
+        <hr />
+        <BreadCrumbs
+          imagesrc='/images/vacancy.svg'
+          location='Vacancy Management'
+          location1='Job Summary'
         />
-        <div className='d-flex job-summary-header__right'>
-          <Selects
-            className='job-summary-selects'
-            options={jobStatus}
-            value={jobStat}
+        <hr />
+        <div className='d-flex justify-content-between job-summary-header'>
+          <input
+            type='text'
+            className='search-field'
+            placeholder='Search positions'
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value.toLowerCase())}
           />
-          <button className='primary-btn' onClick={() => setIsModalOpen(true)}>
-            <FontAwesomeIcon icon={faPlus} />
-            Add Jobs
-          </button>
+          <div className='d-flex job-summary-header__right'>
+            <Selects
+              className='job-summary-selects'
+              options={jobStatus}
+              value={jobStat}
+            />
+            <button
+              className='primary-btn'
+              onClick={() => setIsModalOpen(true)}
+            >
+              <FontAwesomeIcon icon={faPlus} />
+              Add Jobs
+            </button>
+          </div>
         </div>
-      </div>
-      <Table
-        columns={columns}
-        className='table-container'
-        dataSource={jobsArray}
-      />
-      <ModalComponent
-        openModal={isModalOpen}
-        closeModal={setIsModalOpen}
-        classNames='add-jobs-modal'
-      >
-        <h3 className='modal-title'>ADD JOBS</h3>
-        <AddJobsForm setIsModalOpen={setIsModalOpen} />
-      </ModalComponent>
-      <ModalComponent
-        openModal={isResumeModalOpen}
-        classNames='add-jobs-modal'
-        // handleCancel={handleApplicationCancel}
-        closeModal={setResumeIsModalOpen}
-      >
-        <h3 className='modal-title'>VIEW DETAILS</h3>
-        <table className='application-table'>
-          <tbody>
-            <tr className='application-table-row'>
-              <th className='application-table-head'>JOB TITLE</th>
-              <td className='application-table-body'>{job?.job?.title}</td>
-            </tr>
-            <tr className='application-table-row'>
-              <th className='application-table-head'>EMPLOYMENT TYPE</th>
-              <td className='application-table-body'>
-                {job?.job?.employmentType}
-              </td>
-            </tr>
-            <tr className='application-table-row'>
-              <th className='application-table-head'>MINIMUM EXPERIENCE</th>
-              <td className='application-table-body'>
-                {job?.job?.minExperience}
-              </td>
-            </tr>
-            <tr className='application-table-row'>
-              <th className='application-table-head'>JOB STATUS</th>
-              <td className='application-table-body'>{job?.job?.status}</td>
-            </tr>
-            {/* <tr>
+        <Table
+          columns={columns}
+          className='table-container'
+          dataSource={jobsArray}
+        />
+        <ModalComponent
+          openModal={isModalOpen}
+          closeModal={setIsModalOpen}
+          classNames='add-jobs-modal'
+        >
+          <h3 className='modal-title'>ADD JOBS</h3>
+          <AddJobsForm setIsModalOpen={setIsModalOpen} />
+        </ModalComponent>
+        <ModalComponent
+          openModal={isResumeModalOpen}
+          classNames='add-jobs-modal'
+          // handleCancel={handleApplicationCancel}
+          closeModal={setResumeIsModalOpen}
+        >
+          <h3 className='modal-title'>VIEW DETAILS</h3>
+          <table className='application-table'>
+            <tbody>
+              <tr className='application-table-row'>
+                <th className='application-table-head'>JOB TITLE</th>
+                <td className='application-table-body'>{job?.job?.title}</td>
+              </tr>
+              <tr className='application-table-row'>
+                <th className='application-table-head'>EMPLOYMENT TYPE</th>
+                <td className='application-table-body'>
+                  {job?.job?.employmentType}
+                </td>
+              </tr>
+              <tr className='application-table-row'>
+                <th className='application-table-head'>MINIMUM EXPERIENCE</th>
+                <td className='application-table-body'>
+                  {job?.job?.minExperience}
+                </td>
+              </tr>
+              <tr className='application-table-row'>
+                <th className='application-table-head'>JOB STATUS</th>
+                <td className='application-table-body'>{job?.job?.status}</td>
+              </tr>
+              {/* <tr>
               <th className='application-table-head'>ADDRESS</th>
               <td className='application-table-body'>{job?.job?.device}</td>
             </tr> */}
-            <tr className='application-table-row'>
-              <th className='application-table-head'>JOB DESCRIPTION</th>
-              <td
-                className='application-table-body'
-                dangerouslySetInnerHTML={{ __html: job?.job?.descriptions }}
-              ></td>
-            </tr>
-            <tr className='application-table-row'>
-              <th className='application-table-head'>
-                QUALITY AND REQUIREMENTS
-              </th>
-              <td
-                className='application-table-body'
-                dangerouslySetInnerHTML={{ __html: job?.job?.qnrs }}
-              ></td>
-            </tr>
-          </tbody>
-        </table>
-      </ModalComponent>
-      <ModalComponent
-        openModal={openUpdateJob}
-        classNames='add-jobs-modal'
-        closeModal={setOpenUpdateJob}
-      >
-        <h3 className='modal-title'>UPDATE JOBS</h3>
-        <AddJobsForm
-          setIsModalOpen={setOpenUpdateJob}
-          fromUpdateJobs
-          jobId={jobId}
+              <tr className='application-table-row'>
+                <th className='application-table-head'>JOB DESCRIPTION</th>
+                <td
+                  className='application-table-body'
+                  dangerouslySetInnerHTML={{ __html: job?.job?.descriptions }}
+                ></td>
+              </tr>
+              <tr className='application-table-row'>
+                <th className='application-table-head'>
+                  QUALITY AND REQUIREMENTS
+                </th>
+                <td
+                  className='application-table-body'
+                  dangerouslySetInnerHTML={{ __html: job?.job?.qnrs }}
+                ></td>
+              </tr>
+            </tbody>
+          </table>
+        </ModalComponent>
+        <ModalComponent
+          openModal={openUpdateJob}
+          classNames='add-jobs-modal'
+          closeModal={setOpenUpdateJob}
+        >
+          <h3 className='modal-title'>UPDATE JOBS</h3>
+          <AddJobsForm
+            setIsModalOpen={setOpenUpdateJob}
+            fromUpdateJobs
+            jobId={jobId}
+          />
+        </ModalComponent>
+        <DeleteModal
+          openModal={openDeleteModal}
+          setOpenModal={setOpenDeleteModal}
+          deleteItem={deleteJobs}
         />
-      </ModalComponent>
-      <DeleteModal
-        openModal={openDeleteModal}
-        setOpenModal={setOpenDeleteModal}
-        deleteItem={deleteJobs}
-      />
-    </div>
+      </div>
+    </Layout>
   );
 };
 
