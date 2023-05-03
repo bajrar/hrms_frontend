@@ -10,6 +10,8 @@ import { WorkingCondition } from '../../utils/Constants';
 import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
 import { getAttedanceStatus } from '../../redux/features/attendanceStatusSlice';
 import Selects from '../../Components/Ui/Selects/Selects';
+import Layout from '../../Components/Layout';
+import Navbar from '../../Components/Ui/Navbar';
 
 export interface IEmployeeStats {
   status: string;
@@ -46,7 +48,7 @@ export const EmployeeStats = ({
 const Attendance = () => {
   const [defaultDate, setDefaultDate] = useState();
   const [searchText, setSearchText] = useState('');
-  const [status, setStatus] = useState('Timely In');
+  const [status, setStatus] = useState('');
 
   const dispatch = useAppDispatch();
 
@@ -143,61 +145,64 @@ const Attendance = () => {
   ];
 
   return (
-    <div className='attendace-page'>
-      <BreadCrumbs
-        imagesrc='/images/attendance.svg'
-        location='Attendance / Shift Management'
-        location1='Attendance'
-      />
-      <hr />
-      <div className='d-flex employee-stats-container flex-wrap  '>
-        {AttendanceStatusArray.map((item: IEmployeeStats, key) => {
-          return (
-            <EmployeeStats
-              key={key}
-              backgroundColor={item.backgroundColor}
-              color={item.color}
-              status={item.status}
-              numberOfEmployee={item.numberOfEmployee}
-            />
-          );
-        })}
-      </div>
-      <hr />
-      <div className='attendance-filters working-condition p-0'>
-        <Calendar
-          onChange={onDateChange}
-          className='calender-container-picker '
-          language='en'
-          dateFormat='YYYY/MM/DD'
+    <Layout>
+      <Navbar />
+      <div className='attendace-page'>
+        <BreadCrumbs
+          imagesrc='/images/attendance.svg'
+          location='Attendance / Shift Management'
+          location1='Attendance'
         />
-      </div>
-      <div className='attendance-filters-bottom d-flex'>
-        <Selects
-          // defaultValue='All'
-          onSelect={onSelect}
-          value={status}
-          options={WorkingCondition}
-          placeHolder='Search'
-        />
+        <hr />
+        <div className='d-flex employee-stats-container flex-wrap  '>
+          {AttendanceStatusArray.map((item: IEmployeeStats, key) => {
+            return (
+              <EmployeeStats
+                key={key}
+                backgroundColor={item.backgroundColor}
+                color={item.color}
+                status={item.status}
+                numberOfEmployee={item.numberOfEmployee}
+              />
+            );
+          })}
+        </div>
+        <hr />
+        <div className='attendance-filters working-condition p-0'>
+          <Calendar
+            onChange={onDateChange}
+            className='calender-container-picker '
+            language='en'
+            dateFormat='YYYY/MM/DD'
+          />
+        </div>
+        <div className='attendance-filters-bottom d-flex'>
+          <Selects
+            // defaultValue='All'
+            onSelect={onSelect}
+            value={status}
+            options={WorkingCondition}
+            placeHolder='Search'
+          />
 
-        <input
-          type='text'
-          placeholder='Search members'
-          className='search-field'
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value.toLowerCase())}
-        />
-      </div>
+          <input
+            type='text'
+            placeholder='Search members'
+            className='search-field'
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value.toLowerCase())}
+          />
+        </div>
 
-      <div className='row table-container'>
-        <AttendaceReport
-          defaultDate={defaultDate}
-          searchText={searchText}
-          status={status}
-        />
+        <div className='row table-container'>
+          <AttendaceReport
+            defaultDate={defaultDate}
+            searchText={searchText}
+            status={status}
+          />
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 

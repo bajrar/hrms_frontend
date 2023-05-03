@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { API_URL } from '../../Components/apis/constants/constant';
+import { axiosApiInstance } from '../../Components/apis/constants/ApisService';
 
 export const getAttedanceStatus = createAsyncThunk(
   'attendanceStatus/getAttendanceStatus',
   async (data, thunkApi) => {
     try {
-      const response = await axios.get(`${API_URL}/attendanceStatus`);
+      const response = await axiosApiInstance('attendanceStatus');
       return response.data;
     } catch (err: any) {
       return thunkApi.rejectWithValue(err.message);

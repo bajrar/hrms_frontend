@@ -9,15 +9,15 @@ import {
 } from '../../utils/Constants';
 
 import { apis } from '../apis/constants/ApisService';
-import Selects from '../Ui/Selects/Selects';
 import { getJobs } from '../../redux/features/getJobsSlice';
 import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../../hooks/useTypedSelector';
+import { getSingleJob } from '../../redux/features/singleJobSlice';
+import { useEffect } from 'react';
 
-const AddJobsForm = ({ setIsModalOpen, fromUpdateJobs, shiftId }: any) => {
+const AddJobsForm = ({ setIsModalOpen, fromUpdateJobs, jobId }: any) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-
-  console.log(shiftId, 'shiftid');
 
   const onFinish = async (values: any) => {
     try {
@@ -36,7 +36,7 @@ const AddJobsForm = ({ setIsModalOpen, fromUpdateJobs, shiftId }: any) => {
 
   const onUpdateJobs = async (values: any) => {
     try {
-      const res = await apis.updateJob(shiftId, values);
+      const res = await apis.updateJob(jobId, values);
       if (res.status === 201) {
         message.success('Job created Sucesfully');
         form.resetFields();
@@ -79,8 +79,23 @@ const AddJobsForm = ({ setIsModalOpen, fromUpdateJobs, shiftId }: any) => {
     form.resetFields();
     setIsModalOpen(false);
   };
+  const { job, loading } = useAppSelector((state) => state.singleJobSlice);
 
-  return (
+  useEffect(() => {
+    dispatch(
+      getSingleJob({
+        jobId,
+      }) as any
+    );
+  }, []);
+
+  console.log(job, 'job');
+  console.log(fromUpdateJobs, 'fromUpdateJobs');
+  console.log(job?.job?.title, 'title');
+
+  return loading && fromUpdateJobs ? (
+    <span>...loading</span>
+  ) : (
     <div className='add-jobs-form'>
       <Form
         layout='vertical'
@@ -94,6 +109,7 @@ const AddJobsForm = ({ setIsModalOpen, fromUpdateJobs, shiftId }: any) => {
           name='title'
           label='Job Title *'
           rules={[{ required: true, message: 'Job title is Required' }]}
+          initialValue={fromUpdateJobs ? job?.job?.title : ''}
         >
           <Input
             placeholder='Enter Job Title'
@@ -107,6 +123,7 @@ const AddJobsForm = ({ setIsModalOpen, fromUpdateJobs, shiftId }: any) => {
             name='employmentType'
             label='Employment Type *'
             rules={[{ required: true, message: 'Employment Type is Required' }]}
+            initialValue={fromUpdateJobs ? job?.job?.employmentType : ''}
           >
             <Select
               placeholder='Select Employment Type'
@@ -124,6 +141,7 @@ const AddJobsForm = ({ setIsModalOpen, fromUpdateJobs, shiftId }: any) => {
             rules={[
               { required: true, message: 'Minimum Experience is Required' },
             ]}
+            initialValue={fromUpdateJobs ? job?.job?.minExperience : ''}
           >
             <Input
               placeholder='Enter Minimum Experience'
@@ -141,6 +159,7 @@ const AddJobsForm = ({ setIsModalOpen, fromUpdateJobs, shiftId }: any) => {
               message: 'Job Description are Required!',
             },
           ]}
+          initialValue={fromUpdateJobs ? job?.job?.descriptions : ''}
         >
           <ReactQuill
             theme='snow'
@@ -160,6 +179,7 @@ const AddJobsForm = ({ setIsModalOpen, fromUpdateJobs, shiftId }: any) => {
               message: 'Quality and Requirements are Required!',
             },
           ]}
+          initialValue={fromUpdateJobs ? job?.job?.qnrs : ''}
         >
           <ReactQuill
             theme='snow'
@@ -179,6 +199,7 @@ const AddJobsForm = ({ setIsModalOpen, fromUpdateJobs, shiftId }: any) => {
               message: 'Job Detail are Required!',
             },
           ]}
+          initialValue={fromUpdateJobs ? job?.job?.jobDetail : ''}
         >
           <ReactQuill
             theme='snow'
@@ -194,6 +215,7 @@ const AddJobsForm = ({ setIsModalOpen, fromUpdateJobs, shiftId }: any) => {
             name='status'
             label='Job Status *'
             rules={[{ required: true, message: 'Job Status is Required' }]}
+            initialValue={fromUpdateJobs ? job?.job?.status : ''}
           >
             <Select
               placeholder='Select Job Status'
@@ -209,6 +231,7 @@ const AddJobsForm = ({ setIsModalOpen, fromUpdateJobs, shiftId }: any) => {
             name='jobType'
             label='Job Type *'
             rules={[{ required: true, message: 'Job Type is Required' }]}
+            initialValue={fromUpdateJobs ? job?.job?.jobType : ''}
           >
             <Select
               placeholder='Enter Job Type'
@@ -217,11 +240,6 @@ const AddJobsForm = ({ setIsModalOpen, fromUpdateJobs, shiftId }: any) => {
               suffixIcon={<FontAwesomeIcon icon={faAngleDown} />}
               popupClassName='custom-select-dropdown'
             />
-            {/* <Input
-              placeholder='Enter Job Type'
-              className='form-input-wrapper'
-              type='text'
-            /> */}
           </Form.Item>
         </div>
         <div className='form-second-row'>
@@ -230,6 +248,7 @@ const AddJobsForm = ({ setIsModalOpen, fromUpdateJobs, shiftId }: any) => {
             name='country'
             label='Country *'
             rules={[{ required: true, message: 'Country Name is Required' }]}
+            initialValue={fromUpdateJobs ? job?.job?.country : ''}
           >
             <Input
               placeholder='Enter Country Name'
@@ -242,6 +261,7 @@ const AddJobsForm = ({ setIsModalOpen, fromUpdateJobs, shiftId }: any) => {
             name='city'
             label='City or Town *'
             rules={[{ required: true, message: 'City or Town is Required' }]}
+            initialValue={fromUpdateJobs ? job?.job?.city : ''}
           >
             <Input
               placeholder='Enter City or Town'

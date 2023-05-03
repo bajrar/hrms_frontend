@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Table, message } from 'antd';
+import { Table, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -82,7 +82,6 @@ const ShiftsTab = () => {
             icon={faTrash}
             color='#35639F'
             onClick={() => openDeleteModal(record)}
-            // onClick={() => deleteShift(record)}
           />
         </div>
       ),
@@ -163,7 +162,7 @@ const ShiftsTab = () => {
     });
 
     setShiftArray(shifts);
-  }, [data?.shift, , searchText]);
+  }, [data?.shift, searchText]);
 
   return (
     <div>

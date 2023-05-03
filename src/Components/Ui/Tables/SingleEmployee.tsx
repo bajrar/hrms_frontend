@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useAppSelector } from '../../../hooks/useTypedSelector';
-import { getEmployeeData } from '../../../redux/features/SingleAttendanceSlice';
 import { EmployeeStats } from '../../../pages/Attendance/Attendance';
 import { CompareFunction } from './AttendaceReport';
 
@@ -22,7 +20,6 @@ interface DataType {
 export const formatTime = (time: any) => {
   const t = time;
   const q = t.split(':');
-  const z = t.split(' ');
   return `${q[0]}:${q[1]}`;
 };
 const SingleEmployee = ({

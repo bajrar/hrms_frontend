@@ -35,8 +35,8 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
   const [attendanceData, setAttendanceData] = useState<any>([]);
 
   useEffect(() => {
-    dispatch(getUsers() as any);
-  }, [dispatch]);
+    dispatch(getUsers({ status: status }) as any);
+  }, [dispatch, status]);
 
   const { user } = useAppSelector((state) => state.attendanceSlice);
   const columns: ColumnsType<DataType> = [
@@ -143,52 +143,50 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
   useEffect(() => {
     const data1: DataType[] = [];
     user?.map((userData) => {
-      userData?.attendanceRecords[0]?.attendanceByDate?.map(
-        (attendance: any) => {
-          if (
-            attendance?.date === defaultDate &&
-            userData.employeeName.toLowerCase().includes(searchText) &&
-            (attendance?.morningStatus
-              ?.toLowerCase()
-              .includes(status.toLowerCase()) ||
-              attendance?.eveningStatus
-                ?.toLowerCase()
-                .includes(status.toLowerCase()))
-          ) {
-            const tableData = {
-              id: userData?.employeeNumber,
-              key: userData?._id,
-              date: attendance?.date,
-              name: userData?.employeeName,
-              status: attendance?.absent
-                ? 'Absent'
-                : attendance.holiday
-                ? 'Holiday'
-                : `${attendance?.morningStatus} - ${attendance?.eveningStatus}`,
-              designation: userData?.designation,
-              clockIn: attendance?.absent
-                ? 'Absent'
-                : attendance?.holiday
-                ? 'Absent'
-                : `${formatTime(attendance?.entryTime)}`,
-              clockOut: attendance?.absent
-                ? 'Absent'
-                : attendance?.holiday
-                ? 'Absent'
-                : attendance?.exitTime === '-'
-                ? attendance?.exitTime
-                : `${formatTime(attendance?.exitTime)}`,
-              workHours: attendance?.absent
-                ? '-'
-                : attendance?.holiday
-                ? '-'
-                : attendance?.workHour,
-              view: userData?.employeeNumber,
-            };
-            data1.push(tableData);
-          }
+      userData?.attendanceRecords?.map((attendance: any) => {
+        console.log(
+          attendance?.attendanceByDate?.date,
+          defaultDate,
+          'true or false'
+        );
+
+        if (
+          attendance?.attendanceByDate?.date === defaultDate &&
+          userData.employeeName.toLowerCase().includes(searchText)
+        ) {
+          const tableData = {
+            id: userData?.employeeNumber,
+            key: userData?.employeeNumber,
+            date: attendance?.attendanceByDate?.date,
+            name: userData?.employeeName,
+            status: attendance?.attendanceByDate?.absent
+              ? 'Absent'
+              : attendance.holiday
+              ? 'Holiday'
+              : `${attendance?.attendanceByDate?.morningStatus} - ${attendance?.attendanceByDate?.eveningStatus}`,
+            designation: userData?.designation,
+            clockIn: attendance?.attendanceByDate?.absent
+              ? 'Absent'
+              : attendance?.attendanceByDate?.holiday
+              ? 'Absent'
+              : `${formatTime(attendance?.attendanceByDate?.entryTime)}`,
+            clockOut: attendance?.attendanceByDate?.absent
+              ? 'Absent'
+              : attendance?.attendanceByDate?.holiday
+              ? 'Absent'
+              : attendance?.attendanceByDate?.exitTime === '-'
+              ? attendance?.attendanceByDate?.exitTime
+              : `${formatTime(attendance?.attendanceByDate?.exitTime)}`,
+            workHours: attendance?.attendanceByDate?.absent
+              ? '-'
+              : attendance?.attendanceByDate?.holiday
+              ? '-'
+              : attendance?.attendanceByDate?.workHour,
+            view: userData?.attendanceByDate?.employeeNumber,
+          };
+          data1.push(tableData);
         }
-      );
+      });
     });
 
     setAttendanceData(data1);

@@ -10,6 +10,8 @@ import LeaveDetailTable from '../../Components/LeaveAllocation/LeaveDetailTable'
 import { useDispatch } from 'react-redux';
 import { getSingleLeave } from '../../redux/features/singleLeaveSlice';
 import { useAppSelector } from '../../hooks/useTypedSelector';
+import Layout from '../../Components/Layout';
+import Navbar from '../../Components/Ui/Navbar';
 
 export interface DataType {
   id?: string;
@@ -77,19 +79,22 @@ const LeaveDetails = () => {
   // }, [data]);
 
   return (
-    <div className='padding'>
-      <hr />
-      <BreadCrumbs
-        imagesrc='/images/leave.svg'
-        location='Leave Management &nbsp; &nbsp;Leave Allocation'
-        location1='Add leave'
-        location2='Annual Leave'
-      />
-      <hr />
-      <LeaveDetailTable />
+    <Layout>
+      <Navbar />
+      <div className='padding'>
+        <hr />
+        <BreadCrumbs
+          imagesrc='/images/leave.svg'
+          location='Leave Management &nbsp; &nbsp;Leave Allocation'
+          location1='Add leave'
+          location2='Annual Leave'
+        />
+        <hr />
+        <LeaveDetailTable />
 
-      <Table columns={columns} className='table-container' />
-    </div>
+        <Table columns={columns} className='table-container' />
+      </div>
+    </Layout>
   );
 };
 

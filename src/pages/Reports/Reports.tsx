@@ -1,5 +1,3 @@
-import { DatePickerProps } from 'antd';
-import moment from 'moment';
 import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 
@@ -8,6 +6,8 @@ import BreadCrumbs from '../../Components/Ui/BreadCrumbs/BreadCrumbs';
 import './reports.css';
 import DailyReports from '../../Components/Reports/DailyReports';
 import MonthlyReports from '../../Components/Reports/MonthlyReports';
+import Layout from '../../Components/Layout';
+import Navbar from '../../Components/Ui/Navbar';
 
 const Reports = () => {
   const items: TabsProps['items'] = [
@@ -24,19 +24,22 @@ const Reports = () => {
   ];
 
   return (
-    <div className='attendace-page'>
-      <BreadCrumbs
-        imagesrc='/images/attendance.svg'
-        location='Attendance / Shift Management'
-        location1='Report'
-      />
-      <hr />
+    <Layout>
+      <Navbar />
+      <div className='attendace-page'>
+        <BreadCrumbs
+          imagesrc='/images/attendance.svg'
+          location='Attendance / Shift Management'
+          location1='Report'
+        />
+        <hr />
 
-      <div className='row report-table-container'>
-        {/* <AttendaceReport /> */}
-        <Tabs defaultActiveKey='1' items={items} />
+        <div className='row report-table-container'>
+          {/* <AttendaceReport /> */}
+          <Tabs defaultActiveKey='1' items={items} />
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 

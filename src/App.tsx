@@ -1,26 +1,19 @@
-import Layout from './Components/Layout'
-import './App.css'
-import { MainRoutes } from './Components/Routes/routes'
-import Navbar from './Components/Ui/Navbar'
-import { Route, Routes } from 'react-router-dom'
-import { LoginPage } from './Components/LoginPage/login'
+import './App.css';
+import { MainRoutes } from './Components/Routes/routes';
 
 function App() {
   return (
     <div className='App'>
       <div className='dashboard-page'>
-        <Layout>
-          <Navbar />
-          <div className='dash-container'>
-            <MainRoutes />
-          </div>
-        </Layout>
-        {/* <Routes>
-          <Route path='/' element={<LoginPage />} />
-        </Routes> */}
+        {/* <Layout>
+          <Navbar /> */}
+        <div className='dash-container'>
+          <MainRoutes />
+        </div>
+        {/* </Layout> */}
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

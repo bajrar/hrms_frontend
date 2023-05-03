@@ -1,37 +1,37 @@
-import React from 'react'
+import React from 'react';
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Dashboard from '../../pages/Dashboard/Dashboard'
-import { LoginPage } from '../LoginPage/login'
-import { PageNotFound } from '../PageNotFound/PageNotFound'
-import { Applyjobs } from '../ApplyJobs/applyjobs'
-import { Alljobs } from '../AllJobs/alljobs'
-import { Viewjobs } from '../ViewJobs/viewjob'
-import { ViewApplicant } from '../ViewApplicant/viewApplicant'
-import { UpdateJobMain } from '../ApplyJobs/UpdateJob/updatejobmain'
-import { ViewApplicantmain } from '../ViewApplicant/viewApplicantmain'
-import { Homepage } from '../Homepage/homepage'
-import { ProtectedRoute } from './protectedRoute'
-import { Leave } from '../Leave/leave'
-import { AsignShift } from '../AsignShift/AsignShift'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Dashboard from '../../pages/Dashboard/Dashboard';
+import { LoginPage } from '../LoginPage/login';
+import { PageNotFound } from '../PageNotFound/PageNotFound';
+import { Applyjobs } from '../ApplyJobs/applyjobs';
+import { Alljobs } from '../AllJobs/alljobs';
+import { Viewjobs } from '../ViewJobs/viewjob';
+import { ViewApplicant } from '../ViewApplicant/viewApplicant';
+import { UpdateJobMain } from '../ApplyJobs/UpdateJob/updatejobmain';
+import { ViewApplicantmain } from '../ViewApplicant/viewApplicantmain';
+import { Homepage } from '../Homepage/homepage';
+import { ProtectedRoute } from './protectedRoute';
+import { Leave } from '../Leave/leave';
+import { AsignShift } from '../AsignShift/AsignShift';
 
-import Employee from '../Employee'
-import { AddUserDevice } from '../AddUSerInDevice/AddUserDevice'
-import { BigCalendar } from '../Calendar/Calendar'
-import Attendance from '../../pages/Attendance/Attendance'
-import Reports from '../../pages/Reports/Reports'
-import { EmployeeAttenadanceRecord } from '../EmployeeAttenadanceRecord/EmployeeAttenadanceRecord'
-import EmployeeAttendance from '../../pages/Attendance/EmployeeAttendance'
-import Shift from '../../pages/Shift/Shift'
-import ShiftDetails from '../../pages/Shift/ShiftDetails'
-import Holidays from '../../pages/Holidays/Holidays'
-import LeaveAllocation from '../../pages/LeaveAllocation/LeaveAllocation'
-import DeviceManager from '../../pages/DeviceManager/DeviceManager'
-import JobSummary from '../../pages/JobSumary/JobSummary'
-import Applicants from '../../pages/Applicants/Applicants'
-import LeaveDetails from '../../pages/LeaveAllocation/LeaveDetails'
+import Employee from '../Employee';
+import { AddUserDevice } from '../AddUSerInDevice/AddUserDevice';
+import { BigCalendar } from '../Calendar/Calendar';
+import Attendance from '../../pages/Attendance/Attendance';
+import Reports from '../../pages/Reports/Reports';
+import { EmployeeAttenadanceRecord } from '../EmployeeAttenadanceRecord/EmployeeAttenadanceRecord';
+import EmployeeAttendance from '../../pages/Attendance/EmployeeAttendance';
+import Shift from '../../pages/Shift/Shift';
+import ShiftDetails from '../../pages/Shift/ShiftDetails';
+import Holidays from '../../pages/Holidays/Holidays';
+import LeaveAllocation from '../../pages/LeaveAllocation/LeaveAllocation';
+import DeviceManager from '../../pages/DeviceManager/DeviceManager';
+import JobSummary from '../../pages/JobSumary/JobSummary';
+import Applicants from '../../pages/Applicants/Applicants';
+import LeaveDetails from '../../pages/LeaveAllocation/LeaveDetails';
 
-type MainRoutesProps = {}
+type MainRoutesProps = {};
 
 export const MainRoutes = ({}: MainRoutesProps) => {
   return (
@@ -81,5 +81,5 @@ export const MainRoutes = ({}: MainRoutesProps) => {
         <Route path='/' element={<LoginPage />} />
       </Routes>
     </React.Fragment>
-  )
-}
+  );
+};
