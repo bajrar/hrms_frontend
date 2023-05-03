@@ -1,0 +1,9 @@
+.dash-container__header{
+    border-bottom:1px solid #D8D8D8;
+    padding-top: 32px;
+}
+.title{
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 33px;
+}

@@ -1,0 +1,21 @@
+.hr-dashboard-sub-menu {
+  /* border-bottom: 1px solid #d8d8d8; */
+}
+.hr-dashboard-sub-menu-content {
+  padding-top: 20px;
+  padding-bottom: 15px;
+  /* padding-left: 35px; */
+}
+.hr-dashboard-sub-menu .ant-tabs-tab-btn {
+  font-family: 'Helvetica' !important;
+  font-size: 18px !important;
+  font-weight: 500 !important;
+  margin: auto 0px !important;
+  cursor: pointer;
+}
+.hr-dashboard-sub-menu .ant-tabs-nav-list {
+  padding-left: 35px;
+}
+.hr-dashboard-sub-menu-content-left {
+  border-right: 1px solid #d8d8d8;
+}

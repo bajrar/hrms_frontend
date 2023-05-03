@@ -1,0 +1,30 @@
+.hr-dashboard-graph {
+  padding-left: 35px;
+}
+.hr-dashboard-graph-header span {
+  font-family: 'Helvetica';
+  font-weight: 400;
+  font-size: 17px;
+}
+.hr-dashboard-graph-sub-header {
+  padding-top: 40px;
+  padding-left: 10px;
+}
+.hr-dashboard-graph-sub-header text {
+  font-family: 'Helvetica';
+  font-weight: 500;
+  font-size: 15px;
+  color: #333333;
+}
+.hr-dashboard-graph-sub-header-one {
+  border-left: 5px solid #023c87;
+}
+.hr-dashboard-graph-sub-header-two {
+  border-left: 5px solid #00b9f1;
+}
+.hr-dashboard-graph-sub-header-three {
+  border-left: 5px solid #bb2124;
+}
+.hr-dashboard-graph-diagram {
+  padding-top: 5rem;
+}

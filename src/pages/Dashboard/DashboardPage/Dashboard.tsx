@@ -1,19 +1,19 @@
-import Layout from '../../Components/Layout';
-import Navbar from '../../Components/Ui/Navbar';
-import { SubMenu } from './DashboardPage/SubMenu/SubMenu';
+import Layout from '../../../Components/Layout';
+import Navbar from '../../../Components/Ui/Navbar';
 import './dashboard-page.css';
+import { SubMenu } from './SubMenu/SubMenu';
 
 const Dashboard = () => {
   return (
     <div className='dashboard-page'>
       <div className='dash-container'>
-        {/* <div className='dash-container__header padding'>
-          <h2 className='title'>Dashboard</h2>
-        </div> */}
         <Layout>
           <Navbar />
           <SubMenu />
         </Layout>
+        {/* <div className='dash-container__header padding'>
+          <h2 className='title'>Dashboard</h2>
+        </div> */}
       </div>
     </div>
   );

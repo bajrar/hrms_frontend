@@ -1,0 +1,49 @@
+.dashboard-employee-status {
+  border-top: 1px solid #d8d8d8;
+}
+.dashboard-employee-status-content {
+  padding-top: 20px;
+  padding-left: 35px;
+}
+.dashboard-employee-status-title {
+  font-size: 20px;
+  font-weight: 400;
+  padding-bottom: 25px;
+}
+.dashboard-employee-status-search-bar-button {
+  padding: 12px 2px;
+}
+.dashboard-employee-status-search-bar
+  :where(.css-dev-only-do-not-override-1km3mtt).ant-select-single:not(
+    .ant-select-customize-input
+  )
+  .ant-select-selector {
+  width: 100%;
+  height: 40px;
+  border-color: #9ab1cf;
+}
+.dashboard-employee-status-search-bar .ant-select-selector {
+  width: 100%;
+  height: 40px;
+  border-color: #9ab1cf;
+}
+.dashboard-employee-status-search-bar .ant-select-selection-placeholder,
+.dashboard-employee-input-search-button .ant-input:placeholder-shown {
+  font-size: 16px;
+  font-weight: 400;
+  margin: auto;
+}
+.dashboard-employee-input-search-button .ant-btn {
+  background-color: white !important;
+  border-left: none !important;
+  height: 40px !important;
+  border-color: #9ab1cf;
+}
+.dashboard-employee-input-search-button .ant-input {
+  height: 40px !important;
+  border-right: none !important;
+  border-color: #9ab1cf;
+}
+.dashboard-employee-status-table {
+  padding-top: 25px;
+}
