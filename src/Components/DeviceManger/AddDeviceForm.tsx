@@ -18,7 +18,7 @@ export interface DataType {
   view?: React.ReactNode;
 }
 
-const AddDeviceForm = ({ setIsModalOpen }: any) => {
+const AddDeviceForm = ({ setIsModalOpen, fromUpdate, deviceId }: any) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const [time, setTime] = useState('');
@@ -50,12 +50,27 @@ const AddDeviceForm = ({ setIsModalOpen }: any) => {
       setIsModalOpen(false);
     }
   };
+  const onUpdateFinish = async (values: any) => {
+    try {
+      const res = await apis.updateDevice(values, deviceId);
+      if (res.status === 200) {
+        message.success('Device Created');
+        setIsModalOpen(false);
+        form.resetFields();
+        dispatch(getDevices() as any);
+      }
+    } catch {
+      message.error('Something Went Wrong');
+    } finally {
+      setIsModalOpen(false);
+    }
+  };
 
   return (
     <div className='add-device-form'>
       <Form
         layout='vertical'
-        onFinish={onFinish}
+        onFinish={fromUpdate ? onUpdateFinish : onFinish}
         form={form}
         autoComplete='off'
       >

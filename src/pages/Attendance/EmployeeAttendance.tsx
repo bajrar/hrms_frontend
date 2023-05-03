@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
@@ -20,6 +20,8 @@ import { todayInBs } from '../../Components/Customcalendar/GetTodaysDate';
 import DownloadBtn from '../../Components/Ui/DownloadBtn/DownloadBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import Layout from '../../Components/Layout';
+import Navbar from '../../Components/Ui/Navbar';
 
 export const AttendanceReport = [
   {
@@ -89,9 +91,6 @@ const EmployeeAttendance = () => {
   const [month, setMonth] = useState<any>(todayInBs.getMonth());
   const [openYearList, setOpenYearList] = useState<boolean>(false);
   const [openMonthList, setOpenMonthList] = useState<boolean>(false);
-  const [openSlide, setopenSlide] = useState<boolean>(true);
-
-  const catMenu = useRef(null);
 
   const onStartDateChange = ({ bsDate }: any) => {
     setStartDate(bsDate);
@@ -158,31 +157,32 @@ const EmployeeAttendance = () => {
   //       setopenSlide(false)
   //     }
   // }
-  console.log(employee, 'emm');
 
   return (
-    <div className='attendace-page'>
-      <BreadCrumbs
-        imagesrc='/images/attendance.svg'
-        location='Attendance / Shift Management'
-        location1='Attendance'
-        location2={`${employee.employeeName}`}
-      />
-      <hr />
-      <div className='d-flex employee-stats-container flex-wrap  '>
-        {AttendanceReport.map((item: IEmployeeStats) => {
-          return (
-            <EmployeeStats
-              backgroundColor={item.backgroundColor}
-              color={item.color}
-              status={item.status}
-              numberOfEmployee={item.numberOfEmployee}
-            />
-          );
-        })}
-      </div>
-      <hr />
-      {/* <Select
+    <Layout>
+      <Navbar />
+      <div className='attendace-page'>
+        <BreadCrumbs
+          imagesrc='/images/attendance.svg'
+          location='Attendance / Shift Management'
+          location1='Attendance'
+          location2={`${employee.employeeName}`}
+        />
+        <hr />
+        <div className='d-flex employee-stats-container flex-wrap  '>
+          {AttendanceReport.map((item: IEmployeeStats) => {
+            return (
+              <EmployeeStats
+                backgroundColor={item.backgroundColor}
+                color={item.color}
+                status={item.status}
+                numberOfEmployee={item.numberOfEmployee}
+              />
+            );
+          })}
+        </div>
+        <hr />
+        {/* <Select
         showSearch
         defaultValue='currentMonth'
         optionFilterProp='children'
@@ -195,150 +195,153 @@ const EmployeeAttendance = () => {
         options={months}
         suffixIcon={<FontAwesomeIcon icon={faAngleDown} />}
       /> */}
-      <div className='d-flex attendance-filters-container justify-content-between'>
-        {changeTab ? (
-          <div className='attendance-filters'>
-            <Calendar
-              onChange={onStartDateChange}
-              className=' date-picker calender-container-picker '
-              dateFormat='YYYY/MM/DD'
-              language='en'
-            />{' '}
-            To
-            <Calendar
-              onChange={onEndDateChange}
-              className=' date-picker calender-container-picker'
-              dateFormat='YYYY/MM/DD'
-              language='en'
-            />
-          </div>
-        ) : (
-          <div className='d-flex button-container'>
-            <div className='year-list-container'>
-              <button
-                onClick={() => setOpenYearList(!openYearList)}
-                className='date-selector'
-              >
-                Year{' '}
-                <FontAwesomeIcon
-                  icon={faChevronDown}
-                  style={{ color: '#000000' }}
-                />
-              </button>
-              <ul
-                className={
-                  openYearList ? `year-list year-list-active` : `year-list`
-                }
-              >
-                {Object.keys(startDay).map((year, i) => {
-                  return (
-                    <li
-                      key={i}
-                      onClick={() => {
-                        setYear({
-                          year: Number(year),
-                          startDay: Number(Object.values(startDay)[i]),
-                        });
-                        setOpenYearList(!openYearList);
-                      }}
-                      className='date-selector-list'
-                    >
-                      <>{year}</>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-            <div className='month-list-container'>
-              <button
-                onClick={() => setOpenMonthList(!openMonthList)}
-                className='date-selector'
-              >
-                Month{' '}
-                <FontAwesomeIcon
-                  icon={faChevronDown}
-                  style={{ color: '#000000' }}
-                />
-              </button>
-              <ul
-                className={
-                  openMonthList ? `month-list month-list-active` : `month-list`
-                }
-              >
-                {monthNames.map((month, i) => {
-                  return (
-                    <li
-                      key={i}
-                      onClick={() => {
-                        setMonth(i);
-                        setOpenMonthList(!openMonthList);
-                      }}
-                      className='date-selector-list'
-                    >
-                      {month}
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          </div>
-        )}
-        <div className='d-flex attendance-filters-right'>
+        <div className='d-flex attendance-filters-container justify-content-between'>
           {changeTab ? (
-            <DownloadBtn report={attendanceReport} />
+            <div className='attendance-filters'>
+              <Calendar
+                onChange={onStartDateChange}
+                className=' date-picker calender-container-picker '
+                dateFormat='YYYY/MM/DD'
+                language='en'
+              />{' '}
+              To
+              <Calendar
+                onChange={onEndDateChange}
+                className=' date-picker calender-container-picker'
+                dateFormat='YYYY/MM/DD'
+                language='en'
+              />
+            </div>
           ) : (
-            <div className='total-working-hours'>
-              Total Working hours{' '}
-              <span>
-                ( {employee.TotalWorkingHours}
-                {employee.TotalWorkingHours ? 'hours' : ''} )
-              </span>
+            <div className='d-flex button-container'>
+              <div className='year-list-container'>
+                <button
+                  onClick={() => setOpenYearList(!openYearList)}
+                  className='date-selector'
+                >
+                  Year{' '}
+                  <FontAwesomeIcon
+                    icon={faChevronDown}
+                    style={{ color: '#000000' }}
+                  />
+                </button>
+                <ul
+                  className={
+                    openYearList ? `year-list year-list-active` : `year-list`
+                  }
+                >
+                  {Object.keys(startDay).map((year, i) => {
+                    return (
+                      <li
+                        key={i}
+                        onClick={() => {
+                          setYear({
+                            year: Number(year),
+                            startDay: Number(Object.values(startDay)[i]),
+                          });
+                          setOpenYearList(!openYearList);
+                        }}
+                        className='date-selector-list'
+                      >
+                        <>{year}</>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+              <div className='month-list-container'>
+                <button
+                  onClick={() => setOpenMonthList(!openMonthList)}
+                  className='date-selector'
+                >
+                  Month{' '}
+                  <FontAwesomeIcon
+                    icon={faChevronDown}
+                    style={{ color: '#000000' }}
+                  />
+                </button>
+                <ul
+                  className={
+                    openMonthList
+                      ? `month-list month-list-active`
+                      : `month-list`
+                  }
+                >
+                  {monthNames.map((month, i) => {
+                    return (
+                      <li
+                        key={i}
+                        onClick={() => {
+                          setMonth(i);
+                          setOpenMonthList(!openMonthList);
+                        }}
+                        className='date-selector-list'
+                      >
+                        {month}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
             </div>
           )}
-          <div className='d-flex switches'>
-            <div
-              className={
-                changeTab ? 'switch-container ' : 'switch-container border'
-              }
-              onClick={(prev) => setChangeTab(!prev)}
-            >
-              <img
-                src={
-                  changeTab
-                    ? '/images/calendar-inactive.svg'
-                    : '/images/calendar-active.svg'
+          <div className='d-flex attendance-filters-right'>
+            {changeTab ? (
+              <DownloadBtn report={attendanceReport} />
+            ) : (
+              <div className='total-working-hours'>
+                Total Working hours{' '}
+                <span>
+                  ( {employee.TotalWorkingHours}
+                  {employee.TotalWorkingHours ? 'hours' : ''} )
+                </span>
+              </div>
+            )}
+            <div className='d-flex switches'>
+              <div
+                className={
+                  changeTab ? 'switch-container ' : 'switch-container border'
                 }
-                alt=''
-              />
-            </div>
-            <div
-              className={
-                changeTab ? 'switch-container border' : 'switch-container'
-              }
-              onClick={(prev) => {
-                setChangeTab(true);
-              }}
-            >
-              <img
-                src={
-                  changeTab
-                    ? '/images/list-active.png'
-                    : '/images/list-inactive.svg'
+                onClick={(prev) => setChangeTab(!prev)}
+              >
+                <img
+                  src={
+                    changeTab
+                      ? '/images/calendar-inactive.svg'
+                      : '/images/calendar-active.svg'
+                  }
+                  alt=''
+                />
+              </div>
+              <div
+                className={
+                  changeTab ? 'switch-container border' : 'switch-container'
                 }
-                alt=''
-              />
+                onClick={(prev) => {
+                  setChangeTab(true);
+                }}
+              >
+                <img
+                  src={
+                    changeTab
+                      ? '/images/list-active.png'
+                      : '/images/list-inactive.svg'
+                  }
+                  alt=''
+                />
+              </div>
             </div>
           </div>
         </div>
+        {changeTab ? (
+          <SingleEmployee startDate={startDate} endDate={endDate} />
+        ) : (
+          <>
+            <CustomCalendar month={month} year={year} />
+          </>
+        )}
       </div>
-      {changeTab ? (
-        <SingleEmployee startDate={startDate} endDate={endDate} />
-      ) : (
-        <>
-          <CustomCalendar month={month} year={year} />
-        </>
-      )}
-    </div>
+    </Layout>
   );
 };
 

@@ -1,19 +1,24 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBell,
-  faChevronLeft,
+  faChevronDown,
   faMagnifyingGlass,
 } from '@fortawesome/free-solid-svg-icons';
-import React from 'react';
 import './navbar.css';
+import { logoutUser } from '../apis/constants/Api';
+import { token } from '../apis/constants/ApisService';
+import type { MenuProps } from 'antd';
+import { useState } from 'react';
 
 const Navbar = () => {
+  const [openDropdown, setOpenDropdown] = useState(true);
+  const email = localStorage.getItem('email');
+
+  const items: MenuProps['items'] = [];
+
   return (
     <div className='navbar-dash padding'>
       <div className='navbar-dash__left'>
-        <div className='navbar-dash__left-back'>
-          <FontAwesomeIcon icon={faChevronLeft} /> <p>Back</p>
-        </div>
         <div className='navbar-dash__left-search'>
           <FontAwesomeIcon icon={faMagnifyingGlass} fontSize='14px' />
           <input type='text' placeholder='Search' />
@@ -21,8 +26,20 @@ const Navbar = () => {
       </div>
       <div className='navbar-dash__right'>
         <FontAwesomeIcon icon={faBell} />
-        <div className='user-profile'>
-          <img src='/images/user-profile.svg' alt='' />
+        {email ? (
+          <p onClick={() => setOpenDropdown(!openDropdown)}>
+            {email} <FontAwesomeIcon icon={faChevronDown} />
+          </p>
+        ) : null}
+
+        <div
+          className={
+            openDropdown ? `custom-dropdown-active` : `custom-dropdown`
+          }
+        >
+          {token === null ? null : (
+            <button onClick={() => logoutUser()}>Logout</button>
+          )}
         </div>
       </div>
     </div>

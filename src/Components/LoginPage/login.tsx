@@ -1,15 +1,10 @@
 import './Login.css';
-import { AiOutlineMail } from 'react-icons/ai';
-import { HiOutlineKey } from 'react-icons/hi';
-import { FcGoogle } from 'react-icons/fc';
 import { useEffect, useState } from 'react';
 import { apis } from '../apis/constants/ApisService';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getToken } from '../../features/authSlice';
 import { useDispatch } from 'react-redux';
-import { message } from 'antd';
 
 type LoginPageProps = {};
 
@@ -33,6 +28,7 @@ export const LoginPage = ({}: LoginPageProps) => {
       [e.target.name]: e.target.value,
     }));
   };
+
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
@@ -41,12 +37,14 @@ export const LoginPage = ({}: LoginPageProps) => {
       dispatch(getToken(res.data.token));
       if (res.status === 200) {
         localStorage.setItem('token', res.data.token);
+        localStorage.setItem('email', data?.email);
         navigate('/dashboard');
       }
     } catch (e) {
       console.log(e);
     }
   };
+
   return (
     <main>
       <div className='main_container container virtuosway-hr-login-page'>

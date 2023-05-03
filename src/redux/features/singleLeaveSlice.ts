@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { API_URL } from '../../Components/apis/constants/constant';
+import { axiosApiInstance } from '../../Components/apis/constants/ApisService';
 
 export const getSingleLeave = createAsyncThunk(
   'singleLeave/getSingleLeave',
   async ({ leaveId }: { leaveId: string }, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API_URL}/leave/${leaveId}`);
+      const response = await axiosApiInstance(`leave/${leaveId}`);
       return response.data;
     } catch (err: any) {
       return rejectWithValue(err.message);

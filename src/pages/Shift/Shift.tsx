@@ -4,6 +4,8 @@ import type { TabsProps } from 'antd';
 import BreadCrumbs from '../../Components/Ui/BreadCrumbs/BreadCrumbs';
 import ShiftsTab from '../../Components/Shifts/ShiftsTab';
 import ShiftsMappingTab from '../../Components/Shifts/ShiftsMappingTab';
+import Layout from '../../Components/Layout';
+import Navbar from '../../Components/Ui/Navbar';
 
 const items: TabsProps['items'] = [
   {
@@ -20,18 +22,21 @@ const items: TabsProps['items'] = [
 
 const Shift = () => {
   return (
-    <div className='padding'>
-      <hr />
-      <BreadCrumbs
-        classNames='padding'
-        imagesrc='/images/attendance.svg'
-        location='Attendance / Shift Management'
-        location1='Shift schedule'
-        location2='Shifts'
-      />
-      <hr />
-      <Tabs defaultActiveKey='1' items={items} />
-    </div>
+    <Layout>
+      <Navbar />
+      <div className='padding'>
+        <hr />
+        <BreadCrumbs
+          classNames='padding'
+          imagesrc='/images/attendance.svg'
+          location='Attendance / Shift Management'
+          location1='Shift schedule'
+          location2='Shifts'
+        />
+        <hr />
+        <Tabs defaultActiveKey='1' items={items} />
+      </div>
+    </Layout>
   );
 };
 

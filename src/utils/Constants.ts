@@ -78,45 +78,29 @@ export const startDay = {
 };
 export const WorkingCondition = [
   {
-    value: 'All',
     label: 'All',
+    value: '',
   },
   {
-    value: 'Absent',
-    label: 'Absent',
+    label: 'Timely In',
+    value: 'Timely_In',
+  },
+  {
+    label: 'Timely Out',
+    value: 'Timely_Out',
   },
 
   {
-    value: 'Work From Home',
-    label: 'Work From Home',
-  },
-  {
-    value: 'Timely In',
-    label: 'Timely In',
-  },
-  {
-    value: 'Timely Out',
-    label: 'Timely Out',
-  },
-  {
-    value: 'Early In',
-    label: 'Early In',
-  },
-  {
-    value: 'Early Out',
     label: 'Early Out',
+    value: 'Early_Out',
   },
   {
-    value: 'Late In',
     label: 'Late In',
+    value: 'Late_In',
   },
   {
-    value: 'Late Out',
     label: 'Late Out',
-  },
-  {
-    value: 'On Leave',
-    label: 'On Leave',
+    value: 'Late_Out',
   },
 ];
 export const workingDay = [

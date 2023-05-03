@@ -1,13 +1,8 @@
-import dayjs from 'dayjs';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/useTypedSelector';
 import { getSingleShift } from '../../redux/features/singleShiftSlice';
-
-interface IProps {
-  classNames?: string;
-}
 
 const ShiftDetailsTable = () => {
   const { shiftId } = useParams();

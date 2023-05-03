@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { API_URL } from '../../Components/apis/constants/constant';
+import { axiosApiInstance } from '../../Components/apis/constants/ApisService';
 
 export const getHolidays = createAsyncThunk(
   'holidays/getHolidays',
   async (data, thunkApi) => {
     try {
-      const response = await axios.get(`${API_URL}/holiday`);
+      const response = await axiosApiInstance('holiday');
       return response.data;
     } catch (err: any) {
       return thunkApi.rejectWithValue(err.message);

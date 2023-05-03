@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { API_URL } from '../../Components/apis/constants/constant';
+import { axiosApiInstance } from '../../Components/apis/constants/ApisService';
 
 export const deleteShift = createAsyncThunk('shift/deleteShift', async () => {
   try {
-    const response = await axios.delete(`${API_URL}/shift`);
+    const response = await axiosApiInstance.delete(`${API_URL}/shift`);
     // If you want to get something back
     return response.data;
   } catch (err) {

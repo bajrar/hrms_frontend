@@ -37,6 +37,7 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
   const [startOfDate, setStartOfDate] = useState(
     `${year.year}/${month + 1}/01`
   );
+
   const [endOfDate, setEndofDate] = useState<any>(
     `${year.year}/${month + 1}/${nepaliMonthDays[yearNumber][month]}`
   );

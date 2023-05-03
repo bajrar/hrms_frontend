@@ -1,12 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { API_URL } from '../../Components/apis/constants/constant';
+import { axiosApiInstance } from '../../Components/apis/constants/ApisService';
 
 export const getSingleApplicant = createAsyncThunk(
   'singleApplicant/getSingleApplicant',
   async ({ applicantId }: { applicantId: string }, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API_URL}/applicant/${applicantId}`);
+      const response = await axiosApiInstance(`applicant/${applicantId}`);
       return response.data;
     } catch (err: any) {
       return rejectWithValue(err.message);

@@ -26,12 +26,19 @@ type JobCredentialsT = {
 //   github: string;
 //   resume: string;
 // };
+export const token = localStorage.getItem('token');
 
-const axiosApiInstance = axios.create();
+export const axiosApiInstance = axios.create({
+  baseURL: `${API_URL}`,
+  headers: {
+    'Content-Type': 'application/json',
+    authorization: `Bearer ${token}`,
+  },
+});
 
 export const apis = {
   getLogin: ({ email, password }: LoginCredntialsT) => {
-    return axiosApiInstance.post(`${API_URL}/users/login`, {
+    return axiosApiInstance.post(`/users/login`, {
       email,
       password,
     });
@@ -64,88 +71,100 @@ export const apis = {
     });
   },
   getJobs: () => {
-    return axiosApiInstance.get(`${API_URL}/getJobs`);
+    return axiosApiInstance.get(`/getJobs`);
   },
   getJobsById: (id: string) => {
-    return axiosApiInstance.get(`${API_URL}/getJob/${id}`);
+    return axiosApiInstance.get(`/getJob/${id}`);
   },
   deleteJob: (id: string) => {
-    return axiosApiInstance.delete(`${API_URL}/jobs/${id}`);
+    return axiosApiInstance.delete(`/jobs/${id}`);
   },
   updateJob: (id: any, values: any) => {
-    return axiosApiInstance.put(`${API_URL}/job/${id}`, values);
+    return axiosApiInstance.put(`/job/${id}`, values);
   },
 
   //applicants
   createApplicant: (values: any) => {
-    return axiosApiInstance.post(`${API_URL}/createApplicant`, values);
+    return axiosApiInstance.post(`/createApplicant`, values);
   },
   getApplicants: () => {
-    return axiosApiInstance.get(`${API_URL}/getApllicant`);
+    return axiosApiInstance.get(`/getApllicant`);
   },
   getApplicantsById: (id: string) => {
-    return axiosApiInstance.get(`${API_URL}/getApllicantById/${id}`);
+    return axiosApiInstance.get(`/getApllicantById/${id}`);
+  },
+  updateApplicantStatus: (values: any, id: string) => {
+    return axiosApiInstance.patch(`/applicant/${id}`, values);
   },
 
   // Employee
   addEmployee: (values: any) => {
-    return axiosApiInstance.post(`${API_URL}/employee`, values);
+    return axiosApiInstance.post(`/employee`, values);
   },
   addUserInDevice: (values: any) => {
-    return axiosApiInstance.post(`${API_URL}/createUserAttendance`, values);
+    return axiosApiInstance.post(`/createUserAttendance`, values);
   },
 
   addShift: (values: any) => {
-    return axiosApiInstance.post(`${API_URL}/createShift`, values);
+    return axiosApiInstance.post(`/createShift`, values);
   },
   attendanceReport: () => {
-    return axiosApiInstance.get(
-      `${API_URL}/getEmployeeAttendanceWithAttendance`
-    );
+    return axiosApiInstance.get(`/getEmployeeAttendanceWithAttendance`);
   },
   getEmplpoyeeAttendanceRecord: () => {
-    return axiosApiInstance.get(`${API_URL}/getEmployeeRecordWithAttendance`);
+    return axiosApiInstance.get(`/getEmployeeRecordWithAttendance`);
   },
 
   //shift
   addShifts: (values: any) => {
-    return axiosApiInstance.post(`${API_URL}/shift`, values);
+    return axiosApiInstance.post(`/shift`, values);
   },
   deleteShifts: (shiftId: string) => {
-    return axiosApiInstance.delete(`${API_URL}/shift/${shiftId}`);
+    return axiosApiInstance.delete(`/shift/${shiftId}`);
   },
   assignShifts: (values: any, shiftId: string) => {
-    return axiosApiInstance.post(`${API_URL}/shift/${shiftId}`, values);
+    return axiosApiInstance.post(`/shift/${shiftId}`, values);
   },
   updateShifts: (values: any, shiftId: string | undefined) => {
-    return axiosApiInstance.patch(`${API_URL}/shift/${shiftId}`, values);
+    return axiosApiInstance.patch(`/shift/${shiftId}`, values);
   },
   deleteEmployeeFromShift: (userSn: string) => {
-    return axiosApiInstance.delete(`${API_URL}/shift/${userSn}/deleteIndividual
-    `);
+    return axiosApiInstance.delete(
+      `/shift/${userSn}/deleteIndividual
+    `
+    );
   },
 
   //device
   addDevice: (values: any) => {
-    return axiosApiInstance.post(`${API_URL}/device`, values);
+    return axiosApiInstance.post(`/device`, values);
   },
   deleteDevices: (deviceId: string) => {
-    return axiosApiInstance.delete(`${API_URL}/device/${deviceId}`);
+    return axiosApiInstance.delete(`/device/${deviceId}`);
+  },
+  updateDevice: (values: any, deviceId: string) => {
+    return axiosApiInstance.patch(`/device/${deviceId}`, values);
   },
 
   //holidays
   addHolidays: (values: any) => {
-    return axiosApiInstance.post(`${API_URL}/holiday`, values);
+    return axiosApiInstance.post(`/holiday`, values);
   },
   // leave
   addLeave: (values: any) => {
-    return axiosApiInstance.post(`${API_URL}/leave`, values);
+    return axiosApiInstance.post(`/leave`, values);
   },
   assignLeave: (values: any, leaveId: string) => {
     return axiosApiInstance.post(
-      `${API_URL}/leave/${leaveId}
+      `/leave/${leaveId}
     `,
       values
     );
+  },
+  deleteLeave: (leaveId: string) => {
+    return axiosApiInstance.delete(`/leave/${leaveId}`);
+  },
+  updateLeave: (values: any, leaveId: string) => {
+    return axiosApiInstance.patch(`/leave/${leaveId}`, values);
   },
 };

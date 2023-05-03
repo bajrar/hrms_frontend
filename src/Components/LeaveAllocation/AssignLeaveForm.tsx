@@ -39,7 +39,7 @@ const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
   }, [leaveNameArray]);
 
   useEffect(() => {
-    dispatch(getUsers() as any);
+    dispatch(getUsers({ status: '' }) as any);
   }, [dispatch]);
   const { user } = useAppSelector((state) => state.attendanceSlice);
 

@@ -13,7 +13,8 @@ import AddHolidaysForm from '../../Components/Holidays/AddHolidaysForm';
 import { useDispatch } from 'react-redux';
 import { getHolidays } from '../../redux/features/holidaysSlice';
 import { useAppSelector } from '../../hooks/useTypedSelector';
-import { log } from 'console';
+import Layout from '../../Components/Layout';
+import Navbar from '../../Components/Ui/Navbar';
 
 export interface DataType {
   holidayName?: string;
@@ -91,49 +92,52 @@ const Holidays = () => {
   }, [holidays]);
 
   return (
-    <div className='holiday-page padding'>
-      <hr />
-      <BreadCrumbs
-        imagesrc='/images/leave.svg'
-        location='Leave Management'
-        location1='Holidays'
-      />
-      <hr />
+    <Layout>
+      <Navbar />
+      <div className='holiday-page padding'>
+        <hr />
+        <BreadCrumbs
+          imagesrc='/images/leave.svg'
+          location='Leave Management'
+          location1='Holidays'
+        />
+        <hr />
 
-      <div className='d-flex attendance-filters-container justify-content-between'>
-        <div className='attendance-filters'>
-          <Calendar
-            onChange={onStartDateChange}
-            className=' date-picker calender-container-picker '
-            dateFormat='YYYY/MM/DD'
-            language='en'
-          />{' '}
-          To
-          <Calendar
-            onChange={onEndDateChange}
-            className=' date-picker calender-container-picker'
-            dateFormat='YYYY/MM/DD'
-            language='en'
-          />
+        <div className='d-flex attendance-filters-container justify-content-between'>
+          <div className='attendance-filters'>
+            <Calendar
+              onChange={onStartDateChange}
+              className=' date-picker calender-container-picker '
+              dateFormat='YYYY/MM/DD'
+              language='en'
+            />{' '}
+            To
+            <Calendar
+              onChange={onEndDateChange}
+              className=' date-picker calender-container-picker'
+              dateFormat='YYYY/MM/DD'
+              language='en'
+            />
+          </div>
+          <button className='primary-btn' onClick={showModal}>
+            <FontAwesomeIcon icon={faPlus} /> Add Holidays
+          </button>
         </div>
-        <button className='primary-btn' onClick={showModal}>
-          <FontAwesomeIcon icon={faPlus} /> Add Holidays
-        </button>
+        <Table
+          columns={columns}
+          className='holidays-table'
+          dataSource={holidaysArray}
+        />
+        <ModalComponent
+          openModal={isModalOpen}
+          classNames='holidays-modal'
+          closeModal={setIsModalOpen}
+        >
+          <h3 className='modal-title'>ADD HOLIDAYS</h3>
+          <AddHolidaysForm setIsModalOpen={setIsModalOpen} />
+        </ModalComponent>
       </div>
-      <Table
-        columns={columns}
-        className='holidays-table'
-        dataSource={holidaysArray}
-      />
-      <ModalComponent
-        openModal={isModalOpen}
-        classNames='holidays-modal'
-        closeModal={setIsModalOpen}
-      >
-        <h3 className='modal-title'>ADD HOLIDAYS</h3>
-        <AddHolidaysForm setIsModalOpen={setIsModalOpen} />
-      </ModalComponent>
-    </div>
+    </Layout>
   );
 };
 
