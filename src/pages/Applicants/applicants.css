@@ -11,6 +11,9 @@
   border-collapse: separate;
   border-spacing: 0 24px;
 }
+.application-table-body {
+  padding-left: 16px;
+}
 .application-table-body > ul {
   padding-left: 0;
 }

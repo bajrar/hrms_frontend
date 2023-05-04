@@ -17,6 +17,7 @@ import { API_URL } from '../../Components/apis/constants/constant';
 import { apis } from '../../Components/apis/constants/ApisService';
 import Layout from '../../Components/Layout';
 import Navbar from '../../Components/Ui/Navbar';
+import { Link } from 'react-router-dom';
 
 export interface DataType {
   position?: string;
@@ -234,7 +235,7 @@ const Applicants = () => {
               <tr className='application-table-row'>
                 <th className='application-table-head'>LINKEDIN LINK</th>
                 <td className='application-table-body'>
-                  {applicant?.applicant?.github}
+                  {applicant?.applicant?.linkedIn}
                 </td>
               </tr>
               <tr className='application-table-row'>
@@ -242,9 +243,13 @@ const Applicants = () => {
                   RESUME AND COVER LETTER
                 </th>
                 <td className='application-table-body'>
-                  {/* <Document file='./pdf/dummy.pdf' /> */}
-                  <Document file='/pdf/e-passport.pdf' />
-                  {/* <Document file={`${API_URL}${applicant?.applicant?.resume}`} /> */}
+                  <Link
+                    to={`${API_URL}${applicant?.applicant?.resume}`}
+                    target='_blank'
+                    className='viewMoreBtn'
+                  >
+                    View Resume
+                  </Link>
                 </td>
               </tr>
             </tbody>

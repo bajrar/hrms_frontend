@@ -89,10 +89,6 @@ const AddJobsForm = ({ setIsModalOpen, fromUpdateJobs, jobId }: any) => {
     );
   }, []);
 
-  console.log(job, 'job');
-  console.log(fromUpdateJobs, 'fromUpdateJobs');
-  console.log(job?.job?.title, 'title');
-
   return loading && fromUpdateJobs ? (
     <span>...loading</span>
   ) : (

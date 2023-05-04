@@ -24,20 +24,20 @@ const LeaveDetailTable = () => {
         <tr>
           <th className='shift-table-head'>UNIT</th>
           <td className='shift-table-body'>
-            {leave?.workingDay?.map((item: any) => (
-              <span>{item}</span>
-            ))}
+            <span>{leave?.leave?.leaveUnit}</span>
           </td>
         </tr>
         <tr>
           <th className='shift-table-head'>MAXIMUM UNIT</th>
           <td className='shift-table-body'>
-            {leave?.startTime} -{leave?.endTime}
+            {leave?.leave?.maximumUnitAllowed}
           </td>
         </tr>
         <tr>
           <th className='shift-table-head'>ACCUMULATED</th>
-          <td className='shift-table-body'>{leave?.shiftSchedule}</td>
+          <td className='shift-table-body'>
+            {leave?.leave?.accumulated ? 'Checked' : 'Unchecked'}
+          </td>
         </tr>
       </tbody>
     </table>

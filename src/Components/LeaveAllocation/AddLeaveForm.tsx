@@ -19,15 +19,19 @@ const AddLeaveForm = ({ setIsModalOpen }: any) => {
     try {
       const res = await apis.addLeave(values);
       if (res.status === 201) {
-        message.success('Leave Created');
-        form.resetFields();
         dispatch(getLeave() as any);
+        message.success('Leave Created');
       }
     } catch {
       message.error('Something Went Wrong');
     } finally {
+      form.resetFields();
       setIsModalOpen(false);
     }
+  };
+  const onCancel = () => {
+    form.resetFields();
+    setIsModalOpen(false);
   };
 
   return (
@@ -110,7 +114,9 @@ const AddLeaveForm = ({ setIsModalOpen }: any) => {
           <Checkbox className='accumulated-check'>Accumulated</Checkbox>
         </Form.Item>
         <div className='form-btn-container'>
-          <Button type='default'>Cancel</Button>
+          <Button type='default' onClick={() => onCancel()}>
+            Cancel
+          </Button>
           <Button type='primary' htmlType='submit'>
             Add
           </Button>
