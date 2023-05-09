@@ -1,6 +1,6 @@
 import * as XLSX from 'xlsx';
 
-const DownloadBtn = ({ report }: any) => {
+const DownloadBtn = ({ report, reportName }: any) => {
   const downloadExcel = (report: any) => {
     const worksheet = XLSX.utils.json_to_sheet(report);
     const workbook = XLSX.utils.book_new();
