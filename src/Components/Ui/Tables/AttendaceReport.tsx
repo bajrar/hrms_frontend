@@ -127,6 +127,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
       render: (item) => {
         return (
           <div className='workhours'>
+            {item}log
             <Link className='viewMoreBtn' to={`/attendance/${item}`}>
               View
             </Link>
@@ -144,12 +145,6 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
     const data1: DataType[] = [];
     user?.map((userData) => {
       userData?.attendanceRecords?.map((attendance: any) => {
-        console.log(
-          attendance?.attendanceByDate?.date,
-          defaultDate,
-          'true or false'
-        );
-
         if (
           attendance?.attendanceByDate?.date === defaultDate &&
           userData.employeeName.toLowerCase().includes(searchText)
@@ -182,7 +177,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
               : attendance?.attendanceByDate?.holiday
               ? '-'
               : attendance?.attendanceByDate?.workHour,
-            view: userData?.attendanceByDate?.employeeNumber,
+            view: userData?.employeeNumber,
           };
           data1.push(tableData);
         }

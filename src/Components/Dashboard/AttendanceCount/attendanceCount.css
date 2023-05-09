@@ -1,0 +1,37 @@
+.attendance-count-container {
+  display: flex;
+  gap: 16px;
+}
+.attedance-container {
+  background: #f2f5f9;
+  /* Line 100 */
+
+  border: 1px solid #d8d8d8;
+  border-radius: 4px;
+  padding: 8px 16px;
+  margin-bottom: 16px;
+}
+
+.on-leave {
+  background-color: #fbf4f4;
+  /* Line 100 */
+
+  border: 1px solid #d8d8d8;
+  border-radius: 4px;
+  padding: 8px 16px;
+  width: calc((100% - 16px) / 2);
+}
+.on-request {
+  background-color: #fefbf6;
+  /* Line 100 */
+
+  padding: 8px 16px;
+  border: 1px solid #d8d8d8;
+  border-radius: 4px;
+  width: calc((100% - 16px) / 2);
+}
+.leave-request-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}

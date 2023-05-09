@@ -80,7 +80,7 @@ export const apis = {
     return axiosApiInstance.delete(`/jobs/${id}`);
   },
   updateJob: (id: any, values: any) => {
-    return axiosApiInstance.put(`/job/${id}`, values);
+    return axiosApiInstance.patch(`/jobs/${id}`, values);
   },
 
   //applicants
