@@ -3,6 +3,8 @@ import './SubMenu.css';
 import { Tabs } from 'antd';
 import { Graph } from '../Graph/Graph';
 import { DashboardEmployeeStatus } from '../DashboardEmployeeStatus/DashboardEmployeeStatus';
+import Analytics from '../Analytics/Analytics';
+import AttendaceCount from '../../../../Components/Dashboard/AttendanceCount/AttendaceCount';
 
 type SubMenuProps = {};
 
@@ -14,12 +16,13 @@ export const SubMenu = ({}: SubMenuProps) => {
           <Tabs.TabPane tab='Dashboard' key='1'>
             <div className='row'>
               <div className='col-lg-6 hr-dashboard-sub-menu-content-left'>
-                <div className='d-flex'>
-                  <Graph /> hi
-                </div>
+                <Graph />
                 <DashboardEmployeeStatus />
               </div>
-              <div className='col-lg-6'></div>
+              <div className='col-lg-6'>
+                <Analytics />
+                <AttendaceCount />
+              </div>
             </div>
           </Tabs.TabPane>
           <Tabs.TabPane tab='Upcoming events' key='2'>

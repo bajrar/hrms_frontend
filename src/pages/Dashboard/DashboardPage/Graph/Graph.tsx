@@ -37,17 +37,13 @@ export const Graph = ({}: GraphProps) => {
   const graphcontainer = useRef<any>();
   const [graphSize, setGraphSize] = useState({ width: 0, height: 0 });
   const getWidth = () => {
-    console.log('hello');
     setGraphSize({
       width: graphcontainer.current?.offsetWidth,
       height: graphcontainer.current?.offsetHeight,
     });
   };
   return (
-    <div
-      className='hr-dashboard-graph'
-      ref={graphcontainer}
-    >
+    <div className='hr-dashboard-graph' ref={graphcontainer}>
       <div className='hr-dashboard-graph-content'>
         <div className='hr-dashboard-graph-header'>
           <span>Last 15-day record of newly hired and resigned employees</span>
@@ -64,39 +60,17 @@ export const Graph = ({}: GraphProps) => {
           </div>
         </div>
         <div className='hr-dashboard-graph-diagram'>
-          <BarChart
-            width={graphSize.width}
-            height={400}
-            data={data}
-          >
-            <Bar
-              dataKey='TE'
-              fill='#023C87'
-              radius={[5, 5, 0, 0]}
-            />
-            <Bar
-              dataKey='NJ'
-              fill='#00B9F1'
-              radius={[5, 5, 0, 0]}
-            />
-            <Bar
-              dataKey='RE'
-              fill='#BB2124'
-              radius={[5, 5, 0, 0]}
-            />
+          <BarChart width={graphSize.width} height={400} data={data}>
+            <Bar dataKey='TE' fill='#023C87' radius={[5, 5, 0, 0]} />
+            <Bar dataKey='NJ' fill='#00B9F1' radius={[5, 5, 0, 0]} />
+            <Bar dataKey='RE' fill='#BB2124' radius={[5, 5, 0, 0]} />
             <CartesianGrid
               stroke='#D8D8D8'
               vertical={false}
               strokeDasharray='5 5'
             />
-            <XAxis
-              dataKey='date'
-              axisLine={true}
-            />
-            <YAxis
-              orientation='right'
-              axisLine={false}
-            />
+            <XAxis dataKey='date' axisLine={true} />
+            <YAxis orientation='right' axisLine={false} />
           </BarChart>
         </div>
       </div>
