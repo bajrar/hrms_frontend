@@ -5,7 +5,7 @@ export const getJobs = createAsyncThunk(
   'jobs/ getJobs',
   async (data, thunkApi) => {
     try {
-      const response = await axiosApiInstance('jobs');
+      const response = await axiosApiInstance('jobs/admin');
       return response.data;
     } catch (err: any) {
       return thunkApi.rejectWithValue(err.message);
