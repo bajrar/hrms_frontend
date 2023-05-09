@@ -4,7 +4,6 @@ import { Button, Form, Select, Table, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Document, Page, pdfjs } from 'react-pdf';
 
 import BreadCrumbs from '../../Components/Ui/BreadCrumbs/BreadCrumbs';
 import ModalComponent from '../../Components/Ui/Modal/Modal';
@@ -13,7 +12,7 @@ import { useAppSelector } from '../../hooks/useTypedSelector';
 import { getApplicants } from '../../redux/features/applicantsSlice';
 import { getSingleApplicant } from '../../redux/features/singleApplicantSlice';
 import './applicants.css';
-import { API_URL } from '../../Components/apis/constants/constant';
+import { API_URL, API_URL1 } from '../../Components/apis/constants/constant';
 import { apis } from '../../Components/apis/constants/ApisService';
 import Layout from '../../Components/Layout';
 import Navbar from '../../Components/Ui/Navbar';
@@ -28,8 +27,6 @@ export interface DataType {
   status?: React.ReactNode;
   action?: string;
 }
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const Applicants = () => {
   const dispatch = useDispatch();
@@ -127,7 +124,7 @@ const Applicants = () => {
     applicants?.applicants?.map((item: any) => {
       const tableData = {
         position: item?.position,
-        applicantName: `${item?.firstName} ${item?.lastName}`,
+        applicantName: `${item?.fullName}`,
         email: item?.email,
         address: item?.address,
         city: item?.city,
@@ -244,7 +241,7 @@ const Applicants = () => {
                 </th>
                 <td className='application-table-body'>
                   <Link
-                    to={`${API_URL}${applicant?.applicant?.resume}`}
+                    to={`${API_URL1}public/resume/${applicant?.applicant?.resume}`}
                     target='_blank'
                     className='viewMoreBtn'
                   >
