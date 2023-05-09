@@ -127,7 +127,6 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
       render: (item) => {
         return (
           <div className='workhours'>
-            {item}log
             <Link className='viewMoreBtn' to={`/attendance/${item}`}>
               View
             </Link>

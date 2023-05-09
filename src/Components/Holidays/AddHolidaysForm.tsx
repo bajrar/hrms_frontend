@@ -101,7 +101,7 @@ const AddHolidaysForm = ({ setIsModalOpen }: IForm) => {
             <Calendar
               onChange={onStartChange}
               className='date-picker  '
-              // dateFormat='YYYY/MM/DD'
+              dateFormat='YYYY/MM/DD'
               language='en'
             />
           </Form.Item>
@@ -120,7 +120,7 @@ const AddHolidaysForm = ({ setIsModalOpen }: IForm) => {
             <Calendar
               onChange={onEndChange}
               className='date-picker '
-              // dateFormat='YYYY/MM/DD'
+              dateFormat='YYYY/MM/DD'
               language='en'
             />
           </Form.Item>

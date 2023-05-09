@@ -202,11 +202,11 @@ const Applicants = () => {
               <tr className='application-table-row'>
                 <th className='application-table-head'>APPLICANT NAME</th>
                 <td className='application-table-body'>
-                  {`${applicant?.applicant?.firstName} ${applicant?.applicant?.lastName}`}
+                  {`${applicant?.applicant?.fullName} `}
                 </td>
               </tr>
               <tr className='application-table-row'>
-                <th className='application-table-head'>EMAILE</th>
+                <th className='application-table-head'>EMAIL</th>
                 <td className='application-table-body'>
                   {applicant?.applicant?.email}
                 </td>
