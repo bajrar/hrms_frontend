@@ -114,7 +114,7 @@ const Holidays = () => {
             To
             <Calendar
               onChange={onEndDateChange}
-              className=' date-picker calender-container-picker'
+              className='date-picker calender-container-picker'
               dateFormat='YYYY/MM/DD'
               language='en'
             />
