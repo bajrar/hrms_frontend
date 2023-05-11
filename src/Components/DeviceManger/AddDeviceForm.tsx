@@ -78,7 +78,7 @@ const AddDeviceForm = ({ setIsModalOpen, fromUpdate, deviceId }: any) => {
           className='form-input col'
           name='deviceName'
           label='Device Name *'
-          rules={[{ required: true, message: 'Shift Name is Required' }]}
+          rules={[{ required: true, message: 'Device Name is Required' }]}
         >
           <Input
             placeholder='Enter the name of new device'

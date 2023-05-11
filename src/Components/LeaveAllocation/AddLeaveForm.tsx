@@ -41,11 +41,11 @@ const AddLeaveForm = ({ setIsModalOpen }: any) => {
           className='form-input col'
           name='leaveName'
           label='Leave Name *'
-          rules={[{ required: true, message: 'Shift Name is Required' }]}
+          rules={[{ required: true, message: 'Leave Name is Required' }]}
         >
           <Input
             name='leaveName'
-            placeholder='Enter the name of the new shift'
+            placeholder='Enter the name of the new leave'
             className='form-input-wrapper'
             type='text'
           />
@@ -56,7 +56,7 @@ const AddLeaveForm = ({ setIsModalOpen }: any) => {
               className='form-input col unit-input'
               name='unit'
               label='Unit *'
-              rules={[{ required: true, message: 'Shift Name is Required' }]}
+              rules={[{ required: true, message: 'Unit is Required' }]}
               tooltip={{
                 title:
                   'This field specifies the time unit (days, hours, etc.) for the leave.',
@@ -73,7 +73,7 @@ const AddLeaveForm = ({ setIsModalOpen }: any) => {
               className='form-input col unit-input'
               name='leaveUnit'
               label=<div></div>
-              rules={[{ required: true, message: 'Shift Name is Required' }]}
+              rules={[{ required: true, message: 'Leave Unit is Required' }]}
             >
               <Input
                 placeholder='60'
@@ -89,7 +89,9 @@ const AddLeaveForm = ({ setIsModalOpen }: any) => {
             className='form-input col'
             name='maximumUnitAllowed'
             label='Maximum Unit Allowed *'
-            rules={[{ required: true, message: 'Shift Name is Required' }]}
+            rules={[
+              { required: true, message: 'Maximum Unit Allowed is Required' },
+            ]}
           >
             <Input
               placeholder='Enter the maximum unit allowed (e.g. 100 days)'

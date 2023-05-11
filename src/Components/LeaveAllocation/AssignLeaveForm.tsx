@@ -92,7 +92,7 @@ const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
         className='form-input col'
         name='leaveName'
         label='Leave Name *'
-        rules={[{ required: true, message: 'Shift Name is Required' }]}
+        rules={[{ required: true, message: 'Leave Name is Required' }]}
       >
         <Select
           placeholder='Select the type of leave'
@@ -106,7 +106,7 @@ const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
         className='form-input col'
         name='assignTo'
         label='Assign To *'
-        rules={[{ required: true, message: 'Shift Name is Required' }]}
+        rules={[{ required: true, message: 'Employee(s) Name is Required' }]}
       >
         <Select
           placeholder='Type the name of an employee to search and select'
