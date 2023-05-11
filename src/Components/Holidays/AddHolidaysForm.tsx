@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, Form, Input, Select, message } from 'antd';
 import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -60,11 +59,10 @@ const AddHolidaysForm = ({ setIsModalOpen }: IForm) => {
             className='form-input col'
             name='holidayName'
             label='Holiday Name *'
-            rules={[{ required: true, message: 'Shift Name is Required' }]}
+            rules={[{ required: true, message: 'Holiday Name is Required' }]}
           >
             <Input
-              name='shiftName'
-              placeholder='Enter the name of the new shift'
+              placeholder='Enter the name of the new holiday'
               className='form-input-wrapper'
               type='text'
             />
@@ -73,7 +71,9 @@ const AddHolidaysForm = ({ setIsModalOpen }: IForm) => {
             className='form-input col working-day'
             name='applicableTo'
             label='Applicable To *'
-            rules={[{ required: true, message: 'Working day is Required' }]}
+            rules={[
+              { required: true, message: 'Name of employee(s) is Required' },
+            ]}
           >
             <Select
               placeholder='Select who this rule/policy is applicable to'
@@ -130,7 +130,7 @@ const AddHolidaysForm = ({ setIsModalOpen }: IForm) => {
           className='form-input col '
           name='status'
           label='Status *'
-          rules={[{ required: true, message: 'Working day is Required' }]}
+          rules={[{ required: true, message: 'Status is Required' }]}
         >
           <Select
             placeholder='Select the status of this day (e.g. repeat pattern)'
@@ -145,7 +145,7 @@ const AddHolidaysForm = ({ setIsModalOpen }: IForm) => {
           className='form-input col'
           name='notes'
           label='Notes *'
-          rules={[{ required: true, message: 'Device name is required' }]}
+          rules={[{ required: true, message: 'Notes is required' }]}
         >
           <TextArea
             style={{ height: 96, resize: 'none' }}
