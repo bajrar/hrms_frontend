@@ -4,14 +4,17 @@ import { axiosApiInstance } from '../../Components/apis/constants/ApisService';
 
 export const getMonthlyLeave = createAsyncThunk(
   'monthlyReport/getMonthlyReport',
-  async (data, thunkApi) => {
+  async (
+    { startDate, endDate }: { startDate?: any; endDate?: any },
+    { rejectWithValue }
+  ) => {
     try {
       const response = await axiosApiInstance(
-        'attendance/report?from=2080/01/01&to=2080/01/30'
+        `attendance/report?from=${startDate}&to=${endDate}`
       );
       return response.data;
     } catch (err: any) {
-      return thunkApi.rejectWithValue(err.message);
+      return rejectWithValue(err.message);
     }
   }
 );

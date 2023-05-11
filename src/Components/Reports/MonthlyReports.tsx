@@ -120,8 +120,10 @@ const MonthlyReports = () => {
   ];
 
   useEffect(() => {
-    dispatch(getMonthlyLeave() as any);
-  }, [dispatch]);
+    dispatch(
+      getMonthlyLeave({ startDate: startDate, endDate: endDate }) as any
+    );
+  }, [dispatch, startDate, endDate]);
 
   const { reports } = useAppSelector((state) => state.monthlyReport);
 
@@ -141,7 +143,7 @@ const MonthlyReports = () => {
       data.push(tableData);
     });
     setMonthlyReportData(data);
-  }, [reports]);
+  }, [reports, startDate, endDate]);
 
   return (
     <div>
@@ -155,7 +157,6 @@ const MonthlyReports = () => {
         To
         <Calendar
           onChange={onEndDateChange}
-          // defaultValue={dayjs(defaultDate)}
           className=' date-picker calender-container-picker'
           dateFormat='YYYY/MM/DD'
           language='en'
