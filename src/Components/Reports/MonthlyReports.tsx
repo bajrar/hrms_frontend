@@ -1,16 +1,32 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 
 import Selects from '../Ui/Selects/Selects';
 import DownloadBtn from '../Ui/DownloadBtn/DownloadBtn';
-import { DataType } from './DailyReports';
+import { useDispatch } from 'react-redux';
+import { getMonthlyLeave } from '../../redux/features/monthlySlice';
+import { useAppSelector } from '../../hooks/useTypedSelector';
+
+export interface DataType {
+  id?: string;
+  name?: string;
+  payroll: string;
+  weekend: string;
+  holiday: React.ReactNode;
+  duty: string;
+  present: string;
+  absent: string;
+}
 
 const MonthlyReports = () => {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [searchText, setSearchText] = useState('');
+  const [monthlyReportData, setMonthlyReportData] = useState<any>([]);
+
+  const dispatch = useDispatch();
 
   const onStartDateChange = ({ bsDate }: any) => {
     setStartDate(bsDate);
@@ -102,6 +118,31 @@ const MonthlyReports = () => {
       key: 'remarks',
     },
   ];
+
+  useEffect(() => {
+    dispatch(getMonthlyLeave() as any);
+  }, [dispatch]);
+
+  const { reports } = useAppSelector((state) => state.monthlyReport);
+
+  useEffect(() => {
+    const data: DataType[] = [];
+    reports?.monthlyReport?.map((monthReport: any) => {
+      const tableData = {
+        id: monthReport?.userSn,
+        name: monthReport?.employeeName,
+        payroll: monthReport?.payroll,
+        weekend: monthReport?.weekends,
+        holiday: monthReport?.holiday,
+        duty: monthReport?.duty,
+        present: monthReport?.present,
+        absent: monthReport?.absent,
+      };
+      data.push(tableData);
+    });
+    setMonthlyReportData(data);
+  }, [reports]);
+
   return (
     <div>
       <div className='attendance-filters'>
@@ -134,7 +175,7 @@ const MonthlyReports = () => {
         </div>
       </div>
       <div className='daily-report-table-container'>
-        <Table columns={columns} />
+        <Table columns={columns} dataSource={monthlyReportData} />
       </div>
     </div>
   );
