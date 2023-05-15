@@ -3,10 +3,13 @@ import { axiosApiInstance } from '../../Components/apis/constants/ApisService';
 
 export const getUsers = createAsyncThunk(
   'users/getUsers',
-  async ({ status }: { status: any }, { rejectWithValue }) => {
+  async (
+    { status, date }: { status: string | undefined; date: string },
+    { rejectWithValue }
+  ) => {
     try {
       const response = await axiosApiInstance(
-        `getEmployeeRecordWithAttendance?status=${status}`
+        `getEmployeeRecordWithAttendance?status=${status}&date=${date}`
       );
       return response.data;
     } catch (err: any) {
@@ -36,7 +39,7 @@ const attendanceSlice = createSlice({
       })
       .addCase(getUsers.fulfilled, (state, action: any) => {
         state.loading = false;
-        state.user = action.payload;
+        if (action.payload.length > 0) state.user = action.payload;
       })
       .addCase(getUsers.rejected, (state, action) => {
         state.loading = false;
