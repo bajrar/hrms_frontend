@@ -5,6 +5,7 @@ import { Graph } from '../Graph/Graph';
 import { DashboardEmployeeStatus } from '../DashboardEmployeeStatus/DashboardEmployeeStatus';
 import Analytics from '../Analytics/Analytics';
 import AttendaceCount from '../../../../Components/Dashboard/AttendanceCount/AttendaceCount';
+import EmployeeCountByDesignation from '../../../../Components/Dashboard/AttendanceCount/EmployeeCountByDesignation';
 
 type SubMenuProps = {};
 
@@ -22,6 +23,7 @@ export const SubMenu = ({}: SubMenuProps) => {
               <div className='col-lg-6'>
                 <Analytics />
                 <AttendaceCount />
+                <EmployeeCountByDesignation />
               </div>
             </div>
           </Tabs.TabPane>
