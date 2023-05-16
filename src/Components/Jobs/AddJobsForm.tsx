@@ -2,6 +2,7 @@ import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Form, Input, message, Select } from 'antd';
 import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import {
   employmentTypeArray,
   jobStatusArray,
