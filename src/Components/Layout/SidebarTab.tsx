@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import "./sidebartab.css";
-import { Link, useNavigate } from "react-router-dom";
-import type { MenuProps } from "antd";
-import { Menu } from "antd";
+import React, { useState } from 'react';
+import './sidebartab.css';
+import { Link, useNavigate } from 'react-router-dom';
+import type { MenuProps } from 'antd';
+import { Menu } from 'antd';
 
-type MenuItem = Required<MenuProps>["items"][number];
+type MenuItem = Required<MenuProps>['items'][number];
 
 function getItem(
   label?: React.ReactNode,
   key?: React.Key,
   icon?: React.ReactNode,
   children?: MenuItem[],
-  type?: "group"
+  type?: 'group'
 ): MenuItem {
   return {
     key,
@@ -34,185 +34,182 @@ const SideBarTab = () => {
     setSmallSidebar(!smallSidebar);
   };
 
-  const items: MenuProps["items"] = [
+  const items: MenuProps['items'] = [
     getItem(
-      "Employee Management",
-      "sub1",
-      <div className="icons-container" onClick={() => openSidebar()}>
-        <img src="/images/employee.svg" alt="employee" />
+      'Employee Management',
+      'sub1',
+      <div className='icons-container' onClick={() => openSidebar()}>
+        <img src='/images/employee.svg' alt='employee' />
       </div>,
       [
         getItem(
           <div
-            className="sidenav-link"
-            onClick={() => closeSidebar("employee")}
+            className='sidenav-link'
+            onClick={() => closeSidebar('employee')}
           >
             Add Employee
           </div>,
-          "1"
+          '1'
         ),
       ]
     ),
 
     getItem(
-      "Leave Management",
-      "sub2",
-      <div className="icons-container" onClick={() => openSidebar()}>
-        <img src="/images/leave.svg" alt="leave" />
+      'Leave Management',
+      'sub2',
+      <div className='icons-container' onClick={() => openSidebar()}>
+        <img src='/images/leave.svg' alt='leave' />
       </div>,
       [
         getItem(
           <div
-            className="sidenav-link"
-            onClick={() => closeSidebar("holidays")}
+            className='sidenav-link'
+            onClick={() => closeSidebar('holidays')}
           >
             Holidays
           </div>,
-          "2"
+          '2'
         ),
         getItem(
           <div
-            className="sidenav-link"
-            onClick={() => closeSidebar("leave-allocation")}
+            className='sidenav-link'
+            onClick={() => closeSidebar('leave-allocation')}
           >
             Leave Allocation
           </div>,
-          "3"
+          '3'
         ),
       ]
     ),
 
     getItem(
-      "Vacancy Management",
-      "sub3",
-      <div className="icons-container" onClick={() => openSidebar()}>
-        <img src="/images/vacancy.svg" alt="vacancy" />
+      'Vacancy Management',
+      'sub3',
+      <div className='icons-container' onClick={() => openSidebar()}>
+        <img src='/images/vacancy.svg' alt='vacancy' />
       </div>,
       [
         getItem(
           <div
-            className="sidenav-link"
-            onClick={() => closeSidebar("job-summary")}
+            className='sidenav-link'
+            onClick={() => closeSidebar('job-summary')}
           >
             Job Summary
           </div>,
-          "4"
+          '4'
         ),
         getItem(
           <div
-            className="sidenav-link"
-            onClick={() => closeSidebar("applicants")}
+            className='sidenav-link'
+            onClick={() => closeSidebar('applicants')}
           >
             Applicants
           </div>,
-          "5"
+          '5'
         ),
       ]
     ),
     getItem(
-      "Attendance / Shift Management",
-      "sub4",
-      <div className="icons-container" onClick={() => openSidebar()}>
-        <img src="/images/attendance.svg" alt="attendance" />
+      'Attendance / Shift Management',
+      'sub4',
+      <div className='icons-container' onClick={() => openSidebar()}>
+        <img src='/images/attendance.svg' alt='attendance' />
       </div>,
       [
         getItem(
           <div
-            className="sidenav-link"
-            onClick={() => closeSidebar("attendance")}
+            className='sidenav-link'
+            onClick={() => closeSidebar('attendance')}
           >
             Attendance
           </div>,
-          "7"
+          '7'
         ),
         getItem(
-          <div className="sidenav-link" onClick={() => closeSidebar("shift")}>
+          <div className='sidenav-link' onClick={() => closeSidebar('shift')}>
             Shift Schedule
           </div>,
-          "8"
+          '8'
         ),
         getItem(
-          <div className="sidenav-link" onClick={() => closeSidebar("reports")}>
+          <div className='sidenav-link' onClick={() => closeSidebar('reports')}>
             Report
           </div>,
-          "9"
+          '9'
         ),
         getItem(
           <div
-            className="sidenav-link"
-            onClick={() => closeSidebar("device-manager")}
+            className='sidenav-link'
+            onClick={() => closeSidebar('device-manager')}
           >
             Device Manager
           </div>,
-          "10"
+          '10'
         ),
       ]
     ),
   ];
-  const itemss: MenuProps["items"] = [
+  const itemss: MenuProps['items'] = [
     getItem(
-      "",
-      "sub1",
+      '',
+      'sub1',
       <div
-        className="icons-container sidebar-icon"
+        className='icons-container sidebar-icon'
         onClick={() => openSidebar()}
       >
-        <img src="/images/employee.svg" alt="employee" />
+        <img src='/images/employee.svg' alt='employee' />
       </div>
     ),
 
     getItem(
-      "",
-      "sub2",
+      '',
+      'sub2',
       <div
-        className="icons-container sidebar-icon"
+        className='icons-container sidebar-icon'
         onClick={() => openSidebar()}
       >
-        <img src="/images/leave.svg" alt="leave" />
+        <img src='/images/leave.svg' alt='leave' />
       </div>
     ),
 
     getItem(
-      "",
-      "sub3",
+      '',
+      'sub3',
       <div
-        className="icons-container sidebar-icon"
+        className='icons-container sidebar-icon'
         onClick={() => openSidebar()}
       >
-        <img src="/images/vacancy.svg" alt="vacancy" />
+        <img src='/images/vacancy.svg' alt='vacancy' />
       </div>
     ),
     getItem(
-      "",
-      "sub4",
+      '',
+      'sub4',
       <div
-        className="icons-container sidebar-icon"
+        className='icons-container sidebar-icon'
         onClick={() => openSidebar()}
       >
-        <img src="/images/attendance.svg" alt="attendance" />
+        <img src='/images/attendance.svg' alt='attendance' />
       </div>
     ),
   ];
   return (
-    <div className="sidebar">
+    <div className='sidebar'>
       {smallSidebar ? (
-        <div
-          className="small-logo-container"
-          onClick={() => navigate("/dashboard")}
-        >
-          <img src="/images/small-logo.svg" alt="virtuos logo" />
+        <div className='small-logo-container' onClick={() => navigate('/')}>
+          <img src='/images/small-logo.svg' alt='virtuos logo' />
         </div>
       ) : (
-        <div className="logo-container" onClick={() => navigate("/")}>
-          <img src="/images/virtuos-logo.svg" alt="virtuos logo" />
+        <div className='logo-container' onClick={() => navigate('/')}>
+          <img src='/images/virtuos-logo.svg' alt='virtuos logo' />
         </div>
       )}
-      <div className="sidebar-nav">
+      <div className='sidebar-nav'>
         <Menu
-          mode="inline"
+          mode='inline'
           items={smallSidebar ? itemss : items}
           className={
-            smallSidebar ? "sidebar-menus sidebar-menu-small" : "sidebar-menus"
+            smallSidebar ? 'sidebar-menus sidebar-menu-small' : 'sidebar-menus'
           }
         />
       </div>
