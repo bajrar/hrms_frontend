@@ -139,6 +139,11 @@ const MonthlyReports = () => {
         duty: monthReport?.duty,
         present: monthReport?.present,
         absent: monthReport?.absent,
+        annual: monthReport?.annualLeaveTaken,
+        sick: monthReport?.sickLeaveTaken,
+        substitute: 0,
+        withoutPay: monthReport?.unpaidLeaveTaken,
+        total: monthReport?.totaldays,
       };
       data.push(tableData);
     });

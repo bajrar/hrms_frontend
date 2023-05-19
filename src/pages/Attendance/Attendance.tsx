@@ -12,6 +12,7 @@ import { getAttedanceStatus } from '../../redux/features/attendanceStatusSlice';
 import Selects from '../../Components/Ui/Selects/Selects';
 import Layout from '../../Components/Layout';
 import Navbar from '../../Components/Ui/Navbar';
+import { todayInBsFormat } from '../../Components/Customcalendar/GetTodaysDate';
 
 export interface IEmployeeStats {
   status: string;
@@ -46,7 +47,7 @@ export const EmployeeStats = ({
 };
 
 const Attendance = () => {
-  const [defaultDate, setDefaultDate] = useState();
+  const [defaultDate, setDefaultDate] = useState(todayInBsFormat);
   const [searchText, setSearchText] = useState('');
   const [status, setStatus] = useState('');
 
@@ -57,6 +58,8 @@ const Attendance = () => {
   };
 
   const onDateChange = ({ bsDate }: any) => {
+    console.log(bsDate, 'bsData');
+
     setDefaultDate(bsDate);
   };
 
