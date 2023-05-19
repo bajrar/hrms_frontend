@@ -46,7 +46,7 @@ const AssignShiftForm = ({ setIsModalOpen }: IForm) => {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getUsers({ status: '' }) as any);
+    dispatch(getUsers({ status: '', date: '' }) as any);
   }, [dispatch]);
 
   const { data } = useAppSelector((state) => state.shiftSlice);

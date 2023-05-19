@@ -35,8 +35,8 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
   const [attendanceData, setAttendanceData] = useState<any>([]);
 
   useEffect(() => {
-    dispatch(getUsers({ status: status }) as any);
-  }, [dispatch, status]);
+    dispatch(getUsers({ status: status, date: defaultDate }) as any);
+  }, [dispatch, status, defaultDate]);
 
   const { user } = useAppSelector((state) => state.attendanceSlice);
   const columns: ColumnsType<DataType> = [
@@ -137,17 +137,10 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
   ];
 
   useEffect(() => {
-    setAttendanceData(user);
-  }, []);
-
-  useEffect(() => {
     const data1: DataType[] = [];
     user?.map((userData) => {
       userData?.attendanceRecords?.map((attendance: any) => {
-        if (
-          attendance?.attendanceByDate?.date === defaultDate &&
-          userData.employeeName.toLowerCase().includes(searchText)
-        ) {
+        if (userData.employeeName.toLowerCase().includes(searchText)) {
           const tableData = {
             id: userData?.employeeNumber,
             key: userData?.employeeNumber,
@@ -179,12 +172,15 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
             view: userData?.employeeNumber,
           };
           data1.push(tableData);
+
+          console.log(attendanceData, 'data');
+          // setAttendanceData([...attendanceData, tableData]);
         }
       });
     });
 
     setAttendanceData(data1);
-  }, [user, defaultDate, searchText, status]);
+  }, [user, searchText]);
 
   return (
     <Table
