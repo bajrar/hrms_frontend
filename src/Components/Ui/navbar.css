@@ -43,6 +43,10 @@
   align-items: center;
   gap: 20px;
 }
+.navbar-dash__right p{
+  margin: 0;
+
+}
 .custom-dropdown {
   display: none;
 }
