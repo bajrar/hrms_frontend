@@ -1,9 +1,3 @@
-.loginpage_main{
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-
-}
 .main-logo-container {
   width: 100%;
 }
@@ -100,19 +94,11 @@
   text-align: end;
 }
 .sign-up-header {
-  margin-top: 1rem;
-  display: flex;
   text-align: start;
   margin-bottom: 8px;
-  text-transform: uppercase;
-  align-items: flex-start;
-  justify-content: flex-start;
 }
 .sign-up-text {
-  display: flex;
   margin-bottom: 32px;
-  align-items: flex-start;
-  justify-content: flex-start;
 }
 
 .note-message {
@@ -123,26 +109,6 @@
   line-height: 20px;
   color: #72777a;
   margin-bottom: 0;
-}
-
-.password-input-container {
-  position: relative;
-}
-
-.password-input-container input {
-  padding-right: 40px; /* Add space for the button */
-  width: 100%;
-
-}
-
-.toggle-password-visibility {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  border: none;
-  background: transparent;
-  cursor: pointer;
 }
 
 @media only screen and (max-width: 600px) {
