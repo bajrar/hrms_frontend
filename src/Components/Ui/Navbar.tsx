@@ -40,8 +40,11 @@ const Navbar = () => {
         >
           {token === null ? null : (
             <Button
-              type="primary"
-              style={{ background: "#00b9f1", border: "2px solid #051a63" }}
+              type="text"
+              style={{
+                // background: "#00b9f1",
+                border: "2px solid #051a63",
+              }}
               onClick={() => logoutUser()}
             >
               Logout
