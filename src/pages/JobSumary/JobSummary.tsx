@@ -219,6 +219,7 @@ const JobSummary = () => {
                 <td
                   className='application-table-body'
                   dangerouslySetInnerHTML={{ __html: job?.job?.descriptions }}
+                  
                 ></td>
               </tr>
               <tr className='application-table-row'>
