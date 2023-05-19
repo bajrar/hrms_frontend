@@ -27,4 +27,6 @@
 }
 .hr-dashboard-graph-diagram {
   padding-top: 5rem;
+
+  overflow: hidden;
 }

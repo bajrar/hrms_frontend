@@ -1,27 +1,38 @@
-import './Login.css';
-import { useEffect, useState } from 'react';
-import { apis } from '../apis/constants/ApisService';
-import { useNavigate } from 'react-router-dom';
-import 'react-toastify/dist/ReactToastify.css';
-import { getToken } from '../../features/authSlice';
-import { useDispatch } from 'react-redux';
+import "./Login.css";
+import { useEffect, useState } from "react";
+import { apis } from "../apis/constants/ApisService";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { getToken } from "../../features/authSlice";
+import { useDispatch } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 type LoginPageProps = {};
 
 export const LoginPage = ({}: LoginPageProps) => {
-  useEffect(() => {
-    const auth = localStorage.getItem('token');
-    if (auth) {
-      navigate('/dashboard');
-    }
-  });
-  const dispatch = useDispatch();
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+
+  useEffect(() => {
+    const auth = localStorage.getItem("token");
+    if (auth) {
+      navigate("/dashboard");
+    }
+  }, []); // Add empty dependency array to run the effect only once
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
+
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setInputs((prevState) => ({
       ...prevState,
@@ -31,61 +42,92 @@ export const LoginPage = ({}: LoginPageProps) => {
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    try {
-      var data = inputs;
-      const res = await apis.getLogin(data);
-      dispatch(getToken(res.data.token));
-      if (res.status === 200) {
-        localStorage.setItem('token', res.data.token);
-        localStorage.setItem('email', data?.email);
-        navigate('/dashboard');
-      }
-    } catch (e) {
-      console.log(e);
+
+    if (!inputs.email || !inputs.password) {
+      toast.error("All fields are required.");
+      return;
     }
+
+    setIsLoading(true);
+
+    try {
+      const res = await apis.getLogin(inputs);
+      dispatch(getToken(res.data.token));
+
+      if (res.status === 200) {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("email", inputs?.email);
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Invalid Credentials");
+    }
+
+    setIsLoading(false);
   };
 
   return (
-    <main>
-      <div className='main_container container virtuosway-hr-login-page'>
+    <main className="loginpage_main">
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      <div className="main_container container virtuosway-hr-login-page">
         <form onSubmit={handleSubmit}>
-          <div className='main-logo-container d-flex align-items-center justify-content-center'>
-            <div className='logo '>
-              <img src='/images/virtuos-logo.svg' alt='logo' />
+          <div className="main-logo-container d-flex align-items-center justify-content-center">
+            <div className="logo ">
+              <img src="/images/virtuos-logo.svg" alt="logo" />
             </div>
           </div>
-          <h2 className='sign-up-header'>Sign in </h2>
-          <p className='sign-up-text'>Enter your sign in credentials.</p>
-          <div className='form_container'>
-            <div className='labels'>
-              <label htmlFor=''>Email:</label>
+          <h2 className="sign-up-header">Sign in </h2>
+          <p className="sign-up-text">Enter your sign in credentials.</p>
+          <div className="form_container">
+            <div className="labels">
+              <label htmlFor="">Email:</label>
             </div>
             <input
-              type='email'
-              name='email'
-              id='email'
-              placeholder='Enter your work email'
+              type="email"
+              name="email"
+              id="email"
+              placeholder="Enter your work email"
               onChange={handleChange}
             />
-            <p className='note-message'>
+            <p className="note-message">
               Note: example@eeposit.com / example@virtuosway.com
             </p>
           </div>
-          <div className='form_container'>
-            <div className='labels'>
-              <label htmlFor=''>Password:</label>
+          <div className="form_container">
+            <div className="labels">
+              <label htmlFor="">Password:</label>
             </div>
-            <input
-              type='password'
-              name='password'
-              id='password'
-              placeholder='Enter password'
-              onChange={handleChange}
-            />
+            <div className="password-input-container">
+              <input
+                type={passwordVisible ? "text" : "password"}
+                name="password"
+                id="password"
+                placeholder="Enter password"
+                onChange={handleChange}
+              />
+              <button
+                className="toggle-password-visibility"
+                onClick={togglePasswordVisibility}
+              >
+                <FontAwesomeIcon icon={passwordVisible ? faEyeSlash : faEye} />
+              </button>
+            </div>
           </div>
-          <p className='forgot-password'>Forgot password?</p>
-          <button type='submit' className='login-button'>
-            Sign In
+          <p className="forgot-password">Forgot password?</p>
+          <button type="submit" className="login-button" disabled={isLoading}>
+            {isLoading ? "Loading..." : "Sign In"}
           </button>
         </form>
       </div>
