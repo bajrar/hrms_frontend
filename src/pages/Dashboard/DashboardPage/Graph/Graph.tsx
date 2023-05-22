@@ -41,7 +41,7 @@ export const Graph = ({}: GraphProps) => {
   };
   useEffect(() => {
     getWidth();
-  }, [graphSize]);
+  }, []);
   return (
     <div className="hr-dashboard-graph" ref={graphcontainer}>
       <div className="hr-dashboard-graph-content">
