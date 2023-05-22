@@ -1,18 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-
 import './attendanceReport.css';
-import { getUsers } from '../../../redux/features/attendanceSlice';
+// import { getUsers } from '../../../redux/features/attendanceSlice';
 import {
   useAppDispatch,
   useAppSelector,
 } from '../../../hooks/useTypedSelector';
-import { formatTime } from './SingleEmployee';
+// import { formatTime } from './SingleEmployee';
 import { EmployeeStats } from '../../../pages/Attendance/Attendance';
-import { apis, axiosApiInstance } from '../../apis/constants/ApisService';
+// import { apis, axiosApiInstance } from '../../apis/constants/ApisService';
 import { getEmployee } from '../../../redux/features/employeeSlice';
 
 
@@ -23,9 +21,6 @@ export interface DataType {
   name: string;
   status: React.ReactNode;
   designation: string;
-  // clockIn: string;
-  // clockOut: string;
-  // workHours: string;
 }
 
 export const CompareFunction = (compareList: any) => {
@@ -139,18 +134,19 @@ const ViewAllEmployee = ({ defaultDate, searchText, status }: any) => {
     setAttendanceData(data1);
   }, [employee, searchText]);
 
+ const filterData =  status?attendanceData.filter(((each:any)=>each.status === status)): attendanceData
+
   return (
     <Table
-      // rowClassName={(record) =>
-      //   record.clockIn === 'Absent'
-      //     ? 'absent-class'
-      //     : record.clockIn === 'Holiday'
-      //     ? 'holiday-class'
-      //     : ''
-      // }  
+      rowClassName={(record) =>
+        record.status === 'resigned'
+          ? 'absent-class'
+          : record.status === 'pending'
+          ? 'holiday-class'
+          : ''
+      }  
       columns={columns}
-      dataSource={attendanceData}
-      // pagination={tableParams.pagination}
+      dataSource={filterData}
     />
   );
 };
