@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Form, Input, Radio, RadioChangeEvent, DatePicker } from 'antd';
+import { Button, Form, Input, Radio, RadioChangeEvent, DatePicker,Select } from 'antd';
 import { toast } from 'react-toastify';
 
 import { apis } from '../apis/constants/ApisService';
@@ -72,12 +72,12 @@ const Employee = () => {
       message: 'Reporting Manager Required',
       type: 'text',
     },
-    {
-      name: 'status',
-      label: 'Status',
-      message: 'Status Required',
-      type: 'text',
-    },
+    // {
+    //   name: 'status',
+    //   label: 'Status',
+    //   message: 'Status Required',
+    //   type: 'text',
+    // },
   ];
   const emergencyContact = [
     {
@@ -227,6 +227,41 @@ const Employee = () => {
                   />
                 </Form.Item>
               ))}
+              <Form.Item
+                label='Status'
+                className='form-input  form-input-container-fourth'
+                name='status'
+              >
+      <Select
+    showSearch
+    placeholder="Search to Status"
+    optionFilterProp="children"
+    filterOption={(input, option) => (option?.label ?? '').includes(input)}
+    filterSort={(optionA, optionB) =>
+      (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+    }
+ 
+    options={[
+      {
+        value: 'working',
+        label: 'Working',
+      },
+      {
+        value: 'resigned',
+        label: 'Resigned',
+      },
+      {
+        value: 'pending',
+        label: 'Pending',
+      },
+      {
+        value: 'Onsite',
+        label: 'Onsite',
+      },
+  
+    ]}
+  />
+              </Form.Item>
               <Form.Item
                 label='Designation'
                 className='form-input  form-input-container-fourth'
