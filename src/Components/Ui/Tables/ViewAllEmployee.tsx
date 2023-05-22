@@ -43,7 +43,6 @@ const ViewAllEmployee = ({ defaultDate, searchText, status }: any) => {
   }, [dispatch]);
 
   const {employee} = useAppSelector((state) => state.employeeSlice);
-  console.log({employee})
   const columns: ColumnsType<DataType> = [
     {
       title: 'SN',
@@ -107,7 +106,7 @@ const ViewAllEmployee = ({ defaultDate, searchText, status }: any) => {
       render: (item) => {
         return (
           <div className='workhours'>
-            <Link className='viewMoreBtn' to={`/attendance/${item}`}>
+            <Link className='viewMoreBtn' to={`/employee/${item}`}>
               View
             </Link>
           </div>
@@ -148,7 +147,7 @@ const ViewAllEmployee = ({ defaultDate, searchText, status }: any) => {
       //     : record.clockIn === 'Holiday'
       //     ? 'holiday-class'
       //     : ''
-      // }
+      // }  
       columns={columns}
       dataSource={attendanceData}
       // pagination={tableParams.pagination}

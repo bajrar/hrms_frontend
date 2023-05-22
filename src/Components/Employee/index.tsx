@@ -8,10 +8,23 @@ import BreadCrumbs from '../Ui/BreadCrumbs/BreadCrumbs';
 import Layout from '../Layout';
 import Navbar from '../Ui/Navbar';
 import ViewEmployee from '../ViewEmployee';
+import Selects from '../Ui/Selects/Selects';
+import { WorkingCondition } from '../../utils/Constants';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import ModalComponent from '../Ui/Modal/Modal';
 
 const Employee = () => {
   const [gender, setGender] = useState('');
-
+  const [searchText, setSearchText] = useState('');
+  const [status, setStatus] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const onSelect = (e: any) => {
+    setStatus(e);
+  };
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
   const onFinish = async (values: any) => {
     try {
       const res = await apis.addEmployee(values);
@@ -113,10 +126,54 @@ const Employee = () => {
 
   return (
     <>
-    {false?
+   
     <Layout>
       <Navbar />
-      <div className='mb-4'>
+      <div style={{margin:40}}>
+
+<BreadCrumbs
+  imagesrc='/images/attendance.svg'
+  location='Employee Management'
+  location1='View Employee'
+/>
+<hr />
+
+<div className='attendance-filters-bottom d-flex ' style={{display:'flex',justifyContent:'space-between'}}>
+
+  <input
+    type='text'
+    placeholder='Search members'
+    className='search-field'
+    value={searchText}
+    onChange={(e) => setSearchText(e.target.value.toLowerCase())}
+  />
+  <div className="div" style={{display:'flex',gap:10}}>
+  <Selects
+    // defaultValue='All'
+    onSelect={onSelect}
+    value={status}
+    options={WorkingCondition}
+    placeHolder='Search'
+  />
+
+       <button className='primary-btn' onClick={showModal}>
+    <FontAwesomeIcon icon={faPlus} /> Add Employee
+  </button>
+  </div>
+</div>
+</div>
+      
+     <ViewEmployee/>
+      
+    </Layout>
+
+    <ModalComponent
+          openModal={isModalOpen}
+          classNames='holidays-modal'
+          closeModal={setIsModalOpen}
+        >
+          <h3 className='modal-title'>ADD EMPLOYEE</h3>
+          <div className='mb-4'>
         <div style={{ marginTop: 30, paddingInline: 32 }}>
           <div style={{ paddingInline: -32 }}>
             <BreadCrumbs
@@ -327,8 +384,8 @@ const Employee = () => {
           </Form>
         </div>
       </div>
-    </Layout>: <ViewEmployee/>
-    }
+        </ModalComponent>
+    
     </>
   );
 };

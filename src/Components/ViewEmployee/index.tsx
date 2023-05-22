@@ -14,6 +14,8 @@ import Layout from '../../Components/Layout';
 import Navbar from '../../Components/Ui/Navbar';
 import { todayInBsFormat } from '../../Components/Customcalendar/GetTodaysDate';
 import ViewAllEmployee from '../Ui/Tables/ViewAllEmployee';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 export interface IEmployeeStats {
   status: string;
@@ -51,6 +53,8 @@ const ViewEmployee = () => {
   const [defaultDate, setDefaultDate] = useState(todayInBsFormat);
   const [searchText, setSearchText] = useState('');
   const [status, setStatus] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   const dispatch = useAppDispatch();
 
@@ -71,30 +75,26 @@ const ViewEmployee = () => {
   const { attendanceStatus } = useAppSelector(
     (state) => state.attendanceStatusSlice
   );
-
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
 
 
   return (
-    <Layout>
-      <Navbar />
-      <div className='attendace-page'>
+    <>
+    {/* <Layout> */}
+      {/* <Navbar /> */}
+      <div className='attendace-page' >
+        {/* <div>
+
         <BreadCrumbs
           imagesrc='/images/attendance.svg'
           location='Employee Management'
-          location1='View'
+          location1='View Employee'
         />
         <hr />
-  
-        <hr />
     
-        <div className='attendance-filters-bottom d-flex'>
-          <Selects
-            // defaultValue='All'
-            onSelect={onSelect}
-            value={status}
-            options={WorkingCondition}
-            placeHolder='Search'
-          />
+        <div className='attendance-filters-bottom d-flex ' style={{display:'flex',justifyContent:'space-between'}}>
 
           <input
             type='text'
@@ -103,7 +103,21 @@ const ViewEmployee = () => {
             value={searchText}
             onChange={(e) => setSearchText(e.target.value.toLowerCase())}
           />
+          <div className="div" style={{display:'flex',gap:10}}>
+          <Selects
+            // defaultValue='All'
+            onSelect={onSelect}
+            value={status}
+            options={WorkingCondition}
+            placeHolder='Search'
+          />
+
+               <button className='primary-btn' onClick={showModal}>
+            <FontAwesomeIcon icon={faPlus} /> Add Employee
+          </button>
+          </div>
         </div>
+        </div> */}
 
         <div className='row table-container'>
           <ViewAllEmployee
@@ -113,7 +127,8 @@ const ViewEmployee = () => {
           />
         </div>
       </div>
-    </Layout>
+    {/* </Layout> */}
+    </>
   );
 };
 
