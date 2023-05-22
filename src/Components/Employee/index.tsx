@@ -7,6 +7,7 @@ import './add-employee-form.css';
 import BreadCrumbs from '../Ui/BreadCrumbs/BreadCrumbs';
 import Layout from '../Layout';
 import Navbar from '../Ui/Navbar';
+import ViewEmployee from '../ViewEmployee';
 
 const Employee = () => {
   const [gender, setGender] = useState('');
@@ -111,6 +112,8 @@ const Employee = () => {
   ];
 
   return (
+    <>
+    {false?
     <Layout>
       <Navbar />
       <div className='mb-4'>
@@ -235,6 +238,10 @@ const Employee = () => {
       <Select
     showSearch
     placeholder="Search to Status"
+    style={{
+      marginTop: "20px",
+      gap: "30px"
+    }}
     optionFilterProp="children"
     filterOption={(input, option) => (option?.label ?? '').includes(input)}
     filterSort={(optionA, optionB) =>
@@ -320,7 +327,9 @@ const Employee = () => {
           </Form>
         </div>
       </div>
-    </Layout>
+    </Layout>: <ViewEmployee/>
+    }
+    </>
   );
 };
 

@@ -101,6 +101,9 @@ export const apis = {
   addEmployee: (values: any) => {
     return axiosApiInstance.post(`/employee`, values);
   },
+  getEmployee: () => {
+    return axiosApiInstance.get(`/employee`);
+  },
   addUserInDevice: (values: any) => {
     return axiosApiInstance.post(`/createUserAttendance`, values);
   },
