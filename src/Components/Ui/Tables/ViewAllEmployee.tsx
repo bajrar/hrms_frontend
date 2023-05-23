@@ -3,15 +3,14 @@ import { Link } from 'react-router-dom';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import './attendanceReport.css';
-// import { getUsers } from '../../../redux/features/attendanceSlice';
 import {
   useAppDispatch,
   useAppSelector,
 } from '../../../hooks/useTypedSelector';
-// import { formatTime } from './SingleEmployee';
 import { EmployeeStats } from '../../../pages/Attendance/Attendance';
-// import { apis, axiosApiInstance } from '../../apis/constants/ApisService';
 import { getEmployee } from '../../../redux/features/employeeSlice';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
 
 
 export interface DataType {
@@ -28,9 +27,10 @@ export const CompareFunction = (compareList: any) => {
   return compareItem;
 };
 
-const ViewAllEmployee = ({ defaultDate, searchText, status }: any) => {
+const ViewAllEmployee = ({ defaultDate, searchText, status,getData ,showModal}: any) => {
   const dispatch = useAppDispatch();
   const [attendanceData, setAttendanceData] = useState<any>([]);
+  const [getEmployeeData,setGetEmployeeData] = useState({}as any)
 
   useEffect(() => {
     // dispatch(getUsers({ status: status, date: defaultDate }) as any);
@@ -38,6 +38,7 @@ const ViewAllEmployee = ({ defaultDate, searchText, status }: any) => {
   }, [dispatch]);
 
   const {employee} = useAppSelector((state) => state.employeeSlice);
+
   const columns: ColumnsType<DataType> = [
     {
       title: 'SN',
@@ -100,7 +101,16 @@ const ViewAllEmployee = ({ defaultDate, searchText, status }: any) => {
       key: 'view',
       render: (item) => {
         return (
-          <div className='workhours'>
+          <div style={{display:'flex',gap:20,justifyContent:'center',alignItems:'center'}}>
+                 <FontAwesomeIcon
+            icon={faPen}
+            color='#35639F'
+            // onClick={() => updateEmployee(id)}
+            onClick={() =>{ 
+              setGetEmployeeData(item)
+              showModal()
+            }}
+          />
             <Link className='viewMoreBtn' to={`/employee/${item}`}>
               View
             </Link>
@@ -109,7 +119,7 @@ const ViewAllEmployee = ({ defaultDate, searchText, status }: any) => {
       },
     },
   ];
-
+  getData(getEmployeeData)
   useEffect(() => {
     const data1: DataType[] = [];
     employee?.employee?.map((userData:any,sn:any) => {
@@ -123,7 +133,7 @@ const ViewAllEmployee = ({ defaultDate, searchText, status }: any) => {
           name: userData?.employeeName,
           status: userData.status,
           designation: userData?.designation,
-          view: userData?.employeeNumber,
+          view: userData,
           sn:sn+1
         };
         data1.push(tableData);

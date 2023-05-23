@@ -7,11 +7,10 @@ import {
   RadioChangeEvent,
   DatePicker,
   Select,
-  Table,
 } from 'antd';
 import { toast } from 'react-toastify';
 
-import { apis } from '../apis/constants/ApisService';
+import { apis, axiosApiInstance } from '../apis/constants/ApisService';
 import './add-employee-form.css';
 import BreadCrumbs from '../Ui/BreadCrumbs/BreadCrumbs';
 import Layout from '../Layout';
@@ -19,159 +18,179 @@ import Navbar from '../Ui/Navbar';
 import Selects from '../Ui/Selects/Selects';
 import { WorkingCondition } from '../../utils/Constants';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import ModalComponent from '../Ui/Modal/Modal';
 import ViewAllEmployee from '../Ui/Tables/ViewAllEmployee';
 import { isErrored } from 'stream';
-import EmployeeForm from './EmployeeForm';
-import { Link } from 'react-router-dom';
-import { CompareFunction } from '../Ui/Tables/AttendaceReport';
-import { ColumnsType } from 'antd/es/table';
-import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
-import { getEmployee } from '../../redux/features/employeeSlice';
-import { EmployeeStats } from '../../pages/Attendance/Attendance';
 
-
-export interface DataType {
-  id?: string;
-  key?: string;
-  date: string;
-  name: string;
-  status: React.ReactNode;
-  designation: string;
-}
-
-const Employee = () => {
+const EmployeeForm =  ({setIsModalOpen,update,employeeId}:any) => {
   const [gender, setGender] = useState('');
   const [searchText, setSearchText] = useState('');
   const [status, setStatus] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [UpdateisModalOpen, setUpdateIsModalOpen] = useState<boolean>(false);
-  const [getEmployeeData,setGetEmployeeData] = useState({}as any)
-  const dispatch = useAppDispatch();
-  const [attendanceData, setAttendanceData] = useState<any>([]);
+  const [employeeData, setEmployeeData] = useState({} as any);
+  console.log({employeeId})
 
+  const getSingleEmployeeData = async (employeeId:any) => {
+    try {
+      const data = await apis.getSingleEmployee(employeeId);
+      return data
+    } catch (error) {
+      console.error(error);
+    }
+  };
   
-
   useEffect(() => {
-    // dispatch(getUsers({ status: status, date: defaultDate }) as any);
-    dispatch(getEmployee() as any);
-  }, [dispatch]);
+    const fetchEmployeeData = async () => {
+      const data = await getSingleEmployeeData(employeeId);
+      setEmployeeData(data?.data?.employee);
+    };
+    fetchEmployeeData();
+  }, [employeeId]);
+  console.log({ employeeData });
+//   const [isModalOpen, setIsModalOpen] = useState(false);
+//   const [UpdateisModalOpen, setUpdateIsModalOpen] = useState(false);
+//   const [getEmployeeData,setGetEmployeeData] = useState({}as any)
 
-  const {employee} = useAppSelector((state) => state.employeeSlice);
   const [form] = Form.useForm();
   const onSelect = (e: any) => {
     setStatus(e);
   };
-  const showModal = () => {
-    setIsModalOpen(!isModalOpen);
+//   console.log({update})
+//   const showModal = () => {
+//     setIsModalOpen(!isModalOpen);
+//   };
+  console.log({update})
+  const onFinish = async (values: any) => {
+    try {
+      const res = await apis.addEmployee(values);
+
+      if (res.status === 201) {
+        toast.success('Employee Submitted Sucesfully', {
+          position: 'top-center',
+          autoClose: 5000,
+        });
+        window.location.reload();
+      }
+    } catch {
+      toast.error('Something Went Wrong', {
+        position: 'top-center',
+        autoClose: 5000,
+      });
+    }
   };
-  const updateEmployeeModel = (id: string) => {
-    setUpdateIsModalOpen(true);
-    setGetEmployeeData(id)
+
+  const onUpdateEmployee = async (values: any) => {
+    try {
+      const res = await apis.updateEmployee(values,employeeId);
+      if (res.status === 201) {
+        form.resetFields();
+      }
+    } catch {
+    } finally {
+      setIsModalOpen(false);
+    }
   };
-  
-  // const onFinish = async (values: any) => {
-  //   try {
-  //     const res = await apis.addEmployee(values);
-
-  //     if (res.status === 201) {
-  //       toast.success('Employee Submitted Sucesfully', {
-  //         position: 'top-center',
-  //         autoClose: 5000,
-  //       });
-  //       window.location.reload();
-  //     }
-  //   } catch {
-  //     toast.error('Something Went Wrong', {
-  //       position: 'top-center',
-  //       autoClose: 5000,
-  //     });
-  //   }
-  // };
-
-  // const onChangeRadio = (e: RadioChangeEvent) => {
-  //   setGender(e.target.value);
-  // };
 
 
-  const columns: ColumnsType<DataType> = [
+  const onChangeRadio = (e: RadioChangeEvent) => {
+    setGender(e.target.value);
+  };
+//   const getData = (data:any,isOpen:Boolean)=>{
+//     setGetEmployeeData(data)
+//   }
+  const firstRow = [
     {
-      title: 'SN',
-      dataIndex: 'sn',
-      key: 'sn',
+      name: 'employeeNumber',
+      label: 'Employee Number',
+      message: 'Employee Number is Required',
+      placeHolder: 'EX: 6854654163',
+      type: 'number',
+      initialValue:update?employeeData?.employeeNumber:'',
+      
     },
     {
-      title: 'EID',
-      dataIndex: 'id',
-      key: 'id',
-    },
-    {
-      title: 'EMPLOYEE NAME',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'DATE OF JOINING',
-      dataIndex: 'date',
-      key: 'date',
-    },
+      name: 'employeeName',
+      label: 'Employee Name',
+      message: 'Employee Name is Required',
+      placeHolder: 'John Doe',
+      type: 'text',
+      initialValue:employeeData?.employeeName,
 
-  
+      
+    },
+  ];
+  const thirdRow = [
     {
-      title: 'DESIGNATION',
-      dataIndex: 'designation',
-      key: 'designation',
+      name: 'email',
+      label: 'Email',
+      message: 'Email Required',
+      placeHolder: 'johndoe@gmail.com',
+      type: 'email',
+      initialValue: employeeData?.email
+      
     },
     {
-      title: 'STATUS',
-      dataIndex: 'status',
-      key: 'status',
-      render: (item) => {
-        return (
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            {item.split('-').map((ite: any, i: number) => {
-              return (
-                <EmployeeStats
-                  key={i}
-                  status={ite}
-                  color={
-                    CompareFunction(ite) === 'working'
-                      ? '#22BB33'
-                      : CompareFunction(ite) === 'pending'
-                      ? '#F0AD4E'
-                      : CompareFunction(ite) === 'resigned'
-                      ? '#BB2124'
-                      : 'transparent'
-                  }
-                />
-              );
-            })}
-          </div>
-        );
-      },
+      name: 'mobileNumber',
+      label: 'Mobile Number',
+      message: 'Mobile Number is Required',
+      placeHolder: 'EX: 6854654163',
+      type: 'number',
+      initialValue: employeeData?.mobileNumber
+
+    },
+  ];
+  const fourthRow = [
+    {
+      name: 'reportingManager',
+      label: 'Reporting Manager',
+      message: 'Reporting Manager Required',
+      type: 'text',
+      initialValue: employeeData?.reportingManager
+
+    },
+    // {
+    //   name: 'status',
+    //   label: 'Status',
+    //   message: 'Status Required',
+    //   type: 'text',
+    // },
+  ];
+  const emergencyContact = [
+    {
+      name: 'emergencyName',
+      label: 'Emergency Contact Name',
+      message: 'Emergency Contact Name Required',
+      placeHolder: 'EX: John Doe',
+      type: 'text',
+      initialValue: employeeData?.email
+
     },
     {
-      title: 'ACTION',
-      dataIndex: 'view',
-      key: 'view',
-      render: (item) => {
-        return (
-          <div style={{display:'flex',gap:20,justifyContent:'center',alignItems:'center'}}>
-                 <FontAwesomeIcon
-            icon={faPen}
-            color='#35639F'
-            // onClick={() => updateEmployee(id)}
-            onClick={() => { 
-              updateEmployeeModel(item?.employeeNumber)
-            }}
-          />
-            <Link className='viewMoreBtn' to={`/employee/${item}`}>
-              View
-            </Link>
-          </div>
-        );
-      },
+      name: 'emergencyContact',
+      label: 'Emergency Contact Number',
+      message: 'Emergency Contact Number Required',
+      placeHolder: 'EX: 2541210',
+      type: 'number',
+      initialValue: employeeData?.email
+
+    },
+    {
+      name: 'parentName',
+      label: "Father's/Mother's Name",
+      message: "Father's/ Mother's Name Required",
+      placeHolder: 'John Doe',
+      type: 'text',
+      initialValue: employeeData?.email
+
+    },
+    {
+      name: 'spouseName',
+      label: 'Spouse Name',
+      message: 'Spouse Name Required',
+      placeHolder: 'John Doe',
+      type: 'text',
+      initialValue: employeeData?.email
+
     },
   ];
 
@@ -194,39 +213,16 @@ const Employee = () => {
     },
   
   ];
-
-  useEffect(() => {
-    const data1: DataType[] = [];
-    employee?.employee?.map((userData:any,sn:any) => {
-      if (userData.employeeName.toLowerCase().includes(searchText)) {
-        const dateObject = new Date(userData.dateOfJoining);
-      const formattedDate = dateObject.toISOString().split('T')[0];
-        const tableData = {
-          id: userData?.employeeNumber,
-          key: userData?.employeeNumber,
-          date: formattedDate,
-          name: userData?.employeeName,
-          status: userData.status,
-          designation: userData?.designation,
-          view: userData,
-          sn:sn+1
-        };
-        data1.push(tableData);
-      }
-
-    });
-
-    setAttendanceData(data1);
-  }, [employee, searchText]);
-
- const filterData =  status?attendanceData.filter(((each:any)=>each.status === status)): attendanceData
-
+const closeModal = () => {
+    form.resetFields();
+    setIsModalOpen(false);
+  };
 
   return (
     <>
-      <Layout>
-        <Navbar />
-        <div style={{ margin: 40 }}>
+      {/* <Layout> */}
+        {/* <Navbar /> */}
+        {/* <div style={{ margin: 40 }}>
           <BreadCrumbs
             imagesrc='/images/attendance.svg'
             location='Employee Management'
@@ -254,43 +250,19 @@ const Employee = () => {
 
               />
 
-              <button className='primary-btn'  onClick={() => setIsModalOpen(true)}>
+              <button className='primary-btn' onClick={showModal}>
                 <FontAwesomeIcon icon={faPlus} /> Add Employee
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
+      {/* </Layout> */}
 
-        <div className='attendace-page'>
-          <div className='row table-container'>
-            <Table
-      rowClassName={(record) =>
-        record.status === 'resigned'
-          ? 'absent-class'
-          : record.status === 'pending'
-          ? 'holiday-class'
-          : ''
-      }  
-      columns={columns}
-      dataSource={filterData}
-    />
-          </div>
-        </div>
-        {/* <EmployeeForm/> */}
-      </Layout>
-
-      <ModalComponent
-        openModal={isModalOpen}
-        classNames='add-employee-modal holidays-modal'
-        closeModal={setIsModalOpen}
-      >
-        <EmployeeForm setIsModalOpen={setIsModalOpen} date={getEmployeeData} />
-
-        {/* <h3 className='modal-title'>ADD EMPLOYEE</h3>
+        <h3 className='modal-title'>ADD EMPLOYEE</h3>
         <div className='mb-4'>
           <div style={{paddingInline: 5 }}>
   
-            <Form layout='vertical' onFinish={onFinish} autoComplete='off'>
+            <Form layout='vertical' onFinish={update?onUpdateEmployee:onFinish} autoComplete='off'>
               <div className='row p-0'>
                 <h3 className='add-employee__section-header'>
                   Basic Information
@@ -303,7 +275,8 @@ const Employee = () => {
                       name={item.name}
                       label={item.label}
                       rules={[{ required: true, message: item.message }]}
-                      initialValue={getEmployeeData?item.initialValue:''}
+                      initialValue={update? employeeData?.employeeName:''}
+
                     >
                       <Input
                         name={item.name}
@@ -321,7 +294,8 @@ const Employee = () => {
                   label='Date of Birth'
                   className='form-input  form-input-container'
                   name='dob'
-                  initialValue={getEmployeeData?.dob}
+                  // initialValue={update?employeeData.dob:''}
+
 
                 >
                   <DatePicker
@@ -339,8 +313,7 @@ const Employee = () => {
                   label='Gender'
                   className='form-input  form-input-container'
                   name='gender'
-                  initialValue={getEmployeeData?getEmployeeData.gender:''}
-
+                  // initialValue={update?.employeeData.gender:''}
                 >
                   <Radio.Group onChange={onChangeRadio} value={gender}>
                     <Radio value={'male'}>Male</Radio>
@@ -362,7 +335,7 @@ const Employee = () => {
                       name={item.name}
                       label={item.label}
                       rules={[{ required: true, message: item.message }]}
-                      initialValue={getEmployeeData?item.initialValue:''}
+                      initialValue={update?item.initialValue:''}
 
                     >
                       <Input
@@ -397,7 +370,7 @@ const Employee = () => {
                     name={item.name}
                     label={item.label}
                     rules={[{ required: true, message: item.message }]}
-                    initialValue={getEmployeeData?item.initialValue:''}
+                    initialValue={update?item.initialValue:''}  
 
                   >
                     <Input
@@ -452,7 +425,7 @@ const Employee = () => {
                   label='Designation'
                   className='form-input  form-input-container-fourth'
                   name='designation'
-                  initialValue={getEmployeeData?getEmployeeData.designation:''}
+                //   initialValue={getEmployeeData?getEmployeeData.designation:''}
 
                 >
                   <Input
@@ -466,7 +439,7 @@ const Employee = () => {
                   label='Project Team'
                   className='form-input  form-input-container-fourth'
                   name='projectTeam'
-                  initialValue={getEmployeeData?getEmployeeData.projectTeam:''}
+                //   initialValue={getEmployeeData?getEmployeeData.projectTeam:''}
 
                 >
                   <Input
@@ -490,7 +463,7 @@ const Employee = () => {
                       name={item.name}
                       label={item.label}
                       rules={[{ required: false }]}
-                      initialValue={getEmployeeData?item.initialValue:''}
+                    //   initialValue={getEmployeeData?item.initialValue:''}
 
                     >
                       <Input
@@ -508,27 +481,16 @@ const Employee = () => {
               <Button type='primary' htmlType='submit'>
                   Add
                 </Button>
-              <Button type='primary' onClick={showModal} danger>
+              <Button type='primary' onClick={() => closeModal()} danger>
                 Cancel
                 </Button>
               </div>
             </Form>
           </div>
-        </div> */}
+        </div>
 
-      </ModalComponent>
-      <ModalComponent
-        openModal={UpdateisModalOpen}
-        classNames='holidays-modal'
-        closeModal={setUpdateIsModalOpen}
-      > 
-          <h3 className='modal-title'>Update Employee</h3>
-
-        <EmployeeForm update setIsModalOpen={setUpdateIsModalOpen} employeeId={getEmployeeData}/>
-
-      </ModalComponent>
     </>
   );
 };
 
-export default Employee;
+export default EmployeeForm;

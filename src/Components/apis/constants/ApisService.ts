@@ -104,9 +104,18 @@ export const apis = {
   getEmployee: () => {
     return axiosApiInstance.get(`/employee`);
   },
+  getSingleEmployee:(id:any)=>{
+    return axiosApiInstance.get(`/employee/${id}`);
+  },
+  updateEmployee:(value:any,id:any)=>{
+    return axiosApiInstance.patch(`/employee/${id}`,value);
+
+  }
+  ,
   addUserInDevice: (values: any) => {
     return axiosApiInstance.post(`/createUserAttendance`, values);
   },
+
 
   addShift: (values: any) => {
     return axiosApiInstance.post(`/createShift`, values);
