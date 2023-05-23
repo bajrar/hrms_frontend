@@ -28,7 +28,6 @@ const EmployeeForm =  ({setIsModalOpen,update,employeeId}:any) => {
   const [searchText, setSearchText] = useState('');
   const [status, setStatus] = useState('');
   const [employeeData, setEmployeeData] = useState({} as any);
-  console.log({employeeId})
 
   const getSingleEmployeeData = async (employeeId:any) => {
     try {
@@ -59,7 +58,6 @@ const EmployeeForm =  ({setIsModalOpen,update,employeeId}:any) => {
 //   const showModal = () => {
 //     setIsModalOpen(!isModalOpen);
 //   };
-  console.log({update})
   const onFinish = async (values: any) => {
     try {
       const res = await apis.addEmployee(values);
@@ -218,6 +216,7 @@ const closeModal = () => {
     setIsModalOpen(false);
   };
 
+
   return (
     <>
       {/* <Layout> */}
@@ -262,7 +261,7 @@ const closeModal = () => {
         <div className='mb-4'>
           <div style={{paddingInline: 5 }}>
   
-            <Form layout='vertical' onFinish={update?onUpdateEmployee:onFinish} autoComplete='off'>
+            <Form layout='vertical' onFinish={update?onUpdateEmployee:onFinish} autoComplete='off'         initialValues={{employeeData}}>
               <div className='row p-0'>
                 <h3 className='add-employee__section-header'>
                   Basic Information
