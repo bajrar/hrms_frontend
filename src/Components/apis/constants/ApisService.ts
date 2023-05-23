@@ -167,4 +167,7 @@ export const apis = {
   updateLeave: (values: any, leaveId: string) => {
     return axiosApiInstance.patch(`/leave/${leaveId}`, values);
   },
+  addAnnouncement: (values: any) => {
+    return axiosApiInstance.post(`/announcement`, values);
+  },
 };

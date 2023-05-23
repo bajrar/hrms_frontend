@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NepaliDate from "nepali-date-converter";
+import "./UpcomingEvents.css";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../../hooks/useTypedSelector";
+import { getUpcomingEvents } from "../../../redux/features/upcomingEvents";
 
 const UpcomingEvents = () => {
   const getLastDayOfMonth = (year: Number, month: any) => {
@@ -31,45 +35,54 @@ const UpcomingEvents = () => {
     for (let i = 1; i <= lastDayOfMonth; i++) {
       output.push(i);
     }
-
     return output;
   };
 
   const calendarData = result();
 
-  const upcomingEvents = [
-    {
-      date: "2023-05-25",
-      time: "14:00",
-      title: "Meeting",
-      description: "Work From Home",
-    },
-    {
-      date: "2023-05-28",
-      time: "10:30",
-      title: "Birthday",
-      description: "Birthday",
-    },
-    {
-      date: "2023-06-02",
-      time: "19:00",
-      title: "Holiday",
-      description: "Work From Homes",
-    },
-    {
-      date: "2023-05-28",
-      time: "10:30",
-      title: "Birthday",
-      description: "Birthday",
-    },
-    {
-      date: "2023-05-25",
-      time: "14:00",
-      title: "Meeting",
-      description: "Work From Home",
-    },
-    // Add more event objects as needed
-  ];
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUpcomingEvents() as any);
+  }, [dispatch]);
+
+  const { upcomingEvents } = useAppSelector((state) => state.upcomingEvents);
+
+  // Get today's date
+  const nepaliDate = new NepaliDate(new Date());
+  const todayMonth: any = (nepaliDate.getMonth() + 1)
+    .toString()
+    .padStart(2, "0");
+  const todayDay: any = nepaliDate.getDate().toString().padStart(2, "0");
+
+  const hasEventToday = upcomingEvents?.events?.filter((event: any) => {
+    const eventDateParts = event.date.split("/");
+    const eventMonth: any = eventDateParts[1];
+    const eventDay: any = eventDateParts[2];
+    return eventMonth === todayMonth && eventDay === todayDay;
+  });
+
+  // Check if any dob falls on today's month and day
+  const hasDobToday = upcomingEvents?.dob?.filter((dob: any) => {
+    const dobDateParts = dob.dob.split("/");
+    const dobMonth: any = dobDateParts[1];
+    const dobDay: any = dobDateParts[2];
+    return dobMonth === todayMonth && dobDay === todayDay;
+  });
+
+  // Check if any holiday falls on today's month and day
+  const hasHolidayToday = upcomingEvents?.holidays?.filter((holiday: any) => {
+    const startDateParts = holiday.startDate.split("/");
+    const endDateParts = holiday.endDate.split("/");
+    const startMonth: any = startDateParts[1];
+    const startDay: any = startDateParts[2];
+    const endMonth: any = endDateParts[1];
+    const endDay: any = endDateParts[2];
+    return (
+      (startMonth === todayMonth && startDay === todayDay) ||
+      (endMonth === todayMonth && endDay === todayDay)
+    );
+  });
 
   return (
     <>
@@ -79,25 +92,109 @@ const UpcomingEvents = () => {
       </div>
       <div className="upcoming-events-calendar">
         {calendarData.map((item, index) => {
+          const formattedItem = item.toString().padStart(2, "0");
+          const hasDob = upcomingEvents?.dob?.some((dob: any) => {
+            const dobDateParts = dob.dob.split("/");
+            const dobDay = parseInt(dobDateParts[2]);
+            return dobDay === item;
+          });
+          const dobButtonClass = hasDob ? "dob-date" : "";
+          const hasHolidays = upcomingEvents?.holidays?.some((holiday: any) => {
+            const holidayStartDateParts = holiday.startDate.split("/");
+            const holidayEndDateParts = holiday.endDate.split("/");
+            const holidayStartDay = parseInt(holidayStartDateParts[2]);
+            const holidayEndDay = parseInt(holidayEndDateParts[2]);
+            return item >= holidayStartDay && item <= holidayEndDay;
+          });
+          const holidayButtonClass = hasHolidays ? "holiday-date" : "";
+          const hasEvents = upcomingEvents?.events?.some((event: any) => {
+            const eventDateParts = event.date.split("/");
+            const eventDay = parseInt(eventDateParts[2]);
+            return eventDay === item;
+          });
+          const eventButtonClass = hasEvents ? "event-date" : "";
+          const buttonClass = formattedItem === todayDay ? "current-date" : "";
           return (
             <div className="upcoming-events-calendar-item" key={index}>
-              <button>{item}</button>
+              <button
+                className={`${buttonClass} ${dobButtonClass} ${holidayButtonClass} ${eventButtonClass}`}
+              >
+                {formattedItem}
+              </button>
             </div>
           );
         })}
       </div>
       <div className="upcoming-event-today">
         <h4>Today</h4>
-        <p>No Events</p>
+        {hasEventToday || hasDobToday || hasHolidayToday ? (
+          <div className="upcoming-event-today-items">
+            {hasEventToday?.length > 0 && (
+              <div className="upcoming-event-upcoming-events-items">
+                <h5>Events</h5>
+                {hasEventToday?.map((event: any, index: any) => (
+                  <div key={index}>
+                    <p>Date: {event.date}</p>
+                    <h5>{event.eventName}</h5>
+                    <p>Description: {event.notes}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+            {hasDobToday?.length > 0 && (
+              <div className="upcoming-event-upcoming-dobs-items">
+                <h5>Birthdays</h5>
+                {hasDobToday?.map((dob: any, index: any) => (
+                  <div key={index}>
+                    <p>Employee Name: {dob.employeeName}</p>
+                    <p>Date of Birth: {dob.dob}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+            {hasHolidayToday?.length > 0 && (
+              <div className="upcoming-event-upcoming-holidays-items">
+                <h5>Holidays</h5>
+                {hasHolidayToday?.map((holiday: any, index: any) => (
+                  <div key={index}>
+                    <p>Start Date: {holiday.startDate}</p>
+                    <p>End Date: {holiday.endDate}</p>
+                    <h5>{holiday.holidayName}</h5>
+                    <p>Description: {holiday.notes}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : (
+          <p>No Events</p>
+        )}
       </div>
       <div className="upcoming-event-upcoming">
         <h4>Upcoming</h4>
         <div className="upcoming-event-upcoming-events">
-          {upcomingEvents.map((event, index) => (
+          {upcomingEvents?.events?.map((event: any, index: any) => (
             <div className="upcoming-event-upcoming-events-items" key={index}>
               <p>Date: {event.date}</p>
-              <h5>{event.title}</h5>
-              <p>Description: {event.description}</p>
+              <h5>{event.eventName}</h5>
+              <p>Description: {event.notes}</p>
+            </div>
+          ))}
+
+          {upcomingEvents?.dob?.map((dob: any, index: any) => (
+            <div className="upcoming-event-upcoming-dobs-items" key={index}>
+              <p>Employee Name: {dob.employeeName}</p>
+              <h5>Birthday</h5>
+              <p>Date of Birth: {dob.dob}</p>
+            </div>
+          ))}
+
+          {upcomingEvents?.holidays?.map((holiday: any, index: any) => (
+            <div className="upcoming-event-upcoming-holidays-items" key={index}>
+              <p>Start Date: {holiday.startDate}</p>
+              <h5>Holiday</h5>
+              <p>Holiday Name: {holiday.holidayName}</p>
+              <p>Notes: {holiday.notes}</p>
             </div>
           ))}
         </div>

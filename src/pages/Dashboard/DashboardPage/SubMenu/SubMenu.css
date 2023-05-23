@@ -7,7 +7,7 @@
   /* padding-left: 35px; */
 }
 .hr-dashboard-sub-menu .ant-tabs-tab-btn {
-  font-family: 'Helvetica' !important;
+  font-family: "Helvetica" !important;
   font-size: 18px !important;
   font-weight: 500 !important;
   margin: auto 0px !important;
@@ -19,51 +19,10 @@
 .hr-dashboard-sub-menu-content-left {
   border-right: 1px solid #d8d8d8;
 }
-.dashboard-upcoming-events{
+.dashboard-upcoming-events {
   display: flex;
+  /* gap: 10px; */
 }
-.upcoming-events{
-  margin-left: 15px;
-}
-.Upcoming{
-  margin-left: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-.upcoming-events-calendar{
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-.upcoming-events-calendar-item {
-
-  width:calc((100% - 130px) /14);
-}
-.upcoming-events-calendar-item > button{
-display: flex;
-align-items: flex-start;
-padding: 8px 16px;
-height: 36px;
-background: rgba(0, 0, 0, 0.02);
-border-radius: 100px;
-order: 2;
-flex-grow: 0;
-border: none;
-}
-.upcoming-event-upcoming-events{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-.upcoming-event-upcoming-events-items{
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-padding: 24px 32px;
-gap: 16px;
-width:calc((100% - 20px) /3);
-background: #F2F5F9;
-border: 1px solid #D8D8D8;
-border-radius: 4px;
+.announcement {
+  /* padding-left: 10px; */
 }
