@@ -73,7 +73,7 @@
   gap: 16px;
   width: calc((100% - 20px) / 3);
   background: #f2f5f9;
-  border: 1px solid #d8d8d8;
+  /* border: 1px solid #d8d8d8; */
   border-radius: 4px;
 }
 .upcoming-event-upcoming-dobs-items {
@@ -84,7 +84,7 @@
   gap: 16px;
   width: calc((100% - 20px) / 3);
   background: #f4fbf5;
-  border: 1px solid #f4fbf5;
+  /* border: 1px solid #f4fbf5; */
   border-radius: 4px;
 }
 .upcoming-event-upcoming-holidays-items {
@@ -108,4 +108,21 @@
 .upcoming-events-heading {
   border-bottom: 1px solid #d8d8d8;
   padding-left: 15px;
+}
+#formatted-eventdate-dob {
+  border-left: 5px solid #22bb33;
+  padding: 10px;
+}
+#formatted-eventdate-holidays {
+  border-left: 5px solid #9747ff;
+  padding: 10px;
+}
+#formatted-eventdate-event {
+  border-left: 5px solid #00b9f1;
+  padding: 10px;
+}
+@media (min-width: 768px) and (max-width: 1400px) {
+  .upcoming-events-calendar-item {
+    width: calc((100% - 130px) / 12);
+  }
 }

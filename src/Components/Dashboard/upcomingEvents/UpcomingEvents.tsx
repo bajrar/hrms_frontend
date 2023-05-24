@@ -4,6 +4,7 @@ import "./UpcomingEvents.css";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../../hooks/useTypedSelector";
 import { getUpcomingEvents } from "../../../redux/features/upcomingEvents";
+import { formatDate } from "./helperFunction";
 
 const UpcomingEvents = () => {
   const getLastDayOfMonth = (year: Number, month: any) => {
@@ -127,14 +128,17 @@ const UpcomingEvents = () => {
       </div>
       <div className="upcoming-event-today">
         <h4>Today</h4>
-        {hasEventToday || hasDobToday || hasHolidayToday ? (
+        {hasEventToday?.length > 0 ||
+        hasDobToday?.length > 0 ||
+        hasHolidayToday?.length > 0 ? (
           <div className="upcoming-event-today-items">
             {hasEventToday?.length > 0 && (
               <div className="upcoming-event-upcoming-events-items">
-                <h5>Events</h5>
                 {hasEventToday?.map((event: any, index: any) => (
                   <div key={index}>
-                    <p>Date: {event.date}</p>
+                    <p id="formatted-eventdate-event">
+                      {formatDate(event.date)}
+                    </p>
                     <h5>{event.eventName}</h5>
                     <p>Description: {event.notes}</p>
                   </div>
@@ -143,22 +147,22 @@ const UpcomingEvents = () => {
             )}
             {hasDobToday?.length > 0 && (
               <div className="upcoming-event-upcoming-dobs-items">
-                <h5>Birthdays</h5>
                 {hasDobToday?.map((dob: any, index: any) => (
                   <div key={index}>
-                    <p>Employee Name: {dob.employeeName}</p>
-                    <p>Date of Birth: {dob.dob}</p>
+                    <p id="formatted-eventdate-dob">{formatDate(dob.dob)}</p>
+                    <h5>Birthday</h5>
+                    <p>{dob.employeeName}</p>
                   </div>
                 ))}
               </div>
             )}
             {hasHolidayToday?.length > 0 && (
               <div className="upcoming-event-upcoming-holidays-items">
-                <h5>Holidays</h5>
                 {hasHolidayToday?.map((holiday: any, index: any) => (
                   <div key={index}>
-                    <p>Start Date: {holiday.startDate}</p>
-                    <p>End Date: {holiday.endDate}</p>
+                    <p id="formatted-eventdate-holidays">
+                      {formatDate(holiday.startDate)}
+                    </p>
                     <h5>{holiday.holidayName}</h5>
                     <p>Description: {holiday.notes}</p>
                   </div>
@@ -175,23 +179,25 @@ const UpcomingEvents = () => {
         <div className="upcoming-event-upcoming-events">
           {upcomingEvents?.events?.map((event: any, index: any) => (
             <div className="upcoming-event-upcoming-events-items" key={index}>
-              <p>Date: {event.date}</p>
+              <p id="formatted-eventdate-event"> {formatDate(event.date)}</p>
               <h5>{event.eventName}</h5>
-              <p>Description: {event.notes}</p>
+              <p> {event.notes}</p>
             </div>
           ))}
 
           {upcomingEvents?.dob?.map((dob: any, index: any) => (
             <div className="upcoming-event-upcoming-dobs-items" key={index}>
-              <p>Employee Name: {dob.employeeName}</p>
+              <p id="formatted-eventdate-dob">{formatDate(dob.dob)}</p>
               <h5>Birthday</h5>
-              <p>Date of Birth: {dob.dob}</p>
+              <p>{dob.employeeName}</p>
             </div>
           ))}
 
           {upcomingEvents?.holidays?.map((holiday: any, index: any) => (
             <div className="upcoming-event-upcoming-holidays-items" key={index}>
-              <p>Start Date: {holiday.startDate}</p>
+              <p id="formatted-eventdate-holidays">
+                {formatDate(holiday.startDate)}
+              </p>
               <h5>Holiday</h5>
               <p>Holiday Name: {holiday.holidayName}</p>
               <p>Notes: {holiday.notes}</p>

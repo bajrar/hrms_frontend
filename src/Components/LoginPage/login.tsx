@@ -118,6 +118,7 @@ export const LoginPage = ({}: LoginPageProps) => {
                 onChange={handleChange}
               />
               <button
+                type="button" // Change the button type to "button" instead of "submit"
                 className="toggle-password-visibility"
                 onClick={togglePasswordVisibility}
               >
