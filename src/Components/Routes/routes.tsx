@@ -6,7 +6,7 @@ import { LoginPage } from '../LoginPage/login';
 import { PageNotFound } from '../PageNotFound/PageNotFound';
 import { ProtectedRoute } from './protectedRoute';
 import { Leave } from '../Leave/leave';
-import Employee from '../Employee';
+import { Employee } from '../Employee';
 import Attendance from '../../pages/Attendance/Attendance';
 import Reports from '../../pages/Reports/Reports';
 import EmployeeAttendance from '../../pages/Attendance/EmployeeAttendance';

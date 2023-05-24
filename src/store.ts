@@ -15,6 +15,7 @@ import leaveSlice from './redux/features/leaveSlice';
 import singleLeaveSlice from './redux/features/singleLeaveSlice';
 import monthlyReportSlice from './redux/features/monthlySlice';
 import employeeSlice from './redux/features/employeeSlice';
+import singleEmployeeSlice from './redux/features/singleEmployeeSlice';
 
 export const store = configureStore({
   reducer: {
@@ -33,7 +34,8 @@ export const store = configureStore({
     leaveSlice: leaveSlice,
     singleLeave: singleLeaveSlice,
     monthlyReport: monthlyReportSlice,
-    employeeSlice:employeeSlice
+    employeeSlice:employeeSlice,
+    singleEmployeeSlice: singleEmployeeSlice
   },
 });
 export type RootState = ReturnType<typeof store.getState>;

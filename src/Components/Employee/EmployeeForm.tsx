@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo, useMemo } from 'react';
 import {
   Button,
   Form,
@@ -22,42 +22,51 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import ModalComponent from '../Ui/Modal/Modal';
 import ViewAllEmployee from '../Ui/Tables/ViewAllEmployee';
 import { isErrored } from 'stream';
+import { useAppSelector } from '../../hooks/useTypedSelector';
+import { useDispatch } from 'react-redux';
+import { getSingleEmployee } from '../../redux/features/singleEmployeeSlice';
+import moment from 'moment';
+import { getEmployee } from '../../redux/features/employeeSlice';
+import dayjs from 'dayjs';
+export const selectedEmployee = (state: any, id: string) =>
+  state?.find((item: any) => item?.employeeNumber === id);
 
-const EmployeeForm =  ({setIsModalOpen,update,employeeId}:any) => {
+export const EmployeeForm = ({
+  setIsModalOpen,
+  update = false,
+  employeeId = '',
+  defaultValue: employeeData = {},
+}: any) => {
   const [gender, setGender] = useState('');
   const [searchText, setSearchText] = useState('');
   const [status, setStatus] = useState('');
-  const [employeeData, setEmployeeData] = useState({} as any);
+  // const [employeeData, setEmployeeData] = useState({} as any);
+  const dispatch = useDispatch();
+  // useEffect(()=>{
+  //   dispatch(getSingleEmployee())
+  // },[])
+  // const { employee } = useAppSelector(
+  //   (state) => state.singleEmployeeSlice?.employee
+  // );
 
-  const getSingleEmployeeData = async (employeeId:any) => {
-    try {
-      const data = await apis.getSingleEmployee(employeeId);
-      return data
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  
-  useEffect(() => {
-    const fetchEmployeeData = async () => {
-      const data = await getSingleEmployeeData(employeeId);
-      setEmployeeData(data?.data?.employee);
-    };
-    fetchEmployeeData();
-  }, [employeeId]);
-  console.log({ employeeData });
-//   const [isModalOpen, setIsModalOpen] = useState(false);
-//   const [UpdateisModalOpen, setUpdateIsModalOpen] = useState(false);
-//   const [getEmployeeData,setGetEmployeeData] = useState({}as any)
+  // const employeeData = update ? selectedEmployee(employee, employeeId) : {}
+
+  // console.log({employee},'<------ employeeee')
+  // console.log({employeeId})
+
+  // useEffect(() => {
+  //   dispatch(
+  //     getSingleEmployee({
+  //       employeeId,
+  //     }) as any
+  //   );
+  // }, []);
 
   const [form] = Form.useForm();
   const onSelect = (e: any) => {
     setStatus(e);
   };
-//   console.log({update})
-//   const showModal = () => {
-//     setIsModalOpen(!isModalOpen);
-//   };
+
   const onFinish = async (values: any) => {
     try {
       const res = await apis.addEmployee(values);
@@ -77,25 +86,55 @@ const EmployeeForm =  ({setIsModalOpen,update,employeeId}:any) => {
     }
   };
 
+  const onChangeRadio = (e: RadioChangeEvent) => {
+    setGender(e.target.value);
+  };
+  //   const getData = (data:any,isOpen:Boolean)=>{
+  //     setGetEmployeeData(data)
+  //   }
+
+  useEffect(() => {
+    const {
+      designation,
+      email,
+      employeeNumber,
+      gender,
+      mobileNumber,
+      reportingManager,
+      employeeName,
+      dob,
+      projectTeam,
+    } = employeeData;
+
+    form.setFieldsValue({
+      designation,
+      email,
+      employeeNumber,
+      gender,
+      mobileNumber,
+      employeeName,
+      reportingManager,
+      projectTeam,
+      dob: dayjs(dob, 'YYYY/MM/DD'),
+    });
+  }, [employeeData]);
+
+  if (!setIsModalOpen) {
+    return <> </>;
+  }
+
   const onUpdateEmployee = async (values: any) => {
     try {
-      const res = await apis.updateEmployee(values,employeeId);
+      const res = await apis.updateEmployee(values, employeeData._id);
       if (res.status === 201) {
         form.resetFields();
+        getEmployee();
       }
     } catch {
     } finally {
       setIsModalOpen(false);
     }
   };
-
-
-  const onChangeRadio = (e: RadioChangeEvent) => {
-    setGender(e.target.value);
-  };
-//   const getData = (data:any,isOpen:Boolean)=>{
-//     setGetEmployeeData(data)
-//   }
   const firstRow = [
     {
       name: 'employeeNumber',
@@ -103,8 +142,7 @@ const EmployeeForm =  ({setIsModalOpen,update,employeeId}:any) => {
       message: 'Employee Number is Required',
       placeHolder: 'EX: 6854654163',
       type: 'number',
-      initialValue:update?employeeData?.employeeNumber:'',
-      
+      initialValue: employeeData?.employeeNumber,
     },
     {
       name: 'employeeName',
@@ -112,9 +150,7 @@ const EmployeeForm =  ({setIsModalOpen,update,employeeId}:any) => {
       message: 'Employee Name is Required',
       placeHolder: 'John Doe',
       type: 'text',
-      initialValue:employeeData?.employeeName,
-
-      
+      initialValue: employeeData?.employeeName,
     },
   ];
   const thirdRow = [
@@ -124,8 +160,7 @@ const EmployeeForm =  ({setIsModalOpen,update,employeeId}:any) => {
       message: 'Email Required',
       placeHolder: 'johndoe@gmail.com',
       type: 'email',
-      initialValue: employeeData?.email
-      
+      initialValue: employeeData?.email,
     },
     {
       name: 'mobileNumber',
@@ -133,8 +168,7 @@ const EmployeeForm =  ({setIsModalOpen,update,employeeId}:any) => {
       message: 'Mobile Number is Required',
       placeHolder: 'EX: 6854654163',
       type: 'number',
-      initialValue: employeeData?.mobileNumber
-
+      initialValue: employeeData?.mobileNumber,
     },
   ];
   const fourthRow = [
@@ -143,8 +177,7 @@ const EmployeeForm =  ({setIsModalOpen,update,employeeId}:any) => {
       label: 'Reporting Manager',
       message: 'Reporting Manager Required',
       type: 'text',
-      initialValue: employeeData?.reportingManager
-
+      initialValue: employeeData?.reportingManager,
     },
     // {
     //   name: 'status',
@@ -160,8 +193,7 @@ const EmployeeForm =  ({setIsModalOpen,update,employeeId}:any) => {
       message: 'Emergency Contact Name Required',
       placeHolder: 'EX: John Doe',
       type: 'text',
-      initialValue: employeeData?.email
-
+      initialValue: employeeData?.emergencyName,
     },
     {
       name: 'emergencyContact',
@@ -169,8 +201,7 @@ const EmployeeForm =  ({setIsModalOpen,update,employeeId}:any) => {
       message: 'Emergency Contact Number Required',
       placeHolder: 'EX: 2541210',
       type: 'number',
-      initialValue: employeeData?.email
-
+      initialValue: employeeData?.emergencyContact,
     },
     {
       name: 'parentName',
@@ -178,8 +209,7 @@ const EmployeeForm =  ({setIsModalOpen,update,employeeId}:any) => {
       message: "Father's/ Mother's Name Required",
       placeHolder: 'John Doe',
       type: 'text',
-      initialValue: employeeData?.email
-
+      initialValue: employeeData?.parentName,
     },
     {
       name: 'spouseName',
@@ -187,8 +217,7 @@ const EmployeeForm =  ({setIsModalOpen,update,employeeId}:any) => {
       message: 'Spouse Name Required',
       placeHolder: 'John Doe',
       type: 'text',
-      initialValue: employeeData?.email
-
+      initialValue: employeeData?.spouseName,
     },
   ];
 
@@ -209,19 +238,18 @@ const EmployeeForm =  ({setIsModalOpen,update,employeeId}:any) => {
       label: 'Resigned',
       value: 'resigned',
     },
-  
   ];
-const closeModal = () => {
+  const closeModal = () => {
     form.resetFields();
     setIsModalOpen(false);
   };
 
-
+  const dateFormat = 'YYYY/MM/DD';
   return (
     <>
       {/* <Layout> */}
-        {/* <Navbar /> */}
-        {/* <div style={{ margin: 40 }}>
+      {/* <Navbar /> */}
+      {/* <div style={{ margin: 40 }}>
           <BreadCrumbs
             imagesrc='/images/attendance.svg'
             location='Employee Management'
@@ -257,85 +285,33 @@ const closeModal = () => {
         </div> */}
       {/* </Layout> */}
 
-        <h3 className='modal-title'>ADD EMPLOYEE</h3>
-        <div className='mb-4'>
-          <div style={{paddingInline: 5 }}>
-  
-            <Form layout='vertical' onFinish={update?onUpdateEmployee:onFinish} autoComplete='off'         initialValues={{employeeData}}>
-              <div className='row p-0'>
-                <h3 className='add-employee__section-header'>
-                  Basic Information
-                </h3>
-                <hr />
-                <div className='add-employee__section p-0'>
-                  {firstRow.map((item) => (
+      <h3 className='modal-title'>
+        {update ? 'UPDATE EMPLOYEE' : 'ADD EMPLOYEE'}
+      </h3>
+      <div className='mb-4'>
+        <div style={{ paddingInline: 5 }}>
+          <Form
+            layout='vertical'
+            onFinish={update ? onUpdateEmployee : onFinish}
+            autoComplete='off'
+            form={form}
+            initialValues={{ name: employeeData?.employeeName }}
+          >
+            <div className='row p-0'>
+              <h3 className='add-employee__section-header'>
+                Basic Information
+              </h3>
+              <hr />
+              <div className='add-employee__section p-0'>
+                {firstRow.map((item, index) => {
+                  return (
                     <Form.Item
                       className='form-input col'
                       name={item.name}
                       label={item.label}
                       rules={[{ required: true, message: item.message }]}
-                      initialValue={update? employeeData?.employeeName:''}
-
-                    >
-                      <Input
-                        name={item.name}
-                        placeholder={item.placeHolder}
-                        className='form-input-wrapper'
-                        type={item.type}
-                        
-                      />
-                    </Form.Item>
-                  ))}
-                </div>
-              </div>
-              <div className='row add-employee__section'>
-                <Form.Item
-                  label='Date of Birth'
-                  className='form-input  form-input-container'
-                  name='dob'
-                  // initialValue={update?employeeData.dob:''}
-
-
-                >
-                  <DatePicker
-                    placeholder='dd/mm/yyyy'
-                    className='form-input-contain'
-                    suffixIcon={
-                      <div className='calendar-container'>
-                        <img src='./images/calendar.svg' alt='calendar' />
-                      </div>
-                    }
-                  />
-                </Form.Item>
-
-                <Form.Item
-                  label='Gender'
-                  className='form-input  form-input-container'
-                  name='gender'
-                  // initialValue={update?.employeeData.gender:''}
-                >
-                  <Radio.Group onChange={onChangeRadio} value={gender}>
-                    <Radio value={'male'}>Male</Radio>
-                    <Radio value={'female'}>Female</Radio>
-                    <Radio value={'other'}>Other</Radio>
-                  </Radio.Group>
-                </Form.Item>
-              </div>
-              <div className='row p-0'>
-                <h3 className='add-employee__section-header'>
-                  {' '}
-                  Office Details
-                </h3>
-                <hr />
-                <div className='add-employee__section p-0'>
-                  {thirdRow.map((item) => (
-                    <Form.Item
-                      className='form-input col'
-                      name={item.name}
-                      label={item.label}
-                      rules={[{ required: true, message: item.message }]}
-                      initialValue={update?item.initialValue:''}
-
+                      initialValue={item.initialValue}
+                      key={index + item?.name}
                     >
                       <Input
                         name={item.name}
@@ -344,150 +320,205 @@ const closeModal = () => {
                         type={item.type}
                       />
                     </Form.Item>
-                  ))}
+                  );
+                })}
+              </div>
+            </div>
+            <div className='row add-employee__section'>
+              <Form.Item
+                label='Date of Birth'
+                className='form-input  form-input-container'
+                name='dob'
+                // initialValue={employeeData.dob}
+              >
+                <DatePicker
+                  placeholder='yyyy/mm/dd'
+                  format={dateFormat}
+                  className='form-input-contain'
+                  suffixIcon={
+                    <div className='calendar-container'>
+                      <img src='./images/calendar.svg' alt='calendar' />
+                    </div>
+                  }
+                />
+              </Form.Item>
+
+              <Form.Item
+                label='Gender'
+                className='form-input  form-input-container'
+                name='gender'
+                // initialValue={update?.employee.gender:''}
+              >
+                <Radio.Group onChange={onChangeRadio} value={gender}>
+                  <Radio value={'male'}>Male</Radio>
+                  <Radio value={'female'}>Female</Radio>
+                  <Radio value={'other'}>Other</Radio>
+                </Radio.Group>
+              </Form.Item>
+            </div>
+            <div className='row p-0'>
+              <h3 className='add-employee__section-header'> Office Details</h3>
+              <hr />
+              <div className='add-employee__section p-0'>
+                {thirdRow.map((item, index) => (
                   <Form.Item
-                    label='Date of Joining'
                     className='form-input col'
-                    name='dateOfJoining'
-                  >
-                    <DatePicker
-                      placeholder='dd/mm/yyyy'
-                      className='form-input-contain'
-                      suffixIcon={
-                        <div className='calendar-container'>
-                          <img src='./images/calendar.svg' />
-                        </div>
-                      }
-                    />
-                  </Form.Item>
-                </div>
-              </div>
-              <div className='row add-employee__section p-0'>
-                {fourthRow.map((item) => (
-                  <Form.Item
-                    className='form-input form-input-container-fourth'
                     name={item.name}
                     label={item.label}
                     rules={[{ required: true, message: item.message }]}
-                    initialValue={update?item.initialValue:''}  
-
+                    initialValue={item.initialValue}
+                    id={index + item?.name}
                   >
                     <Input
                       name={item.name}
-                      className='form-input-wrapper form-input-wrapper'
+                      placeholder={item.placeHolder}
+                      className='form-input-wrapper'
                       type={item.type}
                     />
                   </Form.Item>
                 ))}
                 <Form.Item
-                  label='Status'
-                  className='form-input  form-input-container-fourth'
-                  name='status'
+                  label='Date of Joining'
+                  className='form-input col'
+                  name='dateOfJoining'
+                  initialValue={moment(employeeData?.dateOfJoining)}
                 >
-                  <Select
-                    showSearch
-                    placeholder='Search to Status'
-                    style={{
-                      marginTop: '20px',
-                      gap: '30px',
-                    }}
-                    optionFilterProp='children'
-                    filterOption={(input, option) =>
-                      (option?.label ?? '').includes(input)
+                  <DatePicker
+                    placeholder='yyyy/mm/dd'
+                    className='form-input-contain'
+                    suffixIcon={
+                      <div className='calendar-container'>
+                        <img src='./images/calendar.svg' />
+                      </div>
                     }
-                    filterSort={(optionA, optionB) =>
-                      (optionA?.label ?? '')
-                        .toLowerCase()
-                        .localeCompare((optionB?.label ?? '').toLowerCase())
-                    }
-                    options={[
-                      {
-                        value: 'working',
-                        label: 'Working',
-                      },
-                      {
-                        value: 'resigned',
-                        label: 'Resigned',
-                      },
-                      {
-                        value: 'pending',
-                        label: 'Pending',
-                      },
-                      {
-                        value: 'Onsite',
-                        label: 'Onsite',
-                      },
-                    ]}
+                    value={employeeData?.dateOfJoining}
                   />
                 </Form.Item>
+              </div>
+            </div>
+            <div className='row add-employee__section p-0'>
+              {fourthRow.map((item, index) => (
                 <Form.Item
-                  label='Designation'
-                  className='form-input  form-input-container-fourth'
+                  className='form-input form-input-container-fourth'
+                  name={item.name}
+                  label={item.label}
+                  rules={[{ required: true, message: item.message }]}
+                  // initialValue={update?item.initialValue:''}
+                  id={index + item?.name}
+                >
+                  <Input
+                    name={item.name}
+                    className='form-input-wrapper form-input-wrapper'
+                    type={item.type}
+                  />
+                </Form.Item>
+              ))}
+              <Form.Item
+                label='Status'
+                className='form-input  form-input-container-fourth'
+                name='status'
+                initialValue={employeeData?.status}
+              >
+                <Select
+                  showSearch
+                  placeholder='Search to Status'
+                  style={{
+                    marginTop: '20px',
+                    gap: '30px',
+                  }}
+                  optionFilterProp='children'
+                  filterOption={(input, option) =>
+                    (option?.label ?? '').includes(input)
+                  }
+                  filterSort={(optionA, optionB) =>
+                    (optionA?.label ?? '')
+                      .toLowerCase()
+                      .localeCompare((optionB?.label ?? '').toLowerCase())
+                  }
+                  options={[
+                    {
+                      value: 'working',
+                      label: 'Working',
+                    },
+                    {
+                      value: 'resigned',
+                      label: 'Resigned',
+                    },
+                    {
+                      value: 'pending',
+                      label: 'Pending',
+                    },
+                    {
+                      value: 'Onsite',
+                      label: 'Onsite',
+                    },
+                  ]}
+                />
+              </Form.Item>
+              <Form.Item
+                label='Designation'
+                className='form-input  form-input-container-fourth'
+                name='designation'
+                initialValue={update ? employeeData.designation : ''}
+              >
+                <Input
                   name='designation'
-                //   initialValue={getEmployeeData?getEmployeeData.designation:''}
-
-                >
-                  <Input
-                    name='designation'
-                    placeholder='Designation'
-                    className='form-input-wrapper'
-                    type='text'
-                  />
-                </Form.Item>
-                <Form.Item
-                  label='Project Team'
-                  className='form-input  form-input-container-fourth'
+                  placeholder='Designation'
+                  className='form-input-wrapper'
+                  type='text'
+                />
+              </Form.Item>
+              <Form.Item
+                label='Project Team'
+                className='form-input  form-input-container-fourth'
+                name='projectTeam'
+                initialValue={update ? employeeData.projectTeam : ''}
+              >
+                <Input
                   name='projectTeam'
-                //   initialValue={getEmployeeData?getEmployeeData.projectTeam:''}
+                  placeholder='Project Team'
+                  className='form-input-wrapper'
+                  type='text'
+                />
+              </Form.Item>
+            </div>
 
-                >
-                  <Input
-                    name='projectTeam'
-                    placeholder='Project Team'
-                    className='form-input-wrapper'
-                    type='text'
-                  />
-                </Form.Item>
-              </div>
-
-              <div className='row p-0'>
-                <h3 className='add-employee__section-header'>
-                  Emergency Contact Details
-                </h3>
-                <hr />
-                {emergencyContact.map((item) => (
-                  <div className='col-4'>
-                    <Form.Item
-                      className='form-input col'
+            <div className='row p-0'>
+              <h3 className='add-employee__section-header'>
+                Emergency Contact Details
+              </h3>
+              <hr />
+              {emergencyContact.map((item) => (
+                <div className='col-4'>
+                  <Form.Item
+                    className='form-input col'
+                    name={item.name}
+                    label={item.label}
+                    rules={[{ required: false }]}
+                    initialValue={item.initialValue}
+                  >
+                    <Input
                       name={item.name}
-                      label={item.label}
-                      rules={[{ required: false }]}
-                    //   initialValue={getEmployeeData?item.initialValue:''}
+                      placeholder={item.placeHolder}
+                      className='form-input-wrapper'
+                      type={item.type}
+                    />
+                  </Form.Item>
+                </div>
+              ))}
+            </div>
 
-                    >
-                      <Input
-                        name={item.name}
-                        placeholder={item.placeHolder}
-                        className='form-input-wrapper'
-                        type={item.type}
-                      />
-                    </Form.Item>
-                  </div>
-                ))}
-              </div>
-
-              <div className='form-footer' style={{display:'flex',gap:10,}} >
+            <div className='form-footer' style={{ display: 'flex', gap: 10 }}>
               <Button type='primary' htmlType='submit'>
-                  Add
-                </Button>
+                {update ? 'Update' : 'Add'}
+              </Button>
               <Button type='primary' onClick={() => closeModal()} danger>
                 Cancel
-                </Button>
-              </div>
-            </Form>
-          </div>
+              </Button>
+            </div>
+          </Form>
         </div>
-
+      </div>
     </>
   );
 };

@@ -8,6 +8,7 @@ import {
   DatePicker,
   Select,
   Table,
+  Modal,
 } from 'antd';
 import { toast } from 'react-toastify';
 
@@ -23,14 +24,13 @@ import { faPen, faPlus } from '@fortawesome/free-solid-svg-icons';
 import ModalComponent from '../Ui/Modal/Modal';
 import ViewAllEmployee from '../Ui/Tables/ViewAllEmployee';
 import { isErrored } from 'stream';
-import EmployeeForm from './EmployeeForm';
+import { EmployeeForm } from './EmployeeForm';
 import { Link } from 'react-router-dom';
 import { CompareFunction } from '../Ui/Tables/AttendaceReport';
 import { ColumnsType } from 'antd/es/table';
 import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
 import { getEmployee } from '../../redux/features/employeeSlice';
 import { EmployeeStats } from '../../pages/Attendance/Attendance';
-
 
 export interface DataType {
   id?: string;
@@ -41,24 +41,23 @@ export interface DataType {
   designation: string;
 }
 
-const Employee = () => {
+export const Employee = () => {
   const [gender, setGender] = useState('');
   const [searchText, setSearchText] = useState('');
   const [status, setStatus] = useState('');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [UpdateisModalOpen, setUpdateIsModalOpen] = useState<boolean>(false);
-  const [getEmployeeData,setGetEmployeeData] = useState({}as any)
+  // const [UpdateisModalOpen, setUpdateIsModalOpen] = useState<boolean>(false);
+  // const [getEmployeeData,setGetEmployeeData] = useState({}as any)
+  const [activeEmployee, setActiveEmployee] = useState<any>(undefined);
   const dispatch = useAppDispatch();
   const [attendanceData, setAttendanceData] = useState<any>([]);
-
-  
 
   useEffect(() => {
     // dispatch(getUsers({ status: status, date: defaultDate }) as any);
     dispatch(getEmployee() as any);
   }, [dispatch]);
 
-  const {employee} = useAppSelector((state) => state.employeeSlice);
+  const { employee } = useAppSelector((state) => state.employeeSlice);
   const [form] = Form.useForm();
   const onSelect = (e: any) => {
     setStatus(e);
@@ -67,10 +66,9 @@ const Employee = () => {
     setIsModalOpen(!isModalOpen);
   };
   const updateEmployeeModel = (id: string) => {
-    setUpdateIsModalOpen(true);
-    setGetEmployeeData(id)
+    setActiveEmployee(id);
   };
-  
+
   // const onFinish = async (values: any) => {
   //   try {
   //     const res = await apis.addEmployee(values);
@@ -94,7 +92,6 @@ const Employee = () => {
   //   setGender(e.target.value);
   // };
 
-
   const columns: ColumnsType<DataType> = [
     {
       title: 'SN',
@@ -117,7 +114,6 @@ const Employee = () => {
       key: 'date',
     },
 
-  
     {
       title: 'DESIGNATION',
       dataIndex: 'designation',
@@ -157,15 +153,22 @@ const Employee = () => {
       key: 'view',
       render: (item) => {
         return (
-          <div style={{display:'flex',gap:20,justifyContent:'center',alignItems:'center'}}>
-                 <FontAwesomeIcon
-            icon={faPen}
-            color='#35639F'
-            // onClick={() => updateEmployee(id)}
-            onClick={() => { 
-              updateEmployeeModel(item?.employeeNumber)
+          <div
+            style={{
+              display: 'flex',
+              gap: 20,
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
-          />
+          >
+            <FontAwesomeIcon
+              icon={faPen}
+              color='#35639F'
+              // onClick={() => updateEmployee(id)}
+              onClick={() => {
+                setActiveEmployee({ ...item });
+              }}
+            />
             <Link className='viewMoreBtn' to={`/employee/${item}`}>
               View
             </Link>
@@ -192,15 +195,16 @@ const Employee = () => {
       label: 'Resigned',
       value: 'resigned',
     },
-  
   ];
+
+  console.log(activeEmployee, '===>> Active Employee');
 
   useEffect(() => {
     const data1: DataType[] = [];
-    employee?.employee?.map((userData:any,sn:any) => {
+    employee?.employee?.map((userData: any, sn: any) => {
       if (userData.employeeName.toLowerCase().includes(searchText)) {
         const dateObject = new Date(userData.dateOfJoining);
-      const formattedDate = dateObject.toISOString().split('T')[0];
+        const formattedDate = dateObject.toISOString().split('T')[0];
         const tableData = {
           id: userData?.employeeNumber,
           key: userData?.employeeNumber,
@@ -209,18 +213,18 @@ const Employee = () => {
           status: userData.status,
           designation: userData?.designation,
           view: userData,
-          sn:sn+1
+          sn: sn + 1,
         };
         data1.push(tableData);
       }
-
     });
 
     setAttendanceData(data1);
   }, [employee, searchText]);
 
- const filterData =  status?attendanceData.filter(((each:any)=>each.status === status)): attendanceData
-
+  const filterData = status
+    ? attendanceData.filter((each: any) => each.status === status)
+    : attendanceData;
 
   return (
     <>
@@ -251,10 +255,12 @@ const Employee = () => {
                 value={status}
                 options={WorkingCondition}
                 placeHolder='Search'
-
               />
 
-              <button className='primary-btn'  onClick={() => setIsModalOpen(true)}>
+              <button
+                className='primary-btn'
+                onClick={() => setIsModalOpen(true)}
+              >
                 <FontAwesomeIcon icon={faPlus} /> Add Employee
               </button>
             </div>
@@ -264,16 +270,16 @@ const Employee = () => {
         <div className='attendace-page'>
           <div className='row table-container'>
             <Table
-      rowClassName={(record) =>
-        record.status === 'resigned'
-          ? 'absent-class'
-          : record.status === 'pending'
-          ? 'holiday-class'
-          : ''
-      }  
-      columns={columns}
-      dataSource={filterData}
-    />
+              rowClassName={(record) =>
+                record.status === 'resigned'
+                  ? 'absent-class'
+                  : record.status === 'pending'
+                  ? 'holiday-class'
+                  : ''
+              }
+              columns={columns}
+              dataSource={filterData}
+            />
           </div>
         </div>
         {/* <EmployeeForm/> */}
@@ -284,9 +290,12 @@ const Employee = () => {
         classNames='add-employee-modal holidays-modal'
         closeModal={setIsModalOpen}
       >
-        <EmployeeForm setIsModalOpen={setIsModalOpen} date={getEmployeeData} />
+        <EmployeeForm
+          setIsModalOpen={setIsModalOpen}
+          employeeId={activeEmployee}
+        />
 
-        {/* <h3 className='modal-title'>ADD EMPLOYEE</h3>
+        {/* <h3 className='modal-title'>ADD EMPLOYEE</h3> 
         <div className='mb-4'>
           <div style={{paddingInline: 5 }}>
   
@@ -515,18 +524,50 @@ const Employee = () => {
             </Form>
           </div>
         </div> */}
-
       </ModalComponent>
-      <ModalComponent
-        openModal={UpdateisModalOpen}
+      {/* <ModalComponent
+        openModal={!!activeEmployee}
         classNames='holidays-modal'
-        closeModal={setUpdateIsModalOpen}
-      > 
-          <h3 className='modal-title'>Update Employee</h3>
-
-        <EmployeeForm update setIsModalOpen={setUpdateIsModalOpen} employeeId={getEmployeeData}/>
-
+        closeModal={() => setActiveEmployee(undefined)}
+      >
+        <EmployeeForm
+          update
+          setIsModalOpen={() => setActiveEmployee('')}
+          employeeId={activeEmployee}
+          defaultValue={activeEmployee}
+        />
+      </ModalComponent> */}
+      <ModalComponent
+        openModal={!!activeEmployee}
+        classNames='holidays-modal'
+        closeModal={() => setActiveEmployee(undefined)}
+      >
+        {!!activeEmployee && (
+          <EmployeeForm
+            update
+            setIsModalOpen={() => setActiveEmployee('')}
+            employeeId={activeEmployee}
+            defaultValue={activeEmployee}
+          />
+        )}
       </ModalComponent>
+
+      {/* <Modal
+        open={!!activeEmployee}
+        onOk={() => setActiveEmployee(undefined)}
+        onCancel={() => setActiveEmployee(undefined)}
+        closable
+        okText={'okText'}
+      >
+        {!!activeEmployee && (
+          <EmployeeForm
+            update
+            setIsModalOpen={() => setActiveEmployee('')}
+            employeeId={activeEmployee}
+            defaultValue={activeEmployee}
+          />
+        )}
+      </Modal> */}
     </>
   );
 };
