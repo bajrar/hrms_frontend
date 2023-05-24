@@ -99,11 +99,19 @@
   justify-content: space-between;
   gap: 10;
 }
+.announcement-form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5px;
+}
+.announcement-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
 
 @media (min-width: 768px) and (max-width: 1400px) {
-  * {
-    font-size: 10px;
-  }
   .announcement-container-title-right > button {
     font-size: 10px;
     padding: 6px 10px;
@@ -126,5 +134,11 @@
   .announcement-container-date-calendar-icons {
     color: #8e9295;
     font-size: 14px;
+  }
+  .announcement-container-title-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 10px;
   }
 }
