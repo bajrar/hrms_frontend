@@ -35,6 +35,7 @@ export const EmployeeForm = ({
   setIsModalOpen,
   update = false,
   employeeId = '',
+  isDisable = false,
   defaultValue: employeeData = {},
 }: any) => {
   const [gender, setGender] = useState('');
@@ -296,6 +297,7 @@ export const EmployeeForm = ({
             autoComplete='off'
             form={form}
             initialValues={{ name: employeeData?.employeeName }}
+            disabled={isDisable}
           >
             <div className='row p-0'>
               <h3 className='add-employee__section-header'>
@@ -330,6 +332,7 @@ export const EmployeeForm = ({
                 className='form-input  form-input-container'
                 name='dob'
                 // initialValue={employeeData.dob}
+                initialValue={moment(employeeData?.dob)}
               >
                 <DatePicker
                   placeholder='yyyy/mm/dd'

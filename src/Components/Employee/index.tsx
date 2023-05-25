@@ -46,18 +46,20 @@ export const Employee = () => {
   const [searchText, setSearchText] = useState('');
   const [status, setStatus] = useState('');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isViewOpen, setIsViewOpen] = useState<boolean>(false);
   // const [UpdateisModalOpen, setUpdateIsModalOpen] = useState<boolean>(false);
   // const [getEmployeeData,setGetEmployeeData] = useState({}as any)
   const [activeEmployee, setActiveEmployee] = useState<any>(undefined);
   const dispatch = useAppDispatch();
   const [attendanceData, setAttendanceData] = useState<any>([]);
+  const [filterData, setFilterData] = useState<any>([]);
 
   useEffect(() => {
     // dispatch(getUsers({ status: status, date: defaultDate }) as any);
     dispatch(getEmployee() as any);
   }, [dispatch]);
 
-  const { employee } = useAppSelector((state) => state.employeeSlice);
+  const { employee, loading } = useAppSelector((state) => state.employeeSlice);
   const [form] = Form.useForm();
   const onSelect = (e: any) => {
     setStatus(e);
@@ -93,11 +95,11 @@ export const Employee = () => {
   // };
 
   const columns: ColumnsType<DataType> = [
-    {
-      title: 'SN',
-      dataIndex: 'sn',
-      key: 'sn',
-    },
+    // {
+    //   title: 'SN',
+    //   dataIndex: 'sn',
+    //   key: 'sn',
+    // },
     {
       title: 'EID',
       dataIndex: 'id',
@@ -169,9 +171,24 @@ export const Employee = () => {
                 setActiveEmployee({ ...item });
               }}
             />
-            <Link className='viewMoreBtn' to={`/employee/${item}`}>
+            <Button
+              className='viewMoreBtn'
+              onClick={() => {
+                setIsViewOpen(true);
+              }}
+              type='text'
+            >
+              VIEW
+            </Button>
+            {/* <Link
+              className='viewMoreBtn'
+              to={`/employee/${item}`}
+              onClick={() => {
+                setIsModalOpen(true);
+              }}
+            >
               View
-            </Link>
+            </Link> */}
           </div>
         );
       },
@@ -222,9 +239,15 @@ export const Employee = () => {
     setAttendanceData(data1);
   }, [employee, searchText]);
 
-  const filterData = status
-    ? attendanceData.filter((each: any) => each.status === status)
-    : attendanceData;
+  useEffect(() => {
+    const sortedData = [...attendanceData].sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+    const data = status
+      ? sortedData.filter((each: any) => each.status === status)
+      : sortedData;
+    setFilterData(data);
+  }, [attendanceData]);
 
   return (
     <>
@@ -551,6 +574,22 @@ export const Employee = () => {
           />
         )}
       </ModalComponent>
+
+      {/* view Details */}
+
+      <ModalComponent
+        openModal={isViewOpen}
+        classNames='add-employee-modal holidays-modal'
+        closeModal={setIsViewOpen}
+      >
+        <EmployeeForm
+          setIsModalOpen={setIsViewOpen}
+          employeeId={activeEmployee}
+          isDisable
+        />
+      </ModalComponent>
+
+      {/* view Details */}
 
       {/* <Modal
         open={!!activeEmployee}
