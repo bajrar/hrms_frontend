@@ -2,26 +2,37 @@ import './Login.css';
 import { useEffect, useState } from 'react';
 import { apis } from '../apis/constants/ApisService';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getToken } from '../../features/authSlice';
 import { useDispatch } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 type LoginPageProps = {};
 
 export const LoginPage = ({}: LoginPageProps) => {
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+
   useEffect(() => {
     const auth = localStorage.getItem('token');
     if (auth) {
       navigate('/dashboard');
     }
-  });
-  const dispatch = useDispatch();
+  }, []); // Add empty dependency array to run the effect only once
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({
     email: '',
     password: '',
   });
+
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setInputs((prevState) => ({
       ...prevState,
@@ -31,22 +42,45 @@ export const LoginPage = ({}: LoginPageProps) => {
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+
+    if (!inputs.email || !inputs.password) {
+      toast.error('All fields are required.');
+      return;
+    }
+
+    setIsLoading(true);
+
     try {
-      var data = inputs;
-      const res = await apis.getLogin(data);
+      const res = await apis.getLogin(inputs);
       dispatch(getToken(res.data.token));
+
       if (res.status === 200) {
         localStorage.setItem('token', res.data.token);
-        localStorage.setItem('email', data?.email);
+        localStorage.setItem('email', inputs?.email);
         navigate('/dashboard');
       }
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
+      toast.error('Invalid Credentials');
     }
+
+    setIsLoading(false);
   };
 
   return (
-    <main>
+    <main className='loginpage_main'>
+      <ToastContainer
+        position='top-center'
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme='light'
+      />
       <div className='main_container container virtuosway-hr-login-page'>
         <form onSubmit={handleSubmit}>
           <div className='main-logo-container d-flex align-items-center justify-content-center'>
@@ -75,17 +109,26 @@ export const LoginPage = ({}: LoginPageProps) => {
             <div className='labels'>
               <label htmlFor=''>Password:</label>
             </div>
-            <input
-              type='password'
-              name='password'
-              id='password'
-              placeholder='Enter password'
-              onChange={handleChange}
-            />
+            <div className='password-input-container'>
+              <input
+                type={passwordVisible ? 'text' : 'password'}
+                name='password'
+                id='password'
+                placeholder='Enter password'
+                onChange={handleChange}
+              />
+              <button
+                type='button' // Change the button type to "button" instead of "submit"
+                className='toggle-password-visibility'
+                onClick={togglePasswordVisibility}
+              >
+                <FontAwesomeIcon icon={passwordVisible ? faEyeSlash : faEye} />
+              </button>
+            </div>
           </div>
           <p className='forgot-password'>Forgot password?</p>
-          <button type='submit' className='login-button'>
-            Sign In
+          <button type='submit' className='login-button' disabled={isLoading}>
+            {isLoading ? 'Loading...' : 'Sign In'}
           </button>
         </form>
       </div>

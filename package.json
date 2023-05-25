@@ -73,6 +73,7 @@
     ]
   },
   "devDependencies": {
+    "@types/antd": "^1.0.0",
     "@types/bootstrap": "^5.2.6",
     "@types/d3": "^7.4.0",
     "@types/react-calendar": "^3.9.0",

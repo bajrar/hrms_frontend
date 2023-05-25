@@ -11,3 +11,8 @@
 .add-jobs-modal {
   width: 936px !important;
 }
+@media (min-width: 768px) and (max-width: 1400px) {
+  .add-jobs-modal {
+    width: 736px !important;
+  }
+}

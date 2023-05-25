@@ -48,6 +48,10 @@ input[type='number'] {
 .form-input-wrapper {
   height: 48px;
 }
+.asterisk {
+  color: red;
+  margin-left: 4px;
+}
 .form-input-container {
   width: calc((100% - 120px) / 3);
 }

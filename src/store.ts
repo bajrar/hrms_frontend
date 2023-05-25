@@ -14,6 +14,10 @@ import holidaySlice from './redux/features/holidaysSlice';
 import leaveSlice from './redux/features/leaveSlice';
 import singleLeaveSlice from './redux/features/singleLeaveSlice';
 import monthlyReportSlice from './redux/features/monthlySlice';
+import employeeSlice from './redux/features/employeeSlice';
+import singleEmployeeSlice from './redux/features/singleEmployeeSlice';
+import announcementSlice from './redux/features/announcementSlice';
+import upcomingEventSlice from './redux/features/upcomingEvents';
 
 export const store = configureStore({
   reducer: {
@@ -32,6 +36,10 @@ export const store = configureStore({
     leaveSlice: leaveSlice,
     singleLeave: singleLeaveSlice,
     monthlyReport: monthlyReportSlice,
+    employeeSlice:employeeSlice,
+    singleEmployeeSlice: singleEmployeeSlice,
+    announcement: announcementSlice,
+    upcomingEvents: upcomingEventSlice,
   },
 });
 export type RootState = ReturnType<typeof store.getState>;

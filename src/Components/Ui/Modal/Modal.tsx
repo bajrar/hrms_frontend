@@ -33,7 +33,7 @@ const ModalComponent = ({
         okText={okText}
         footer={null}
       >
-        {children}
+        {openModal && children}
       </Modal>
     </div>
   );

@@ -7,7 +7,7 @@ import {
 import './navbar.css';
 import { logoutUser } from '../apis/constants/Api';
 import { token } from '../apis/constants/ApisService';
-import type { MenuProps } from 'antd';
+import { Button, MenuProps } from 'antd';
 import { useState } from 'react';
 
 const Navbar = () => {
@@ -38,7 +38,16 @@ const Navbar = () => {
           }
         >
           {token === null ? null : (
-            <button onClick={() => logoutUser()}>Logout</button>
+            <Button
+              type="text"
+              style={{
+                // background: "#00b9f1",
+                border: "2px solid #051a63",
+              }}
+              onClick={() => logoutUser()}
+            >
+              Logout
+            </Button>
           )}
         </div>
       </div>

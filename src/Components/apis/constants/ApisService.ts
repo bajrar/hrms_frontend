@@ -101,9 +101,21 @@ export const apis = {
   addEmployee: (values: any) => {
     return axiosApiInstance.post(`/employee`, values);
   },
+  getEmployee: () => {
+    return axiosApiInstance.get(`/employee`);
+  },
+  getSingleEmployee:(id:any)=>{
+    return axiosApiInstance.get(`/employee/${id}`);
+  },
+  updateEmployee:(value:any,id:any)=>{
+    return axiosApiInstance.patch(`/employee/${id}`,value);
+
+  }
+  ,
   addUserInDevice: (values: any) => {
     return axiosApiInstance.post(`/createUserAttendance`, values);
   },
+
 
   addShift: (values: any) => {
     return axiosApiInstance.post(`/createShift`, values);
@@ -166,5 +178,11 @@ export const apis = {
   },
   updateLeave: (values: any, leaveId: string) => {
     return axiosApiInstance.patch(`/leave/${leaveId}`, values);
+  },
+  addAnnouncement: (values: any) => {
+    return axiosApiInstance.post(`/announcement`, values);
+  },
+  deleteAnnouncement: (announcementId:string) => {
+    return axiosApiInstance.delete(`/announcement/${announcementId}`);
   },
 };
