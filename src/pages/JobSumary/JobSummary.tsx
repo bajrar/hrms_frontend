@@ -169,6 +169,13 @@ const JobSummary = () => {
           </div>
         </div>
         <Table
+          rowClassName={(record) =>
+            record.status === 'resigned'
+              ? 'absent-class'
+              : record.status === 'open'
+              ? 'holiday-class'
+              : ''
+          }
           columns={columns}
           className='table-container'
           dataSource={jobsArray}
@@ -219,7 +226,6 @@ const JobSummary = () => {
                 <td
                   className='application-table-body'
                   dangerouslySetInnerHTML={{ __html: job?.job?.descriptions }}
-                  
                 ></td>
               </tr>
               <tr className='application-table-row'>

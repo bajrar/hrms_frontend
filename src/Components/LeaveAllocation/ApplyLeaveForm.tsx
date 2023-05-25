@@ -42,10 +42,10 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
             className='form-input col unit-input'
             name='unit'
             label='Employee ID *'
-            rules={[{ required: true, message: 'Shift Name is Required' }]}
+            rules={[{ required: true, message: 'Employee ID is Required' }]}
           >
             <Input
-              placeholder='Type the employee ID to search and select'
+              placeholder='Employee ID'
               className='form-input-wrapper days-input'
               type='text'
             />
@@ -54,10 +54,10 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
             className='form-input col'
             name='maximumUnitAllowed'
             label='Employee Name *'
-            rules={[{ required: true, message: 'Shift Name is Required' }]}
+            rules={[{ required: true, message: 'Employee Name is Required' }]}
           >
             <Input
-              placeholder='Enter the maximum unit allowed (e.g. 100 days)'
+              placeholder='Type the employee name to search and select'
               className='form-input-wrapper'
               type='text'
             />

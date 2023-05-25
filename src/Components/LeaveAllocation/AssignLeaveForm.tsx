@@ -132,7 +132,14 @@ const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
       </Form.Item>
 
       <div className='form-btn-container'>
-        <Button type='default'>Cancel</Button>
+        <Button
+          type='default'
+          onClick={() => {
+            setIsAssignOpen(false);
+          }}
+        >
+          Cancel
+        </Button>
         <Button type='primary' htmlType='submit'>
           Assign
         </Button>

@@ -122,6 +122,7 @@ const Applicants = () => {
   useEffect(() => {
     const applicantsData: DataType[] = [];
     applicants?.applicants?.map((item: any) => {
+      console.log(item, ',-------- this is item');
       const tableData = {
         position: item?.position,
         applicantName: `${item?.fullName}`,
