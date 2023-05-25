@@ -3,9 +3,12 @@ import { axiosApiInstance } from '../../Components/apis/constants/ApisService';
 
 export const getHolidays = createAsyncThunk(
   'holidays/getHolidays',
-  async (data, thunkApi) => {
+  async ({
+    startDate,
+    endDate,
+  }: {  startDate?: any; endDate?: any ; },thunkApi) => {
     try {
-      const response = await axiosApiInstance('holiday');
+      const response = await axiosApiInstance(`holiday/getHolidaysInRange?startDate=${startDate}&&endDate=${endDate}`);
       return response.data;
     } catch (err: any) {
       return thunkApi.rejectWithValue(err.message);

@@ -357,8 +357,8 @@ export const Employee = () => {
 
                 >
                   <DatePicker
-                    placeholder='dd/mm/yyyy'
-                    className='form-input-contain'
+                    placeholder="dd/mm/yyyy"
+                    className="form-input-contain"
                     suffixIcon={
                       <div className='calendar-container'>
                         <img src='./images/calendar.svg' alt='calendar' />

@@ -7,7 +7,7 @@
   /* padding-left: 35px; */
 }
 .hr-dashboard-sub-menu .ant-tabs-tab-btn {
-  font-family: 'Helvetica' !important;
+  font-family: "Helvetica" !important;
   font-size: 18px !important;
   font-weight: 500 !important;
   margin: auto 0px !important;
@@ -18,4 +18,10 @@
 }
 .hr-dashboard-sub-menu-content-left {
   border-right: 1px solid #d8d8d8;
+}
+.dashboard-upcoming-events {
+  display: flex;
+  /* gap: 10px; */
+}
+.announcement {
 }
