@@ -1,6 +1,7 @@
 import NepaliDate from "nepali-date-converter";
 
 export const formatDate = (dateString: any) => {
+  try {
     const date = new NepaliDate(dateString);
     const dayIndex = date.getDay(); // Day index starts from 0
     const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -24,4 +25,8 @@ export const formatDate = (dateString: any) => {
     const monthName = nepaliMonths[monthIndex];
 
     return `${dayName}, ${monthName} ${day}`;
-  };
+  } catch (error) {
+    console.error("Error formatting Nepali date:", error);
+    return ""; // Return an empty string or handle the error as per your requirement
+  }
+};

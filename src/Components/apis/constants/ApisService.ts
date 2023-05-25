@@ -170,4 +170,7 @@ export const apis = {
   addAnnouncement: (values: any) => {
     return axiosApiInstance.post(`/announcement`, values);
   },
+  deleteAnnouncement: (announcementId:string) => {
+    return axiosApiInstance.delete(`/announcement/${announcementId}`);
+  },
 };

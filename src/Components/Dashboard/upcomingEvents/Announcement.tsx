@@ -4,7 +4,7 @@ import { MdCampaign } from "react-icons/md";
 import { TbPlus } from "react-icons/tb";
 import { MdCalendarToday } from "react-icons/md";
 import Calendar from "@sbmdkl/nepali-datepicker-reactjs";
-import { Button, DatePicker, Form, Input } from "antd";
+import { Button, DatePicker, Form, Input, message, Modal } from "antd";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../../hooks/useTypedSelector";
 import { getAnnouncement } from "../../../redux/features/announcementSlice";
@@ -12,23 +12,23 @@ import { formatDate } from "./helperFunction";
 import ModalComponent from "../../Ui/Modal/Modal";
 import TextArea from "antd/es/input/TextArea";
 import NepaliDate from "nepali-date-converter";
+import { apis } from "../../apis/constants/ApisService";
 
 const Announcement = () => {
+  const dispatch = useDispatch();
+  const [openAnnounceModel, setOpenAnnounceModel] = useState<boolean>(false);
   const [form] = Form.useForm();
+  const [deleteModalVisible, setDeleteModalVisible] = useState<boolean>(false);
+  const [selectedAnnouncement, setSelectedAnnouncement] = useState<any>(null);
 
   const onStartChange = ({ bsDate }: any) => {
     form.setFieldValue("startDate", bsDate);
   };
 
-  const onFinish = async (values: any) => {
-    console.log({ values });
-  };
   const { TextArea } = Input;
-  const dispatch = useDispatch();
 
   const { announcement } = useAppSelector((state) => state.announcement);
   console.log({ announcement });
-  const [openAnnounceModel, setOpenAnnounceModel] = useState<boolean>(false);
   useEffect(() => {
     dispatch(getAnnouncement() as any);
   }, [dispatch]);
@@ -37,6 +37,48 @@ const Announcement = () => {
     setOpenAnnounceModel(false);
     form.resetFields();
   };
+
+  const showDeleteModal = (announcement: any) => {
+    setSelectedAnnouncement(announcement);
+    setDeleteModalVisible(true);
+  };
+
+  const handleDelete = async () => {
+    if (selectedAnnouncement) {
+      try {
+        const res = await apis.deleteAnnouncement(selectedAnnouncement._id);
+        if (res.status === 200) {
+          message.success("Announcement deleted");
+          dispatch(getAnnouncement() as any);
+        }
+      } catch {
+        message.error("Something Went Wrong");
+      } finally {
+        setDeleteModalVisible(false);
+        setSelectedAnnouncement(null);
+      }
+    }
+  };
+
+  const onFinish = async (values: any) => {
+    try {
+      const res = await apis.addAnnouncement({
+        date: values.date.bsDate,
+        details: values.details,
+        title: values.title,
+      });
+      if (res.status === 200) {
+        message.success("Announcement Created");
+        form.resetFields();
+        dispatch(getAnnouncement() as any);
+      }
+    } catch {
+      message.error("Something Went Wrong");
+    } finally {
+      setOpenAnnounceModel(false);
+    }
+  };
+
   const nepaliDate = new NepaliDate(new Date());
   const year = nepaliDate.getYear();
   const month = (nepaliDate.getMonth() + 1).toString().padStart(2, "0");
@@ -60,7 +102,7 @@ const Announcement = () => {
               <img src="vector.svg" alt="announcement logo" />
               Announcement
             </h4>
-            <p>Don't miss to innounce important notice</p>
+            <p>Don't miss to announce important notice</p>
           </div>
           <div className="announcement-container-title-right">
             <button onClick={() => setOpenAnnounceModel(true)}>
@@ -84,7 +126,11 @@ const Announcement = () => {
               <div className="announcement-container-announcements-box-left ">
                 <p>{formatDate(announcement.date)}</p>
                 <div className="announcement-container-announcements-box-buttons">
-                  <Button type="text" danger>
+                  <Button
+                    type="text"
+                    danger
+                    onClick={() => showDeleteModal(announcement)}
+                  >
                     Delete
                   </Button>
                   <Button type="primary">View</Button>
@@ -99,22 +145,21 @@ const Announcement = () => {
         classNames="add-jobs-modal"
         closeModal={setOpenAnnounceModel}
       >
-        <h3 className="modal-title">Add Announce</h3>
+        <h3 className="modal-title">Add Announcement</h3>
         <Form
           layout="vertical"
           onFinish={onFinish}
           autoComplete="off"
           className="announcement-form"
-          // form={form}
+          form={form}
         >
           <Form.Item
             className="form-input col"
             name="title"
             label="Announcement Topic *"
             rules={[
-              { required: true, message: "Announcement title is Required" },
+              { required: true, message: "Announcement title is required" },
             ]}
-            // initialValue={fromUpdateJobs ? job?.job?.title : ""}
           >
             <Input
               placeholder="Enter the Topic"
@@ -123,13 +168,13 @@ const Announcement = () => {
             />
           </Form.Item>
           <Form.Item
-            label="Announcement Topic *"
+            label="Announcement Date *"
             className="form-input col"
             name="date"
           >
             <Calendar
               onChange={onStartChange}
-              className="date-picker  "
+              className="date-picker"
               dateFormat="YYYY/MM/DD"
               language="en"
             />
@@ -138,8 +183,7 @@ const Announcement = () => {
             className="form-input col pt-4"
             name="details"
             label="Description *"
-            rules={[{ required: true, message: "Description is Required" }]}
-            // initialValue={fromUpdateJobs ? job?.job?.title : ""}
+            rules={[{ required: true, message: "Description is required" }]}
           >
             <TextArea
               placeholder="Enter the description"
@@ -155,6 +199,14 @@ const Announcement = () => {
           </div>
         </Form>
       </ModalComponent>
+      <Modal
+        title="Confirm Delete"
+        visible={deleteModalVisible}
+        onOk={handleDelete}
+        onCancel={() => setDeleteModalVisible(false)}
+      >
+        <p>Are you sure you want to delete this announcement?</p>
+      </Modal>
     </>
   );
 };
