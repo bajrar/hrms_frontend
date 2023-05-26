@@ -37,9 +37,9 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
             />
           </Form.Item>
         </div>
-        <div className='form-second-row align-items-start '>
+        <div className='form-second-row align-items-start'>
           <Form.Item
-            className='form-input col unit-input'
+            className='form-input col'
             name='unit'
             label='Employee ID *'
             rules={[{ required: true, message: 'Employee ID is Required' }]}
