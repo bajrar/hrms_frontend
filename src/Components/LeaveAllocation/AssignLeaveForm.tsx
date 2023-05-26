@@ -18,14 +18,12 @@ const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
   const { TextArea } = Input;
 
   const dispatch = useDispatch();
-
   const { leaves } = useAppSelector((state) => state.leaveSlice);
-
+  console.log(leaves, ',------ this is leave');
   useEffect(() => {
     const shiftNameArray = reduceByKeys(leaves?.leave, '_id', 'leaveName');
     setLeaveNameArray(shiftNameArray);
   }, [leaves?.leave]);
-
   useEffect(() => {
     if (leaveNameArray) {
       const leaveArray = leaveNameArray?.map((leaveName: any) => {
@@ -37,20 +35,9 @@ const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
       setLeaveNameSelect(leaveArray);
     }
   }, [leaveNameArray]);
-
   useEffect(() => {
     dispatch(getUsers({ status: '', date: '' }) as any);
   }, [dispatch]);
-  const { user } = useAppSelector((state) => state.attendanceSlice);
-
-  useEffect(() => {
-    const employeeNameArray = reduceByKeys(
-      user,
-      'employeeNumber',
-      'employeeName'
-    );
-    setEmployeeNameArray(employeeNameArray);
-  }, [user]);
 
   useEffect(() => {
     if (employeeNameArray) {
@@ -61,7 +48,6 @@ const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
         };
       });
       setEmployeeNameSelect(employeeArray);
-      console.log(employeeNameArray, '<------------- employeeName array');
     }
   }, [employeeNameArray]);
 
@@ -80,11 +66,20 @@ const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
     }
   };
   const onLeaveName = (value: string) => {
+    const employeeArray: any = [];
     form.setFieldValue('leaveName', value);
+    const leaveId = form.getFieldValue('leaveName');
+    const selectedLeave = leaves?.leave?.find(
+      (each: any) => each._id === leaveId
+    );
+    selectedLeave?.assignedTo?.map((each: any) => {
+      employeeArray.push({ label: each.employeeName, value: each.userSn });
+    });
+    setEmployeeNameArray(employeeArray);
   };
 
   const onEmployeeName = (value: string) => {
-    form.setFieldValue('assignTo', value);
+    form.setFieldValue('assignedTo', value);
   };
 
   return (
@@ -105,7 +100,7 @@ const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
       </Form.Item>
       <Form.Item
         className='form-input col'
-        name='assignTo'
+        name='assignedTo'
         label='Assign To *'
         rules={[{ required: true, message: 'Employee(s) Name is Required' }]}
       >

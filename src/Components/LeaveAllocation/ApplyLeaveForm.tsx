@@ -121,7 +121,7 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
             Cancel
           </Button>
           <Button type='primary' htmlType='submit'>
-            Add
+            Apply
           </Button>
         </div>
       </Form>

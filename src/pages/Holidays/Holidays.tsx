@@ -16,7 +16,6 @@ import { getHolidays } from '../../redux/features/holidaysSlice';
 import { useAppSelector } from '../../hooks/useTypedSelector';
 import Layout from '../../Components/Layout';
 import Navbar from '../../Components/Ui/Navbar';
-
 export interface DataType {
   holidayName?: string;
   date?: string;
@@ -38,6 +37,7 @@ const Holidays = () => {
   const onEndDateChange = ({ bsDate }: any) => {
     setEndDate(bsDate);
   };
+  
   const columns: ColumnsType<DataType> = [
     {
       title: 'HOLIDAY NAME',
@@ -130,6 +130,7 @@ const Holidays = () => {
               dateFormat='YYYY/MM/DD'
               language='en'
             />
+            <CalendarOutlined className='calendar-icon' />
             To
             <Calendar
               onChange={onEndDateChange}
@@ -137,6 +138,7 @@ const Holidays = () => {
               dateFormat='YYYY/MM/DD'
               language='en'
             />
+            <CalendarOutlined className='calendar-icon' />
           </div>
           <button className='primary-btn' onClick={showModal}>
             <FontAwesomeIcon icon={faPlus} /> Add Holidays
