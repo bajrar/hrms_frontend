@@ -102,19 +102,22 @@ const JobSummary = () => {
             color='#35639F'
             onClick={() => openDeleteJobs(record)}
           />
+          <span className='viewMoreBtn' onClick={() => viewSingleJob(record)}>
+            View
+          </span>
         </div>
       ),
     },
-    {
-      title: '',
-      dataIndex: 'view',
-      key: 'view',
-      render: (record) => (
-        <span className='viewMoreBtn' onClick={() => viewSingleJob(record)}>
-          View
-        </span>
-      ),
-    },
+    // {
+    //   title: '',
+    //   dataIndex: 'view',
+    //   key: 'view',
+    //   render: (record) => (
+    //     <span className='viewMoreBtn' onClick={() => viewSingleJob(record)}>
+    //       View
+    //     </span>
+    //   ),
+    // },
   ];
 
   useEffect(() => {
@@ -133,6 +136,15 @@ const JobSummary = () => {
 
     setJobsArray(shifts);
   }, [jobs, searchText]);
+  const getRowClassName = (record: any) => {
+    if (record.status === 'closed') {
+      return 'closed-row';
+    } else if (record.status === 'open') {
+      return 'open-row';
+    } else {
+      return '';
+    }
+  };
 
   return (
     <Layout>
@@ -169,6 +181,7 @@ const JobSummary = () => {
           </div>
         </div>
         <Table
+          rowClassName={getRowClassName}
           columns={columns}
           className='table-container'
           dataSource={jobsArray}
@@ -219,7 +232,6 @@ const JobSummary = () => {
                 <td
                   className='application-table-body'
                   dangerouslySetInnerHTML={{ __html: job?.job?.descriptions }}
-                  
                 ></td>
               </tr>
               <tr className='application-table-row'>

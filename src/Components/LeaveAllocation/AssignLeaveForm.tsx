@@ -8,6 +8,7 @@ import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { reduceByKeys } from '../../hooks/HelperFunctions';
 import { useAppSelector } from '../../hooks/useTypedSelector';
 import { getUsers } from '../../redux/features/attendanceSlice';
+import { getEmployee } from '../../redux/features/employeeSlice';
 
 const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
   const [leaveNameArray, setLeaveNameArray] = useState<any[]>([]);
@@ -18,14 +19,11 @@ const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
   const { TextArea } = Input;
 
   const dispatch = useDispatch();
-
   const { leaves } = useAppSelector((state) => state.leaveSlice);
-
   useEffect(() => {
     const shiftNameArray = reduceByKeys(leaves?.leave, '_id', 'leaveName');
     setLeaveNameArray(shiftNameArray);
   }, [leaves?.leave]);
-
   useEffect(() => {
     if (leaveNameArray) {
       const leaveArray = leaveNameArray?.map((leaveName: any) => {
@@ -37,20 +35,49 @@ const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
       setLeaveNameSelect(leaveArray);
     }
   }, [leaveNameArray]);
-
   useEffect(() => {
     dispatch(getUsers({ status: '', date: '' }) as any);
   }, [dispatch]);
-  const { user } = useAppSelector((state) => state.attendanceSlice);
-
   useEffect(() => {
-    const employeeNameArray = reduceByKeys(
-      user,
-      'employeeNumber',
-      'employeeName'
-    );
-    setEmployeeNameArray(employeeNameArray);
-  }, [user]);
+    // dispatch(getUsers({ status: status, date: defaultDate }) as any);
+    dispatch(getEmployee() as any);
+  }, [dispatch]);
+  const { user } = useAppSelector((state) => state.attendanceSlice);
+  const { employee } = useAppSelector((state) => state.employeeSlice);
+  useEffect(() => {
+    const employeeList: any = [];
+    employee?.employee?.map((each: any) => {
+      employeeList.push({
+        label: each.employeeName,
+        value: each.employeeNumber,
+      });
+      setEmployeeNameArray(employeeList);
+    });
+  }, [employee]);
+
+  // useEffect(() => {
+  //   const employeeNameArray = reduceByKeys(
+  //     user,
+  //     'employeeNumber',
+  //     'employeeName'
+  //   );
+  //   setEmployeeNameArray(employeeNameArray);
+  // }, [user]);
+
+  // useEffect(() => {
+  //   const employeeNameArray: any = [];
+
+  //   leaves?.leave?.map((each: any) => {
+  //     const selectedValue = form.getFieldValue('leaveName');
+  //     console.log(selectedValue, '<------ this is selected value');
+  //     // console.log(each, '<----- this is each');
+  //     employeeNameArray.push({
+  //       label: each.employeeName,
+  //       value: each.userSn,
+  //     });
+  //   });
+  //   // setEmployeeNameArray(employeeNameArray);
+  // }, []);
 
   useEffect(() => {
     if (employeeNameArray) {
@@ -79,11 +106,20 @@ const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
     }
   };
   const onLeaveName = (value: string) => {
+    const employeeArray: any = [];
     form.setFieldValue('leaveName', value);
+    const leaveId = form.getFieldValue('leaveName');
+    const selectedLeave = leaves?.leave?.find(
+      (each: any) => each._id === leaveId
+    );
+    selectedLeave?.assignedTo?.map((each: any) => {
+      employeeArray.push({ label: each.employeeName, value: each.userSn });
+    });
+    setEmployeeNameArray(employeeArray);
   };
 
   const onEmployeeName = (value: string) => {
-    form.setFieldValue('assignTo', value);
+    form.setFieldValue('assignedTo', value);
   };
 
   return (
@@ -104,7 +140,7 @@ const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
       </Form.Item>
       <Form.Item
         className='form-input col'
-        name='assignTo'
+        name='assignedTo'
         label='Assign To *'
         rules={[{ required: true, message: 'Employee(s) Name is Required' }]}
       >
@@ -131,8 +167,15 @@ const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
         />
       </Form.Item>
 
-      <div className='form-btn-container'>
-        <Button type='default'>Cancel</Button>
+      <div className='form-btn-container' style={{ marginTop: 15 }}>
+        <Button
+          type='default'
+          onClick={() => {
+            setIsAssignOpen(false);
+          }}
+        >
+          Cancel
+        </Button>
         <Button type='primary' htmlType='submit'>
           Assign
         </Button>

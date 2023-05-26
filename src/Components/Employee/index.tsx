@@ -214,21 +214,20 @@ export const Employee = () => {
     },
   ];
 
-  console.log(activeEmployee, '===>> Active Employee');
-
   useEffect(() => {
     const data1: DataType[] = [];
     employee?.employee?.map((userData: any, sn: any) => {
       if (userData.employeeName.toLowerCase().includes(searchText)) {
-        const dateObject = new Date(userData.dateOfJoining);
-        const formattedDate = dateObject.toISOString().split('T')[0];
+        const dateObject = new Date(userData?.dateOfJoining);
+        const formattedDate = dateObject?.toISOString()?.split('T')[0];
         const tableData = {
           id: userData?.employeeNumber,
           key: userData?.employeeNumber,
-          date: formattedDate,
+          date: userData?.dateOfJoining,
           name: userData?.employeeName,
           status: userData.status,
           designation: userData?.designation,
+          dob: userData?.dob,
           view: userData,
           sn: sn + 1,
         };

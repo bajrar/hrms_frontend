@@ -28,6 +28,8 @@ import { getSingleEmployee } from '../../redux/features/singleEmployeeSlice';
 import moment from 'moment';
 import { getEmployee } from '../../redux/features/employeeSlice';
 import dayjs from 'dayjs';
+import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
+
 export const selectedEmployee = (state: any, id: string) =>
   state?.find((item: any) => item?.employeeNumber === id);
 
@@ -43,6 +45,9 @@ export const EmployeeForm = ({
   const [status, setStatus] = useState('');
   // const [employeeData, setEmployeeData] = useState({} as any);
   const dispatch = useDispatch();
+  const [getDateOfJoining, setDateOfJoining] = useState();
+  const [getDob, setDob] = useState();
+
   // useEffect(()=>{
   //   dispatch(getSingleEmployee())
   // },[])
@@ -63,14 +68,26 @@ export const EmployeeForm = ({
   //   );
   // }, []);
 
+  const onStartDateChange = ({ bsDate }: any) => {
+    setDateOfJoining(bsDate);
+  };
+  const onDobChange = ({ bsDate }: any) => {
+    setDob(bsDate);
+  };
+
   const [form] = Form.useForm();
   const onSelect = (e: any) => {
     setStatus(e);
   };
-
   const onFinish = async (values: any) => {
+    const { dateOfJoining, dob, ...rest } = values;
+
     try {
-      const res = await apis.addEmployee(values);
+      const res = await apis.addEmployee({
+        ...rest,
+        dob: getDob,
+        dateOfJoining: getDateOfJoining,
+      });
 
       if (res.status === 201) {
         toast.success('Employee Submitted Sucesfully', {
@@ -125,8 +142,12 @@ export const EmployeeForm = ({
   }
 
   const onUpdateEmployee = async (values: any) => {
+    const { dateOfJoining, dob, ...rest } = values;
     try {
-      const res = await apis.updateEmployee(values, employeeData._id);
+      const res = await apis.updateEmployee(
+        { ...rest, dob: getDob, dateOfJoining: getDateOfJoining },
+        employeeData._id
+      );
       if (res.status === 201) {
         form.resetFields();
         getEmployee();
@@ -248,44 +269,6 @@ export const EmployeeForm = ({
   const dateFormat = 'YYYY/MM/DD';
   return (
     <>
-      {/* <Layout> */}
-      {/* <Navbar /> */}
-      {/* <div style={{ margin: 40 }}>
-          <BreadCrumbs
-            imagesrc='/images/attendance.svg'
-            location='Employee Management'
-            location1='View Employee'
-          />
-          <hr />
-          <div
-            className='attendance-filters-bottom d-flex '
-            style={{ display: 'flex', justifyContent: 'space-between' }}
-          >
-            <input
-              type='text'
-              placeholder='Search members'
-              className='search-field'
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value.toLowerCase())}
-            />
-            <div className='div' style={{ display: 'flex', gap: 10 }}>
-              <Selects
-                defaultValue='allStatus'
-                onSelect={onSelect}
-                value={status}
-                options={WorkingCondition}
-                placeHolder='Search'
-
-              />
-
-              <button className='primary-btn' onClick={showModal}>
-                <FontAwesomeIcon icon={faPlus} /> Add Employee
-              </button>
-            </div>
-          </div>
-        </div> */}
-      {/* </Layout> */}
-
       <h3 className='modal-title'>
         {update ? 'UPDATE EMPLOYEE' : 'ADD EMPLOYEE'}
       </h3>
@@ -334,7 +317,7 @@ export const EmployeeForm = ({
                 // initialValue={employeeData.dob}
                 initialValue={moment(employeeData?.dob)}
               >
-                <DatePicker
+                {/* <DatePicker
                   placeholder='yyyy/mm/dd'
                   format={dateFormat}
                   className='form-input-contain'
@@ -343,7 +326,15 @@ export const EmployeeForm = ({
                       <img src='./images/calendar.svg' alt='calendar' />
                     </div>
                   }
+                /> */}
+                <Calendar
+                  onChange={onDobChange}
+                  className=' date-picker calender-container-picker '
+                  dateFormat='YYYY/MM/DD'
+                  language='en'
+                  defaultDate={employeeData?.dob}
                 />
+                {employeeData?.dob}
               </Form.Item>
 
               <Form.Item
@@ -384,9 +375,9 @@ export const EmployeeForm = ({
                   label='Date of Joining'
                   className='form-input col'
                   name='dateOfJoining'
-                  initialValue={moment(employeeData?.dateOfJoining)}
+                  // initialValue={moment(employeeData?.dateOfJoining)}
                 >
-                  <DatePicker
+                  {/* <DatePicker
                     placeholder='yyyy/mm/dd'
                     className='form-input-contain'
                     suffixIcon={
@@ -395,6 +386,14 @@ export const EmployeeForm = ({
                       </div>
                     }
                     value={employeeData?.dateOfJoining}
+                  /> */}
+                  <Calendar
+                    onChange={onStartDateChange}
+                    defaultValue={'2080/01/23'}
+                    className=' date-picker calender-container-picker '
+                    dateFormat='YYYY/MM/DD'
+                    language='en'
+                    // hideDefaultValue
                   />
                 </Form.Item>
               </div>
