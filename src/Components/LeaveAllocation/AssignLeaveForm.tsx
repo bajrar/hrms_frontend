@@ -8,6 +8,7 @@ import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { reduceByKeys } from '../../hooks/HelperFunctions';
 import { useAppSelector } from '../../hooks/useTypedSelector';
 import { getUsers } from '../../redux/features/attendanceSlice';
+import { getEmployee } from '../../redux/features/employeeSlice';
 
 const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
   const [leaveNameArray, setLeaveNameArray] = useState<any[]>([]);
@@ -19,7 +20,6 @@ const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
 
   const dispatch = useDispatch();
   const { leaves } = useAppSelector((state) => state.leaveSlice);
-  console.log(leaves, ',------ this is leave');
   useEffect(() => {
     const shiftNameArray = reduceByKeys(leaves?.leave, '_id', 'leaveName');
     setLeaveNameArray(shiftNameArray);
@@ -38,6 +38,46 @@ const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
   useEffect(() => {
     dispatch(getUsers({ status: '', date: '' }) as any);
   }, [dispatch]);
+  useEffect(() => {
+    // dispatch(getUsers({ status: status, date: defaultDate }) as any);
+    dispatch(getEmployee() as any);
+  }, [dispatch]);
+  const { user } = useAppSelector((state) => state.attendanceSlice);
+  const { employee } = useAppSelector((state) => state.employeeSlice);
+  useEffect(() => {
+    const employeeList: any = [];
+    employee?.employee?.map((each: any) => {
+      employeeList.push({
+        label: each.employeeName,
+        value: each.employeeNumber,
+      });
+      setEmployeeNameArray(employeeList);
+    });
+  }, [employee]);
+
+  // useEffect(() => {
+  //   const employeeNameArray = reduceByKeys(
+  //     user,
+  //     'employeeNumber',
+  //     'employeeName'
+  //   );
+  //   setEmployeeNameArray(employeeNameArray);
+  // }, [user]);
+
+  // useEffect(() => {
+  //   const employeeNameArray: any = [];
+
+  //   leaves?.leave?.map((each: any) => {
+  //     const selectedValue = form.getFieldValue('leaveName');
+  //     console.log(selectedValue, '<------ this is selected value');
+  //     // console.log(each, '<----- this is each');
+  //     employeeNameArray.push({
+  //       label: each.employeeName,
+  //       value: each.userSn,
+  //     });
+  //   });
+  //   // setEmployeeNameArray(employeeNameArray);
+  // }, []);
 
   useEffect(() => {
     if (employeeNameArray) {
