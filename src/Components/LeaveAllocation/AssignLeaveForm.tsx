@@ -61,6 +61,7 @@ const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
         };
       });
       setEmployeeNameSelect(employeeArray);
+      console.log(employeeNameArray, '<------------- employeeName array');
     }
   }, [employeeNameArray]);
 
@@ -131,7 +132,7 @@ const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
         />
       </Form.Item>
 
-      <div className='form-btn-container'>
+      <div className='form-btn-container' style={{ marginTop: 15 }}>
         <Button
           type='default'
           onClick={() => {

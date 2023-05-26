@@ -116,8 +116,10 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
           />
         </Form.Item>
 
-        <div className='form-btn-container'>
-          <Button type='default'>Cancel</Button>
+        <div className='form-btn-container' style={{ marginTop: 15 }}>
+          <Button type='default' onClick={() => setIsModalOpen(false)}>
+            Cancel
+          </Button>
           <Button type='primary' htmlType='submit'>
             Add
           </Button>

@@ -85,7 +85,7 @@ const Holidays = () => {
   }, [dispatch, startDate, endDate]);
 
   const { holidays } = useAppSelector((state) => state.holidaySlice);
-
+  console.log(holidays, '<----------- holiday');
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -101,10 +101,14 @@ const Holidays = () => {
         status: holiData?.status,
       };
       holidayData.push(tableData);
-    });
-
+    }, []);
     setHolidayArray(holidayData);
   }, [holidays]);
+
+  const disabledDate = (current: any) => {
+    // Disable dates if the current date is after the end date or before the start date
+    return current.isAfter(endDate) || current.isBefore(startDate);
+  };
 
   return (
     <Layout>
