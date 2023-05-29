@@ -54,10 +54,11 @@ export const LoginPage = ({}: LoginPageProps) => {
     try {
       const res = await apis.getLogin(inputs);
       dispatch(getToken(res.data.token));
-
+      console.log(res.data, "<----- this is data");
       if (res.status === 200) {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("email", inputs?.email);
+        localStorage.setItem("isAdmin", res.data.user?.admin);
         navigate("/dashboard");
       }
     } catch (error) {
