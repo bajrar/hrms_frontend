@@ -268,7 +268,7 @@ const AddJobsForm = ({ setIsModalOpen, fromUpdateJobs, jobId }: any) => {
           </Form.Item>
         </div>
 
-        <div className='form-btn-container'>
+        <div className='form-btn-container' style={{ marginTop: 15 }}>
           <Button type='default' onClick={() => closeModal()}>
             Cancel
           </Button>
