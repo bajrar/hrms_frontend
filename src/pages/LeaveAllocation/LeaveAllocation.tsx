@@ -34,7 +34,6 @@ const LeaveAllocation = () => {
         <Tabs defaultActiveKey='1' items={items} />
       </div>
     </Layout>
-  );
-};
+  );};
 
 export default LeaveAllocation;

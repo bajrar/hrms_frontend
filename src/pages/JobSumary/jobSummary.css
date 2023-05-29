@@ -27,3 +27,11 @@
 .ql-container {
   border-radius: 0 0 6px 6px;
 }
+
+.closed-row {
+  border-left: 5px solid red; /* Adjust the color and width as desired */
+}
+
+.open-row {
+  border-left: 5px solid green; /* Adjust the color and width as desired */
+}

@@ -7,8 +7,6 @@ export const getEmployee = createAsyncThunk(
     try {
       
       const response = await axiosApiInstance('employee');
-      console.log(response?.data, '<-------- response data');
-      
       return response.data;
     } catch (err: any) {
       return thunkApi.rejectWithValue(err.message);

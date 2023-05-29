@@ -12,7 +12,6 @@ import { getEmployee } from '../../../redux/features/employeeSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 
-
 export interface DataType {
   id?: string;
   key?: string;
@@ -27,17 +26,23 @@ export const CompareFunction = (compareList: any) => {
   return compareItem;
 };
 
-const ViewAllEmployee = ({ defaultDate, searchText, status,getData ,showModal}: any) => {
+const ViewAllEmployee = ({
+  defaultDate,
+  searchText,
+  status,
+  getData,
+  showModal,
+}: any) => {
   const dispatch = useAppDispatch();
   const [attendanceData, setAttendanceData] = useState<any>([]);
-  const [getEmployeeData,setGetEmployeeData] = useState({}as any)
+  const [getEmployeeData, setGetEmployeeData] = useState({} as any);
 
   useEffect(() => {
     // dispatch(getUsers({ status: status, date: defaultDate }) as any);
     dispatch(getEmployee() as any);
   }, [dispatch]);
 
-  const {employee} = useAppSelector((state) => state.employeeSlice);
+  const { employee, loading } = useAppSelector((state) => state.employeeSlice);
 
   const columns: ColumnsType<DataType> = [
     {
@@ -61,7 +66,6 @@ const ViewAllEmployee = ({ defaultDate, searchText, status,getData ,showModal}: 
       key: 'date',
     },
 
-  
     {
       title: 'DESIGNATION',
       dataIndex: 'designation',
@@ -101,16 +105,23 @@ const ViewAllEmployee = ({ defaultDate, searchText, status,getData ,showModal}: 
       key: 'view',
       render: (item) => {
         return (
-          <div style={{display:'flex',gap:20,justifyContent:'center',alignItems:'center'}}>
-                 <FontAwesomeIcon
-            icon={faPen}
-            color='#35639F'
-            // onClick={() => updateEmployee(id)}
-            onClick={() =>{ 
-              setGetEmployeeData(item)
-              showModal()
+          <div
+            style={{
+              display: 'flex',
+              gap: 20,
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
-          />
+          >
+            <FontAwesomeIcon
+              icon={faPen}
+              color='#35639F'
+              // onClick={() => updateEmployee(id)}
+              onClick={() => {
+                setGetEmployeeData(item);
+                showModal();
+              }}
+            />
             <Link className='viewMoreBtn' to={`/employee/${item}`}>
               View
             </Link>
@@ -119,13 +130,13 @@ const ViewAllEmployee = ({ defaultDate, searchText, status,getData ,showModal}: 
       },
     },
   ];
-  getData(getEmployeeData)
+  getData(getEmployeeData);
   useEffect(() => {
     const data1: DataType[] = [];
-    employee?.employee?.map((userData:any,sn:any) => {
+    employee?.employee?.map((userData: any, sn: any) => {
       if (userData.employeeName.toLowerCase().includes(searchText)) {
         const dateObject = new Date(userData.dateOfJoining);
-      const formattedDate = dateObject.toISOString().split('T')[0];
+        const formattedDate = dateObject.toISOString().split('T')[0];
         const tableData = {
           id: userData?.employeeNumber,
           key: userData?.employeeNumber,
@@ -134,17 +145,18 @@ const ViewAllEmployee = ({ defaultDate, searchText, status,getData ,showModal}: 
           status: userData.status,
           designation: userData?.designation,
           view: userData,
-          sn:sn+1
+          sn: sn + 1,
         };
         data1.push(tableData);
       }
-
     });
 
     setAttendanceData(data1);
   }, [employee, searchText]);
 
- const filterData =  status?attendanceData.filter(((each:any)=>each.status === status)): attendanceData
+  const filterData = status
+    ? attendanceData.filter((each: any) => each.status === status)
+    : attendanceData;
 
   return (
     <Table
@@ -154,9 +166,10 @@ const ViewAllEmployee = ({ defaultDate, searchText, status,getData ,showModal}: 
           : record.status === 'pending'
           ? 'holiday-class'
           : ''
-      }  
+      }
       columns={columns}
       dataSource={filterData}
+      loading={loading}
     />
   );
 };
