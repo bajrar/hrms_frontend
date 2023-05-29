@@ -119,20 +119,25 @@ const Holidays = () => {
         <hr />
 
         <div className="d-flex attendance-filters-container justify-content-between">
-          <div className="attendance-filters">
-            <Calendar
-              onChange={onStartDateChange}
-              className=" date-picker calender-container-picker "
-              dateFormat="YYYY/MM/DD"
-              language="en"
-            />
-            To
-            <Calendar
-              onChange={onEndDateChange}
-              className="date-picker calender-container-picker"
-              dateFormat="YYYY/MM/DD"
-              language="en"
-            />
+          <div className="holiday-filters">
+            <div className="calendar-wrapper">
+              <Calendar
+                onChange={onStartDateChange}
+                className="date-picker calender-container-picker"
+                dateFormat="YYYY/MM/DD"
+                language="en"
+              />
+              <CalendarOutlined className="calendar-icon" />
+            </div>
+            <div className="calendar-wrapper">
+              <Calendar
+                onChange={onEndDateChange}
+                className="date-picker calender-container-picker"
+                dateFormat="YYYY/MM/DD"
+                language="en"
+              />
+              <CalendarOutlined className="calendar-icon" />
+            </div>
           </div>
           <button className="primary-btn" onClick={showModal}>
             <FontAwesomeIcon icon={faPlus} /> Add Holidays

@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { apis } from '../apis/constants/ApisService';
-import { message, Form, Input, Select, Button } from 'antd';
-import { useDispatch } from 'react-redux';
-import { getLeave } from '../../redux/features/leaveSlice';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
-import { reduceByKeys } from '../../hooks/HelperFunctions';
-import { useAppSelector } from '../../hooks/useTypedSelector';
-import { getUsers } from '../../redux/features/attendanceSlice';
+import React, { useEffect, useState } from "react";
+import { apis } from "../apis/constants/ApisService";
+import { message, Form, Input, Select, Button } from "antd";
+import { useDispatch } from "react-redux";
+import { getLeave } from "../../redux/features/leaveSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { reduceByKeys } from "../../hooks/HelperFunctions";
+import { useAppSelector } from "../../hooks/useTypedSelector";
+import { getUsers } from "../../redux/features/attendanceSlice";
 
 const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
   const [leaveNameArray, setLeaveNameArray] = useState<any[]>([]);
@@ -22,7 +22,7 @@ const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
   const { leaves } = useAppSelector((state) => state.leaveSlice);
 
   useEffect(() => {
-    const shiftNameArray = reduceByKeys(leaves?.leave, '_id', 'leaveName');
+    const shiftNameArray = reduceByKeys(leaves?.leave, "_id", "leaveName");
     setLeaveNameArray(shiftNameArray);
   }, [leaves?.leave]);
 
@@ -39,15 +39,15 @@ const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
   }, [leaveNameArray]);
 
   useEffect(() => {
-    dispatch(getUsers({ status: '', date: '' }) as any);
+    dispatch(getUsers({ status: "", date: "" }) as any);
   }, [dispatch]);
   const { user } = useAppSelector((state) => state.attendanceSlice);
 
   useEffect(() => {
     const employeeNameArray = reduceByKeys(
       user,
-      'employeeNumber',
-      'employeeName'
+      "employeeNumber",
+      "employeeName"
     );
     setEmployeeNameArray(employeeNameArray);
   }, [user]);
@@ -64,76 +64,83 @@ const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
     }
   }, [employeeNameArray]);
 
+  const onCancel = () => {
+    form.resetFields();
+    setIsAssignOpen(false);
+  };
+
   const onFinish = async (values: any) => {
     try {
       const res = await apis.assignLeave(values, values.leaveName);
       if (res.status === 201) {
-        message.success('Leave Created');
+        message.success("Leave Created");
         form.resetFields();
         dispatch(getLeave() as any);
       }
     } catch {
-      message.error('Something Went Wrong');
+      message.error("Something Went Wrong");
     } finally {
       setIsAssignOpen(false);
     }
   };
   const onLeaveName = (value: string) => {
-    form.setFieldValue('leaveName', value);
+    form.setFieldValue("leaveName", value);
   };
 
   const onEmployeeName = (value: string) => {
-    form.setFieldValue('assignTo', value);
+    form.setFieldValue("assignTo", value);
   };
 
   return (
-    <Form layout='vertical' onFinish={onFinish}>
+    <Form layout="vertical" onFinish={onFinish}>
       <Form.Item
-        className='form-input col'
-        name='leaveName'
-        label='Leave Name *'
-        rules={[{ required: true, message: 'Leave Name is Required' }]}
+        className="form-input col"
+        name="leaveName"
+        label="Leave Name *"
+        rules={[{ required: true, message: "Leave Name is Required" }]}
       >
         <Select
-          placeholder='Select the type of leave'
-          className='selects form-input-wrapper'
+          placeholder="Select the type of leave"
+          className="selects form-input-wrapper"
           suffixIcon={<FontAwesomeIcon icon={faAngleDown} />}
           options={leaveNameSelect}
           onSelect={onLeaveName}
         />
       </Form.Item>
       <Form.Item
-        className='form-input col'
-        name='assignTo'
-        label='Assign To *'
-        rules={[{ required: true, message: 'Employee(s) Name is Required' }]}
+        className="form-input col"
+        name="assignTo"
+        label="Assign To *"
+        rules={[{ required: true, message: "Employee(s) Name is Required" }]}
       >
         <Select
-          placeholder='Type the name of an employee to search and select'
-          className='selects form-input-wrapper'
+          placeholder="Type the name of an employee to search and select"
+          className="selects form-input-wrapper"
           suffixIcon={<FontAwesomeIcon icon={faAngleDown} />}
-          mode='multiple'
+          mode="multiple"
           options={employeeNameSelect}
           onSelect={onEmployeeName}
         />
       </Form.Item>
 
       <Form.Item
-        className='form-input col'
-        name='leaveNotes'
-        label='Leave notes *'
+        className="form-input col"
+        name="leaveNotes"
+        label="Leave notes *"
       >
         <TextArea
-          style={{ height: 96, resize: 'none' }}
+          style={{ height: 96, resize: "none" }}
           // onChange={onChange}
-          placeholder='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
-      '
+          placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
+      "
         />
       </Form.Item>
 
-      <div className='form-btn-container'>
-        <Button type='default'>Cancel</Button>
-        <Button type='primary' htmlType='submit'>
+      <div className="form-btn-container">
+        <Button type="default" onClick={() => onCancel()}>
+          Cancel
+        </Button>
+        <Button type="primary" htmlType="submit">
           Assign
         </Button>
       </div>

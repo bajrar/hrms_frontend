@@ -1,3 +1,19 @@
 .holidays-table {
   margin-top: 32px;
 }
+.calendar-wrapper {
+  position: relative;
+  margin-block: 0;
+}
+
+.calendar-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px; /* Adjust the right position as needed */
+  transform: translateY(-50%);
+}
+.holiday-filters {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}

@@ -60,8 +60,15 @@
   margin-top: 50px;
 }
 .working-condition {
+  position: relative;
   width: 316px;
   padding: 0;
+}
+.calendar-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px; /* Adjust the right position as needed */
+  transform: translateY(-50%);
 }
 .employee-stats-container {
   gap: 16px;
@@ -180,7 +187,7 @@
   align-items: center;
   justify-content: center;
   padding: 8px 16px;
-  font-family: 'Helvetica';
+  font-family: "Helvetica";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -268,6 +275,15 @@
 }
 .month-list-active > li:not(:last-child) {
   margin-bottom: 12px;
+}
+.calendar-wrapper {
+  position: relative;
+}
+.calendar-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px; /* Adjust the right position as needed */
+  transform: translateY(-50%);
 }
 @media screen and (min-width: 1920px) {
   .attendance-stats {

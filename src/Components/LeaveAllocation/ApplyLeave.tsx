@@ -31,6 +31,7 @@ const ApplyLeave = () => {
   const onEndDateChange = ({ bsDate }: any) => {
     setEndDate(bsDate);
   };
+ 
   const columns: ColumnsType<DataType> = [
     {
       title: 'EID',

@@ -16,6 +16,7 @@ export const OtpSection = ({}: OptSectionProps) => {
   const [inputs, setInputs] = useState({
     otp: "",
   });
+  const [loading, setLoading] = useState(false); // Add loading state
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setInputs((prevState) => ({
@@ -50,12 +51,17 @@ export const OtpSection = ({}: OptSectionProps) => {
       return;
     }
     try {
+      setLoading(true); // Set loading state to true
+
       if (inputs.otp === otp) {
         navigate("/ChangePassword");
+      } else {
+        message.error("Invalid OTP");
       }
-      message.error("Invalid OTP");
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false); // Set loading state to false regardless of success or error
     }
   };
 
@@ -70,8 +76,8 @@ export const OtpSection = ({}: OptSectionProps) => {
           </div>
           <h2 className="sign-up-header">Enter The Code </h2>
           <p className="sign-up-text">
-            A verification code has been sent to your Slack account.Please check
-            your account to retrieve it.
+            A verification code has been sent to your Slack account. Please
+            check your account to retrieve it.
           </p>
           <div className="form_container">
             <div className="labels">
@@ -88,8 +94,8 @@ export const OtpSection = ({}: OptSectionProps) => {
               Didn't get the code? <Link to="/forgetPassword">Resend OTP</Link>{" "}
             </p>
           </div>
-          <button type="submit" className="login-button">
-            Continue
+          <button type="submit" className="login-button" disabled={loading}>
+            {loading ? "Loading..." : "Continue"}
           </button>
         </form>
       </div>

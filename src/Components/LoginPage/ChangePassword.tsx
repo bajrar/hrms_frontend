@@ -19,6 +19,8 @@ export const ChangePassword = ({}: ChangePasswordProps) => {
     confirmPassword: "",
   });
 
+  const [loading, setLoading] = useState(false); // Add loading state
+
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setInputs((prevState) => ({
       ...prevState,
@@ -57,6 +59,8 @@ export const ChangePassword = ({}: ChangePasswordProps) => {
       return;
     }
     try {
+      setLoading(true); // Set loading state to true
+
       const apiUrl = `${API_URL}/users/changePassword`; // Replace with your API endpoint URL
       const response = await axios.post(apiUrl, input);
       if (response.status === 200) {
@@ -64,8 +68,11 @@ export const ChangePassword = ({}: ChangePasswordProps) => {
       }
     } catch (e) {
       toast.error("Something went wrong");
+    } finally {
+      setLoading(false); // Set loading state to false regardless of success or error
     }
   };
+
   return (
     <main className="loginpage_main">
       <ToastContainer
@@ -121,8 +128,8 @@ export const ChangePassword = ({}: ChangePasswordProps) => {
           <Link to="/forgetPassword" className="forgot-password">
             Forgot password?
           </Link>
-          <button type="submit" className="login-button">
-            Continue
+          <button type="submit" className="login-button" disabled={loading}>
+            {loading ? "Loading..." : "Continue"}
           </button>
         </form>
       </div>

@@ -52,7 +52,7 @@ export const MainRoutes = ({}: MainRoutesProps) => {
 
         <Route path="/" element={<LoginPage />} />
         <Route path="/forgetPassword" element={<ForgetPassword />} />
-        <Route path="/otpSection" element={<OtpSection />} />
+        <Route path="/verifyOtp" element={<OtpSection />} />
         <Route path="/ChangePassword" element={<ChangePassword />} />
       </Routes>
     </React.Fragment>

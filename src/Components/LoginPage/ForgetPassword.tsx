@@ -17,6 +17,7 @@ export const ForgetPassword = ({}: ForgetPasswordProps) => {
   const [inputs, setInputs] = useState({
     email: "",
   });
+  const [loading, setLoading] = useState(false); // Add loading state
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setInputs((prevState) => ({
@@ -35,6 +36,8 @@ export const ForgetPassword = ({}: ForgetPasswordProps) => {
     try {
       const apiUrl = `${API_URL}/users/forgotPassword`; // Replace with your API endpoint URL
 
+      setLoading(true); // Set loading state to true
+
       const response = await axios.post(apiUrl, inputs);
 
       console.log(response.data);
@@ -46,11 +49,13 @@ export const ForgetPassword = ({}: ForgetPasswordProps) => {
         document.cookie = `email=${email}; path=/`;
         document.cookie = `otp=${otp}; path=/`;
 
-        navigate("/otpSection");
+        navigate("/verifyOtp");
       }
     } catch (error) {
       console.log(error);
       message.error("Invalid Credentials");
+    } finally {
+      setLoading(false); // Set loading state to false regardless of success or error
     }
   };
 
@@ -83,8 +88,8 @@ export const ForgetPassword = ({}: ForgetPasswordProps) => {
               Note: example@eeposit.com / example@virtuosway.com
             </p>
           </div>
-          <button type="submit" className="login-button">
-            Continue
+          <button type="submit" className="login-button" disabled={loading}>
+            {loading ? "Loading..." : "Continue"}
           </button>
         </form>
       </div>
