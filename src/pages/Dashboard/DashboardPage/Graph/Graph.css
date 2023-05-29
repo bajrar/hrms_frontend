@@ -2,7 +2,7 @@
   padding-left: 35px;
 }
 .hr-dashboard-graph-header span {
-  font-family: 'Helvetica';
+  font-family: "Helvetica";
   font-weight: 400;
   font-size: 17px;
 }
@@ -11,7 +11,7 @@
   padding-left: 10px;
 }
 .hr-dashboard-graph-sub-header text {
-  font-family: 'Helvetica';
+  font-family: "Helvetica";
   font-weight: 500;
   font-size: 15px;
   color: #333333;
@@ -27,4 +27,5 @@
 }
 .hr-dashboard-graph-diagram {
   padding-top: 5rem;
+  overflow: hidden;
 }

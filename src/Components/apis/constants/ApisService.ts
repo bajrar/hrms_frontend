@@ -185,4 +185,7 @@ export const apis = {
   deleteAnnouncement: (announcementId:string) => {
     return axiosApiInstance.delete(`/announcement/${announcementId}`);
   },
+  forgetPassword: (values:any) => {
+    return axiosApiInstance.post(`/users/forgotPassword`,values);
+  },
 };
