@@ -3,9 +3,9 @@ import { axiosApiInstance } from '../../Components/apis/constants/ApisService';
 
 export const getApplicants = createAsyncThunk(
   'applicants/getApplicants',
-  async (data, thunkApi) => {
+  async ({pageNumber}:{pageNumber:any}, thunkApi) => {
     try {
-      const response = await axiosApiInstance('applicant');
+      const response = await axiosApiInstance(`applicant?pageNumber=${pageNumber}`);
       return response.data;
     } catch (err: any) {
       return thunkApi.rejectWithValue(err.message);

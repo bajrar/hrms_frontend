@@ -31,9 +31,13 @@ export interface DataType {
 const Applicants = () => {
   const dispatch = useDispatch();
   const [applicantArray, setApplicantArray] = useState<any[]>();
+  const [filterApplicantArary, setFilterApplicantArary] = useState<any[]>();
   const [applicantModal, setApplicantModal] = useState<boolean>(false);
   const [updateStatus, setUpdateStatus] = useState<boolean>(false);
   const [applicantId, setApplicantId] = useState<string>('');
+  const [searchText, setSearchText] = useState('');
+  const [filterType, setFilterByType] = useState('');
+  const [page, setPage] = useState(1);
   const [form] = Form.useForm();
 
   const filterByType = [
@@ -42,7 +46,7 @@ const Applicants = () => {
       label: 'Applicant Name ( A- Z )',
     },
     {
-      value: '- applicantName',
+      value: '-applicantName',
       label: 'Applicant Name ( Z - A )',
     },
     {
@@ -57,6 +61,9 @@ const Applicants = () => {
   const viewSingleApplicant = (applicantId: any) => {
     dispatch(getSingleApplicant({ applicantId }) as any);
     setApplicantModal(true);
+  };
+  const onSelect = (e: any) => {
+    setFilterByType(e);
   };
 
   const columns: ColumnsType<DataType> = [
@@ -113,10 +120,12 @@ const Applicants = () => {
   ];
 
   useEffect(() => {
-    dispatch(getApplicants() as any);
-  }, [dispatch]);
+    dispatch(getApplicants({ pageNumber: page }) as any);
+  }, [dispatch, page]);
 
-  const { applicants } = useAppSelector((state) => state.applicantSlice);
+  const { applicants, loading } = useAppSelector(
+    (state) => state.applicantSlice
+  );
   const { applicant } = useAppSelector((state) => state.singleApplicantSlice);
 
   useEffect(() => {
@@ -133,6 +142,7 @@ const Applicants = () => {
       };
       applicantsData.push(tableData);
     });
+
     setApplicantArray(applicantsData);
   }, [applicants]);
 
@@ -147,7 +157,7 @@ const Applicants = () => {
       if (res.status === 201) {
         message.success('Status Updated');
         form.resetFields();
-        dispatch(getApplicants() as any);
+        dispatch(getApplicants({ pageNumber: page }) as any);
       }
     } catch (err) {
       message.error(`${err}`);
@@ -158,6 +168,37 @@ const Applicants = () => {
   const handleCancel = () => {
     setUpdateStatus(false);
     form.resetFields();
+  };
+  useEffect(() => {
+    if (!searchText) {
+      setFilterApplicantArary(applicantArray);
+    } else {
+      const filteredArray = applicantArray?.filter((element) => {
+        const applicantName = element?.[filterType]?.toLowerCase();
+        const lowercaseSearchText = searchText.toLowerCase();
+        return applicantName?.includes(lowercaseSearchText);
+      });
+
+      setFilterApplicantArary(filteredArray);
+    }
+  }, [searchText, applicantArray, filterType]);
+
+  if (filterType === 'applicantName') {
+    filterApplicantArary?.sort((a, b) => {
+      const valueA = a.applicantName?.toLowerCase();
+      const valueB = b.applicantName?.toLowerCase();
+      return valueA.localeCompare(valueB);
+    });
+  } else if (filterType === '-applicantName') {
+    filterApplicantArary?.sort((a, b) => {
+      const valueA = a.applicantName?.toLowerCase();
+      const valueB = b.applicantName?.toLowerCase();
+      return valueB.localeCompare(valueA);
+    });
+  }
+
+  const handlePaginationChange = (page: any) => {
+    setPage(page);
   };
 
   return (
@@ -177,13 +218,26 @@ const Applicants = () => {
             className='applicants-select'
             placeHolder='Filter by type'
             options={filterByType}
+            onSelect={onSelect}
           />
-          <input type='text' placeholder='Search' className='search-field' />
+          <input
+            type='text'
+            placeholder='Search'
+            className='search-field'
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value.toLowerCase())}
+          />
         </div>
         <Table
           columns={columns}
           className='table-container'
-          dataSource={applicantArray}
+          dataSource={filterApplicantArary}
+          pagination={{
+            current: page,
+            onChange: handlePaginationChange,
+            total: applicants?.totalCount,
+          }}
+          loading={loading}
         />
         <ModalComponent
           openModal={applicantModal}
