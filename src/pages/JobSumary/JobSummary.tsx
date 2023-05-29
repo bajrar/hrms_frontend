@@ -145,7 +145,9 @@ const JobSummary = () => {
       return '';
     }
   };
-
+  const onSelect = (e: any) => {
+    setJobStats(e);
+  };
   return (
     <Layout>
       <Navbar />
@@ -170,6 +172,7 @@ const JobSummary = () => {
               className='job-summary-selects'
               options={jobStatus}
               value={jobStat}
+              onSelect={onSelect}
             />
             <button
               className='primary-btn'
@@ -184,7 +187,11 @@ const JobSummary = () => {
           rowClassName={getRowClassName}
           columns={columns}
           className='table-container'
-          dataSource={jobsArray}
+          dataSource={
+            jobStat === 'allStatus'
+              ? jobsArray
+              : jobsArray.filter((job) => job.jobsStatus === jobStat)
+          }
         />
         <ModalComponent
           openModal={isModalOpen}
