@@ -38,7 +38,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
     dispatch(getUsers({ status: status, date: defaultDate }) as any);
   }, [dispatch, status, defaultDate]);
 
-  const { user } = useAppSelector((state) => state.attendanceSlice);
+  const { user,loading } = useAppSelector((state) => state.attendanceSlice);
   const columns: ColumnsType<DataType> = [
     {
       title: 'EID',
@@ -193,6 +193,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
       }
       columns={columns}
       dataSource={attendanceData}
+      loading={loading}
       // pagination={tableParams.pagination}
     />
   );
