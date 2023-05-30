@@ -7,13 +7,12 @@ import { useEffect, useState } from 'react';
 const AnalyticsComponent = () => {
   const nepaliDate = new NepaliDate(new Date()).format('YYYY/MM/DD');
   const [dashboardData, setDashboardData] = useState([] as any);
+  // const [attendanceData, setAttendanceData] = useState([] as any);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosApiInstance.get(
-          `/attendanceStatus?date=${nepaliDate}`
-        );
-        setDashboardData(response.data);
+        const dashboard = await axiosApiInstance.get('/dashboard');
+        setDashboardData(dashboard.data.dashboardData);
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
       }
@@ -21,13 +20,11 @@ const AnalyticsComponent = () => {
 
     fetchData();
   }, []);
-  console.log({ dashboardData });
-  console.log(dashboardData.totalEmployee);
 
   const AnalyticsArray = [
     {
       title: 'Total Employees',
-      number: dashboardData.totalEmployee,
+      number: dashboardData.totalEmployee || '...',
       bgColor: ' #f4fbf5',
       color: '#22BB33',
       percentage: '10',
@@ -35,7 +32,7 @@ const AnalyticsComponent = () => {
     },
     {
       title: 'Working Employees',
-      number: dashboardData.totalEmployee,
+      number: dashboardData.workingEmployee || '...',
       color: '#22BB33',
       bgColor: ' #f4fbf5',
       percentage: '10',
@@ -43,7 +40,7 @@ const AnalyticsComponent = () => {
     },
     {
       title: 'Resigned Employees',
-      number: dashboardData?.resignedEmployee || 1,
+      number: dashboardData?.resignedEmployee || '...',
       color: '#BB2124',
       bgColor: '#FBF4F4',
       percentage: '10',
@@ -51,7 +48,7 @@ const AnalyticsComponent = () => {
     },
     {
       title: 'Vacancy',
-      number: dashboardData?.vacancy || 2,
+      number: dashboardData?.totalOpenJobs || '...',
       color: '#22BB33',
       bgColor: ' #f4fbf5',
       percentage: '10',
@@ -59,7 +56,7 @@ const AnalyticsComponent = () => {
     },
     {
       title: 'Job View',
-      number: dashboardData?.jobView || '35',
+      number: dashboardData?.jobView || '...',
       color: '#22BB33',
       bgColor: ' #f4fbf5',
       percentage: '10',
@@ -67,7 +64,7 @@ const AnalyticsComponent = () => {
     },
     {
       title: 'Job Applied',
-      number: dashboardData?.jobApplied || '35',
+      number: dashboardData?.totalJobApplied || '...',
       color: '#22BB33',
       bgColor: ' #f4fbf5',
       percentage: '10',
@@ -96,7 +93,7 @@ const AnalyticsComponent = () => {
                 </p>{' '}
               </div>
             </div>
-            <span className='category-name'>Employee</span>
+            <span className='category-name'>{item?.title}</span>
           </div>
         );
       })}

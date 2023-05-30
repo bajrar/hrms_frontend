@@ -293,9 +293,9 @@ const Applicants = () => {
                     rel='noopener noreferrer'
                     className='link-button'
                   >
+                    {/* {applicant?.applicant?.linkedIn} */}
                     {/* View LinkedIn */}
-                    View LinkedIn
-                    {/* <BsLinkedin fontSize={'18px'} /> */}
+                    <BsLinkedin fontSize={'18px'} />
                   </Link>
                 </td>
               </tr>
