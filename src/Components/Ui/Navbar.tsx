@@ -39,7 +39,7 @@ const menuProps = {
 };
 const Navbar = () => {
   const [openDropdown, setOpenDropdown] = useState(true);
-  const email = localStorage.getItem('email');
+  const userName = localStorage.getItem('userName');
 
   const items: MenuProps['items'] = [];
 
@@ -80,7 +80,7 @@ const Navbar = () => {
         <Dropdown menu={menuProps}>
           <Button type='text'>
             <Space>
-              {email}
+              {userName}
               <DownOutlined />
             </Space>
           </Button>
