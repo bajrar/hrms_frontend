@@ -111,7 +111,7 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
         </div>
 
         <Form.Item
-          className="form-input col"
+          className="form-input col mt-2"
           name="leaveDeatils"
           label="Reason for leave *"
         >
@@ -122,7 +122,7 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
           />
         </Form.Item>
 
-        <div className="form-btn-container">
+        <div className="form-btn-container mt-2">
           <Button type="default" onClick={() => onCancel()}>
             Cancel
           </Button>

@@ -2,6 +2,11 @@ import * as React from 'react';
 import { Space, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import './DashboardEmployeeStatus.css';
+import {
+  useAppDispatch,
+  useAppSelector,
+} from '../../../../hooks/useTypedSelector';
+import { getEmployee } from '../../../../redux/features/employeeSlice';
 
 type DashboardEmployeeStatusTableProps = {};
 interface DataType {
@@ -108,12 +113,43 @@ const data: DataType[] = [
   },
 ];
 export const DashboardEmployeeStatusTable = () => {
+  const dispatch = useAppDispatch();
+  const [searchText, setSearchText] = React.useState('');
+
+  const [attendanceData, setAttendanceData] = React.useState<any>([]);
+
+  React.useEffect(() => {
+    dispatch(getEmployee() as any);
+  }, [dispatch]);
+  const { employee, loading } = useAppSelector((state) => state.employeeSlice);
+
+  React.useEffect(() => {
+    const data1: any[] = [];
+    employee?.employee?.map((userData: any, sn: any) => {
+      if (userData.employeeName.toLowerCase().includes(searchText)) {
+        const dateObject = new Date(userData?.dateOfJoining);
+        const formattedDate = dateObject?.toISOString()?.split('T')[0];
+        const tableData = {
+          id: userData?.employeeNumber,
+          key: userData?.employeeNumber,
+          startDate: userData?.dateOfJoining,
+          name: userData?.employeeName,
+          status: userData.status,
+          designation: userData?.designation,
+          dob: userData?.dob,
+          view: userData,
+          sn: sn + 1,
+          endDate: userData?.resignDate || '-',
+        };
+        data1.push(tableData);
+      }
+    });
+
+    setAttendanceData(data1);
+  }, [employee, searchText]);
   return (
     <div className='dashboard-employee-status-table'>
-      <Table
-        columns={columns}
-        dataSource={data}
-      />
+      <Table columns={columns} dataSource={attendanceData} />
     </div>
   );
 };
