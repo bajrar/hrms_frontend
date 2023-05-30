@@ -86,6 +86,7 @@
   border-radius: 5px;
   cursor: pointer;
   padding: 5px;
+  /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; */
 }
 .virtuosway-hr-login-page .labels {
   display: flex;

@@ -29,6 +29,7 @@ import moment from 'moment';
 import { getEmployee } from '../../redux/features/employeeSlice';
 import dayjs from 'dayjs';
 import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
+import NepaliDate from 'nepali-date-converter';
 
 export const selectedEmployee = (state: any, id: string) =>
   state?.find((item: any) => item?.employeeNumber === id);
@@ -43,6 +44,7 @@ export const EmployeeForm = ({
   const [gender, setGender] = useState('');
   const [searchText, setSearchText] = useState('');
   const [status, setStatus] = useState('');
+  const currentDate = new NepaliDate(new Date()).format('YYYY-MM-DD');
   // const [employeeData, setEmployeeData] = useState({} as any);
   const dispatch = useDispatch();
   const [getDateOfJoining, setDateOfJoining] = useState();
@@ -337,6 +339,7 @@ export const EmployeeForm = ({
                   dateFormat='YYYY/MM/DD'
                   language='en'
                   defaultDate={defaultDob}
+                  maxDate={currentDate}
                 />
               </Form.Item>
 
@@ -395,6 +398,7 @@ export const EmployeeForm = ({
                     defaultValue={defaultdateOfJoining}
                     className=' date-picker calender-container-picker '
                     dateFormat='YYYY/MM/DD'
+                    maxDate={currentDate}
                     language='en'
                     // hideDefaultValue
                   />

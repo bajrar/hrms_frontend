@@ -137,7 +137,6 @@ export const LoginPage = ({}: LoginPageProps) => {
             disabled={isLoading}
             style={{
               backgroundColor: isLoading ? '#DBDFEA' : '',
-              border: isLoading ? '1px solid #123C86' : '',
             }}
           >
             {isLoading ? (

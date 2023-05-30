@@ -20,8 +20,8 @@ const AttendaceCount = () => {
     fetchData();
   }, []);
 
-  const data01 = [
-    { name: 'Others', value: 1, color: '#E6F8FE' },
+  const data01 = [  
+    { name: 'Others', value: 0, color: '#E6F8FE' },
     {
       name: 'Female',
       value: dashboardData.maleEmployeeCount,
