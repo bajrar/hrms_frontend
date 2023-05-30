@@ -1,17 +1,44 @@
 import { MdInfo } from 'react-icons/md';
 import { PieChart, Pie, Cell } from 'recharts';
 import './attendanceCount.css';
+import { useEffect, useState } from 'react';
+import { axiosApiInstance } from '../../apis/constants/ApisService';
 
 const AttendaceCount = () => {
+  const [dashboardData, setDashboardData] = useState([] as any);
+  // const [attendanceData, setAttendanceData] = useState([] as any);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const dashboard = await axiosApiInstance.get('/dashboard');
+        setDashboardData(dashboard.data.dashboardData);
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const data01 = [
-    { name: 'Others', value: 300, color: '#E6F8FE' },
-    { name: 'Female', value: 400, color: '#00B9F1' },
-    { name: 'Male', value: 300, color: '#023C87' },
+    { name: 'Others', value: 1, color: '#E6F8FE' },
+    {
+      name: 'Female',
+      value: dashboardData.maleEmployeeCount,
+      color: '#023C87',
+    },
+    {
+      name: 'Male',
+      value: dashboardData.femaleEmployeeCount,
+
+      color: '#00B9F1',
+    },
   ];
 
   return (
     <div className='attendance-count'>
-      <span>Employee Attendance Count</span>
+      <hr />
+      <span style={{ fontWeight: 'bold' }}>Employee Attendance Count</span>
       <div className='attendance-count-container'>
         <div>
           <div className='attedance-container'>
