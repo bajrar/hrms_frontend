@@ -1,11 +1,33 @@
+import NepaliDate from 'nepali-date-converter';
+import { axiosApiInstance } from '../../apis/constants/ApisService';
 import './analyticsComponents.css';
 import { MdOutlineTrendingUp } from 'react-icons/md';
+import { useEffect, useState } from 'react';
 
 const AnalyticsComponent = () => {
+  const nepaliDate = new NepaliDate(new Date()).format('YYYY/MM/DD');
+  const [dashboardData, setDashboardData] = useState([] as any);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosApiInstance.get(
+          `/attendanceStatus?date=${'2080/02/15'}`
+        );
+        setDashboardData(response.data);
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  console.log({ dashboardData });
+  console.log(dashboardData.totalEmployee);
+
   const AnalyticsArray = [
     {
       title: 'Total Employees',
-      number: '35',
+      number: dashboardData.totalEmployee,
       bgColor: ' #f4fbf5',
       color: '#22BB33',
       percentage: '10',
@@ -13,7 +35,7 @@ const AnalyticsComponent = () => {
     },
     {
       title: 'Working Employees',
-      number: '35',
+      number: dashboardData.totalEmployee,
       color: '#22BB33',
       bgColor: ' #f4fbf5',
       percentage: '10',
@@ -21,7 +43,7 @@ const AnalyticsComponent = () => {
     },
     {
       title: 'Resigned Employees',
-      number: '35',
+      number: dashboardData?.resignedEmployee || 1,
       color: '#BB2124',
       bgColor: '#FBF4F4',
       percentage: '10',
@@ -29,7 +51,7 @@ const AnalyticsComponent = () => {
     },
     {
       title: 'Vacancy',
-      number: '35',
+      number: dashboardData?.vacancy || 2,
       color: '#22BB33',
       bgColor: ' #f4fbf5',
       percentage: '10',
@@ -37,7 +59,7 @@ const AnalyticsComponent = () => {
     },
     {
       title: 'Job View',
-      number: '35',
+      number: dashboardData?.jobView || '35',
       color: '#22BB33',
       bgColor: ' #f4fbf5',
       percentage: '10',
@@ -45,7 +67,7 @@ const AnalyticsComponent = () => {
     },
     {
       title: 'Job Applied',
-      number: '35',
+      number: dashboardData?.jobApplied || '35',
       color: '#22BB33',
       bgColor: ' #f4fbf5',
       percentage: '10',
