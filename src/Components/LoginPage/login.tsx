@@ -128,7 +128,7 @@ export const LoginPage = ({}: LoginPageProps) => {
               </button>
             </div>
           </div>
-          <Link to='/forgetPassword' className='forgot-password'>
+          <Link to='/forgotPassword' className='forgot-password'>
             Forgot password?
           </Link>
           <button
