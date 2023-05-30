@@ -47,6 +47,10 @@ export const EmployeeForm = ({
   const dispatch = useDispatch();
   const [getDateOfJoining, setDateOfJoining] = useState();
   const [getDob, setDob] = useState();
+  const defaultDob = employeeData?.dob?.split('/').join('-');
+  const defaultdateOfJoining = employeeData?.dateOfJoining
+    ?.split('/')
+    .join('-');
 
   // useEffect(()=>{
   //   dispatch(getSingleEmployee())
@@ -332,9 +336,8 @@ export const EmployeeForm = ({
                   className=' date-picker calender-container-picker '
                   dateFormat='YYYY/MM/DD'
                   language='en'
-                  defaultDate={employeeData?.dob}
+                  defaultDate={defaultDob}
                 />
-                {employeeData?.dob}
               </Form.Item>
 
               <Form.Item
@@ -389,7 +392,7 @@ export const EmployeeForm = ({
                   /> */}
                   <Calendar
                     onChange={onStartDateChange}
-                    defaultValue={'2080/01/23'}
+                    defaultValue={defaultdateOfJoining}
                     className=' date-picker calender-container-picker '
                     dateFormat='YYYY/MM/DD'
                     language='en'
