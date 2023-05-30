@@ -23,3 +23,12 @@
 .application-table-head {
   margin-right: 40px;
 }
+.link-button{
+  text-decoration: none;
+  text-transform: capitalize;
+  color: #45B9F1;
+  text-transform: uppercase;
+}
+.link-button:hover{
+  color: #061F4D;
+}

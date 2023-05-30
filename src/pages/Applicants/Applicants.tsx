@@ -17,6 +17,7 @@ import { apis } from '../../Components/apis/constants/ApisService';
 import Layout from '../../Components/Layout';
 import Navbar from '../../Components/Ui/Navbar';
 import { Link } from 'react-router-dom';
+import { BsLinkedin } from 'react-icons/bs';
 
 export interface DataType {
   position?: string;
@@ -284,9 +285,18 @@ const Applicants = () => {
                 </td>
               </tr>
               <tr className='application-table-row'>
-                <th className='application-table-head'>LINKEDIN LINK</th>
+                <th className='application-table-head'>LINKEDIN</th>
                 <td className='application-table-body'>
-                  {applicant?.applicant?.linkedIn}
+                  <Link
+                    to={applicant?.applicant?.linkedIn}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='link-button'
+                  >
+                    {/* View LinkedIn */}
+                    View LinkedIn
+                    {/* <BsLinkedin fontSize={'18px'} /> */}
+                  </Link>
                 </td>
               </tr>
               <tr className='application-table-row'>
@@ -297,7 +307,7 @@ const Applicants = () => {
                   <Link
                     to={`${API_URL1}public/resume/${applicant?.applicant?.resume}`}
                     target='_blank'
-                    className='viewMoreBtn'
+                    className='link-button'
                   >
                     View Resume
                   </Link>

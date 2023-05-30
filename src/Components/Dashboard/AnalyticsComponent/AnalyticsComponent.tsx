@@ -11,7 +11,7 @@ const AnalyticsComponent = () => {
     const fetchData = async () => {
       try {
         const response = await axiosApiInstance.get(
-          `/attendanceStatus?date=${'2080/02/15'}`
+          `/attendanceStatus?date=${nepaliDate}`
         );
         setDashboardData(response.data);
       } catch (error) {
