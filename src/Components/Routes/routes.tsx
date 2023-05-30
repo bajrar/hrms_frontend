@@ -25,9 +25,12 @@ import { ChangePassword } from "../LoginPage/ChangePassword";
 type MainRoutesProps = {};
 
 export const MainRoutes = ({}: MainRoutesProps) => {
+  const isLoggedin = localStorage.getItem('')
   return (
     <React.Fragment>
       <Routes>
+
+      <Route path="/" element={<LoginPage />} />
         <Route element={<ProtectedRoute />}>
           <Route path="*" element={<PageNotFound />} />
           <Route path="/dashboard" element={<Dashboard />} />
@@ -50,7 +53,7 @@ export const MainRoutes = ({}: MainRoutesProps) => {
           <Route path="/applicants" element={<Applicants />} />
         </Route>
 
-        <Route path="/" element={<LoginPage />} />
+     
         <Route path="/forgetPassword" element={<ForgetPassword />} />
         <Route path="/verifyOtp" element={<OtpSection />} />
         <Route path="/ChangePassword" element={<ChangePassword />} />

@@ -1,13 +1,13 @@
-import React from "react";
-import "./SubMenu.css";
-import { Button, Tabs } from "antd";
-import { Graph } from "../Graph/Graph";
-import { DashboardEmployeeStatus } from "../DashboardEmployeeStatus/DashboardEmployeeStatus";
-import Analytics from "../Analytics/Analytics";
-import AttendaceCount from "../../../../Components/Dashboard/AttendanceCount/AttendaceCount";
-import EmployeeCountByDesignation from "../../../../Components/Dashboard/AttendanceCount/EmployeeCountByDesignation";
-import UpcomingEvents from "../../../../Components/Dashboard/upcomingEvents/UpcomingEvents";
-import Announcement from "../../../../Components/Dashboard/upcomingEvents/Announcement";
+import React from 'react';
+import './SubMenu.css';
+import { Button, Tabs } from 'antd';
+import { Graph } from '../Graph/Graph';
+import { DashboardEmployeeStatus } from '../DashboardEmployeeStatus/DashboardEmployeeStatus';
+import Analytics from '../Analytics/Analytics';
+import AttendaceCount from '../../../../Components/Dashboard/AttendanceCount/AttendaceCount';
+import EmployeeCountByDesignation from '../../../../Components/Dashboard/AttendanceCount/EmployeeCountByDesignation';
+import UpcomingEvents from '../../../../Components/Dashboard/upcomingEvents/UpcomingEvents';
+import Announcement from '../../../../Components/Dashboard/upcomingEvents/Announcement';
 
 type SubMenuProps = {};
 
@@ -29,12 +29,12 @@ export const SubMenu = ({}: SubMenuProps) => {
               </div>
             </div>
           </Tabs.TabPane>
-          <Tabs.TabPane tab="Upcoming events" key="2">
-            <div className="dashboard-upcoming-events">
-              <div className="Upcoming col-8">
+          <Tabs.TabPane tab='Upcoming events' key='2'>
+            <div className='dashboard-upcoming-events'>
+              <div className='Upcoming col-8'>
                 <UpcomingEvents />
               </div>
-              <div className="announcement col-4">
+              <div className='announcement col-4'>
                 <Announcement />
               </div>
             </div>
