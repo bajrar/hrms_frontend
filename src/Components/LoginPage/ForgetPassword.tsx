@@ -47,7 +47,7 @@ export const ForgetPassword = ({}: ForgetPasswordProps) => {
 
         // Store email and otp in cookies
         document.cookie = `email=${email}; path=/`;
-        document.cookie = `otp=${otp}; path=/`;
+        // document.cookie = `otp=${otp}; path=/`;
 
         navigate("/verifyOtp");
       }

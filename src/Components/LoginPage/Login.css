@@ -107,6 +107,9 @@
 .sign-up-header {
   margin-top: 1rem;
   display: flex;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
   text-align: start;
   margin-bottom: 8px;
   text-transform: uppercase;
@@ -118,8 +121,8 @@
   margin-bottom: 32px;
   align-items: flex-start;
   justify-content: flex-start;
+  font-weight: 400;
   font-size: 16px;
-  font-weight: normal;
   line-height: 19px;
   text-align: justify;
   color: #666666;
@@ -155,6 +158,11 @@
   border: none;
   background: transparent;
   cursor: pointer;
+}
+.resendButton {
+  border: none;
+  background: transparent;
+  color: rgba(51, 51, 241, 1);
 }
 
 @media only screen and (max-width: 600px) {

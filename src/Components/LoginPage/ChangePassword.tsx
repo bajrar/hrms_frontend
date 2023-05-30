@@ -8,6 +8,7 @@ import axios from "axios";
 import { API_URL } from "../../Components/apis/constants/constant";
 
 import { Link } from "react-router-dom";
+import { message } from "antd";
 
 type ChangePasswordProps = {};
 
@@ -51,11 +52,11 @@ export const ChangePassword = ({}: ChangePasswordProps) => {
     e.preventDefault();
 
     if (!inputs.password || !inputs.confirmPassword) {
-      toast.error("All fields are required.");
+      message.error("All fields are required.");
       return;
     }
     if (inputs.password !== inputs.confirmPassword) {
-      toast.error("Password didn't match");
+      message.error("Password didn't match");
       return;
     }
     try {
@@ -64,6 +65,9 @@ export const ChangePassword = ({}: ChangePasswordProps) => {
       const apiUrl = `${API_URL}/users/changePassword`; // Replace with your API endpoint URL
       const response = await axios.post(apiUrl, input);
       if (response.status === 200) {
+        message.success("Password changed successfully");
+        document.cookie =
+          "email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         navigate("/");
       }
     } catch (e) {
@@ -94,8 +98,10 @@ export const ChangePassword = ({}: ChangePasswordProps) => {
               <img src="/images/virtuos-logo.svg" alt="logo" />
             </div>
           </div>
-          <h2 className="sign-up-header">Sign in </h2>
-          <p className="sign-up-text">Enter your sign in credentials.</p>
+          <h2 className="sign-up-header">CHANGE PASSWORD </h2>
+          <p className="sign-up-text">
+            Your OTP code has been verified. Please enter a new password.
+          </p>
 
           <div className="form_container">
             <div className="labels">
@@ -113,7 +119,7 @@ export const ChangePassword = ({}: ChangePasswordProps) => {
           </div>
           <div className="form_container">
             <div className="labels">
-              <label htmlFor="">Confirm Password:</label>
+              <label htmlFor=""> Re-enter your new password :</label>
             </div>
             <div className="password-input-container">
               <input
@@ -125,9 +131,6 @@ export const ChangePassword = ({}: ChangePasswordProps) => {
               />
             </div>
           </div>
-          <Link to="/forgetPassword" className="forgot-password">
-            Forgot password?
-          </Link>
           <button type="submit" className="login-button" disabled={loading}>
             {loading ? "Loading..." : "Continue"}
           </button>

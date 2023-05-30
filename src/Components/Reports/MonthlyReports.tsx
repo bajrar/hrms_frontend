@@ -22,8 +22,8 @@ export interface DataType {
 }
 
 const MonthlyReports = () => {
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
+  const [startDate, setStartDate] = useState<any>();
+  const [endDate, setEndDate] = useState<any>();
   const [searchText, setSearchText] = useState("");
   const [monthlyReportData, setMonthlyReportData] = useState<any>([]);
 
@@ -151,28 +151,30 @@ const MonthlyReports = () => {
     setMonthlyReportData(data);
   }, [reports, startDate, endDate]);
 
+  const disableDate = startDate?.split("/").join("-");
+
   return (
     <div>
       <div className="attendance-filters">
-      <div className="calendar-wrapper">
-              <Calendar
-                onChange={onStartDateChange}
-                className="date-picker calender-container-picker"
-                dateFormat="YYYY/MM/DD"
-                language="en"
-              />
-              <CalendarOutlined className="calendar-icon" />
-            </div>
-            <div className="calendar-wrapper">
-              <Calendar
-                onChange={onEndDateChange}
-                className="date-picker calender-container-picker"
-                dateFormat="YYYY/MM/DD"
-                language="en"
-              />
-              <CalendarOutlined className="calendar-icon" />
-            </div>
-        
+        <div className="calendar-wrapper">
+          <Calendar
+            onChange={onStartDateChange}
+            className="date-picker calender-container-picker"
+            dateFormat="YYYY/MM/DD"
+            language="en"
+          />
+          <CalendarOutlined className="calendar-icon" />
+        </div>
+        <div className="calendar-wrapper">
+          <Calendar
+            onChange={onEndDateChange}
+            className="date-picker calender-container-picker"
+            dateFormat="YYYY/MM/DD"
+            language="en"
+            minDate={disableDate}
+          />
+          <CalendarOutlined className="calendar-icon" />
+        </div>
       </div>
       <div className="d-flex justify-content-between align-items-center daily-report-search">
         <input

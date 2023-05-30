@@ -6,8 +6,9 @@ import { getToken } from "../../features/authSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import { message } from "antd";
+import { Button, message } from "antd";
 import { API_URL } from "../apis/constants/constant";
+import axios from "axios";
 
 type OptSectionProps = {};
 
@@ -40,28 +41,39 @@ export const OtpSection = ({}: OptSectionProps) => {
 
   // Access the email and otp values
   const email = cookieValues.email;
-  const otp = cookieValues.otp;
+  // const otp = cookieValues.otp;
 
-  console.log(email, otp);
+  // console.log(email, otp);
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    console.log(inputs);
     if (!inputs.otp) {
       message.error("Enter the OTP.");
       return;
     }
     try {
+      const apiUrl = `${API_URL}/users/verifyOTP`;
       setLoading(true); // Set loading state to true
-
-      if (inputs.otp === otp) {
+      const response = await axios.post(apiUrl, { otp: inputs.otp, email });
+      console.log(response.data);
+      if (response.status === 200) {
         navigate("/ChangePassword");
-      } else {
-        message.error("Invalid OTP");
+      }
+    } catch (error) {
+      message.error("Invalid Otp");
+    } finally {
+      setLoading(false); // Set loading state to false regardless of success or error
+    }
+  };
+  const resendOtp = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    try {
+      const apiUrl = `${API_URL}/users/forgotPassword`;
+      const response = await axios.post(apiUrl, { email });
+      if (response.status === 200) {
+        navigate("/verifyOtp");
       }
     } catch (error) {
       console.log(error);
-    } finally {
-      setLoading(false); // Set loading state to false regardless of success or error
     }
   };
 
@@ -91,7 +103,8 @@ export const OtpSection = ({}: OptSectionProps) => {
               onChange={handleChange}
             />
             <p className="note-message">
-              Didn't get the code? <Link to="/forgetPassword">Resend OTP</Link>{" "}
+              Didn't get the code?
+              <button className="resendButton" onClick={resendOtp}>Resend OTP</button>
             </p>
           </div>
           <button type="submit" className="login-button" disabled={loading}>
