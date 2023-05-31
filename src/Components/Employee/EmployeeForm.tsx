@@ -53,7 +53,7 @@ export const EmployeeForm = ({
   const defaultdateOfJoining = employeeData?.dateOfJoining
     ?.split('/')
     .join('-');
-
+  console.log(defaultDob, defaultdateOfJoining);
   // useEffect(()=>{
   //   dispatch(getSingleEmployee())
   // },[])
@@ -395,7 +395,7 @@ export const EmployeeForm = ({
                   /> */}
                   <Calendar
                     onChange={onStartDateChange}
-                    defaultValue={defaultdateOfJoining}
+                    defaultDate={defaultdateOfJoining}
                     className=' date-picker calender-container-picker '
                     dateFormat='YYYY/MM/DD'
                     maxDate={currentDate}

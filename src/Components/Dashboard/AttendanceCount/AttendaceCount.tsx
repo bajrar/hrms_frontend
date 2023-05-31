@@ -90,9 +90,9 @@ const AttendaceCount = () => {
             <div>
               <p>Female 30%</p>
             </div>
-            <div>
+            {/* <div>
               <p>Others 10%</p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

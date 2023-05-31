@@ -582,8 +582,10 @@ export const Employee = () => {
         closeModal={setIsViewOpen}
       >
         <EmployeeForm
+          update
           setIsModalOpen={setIsViewOpen}
           employeeId={activeEmployee}
+          defaultValue={activeEmployee}
           isDisable
         />
       </ModalComponent>
