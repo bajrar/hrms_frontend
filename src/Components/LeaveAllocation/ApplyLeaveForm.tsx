@@ -1,29 +1,91 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, Select, message } from "antd";
 import Selects from "../Ui/Selects/Selects";
 import Calendar from "@sbmdkl/nepali-datepicker-reactjs";
 import "@sbmdkl/nepali-datepicker-reactjs/dist/index.css";
 import { IForm } from "../Shifts/AddShiftForm";
+import { useAppSelector } from "../../hooks/useTypedSelector";
 import "./addLeaveForm.css";
+import { useEffect, useState } from "react";
+import { reduceByKeys } from "../../hooks/HelperFunctions";
+import { apis } from "../apis/constants/ApisService";
 
 const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
+  const [leaveNameArray, setLeaveNameArray] = useState<any[]>([]);
+  const [leaveNameSelect, setLeaveNameSelect] = useState<any[]>([]);
   const [form] = Form.useForm();
+
+  const { leaves } = useAppSelector((state) => state.leaveSlice);
+  console.log(leaves);
+  useEffect(() => {
+    const shiftNameArray = reduceByKeys(leaves?.leave, "_id", "leaveName");
+    console.log({ shiftNameArray });
+    setLeaveNameArray(shiftNameArray);
+  }, [leaves?.leave]);
+  useEffect(() => {
+    if (leaveNameArray) {
+      const leaveArray = leaveNameArray?.map((leaveName: any) => {
+        console.log(leaveName, "<------- this leave");
+        return {
+          label: leaveName?.label,
+          value: leaveName?.value,
+        };
+      });
+      setLeaveNameSelect(leaveArray);
+    }
+  }, [leaveNameArray]);
+
+  const onleaveName = (value: any) => {
+    console.log(value);
+    form.setFieldValue("leaveName", value);
+    const result = form.getFieldValue("leaveName");
+    console.log({ result });
+  };
 
   const onCancel = () => {
     form.resetFields();
     setIsModalOpen(false);
   };
   const { TextArea } = Input;
+
+  const onFinish = async (values: any) => {
+    console.log(values);
+    // const {from:startDate.bsDate,to:endDate.bsDate}= values
+    const { startDate, endTime, leaveName, ...rest } = values;
+    console.log(rest, "<----- this is rest");
+    try {
+      const res = await apis.applyLeave(
+        { from: startDate.bsDate, to: endTime.bsDate, ...rest },
+        values.leaveName
+      );
+      if (res.status === 200) {
+        message.success("Leave Applied");
+        form.resetFields();
+      }
+    } catch {
+      message.error("Something Went Wrong");
+    } finally {
+      setIsModalOpen(false);
+    }
+  };
+
+  console.log({ leaveNameSelect });
+
   return (
     <div className="assign-leave-form">
-      <Form layout="vertical">
+      <Form layout="vertical" onFinish={onFinish}>
         <div className="d-flex form-second-row align-items-start">
           <Form.Item
             className="form-input col"
             name="leaveName"
             label="Select Leave *"
-            rules={[{ required: true, message: "Shift Name is Required" }]}
+            rules={[{ required: true, message: "Leave Name is Required" }]}
           >
-            <Selects placeHolder="Select the name of the leave " />
+            <Select
+              placeholder="Select the type of leave"
+              className="selects form-input-wrapper"
+              options={leaveNameSelect}
+              onSelect={onleaveName}
+            />
           </Form.Item>
           <Form.Item
             className="form-input col shift-time"
@@ -46,7 +108,7 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
         <div className="form-second-row align-items-start ">
           <Form.Item
             className="form-input col unit-input"
-            name="unit"
+            name="employeeId"
             label="Employee ID *"
             rules={[{ required: true, message: "Shift Name is Required" }]}
           >
@@ -58,7 +120,7 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
           </Form.Item>
           <Form.Item
             className="form-input col"
-            name="maximumUnitAllowed"
+            name="employeeName"
             label="Employee Name *"
             rules={[{ required: true, message: "Shift Name is Required" }]}
           >
@@ -112,7 +174,7 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
 
         <Form.Item
           className="form-input col mt-2"
-          name="leaveDeatils"
+          name="reason"
           label="Reason for leave *"
         >
           <TextArea
