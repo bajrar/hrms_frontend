@@ -5,9 +5,10 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../../hooks/useTypedSelector";
 import { getUpcomingEvents } from "../../../redux/features/upcomingEvents";
 import { formatDate } from "./helperFunction";
+import { Skeleton } from "antd";
 
 const UpcomingEvents = () => {
-  const getLastDayOfMonth = (year: Number, month: any) => {
+  const getLastDayOfMonth = (year: number, month: number) => {
     const nepaliMonths = [
       31, // Baisakh
       32, // Jestha
@@ -47,7 +48,9 @@ const UpcomingEvents = () => {
     dispatch(getUpcomingEvents() as any);
   }, [dispatch]);
 
-  const { upcomingEvents } = useAppSelector((state) => state.upcomingEvents);
+  const { upcomingEvents, loading } = useAppSelector(
+    (state) => state.upcomingEvents
+  );
 
   // Get today's date
   const nepaliDate = new NepaliDate(new Date());
@@ -89,121 +92,151 @@ const UpcomingEvents = () => {
     <>
       <div className="upcoming-events-heading">
         <h4>Events</h4>
-        <p>Dont's miss the important schedule</p>
+        <p>Don't miss the important schedule</p>
       </div>
       <div className="upcoming-events-calendar">
-        {calendarData.map((item, index) => {
-          const formattedItem = item.toString().padStart(2, "0");
-          const hasDob = upcomingEvents?.dob?.some((dob: any) => {
-            const dobDateParts = dob.dob.split("/");
-            const dobDay = parseInt(dobDateParts[2]);
-            return dobDay === item;
-          });
-          const dobButtonClass = hasDob ? "dob-date" : "";
-          const hasHolidays = upcomingEvents?.holidays?.some((holiday: any) => {
-            const holidayStartDateParts = holiday.startDate.split("/");
-            const holidayEndDateParts = holiday.endDate.split("/");
-            const holidayStartDay = parseInt(holidayStartDateParts[2]);
-            const holidayEndDay = parseInt(holidayEndDateParts[2]);
-            return item >= holidayStartDay && item <= holidayEndDay;
-          });
-          const holidayButtonClass = hasHolidays ? "holiday-date" : "";
-          const hasEvents = upcomingEvents?.events?.some((event: any) => {
-            const eventDateParts = event.date.split("/");
-            const eventDay = parseInt(eventDateParts[2]);
-            return eventDay === item;
-          });
-          const eventButtonClass = hasEvents ? "event-date" : "";
-          const buttonClass = formattedItem === todayDay ? "current-date" : "";
-          return (
-            <div className="upcoming-events-calendar-item" key={index}>
-              <button
-                className={`${buttonClass} ${dobButtonClass} ${holidayButtonClass} ${eventButtonClass}`}
-              >
-                {formattedItem}
-              </button>
-            </div>
-          );
-        })}
+        {loading ? (
+          <Skeleton active />
+        ) : (
+          calendarData.map((item, index) => {
+            const formattedItem = item.toString().padStart(2, "0");
+            const hasDob = upcomingEvents?.dob?.some((dob: any) => {
+              const dobDateParts = dob.dob.split("/");
+              const dobDay = parseInt(dobDateParts[2]);
+              return dobDay === item;
+            });
+            const dobButtonClass = hasDob ? "dob-date" : "";
+            const hasHolidays = upcomingEvents?.holidays?.some(
+              (holiday: any) => {
+                const holidayStartDateParts = holiday.startDate.split("/");
+                const holidayEndDateParts = holiday.endDate.split("/");
+                const holidayStartDay = parseInt(holidayStartDateParts[2]);
+                const holidayEndDay = parseInt(holidayEndDateParts[2]);
+                return item >= holidayStartDay && item <= holidayEndDay;
+              }
+            );
+            const holidayButtonClass = hasHolidays ? "holiday-date" : "";
+            const hasEvents = upcomingEvents?.events?.some((event: any) => {
+              const eventDateParts = event.date.split("/");
+              const eventDay = parseInt(eventDateParts[2]);
+              return eventDay === item;
+            });
+            const eventButtonClass = hasEvents ? "event-date" : "";
+            const buttonClass =
+              formattedItem === todayDay ? "current-date" : "";
+            return (
+              <div className="upcoming-events-calendar-item" key={index}>
+                <button
+                  className={`${buttonClass} ${dobButtonClass} ${holidayButtonClass} ${eventButtonClass}`}
+                >
+                  {formattedItem}
+                </button>
+              </div>
+            );
+          })
+        )}
       </div>
       <div className="upcoming-event-today">
         <h4>Today</h4>
-        {hasEventToday?.length > 0 ||
-        hasDobToday?.length > 0 ||
-        hasHolidayToday?.length > 0 ? (
-          <div className="upcoming-event-today-items">
-            {hasEventToday?.length > 0 && (
-              <div className="upcoming-event-upcoming-events-items">
-                {hasEventToday?.map((event: any, index: any) => (
-                  <div key={index}>
-                    <p id="formatted-eventdate-event">
-                      {formatDate(event.date)}
-                    </p>
-                    <h5>{event.eventName}</h5>
-                    <p>Description: {event.notes}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-            {hasDobToday?.length > 0 && (
-              <div className="upcoming-event-upcoming-dobs-items">
-                {hasDobToday?.map((dob: any, index: any) => (
-                  <div key={index}>
-                    <p id="formatted-eventdate-dob">{formatDate(dob.dob)}</p>
-                    <h5>Birthday</h5>
-                    <p>{dob.employeeName}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-            {hasHolidayToday?.length > 0 && (
-              <div className="upcoming-event-upcoming-holidays-items">
-                {hasHolidayToday?.map((holiday: any, index: any) => (
-                  <div key={index}>
-                    <p id="formatted-eventdate-holidays">
-                      {formatDate(holiday.startDate)}
-                    </p>
-                    <h5>{holiday.holidayName}</h5>
-                    <p>Description: {holiday.notes}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+        {loading ? (
+          <Skeleton active />
         ) : (
-          <p>No Events</p>
+          <>
+            {hasEventToday?.length > 0 ||
+            hasDobToday?.length > 0 ||
+            hasHolidayToday?.length > 0 ? (
+              <div className="upcoming-event-today-items">
+                {hasEventToday?.length > 0 && (
+                  <div className="upcoming-event-upcoming-events-items">
+                    {hasEventToday?.map((event: any, index: any) => (
+                      <div key={index}>
+                        <p id="formatted-eventdate-event">
+                          {formatDate(event.date)}
+                        </p>
+                        <h5>{event.eventName}</h5>
+                        <p>Description: {event.notes}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {hasDobToday?.length > 0 && (
+                  <div className="upcoming-event-upcoming-dobs-items">
+                    {hasDobToday?.map((dob: any, index: any) => (
+                      <div key={index}>
+                        <p id="formatted-eventdate-dob">
+                          {formatDate(dob.dob)}
+                        </p>
+                        <h5>Birthday</h5>
+                        <p>{dob.employeeName}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {hasHolidayToday?.length > 0 && (
+                  <div className="upcoming-event-upcoming-holidays-items">
+                    {hasHolidayToday?.map((holiday: any, index: any) => (
+                      <div key={index}>
+                        <p id="formatted-eventdate-holidays">
+                          {formatDate(holiday.startDate)}
+                        </p>
+                        <h5>{holiday.holidayName}</h5>
+                        <p>{holiday.notes}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <p>No events today.</p>
+            )}
+          </>
         )}
       </div>
       <div className="upcoming-event-upcoming">
         <h4>Upcoming</h4>
-        <div className="upcoming-event-upcoming-events">
-          {upcomingEvents?.events?.map((event: any, index: any) => (
-            <div className="upcoming-event-upcoming-events-items" key={index}>
-              <p id="formatted-eventdate-event"> {formatDate(event.date)}</p>
-              <h5>{event.eventName}</h5>
-              <p> {event.notes}</p>
-            </div>
-          ))}
+        {loading ? (
+          <Skeleton active />
+        ) : (
+          <>
+            <div className="upcoming-event-upcoming-events">
+              {upcomingEvents?.events?.map((event: any, index: any) => (
+                <div
+                  className="upcoming-event-upcoming-events-items"
+                  key={index}
+                >
+                  <p id="formatted-eventdate-event">
+                    {" "}
+                    {formatDate(event.date)}
+                  </p>
+                  <h5>{event.eventName}</h5>
+                  <p> {event.notes}</p>
+                </div>
+              ))}
 
-          {upcomingEvents?.dob?.map((dob: any, index: any) => (
-            <div className="upcoming-event-upcoming-dobs-items" key={index}>
-              <p id="formatted-eventdate-dob">{formatDate(dob.dob)}</p>
-              <h5>Birthday</h5>
-              <p>{dob.employeeName}</p>
-            </div>
-          ))}
+              {upcomingEvents?.dob?.map((dob: any, index: any) => (
+                <div className="upcoming-event-upcoming-dobs-items" key={index}>
+                  <p id="formatted-eventdate-dob">{formatDate(dob.dob)}</p>
+                  <h5>Birthday</h5>
+                  <p>{dob.employeeName}</p>
+                </div>
+              ))}
 
-          {upcomingEvents?.holidays?.map((holiday: any, index: any) => (
-            <div className="upcoming-event-upcoming-holidays-items" key={index}>
-              <p id="formatted-eventdate-holidays">
-                {formatDate(holiday.startDate)}
-              </p>
-              <h5>Holiday</h5>
-              <p>Holiday Name: {holiday.holidayName}</p>
-              <p>Notes: {holiday.notes}</p>
+              {upcomingEvents?.holidays?.map((holiday: any, index: any) => (
+                <div
+                  className="upcoming-event-upcoming-holidays-items"
+                  key={index}
+                >
+                  <p id="formatted-eventdate-holidays">
+                    {formatDate(holiday.startDate)}
+                  </p>
+                  <h5>Holiday</h5>
+                  <p>Holiday Name: {holiday.holidayName}</p>
+                  <p>Notes: {holiday.notes}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        )}
       </div>
     </>
   );
