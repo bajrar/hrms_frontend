@@ -33,12 +33,14 @@ export const CompareFunction = (compareList: any) => {
 const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
   const dispatch = useAppDispatch();
   const [attendanceData, setAttendanceData] = useState<any>([]);
-
+  const email = localStorage.getItem('email');
+  const token = localStorage.getItem('token');
+  console.log(token, '<---- this is token');
   useEffect(() => {
     dispatch(getUsers({ status: status, date: defaultDate }) as any);
   }, [dispatch, status, defaultDate]);
 
-  const { user,loading } = useAppSelector((state) => state.attendanceSlice);
+  const { user, loading } = useAppSelector((state) => state.attendanceSlice);
   const columns: ColumnsType<DataType> = [
     {
       title: 'EID',
@@ -138,7 +140,11 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
 
   useEffect(() => {
     const data1: DataType[] = [];
-    user?.map((userData) => {
+    let attendanceUser = user;
+    if (email !== 'admin@virtuosway.com.np') {
+      attendanceUser = user?.filter((each) => each.email === email);
+    }
+    attendanceUser?.map((userData) => {
       userData?.attendanceRecords?.map((attendance: any) => {
         if (userData.employeeName.toLowerCase().includes(searchText)) {
           const tableData = {
@@ -173,7 +179,6 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
           };
           data1.push(tableData);
 
-          console.log(attendanceData, 'data');
           // setAttendanceData([...attendanceData, tableData]);
         }
       });
