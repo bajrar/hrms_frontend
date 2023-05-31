@@ -104,6 +104,7 @@ const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
         form.resetFields();
         dispatch(getLeave() as any);
       }
+      message.success("Leave Assigned Successfully");
     } catch {
       message.error("Something Went Wrong");
     } finally {
@@ -124,7 +125,7 @@ const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
   };
 
   const onEmployeeName = (value: string) => {
-    form.setFieldValue("assignedTo", value);
+    form.setFieldValue("assignTo", value);
   };
 
   return (
@@ -145,7 +146,7 @@ const AssignLeaveForm = ({ setIsAssignOpen }: any) => {
       </Form.Item>
       <Form.Item
         className="form-input col"
-        name="assignedTo"
+        name="assignTo"
         label="Assign To *"
         rules={[{ required: true, message: "Employee(s) Name is Required" }]}
       >

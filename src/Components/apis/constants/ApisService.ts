@@ -173,6 +173,13 @@ export const apis = {
       values
     );
   },
+  applyLeave: (values: any, leaveId: string) => {
+    return axiosApiInstance.post(
+      `/leave/apply/${leaveId}
+    `,
+      values
+    );
+  },
   deleteLeave: (leaveId: string) => {
     return axiosApiInstance.delete(`/leave/${leaveId}`);
   },
