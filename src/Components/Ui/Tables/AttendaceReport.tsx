@@ -35,12 +35,12 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
   const [attendanceData, setAttendanceData] = useState<any>([]);
   const email = localStorage.getItem('email');
   const token = localStorage.getItem('token');
-  console.log(token, '<---- this is token');
   useEffect(() => {
     dispatch(getUsers({ status: status, date: defaultDate }) as any);
   }, [dispatch, status, defaultDate]);
 
   const { user, loading } = useAppSelector((state) => state.attendanceSlice);
+
   const columns: ColumnsType<DataType> = [
     {
       title: 'EID',
@@ -199,6 +199,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
       columns={columns}
       dataSource={attendanceData}
       loading={loading}
+
       // pagination={tableParams.pagination}
     />
   );
