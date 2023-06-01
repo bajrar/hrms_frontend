@@ -211,7 +211,6 @@ const JobSummary = () => {
               ? jobsArray
               : jobsArray.filter((job) => job.jobsStatus === jobStat)
           }
-          // style={rowStyles}
         />
         <ModalComponent
           openModal={isModalOpen}
