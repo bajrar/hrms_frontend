@@ -154,7 +154,7 @@ const UpcomingEvents = () => {
                           {formatDate(event.date)}
                         </p>
                         <h5>{event.eventName}</h5>
-                        <p>Description: {event.notes}</p>
+                        <p>{event.notes}</p>
                       </div>
                     ))}
                   </div>
