@@ -102,7 +102,7 @@ const JobSummary = () => {
             color="#35639F"
             onClick={() => openDeleteJobs(record)}
           />
-          <span className='viewMoreBtn' onClick={() => viewSingleJob(record)}>
+          <span className="viewMoreBtn" onClick={() => viewSingleJob(record)}>
             View
           </span>
         </div>
@@ -137,12 +137,12 @@ const JobSummary = () => {
     setJobsArray(shifts);
   }, [jobs, searchText]);
   const getRowClassName = (record: any) => {
-    if (record.status === 'closed') {
-      return 'closed-row';
-    } else if (record.status === 'open') {
-      return 'open-row';
+    if (record.status === "closed") {
+      return "closed-row";
+    } else if (record.status === "open") {
+      return "open-row";
     } else {
-      return '';
+      return "";
     }
   };
   const onSelect = (e: any) => {
@@ -186,9 +186,9 @@ const JobSummary = () => {
         <Table
           rowClassName={getRowClassName}
           columns={columns}
-          className='table-container'
+          className="table-container"
           dataSource={
-            jobStat === 'allStatus'
+            jobStat === "allStatus"
               ? jobsArray
               : jobsArray.filter((job) => job.jobsStatus === jobStat)
           }
