@@ -38,7 +38,7 @@ const upcomingEventSlice = createSlice({
       })
       .addCase(getUpcomingEvents.rejected, (state, action) => {
         state.loading = false;
-      });
+      })
   },
 });
 export default upcomingEventSlice.reducer;

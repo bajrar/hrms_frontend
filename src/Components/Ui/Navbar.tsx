@@ -11,6 +11,8 @@ import { DownOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Button, Dropdown, message, Space, Tooltip } from 'antd';
 import { useState } from 'react';
+import { useAppSelector } from '../../hooks/useTypedSelector';
+import { RootState } from '../../store';
 
 const handleMenuClick: MenuProps['onClick'] = (e) => {
   if (e.key === '1') {
@@ -39,10 +41,8 @@ const menuProps = {
 };
 const Navbar = () => {
   const [openDropdown, setOpenDropdown] = useState(true);
-  const userName = localStorage.getItem('userName');
-
-  const items: MenuProps['items'] = [];
-
+  const userData = useAppSelector((state: RootState) => state.userSlice.value);
+  const userName = userData?.userName;
   return (
     <div className='navbar-dash padding'>
       <div className='navbar-dash__left'>
@@ -53,30 +53,7 @@ const Navbar = () => {
       </div>
       <div className='navbar-dash__right'>
         <FontAwesomeIcon icon={faBell} />
-        {/* {email ? (
-          <p onClick={() => setOpenDropdown(!openDropdown)}>
-            {email} <FontAwesomeIcon icon={faChevronDown} />
-          </p>
-        ) : null} */}
 
-        {/* <div
-          className={
-            openDropdown ? `custom-dropdown-active` : `custom-dropdown`
-          }
-        >
-          {token === null ? null : (
-            <Button
-              type='text'
-              style={{
-                // background: "#00b9f1",
-                border: '2px solid #051a63',
-              }}
-              onClick={() => logoutUser()}
-            >
-              Logout
-            </Button>
-          )}
-        </div> */}
         <Dropdown menu={menuProps}>
           <Button type='text'>
             <Space>

@@ -4,19 +4,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
 import { useEffect } from 'react';
+import { useAppSelector } from '../../hooks/useTypedSelector';
+import { RootState } from '../../store';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
 const SideBarTab = () => {
   const [smallSidebar, setSmallSidebar] = useState<boolean>(true);
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const userRole = useAppSelector((state: RootState) => state.userSlice.value);
   const navigate = useNavigate();
-  useEffect(() => {
-    const admin = localStorage.getItem('isAdmin') === 'true' ? true : false;
-    setIsAdmin(admin);
-  }, []);
-  // const isAdmin = Boolean(localStorage.getItem("isAdmin"));
-
   const userAccess = ['Vacancy Management', 'Employee Management', 'v'];
   function getItem(
     label?: any,
@@ -25,7 +21,7 @@ const SideBarTab = () => {
     children?: MenuItem[],
     type?: 'group'
   ): any {
-    if (isAdmin || !userAccess.includes(label))
+    if (userRole === 'admin' || !userAccess.includes(label))
       return {
         key,
         icon,
@@ -145,7 +141,7 @@ const SideBarTab = () => {
               '8'
             )
           : null,
-        isAdmin
+        userRole === 'admin'
           ? getItem(
               <div
                 className='sidenav-link'
@@ -156,7 +152,7 @@ const SideBarTab = () => {
               '9'
             )
           : null,
-        isAdmin
+        userRole === 'admin'
           ? getItem(
               <div
                 className='sidenav-link'

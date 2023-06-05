@@ -10,16 +10,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { Spin } from 'antd';
+import { useAppSelector } from '../../hooks/useTypedSelector';
+import { RootState } from '../../store';
+import { getUserData } from '../../redux/features/userSlice';
 type LoginPageProps = {};
 
 export const LoginPage = ({}: LoginPageProps) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
 
+  const userRole = useAppSelector((state: RootState) => state.userSlice.value);
   useEffect(() => {
     const auth = localStorage.getItem('token');
     if (auth) {
@@ -29,6 +32,7 @@ export const LoginPage = ({}: LoginPageProps) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [inputs, setInputs] = useState({
     email: '',
     password: '',
@@ -54,11 +58,12 @@ export const LoginPage = ({}: LoginPageProps) => {
     try {
       const res = await apis.getLogin(inputs);
       dispatch(getToken(res.data.token));
+      dispatch(getUserData(res.data.user));
       if (res.status === 200) {
         localStorage.setItem('token', res.data.token);
-        localStorage.setItem('email', inputs?.email);
-        localStorage.setItem('isAdmin', res.data.user?.admin);
-        localStorage.setItem('userName', res.data.user?.userName);
+        // localStorage.setItem('email', inputs?.email);
+        // localStorage.setItem('isAdmin', res.data.user?.admin);
+        // localStorage.setItem('userName', res.data.user?.userName);
         navigate('/dashboard');
       }
     } catch (error) {

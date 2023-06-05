@@ -12,6 +12,7 @@ import {
 } from '../../../hooks/useTypedSelector';
 import { formatTime } from './SingleEmployee';
 import { EmployeeStats } from '../../../pages/Attendance/Attendance';
+import { RootState } from '../../../store';
 
 export interface DataType {
   id?: string;
@@ -25,7 +26,7 @@ export interface DataType {
   workHours: string;
 }
 
-export const CompareFunction = (compareList: any) => {  
+export const CompareFunction = (compareList: any) => {
   const compareItem = compareList.toLowerCase().trim().split(' ').join('');
   return compareItem;
 };
@@ -33,7 +34,8 @@ export const CompareFunction = (compareList: any) => {
 const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
   const dispatch = useAppDispatch();
   const [attendanceData, setAttendanceData] = useState<any>([]);
-  const email = localStorage.getItem('email');
+  const userData = useAppSelector((state: RootState) => state.userSlice.value);
+  const email = userData?.email;
   const token = localStorage.getItem('token');
   useEffect(() => {
     dispatch(getUsers({ status: status, date: defaultDate }) as any);

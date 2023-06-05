@@ -18,6 +18,7 @@ import employeeSlice from './redux/features/employeeSlice';
 import singleEmployeeSlice from './redux/features/singleEmployeeSlice';
 import announcementSlice from './redux/features/announcementSlice';
 import upcomingEventSlice from './redux/features/upcomingEvents';
+import userSlice from './redux/features/userSlice';
 
 export const store = configureStore({
   reducer: {
@@ -40,6 +41,7 @@ export const store = configureStore({
     singleEmployeeSlice: singleEmployeeSlice,
     announcement: announcementSlice,
     upcomingEvents: upcomingEventSlice,
+    userSlice: userSlice,
   },
 });
 export type RootState = ReturnType<typeof store.getState>;

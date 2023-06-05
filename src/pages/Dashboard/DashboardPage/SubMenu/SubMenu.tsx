@@ -9,17 +9,21 @@ import EmployeeCountByDesignation from '../../../../Components/Dashboard/Attenda
 import UpcomingEvents from '../../../../Components/Dashboard/upcomingEvents/UpcomingEvents';
 import Announcement from '../../../../Components/Dashboard/upcomingEvents/Announcement';
 import UserDashborad from '../UserDashborad';
+import { useAppSelector } from '../../../../hooks/useTypedSelector';
+import { RootState } from '../../../../store';
 
 type SubMenuProps = {};
 
 export const SubMenu = ({}: SubMenuProps) => {
-  const isAdmin = localStorage.getItem('isAdmin') === 'true' ? true : false;
+  const userData = useAppSelector((state: RootState) => state.userSlice.value);
+  const userRole = userData?.role;
+
   return (
     <div className='hr-dashboard-sub-menu'>
       <div className='row hr-dashboard-sub-menu-content'>
         <Tabs defaultActiveKey='1'>
           <Tabs.TabPane tab='Dashboard' key='1'>
-            {isAdmin ? (
+            {userRole === 'admin' ? (
               <>
                 <div className='row'>
                   <div className='col-lg-6 hr-dashboard-sub-menu-content-left'>
@@ -37,7 +41,7 @@ export const SubMenu = ({}: SubMenuProps) => {
               <UserDashborad />
             )}
           </Tabs.TabPane>
-          {isAdmin && (
+          {userRole === 'admin' && (
             <Tabs.TabPane tab='Upcoming events' key='2'>
               <div className='dashboard-upcoming-events'>
                 <div className='Upcoming col-8'>
