@@ -25,7 +25,7 @@ export interface DataType {
   workHours: string;
 }
 
-export const CompareFunction = (compareList: any) => {
+export const CompareFunction = (compareList: any) => {  
   const compareItem = compareList.toLowerCase().trim().split(' ').join('');
   return compareItem;
 };

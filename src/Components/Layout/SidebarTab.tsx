@@ -134,7 +134,7 @@ const SideBarTab = () => {
           </div>,
           '7'
         ),
-        isAdmin
+        true
           ? getItem(
               <div
                 className='sidenav-link'

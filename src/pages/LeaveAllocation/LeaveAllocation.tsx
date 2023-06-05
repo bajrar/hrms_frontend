@@ -7,6 +7,8 @@ import Layout from '../../Components/Layout';
 import Navbar from '../../Components/Ui/Navbar';
 
 const LeaveAllocation = () => {
+  const isAdmin = localStorage.getItem('isAdmin') === 'true' ? true : false;
+  console.log(typeof isAdmin);
   const items: TabsProps['items'] = [
     {
       key: '1',
@@ -19,6 +21,9 @@ const LeaveAllocation = () => {
       children: <ApplyLeave />,
     },
   ];
+  const filteredItems = isAdmin
+    ? items
+    : items.filter((item) => item.key === '2');
   return (
     <Layout>
       <Navbar />
@@ -31,9 +36,10 @@ const LeaveAllocation = () => {
           location2='Add Leave'
         />
         <hr />
-        <Tabs defaultActiveKey='1' items={items} />
+        <Tabs defaultActiveKey='1' items={filteredItems} />
       </div>
     </Layout>
-  );};
+  );
+};
 
 export default LeaveAllocation;
