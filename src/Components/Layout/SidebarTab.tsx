@@ -11,7 +11,8 @@ type MenuItem = Required<MenuProps>['items'][number];
 
 const SideBarTab = () => {
   const [smallSidebar, setSmallSidebar] = useState<boolean>(true);
-  const userRole = useAppSelector((state: RootState) => state.userSlice.value);
+  const userData = useAppSelector((state: RootState) => state.userSlice.value);
+  const userRole = userData?.role;
   const navigate = useNavigate();
   const userAccess = ['Vacancy Management', 'Employee Management', 'v'];
   function getItem(

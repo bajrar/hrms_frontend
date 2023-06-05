@@ -33,7 +33,7 @@ export const SubMenu = ({}: SubMenuProps) => {
                   <div className='col-lg-6'>
                     <Analytics />
                     <AttendaceCount />
-                    <EmployeeCountByDesignation />
+                    {/* <EmployeeCountByDesignation /> */}
                   </div>
                 </div>
               </>

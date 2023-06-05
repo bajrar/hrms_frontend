@@ -41,8 +41,12 @@ const menuProps = {
 };
 const Navbar = () => {
   const [openDropdown, setOpenDropdown] = useState(true);
-  const userData = useAppSelector((state: RootState) => state.userSlice.value);
+  const userData = useAppSelector(
+    (state: RootState) => state?.userSlice?.value
+  );
+  console.log(userData, '<0------- thisi suser data');
   const userName = userData?.userName;
+  console.log(userName, '<---- this is user');
   return (
     <div className='navbar-dash padding'>
       <div className='navbar-dash__left'>
