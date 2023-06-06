@@ -145,7 +145,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
   useEffect(() => {
     const data1: DataType[] = [];
     let attendanceUser = user;
-    if (role !== 'admin') {
+    if (role === 'user') {
       attendanceUser = user?.filter((each) => each.email === email);
     }
     attendanceUser?.map((userData) => {

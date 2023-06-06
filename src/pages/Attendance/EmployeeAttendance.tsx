@@ -158,16 +158,6 @@ const EmployeeAttendance = () => {
   //     }
   // }
 
-  if (loading) {
-    return (
-      <>
-        <Layout>
-          <Navbar />
-          <p>Loading</p>
-        </Layout>
-      </>
-    );
-  }
   return (
     <Layout>
       <Navbar />

@@ -44,11 +44,16 @@ const SideBarTab = () => {
     setSmallSidebar(!smallSidebar);
   };
   const closeSidebar = (routeTo: string) => {
-    if (routeTo === 'attendance' && userSn) {
+    if (userRole === 'user') {
       navigate(`/${routeTo}/${userSn}`);
     } else {
       navigate(`/${routeTo}`);
     }
+    // if (routeTo === 'attendance' && userSn) {
+    //   navigate(`/${routeTo}/${userSn}`);
+    // } else {
+    //   navigate(`/${routeTo}`);
+    // }
     setSmallSidebar(!smallSidebar);
   };
   const items: MenuProps['items'] = [

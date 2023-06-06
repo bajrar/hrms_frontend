@@ -68,6 +68,7 @@ export const LoginPage = ({}: LoginPageProps) => {
         // localStorage.setItem('isAdmin', res.data.user?.admin);
         // localStorage.setItem('userName', res.data.user?.userName);
         navigate('/dashboard');
+        window.location.reload();
       }
     } catch (error) {
       console.log(error);
