@@ -28,25 +28,13 @@ export const ChangePassword = ({}: ChangePasswordProps) => {
       [e.target.name]: e.target.value,
     }));
   };
-  const cookies: any = document.cookie;
-  // Split the cookies string into individual cookies
-  const cookieArray = cookies.split(";");
-  // Create an object to store the cookie values
-  const cookieValues: any = {};
-  // Iterate over the cookieArray and extract the cookie names and values
-  cookieArray.forEach((cookie: any) => {
-    const [name, value] = cookie.trim().split("=");
-    cookieValues[name] = value;
-  });
-  // Access the email and otp values
-  const email = cookieValues.email;
+  const email = localStorage.getItem("email");
 
   const input = {
     email: email,
     password: inputs.password,
     confirmPassword: inputs.confirmPassword,
   };
-  console.log(input);
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
