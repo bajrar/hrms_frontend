@@ -25,7 +25,6 @@ export const LoginPage = ({}: LoginPageProps) => {
   };
 
   const userRole = useAppSelector((state: RootState) => state.userSlice.value);
-
   useEffect(() => {
     const auth = localStorage.getItem('token');
     if (auth) {
@@ -82,6 +81,7 @@ export const LoginPage = ({}: LoginPageProps) => {
     dispatch(verifyTokenStatus() as any);
   }, []);
   const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
+  console.log(loginData, ',,00000');
 
   return (
     <main className='loginpage_main'>

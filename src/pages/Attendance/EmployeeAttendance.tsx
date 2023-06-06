@@ -113,7 +113,7 @@ const EmployeeAttendance = () => {
     }
   }, [dispatch, startDate, endDate, employeeId]);
 
-  const { employee } = useAppSelector(
+  const { employee, loading } = useAppSelector(
     (state: any) => state.SingleAttendanceSlice
   );
 
@@ -158,6 +158,16 @@ const EmployeeAttendance = () => {
   //     }
   // }
 
+  if (loading) {
+    return (
+      <>
+        <Layout>
+          <Navbar />
+          <p>Loading</p>
+        </Layout>
+      </>
+    );
+  }
   return (
     <Layout>
       <Navbar />
