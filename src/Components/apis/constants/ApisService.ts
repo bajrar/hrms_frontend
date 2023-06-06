@@ -27,7 +27,6 @@ type JobCredentialsT = {
 //   resume: string;
 // };
 export const token = localStorage.getItem('token');
-
 export const axiosApiInstance = axios.create({
   baseURL: `${API_URL}`,
   headers: {

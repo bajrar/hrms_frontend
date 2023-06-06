@@ -42,6 +42,7 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
     `${year.year}/${month + 1}/${nepaliMonthDays[yearNumber][month]}`
   );
 
+
   useEffect(() => {
     if (
       year.year === todayInBs.getYear() &&

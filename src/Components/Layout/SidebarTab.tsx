@@ -4,15 +4,21 @@ import { Link, useNavigate } from 'react-router-dom';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
 import { useEffect } from 'react';
-import { useAppSelector } from '../../hooks/useTypedSelector';
+import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
 import { RootState } from '../../store';
+import { verifyTokenStatus } from '../../redux/features/verifyTokenSlice';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
 const SideBarTab = () => {
   const [smallSidebar, setSmallSidebar] = useState<boolean>(true);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(verifyTokenStatus() as any);
+  }, []);
   const userData = useAppSelector((state: RootState) => state.userSlice.value);
-  const userRole = userData?.role;
+  const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
+  const userRole = tokenData?.role ? tokenData?.role : userData?.role;
   const navigate = useNavigate();
   const userAccess = ['Vacancy Management', 'Employee Management', 'v'];
   function getItem(

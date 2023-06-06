@@ -11,6 +11,7 @@ export const getEmployeeData = createAsyncThunk(
     }: { userSn: any; startDate?: any; endDate?: any },
     { rejectWithValue }
   ) => {
+    console.log({startDate,endDate})
     try {
       const response = await axiosApiInstance(
         `getAttendanceByDateRange?userSn=${userSn}&&startDate=${startDate}&&endDate=${endDate}`

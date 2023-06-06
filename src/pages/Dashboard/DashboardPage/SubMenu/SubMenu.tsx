@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './SubMenu.css';
 import { Button, Tabs } from 'antd';
 import { Graph } from '../Graph/Graph';
@@ -11,12 +11,21 @@ import Announcement from '../../../../Components/Dashboard/upcomingEvents/Announ
 import UserDashborad from '../UserDashborad';
 import { useAppSelector } from '../../../../hooks/useTypedSelector';
 import { RootState } from '../../../../store';
+import { verifyTokenStatus } from '../../../../redux/features/verifyTokenSlice';
+import { useDispatch } from 'react-redux';
 
 type SubMenuProps = {};
 
 export const SubMenu = ({}: SubMenuProps) => {
+  const dispatch = useDispatch();
+  // const userData = useAppSelector((state: RootState) => state.userSlice.value);
+  useEffect(() => {
+    dispatch(verifyTokenStatus() as any);
+  }, [dispatch]);
   const userData = useAppSelector((state: RootState) => state.userSlice.value);
-  const userRole = userData?.role;
+  const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
+  const userRole = tokenData?.role ? tokenData?.role : userData?.role;
+  // const userRole = tokenData?.role;
 
   return (
     <div className='hr-dashboard-sub-menu'>
