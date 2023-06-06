@@ -50,7 +50,8 @@ const Navbar = () => {
   const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
   const userData = useAppSelector((state: RootState) => state.userSlice.value);
   const userName = userData?.email ? userData?.email : tokenData?.email;
-  console.log(userName, ',------ this is user name' );
+  console.log(tokenData, '<---- this is token data');
+  console.log(userData, '<---- this is token data');
   return (
     <div className='navbar-dash padding'>
       <div className='navbar-dash__left'>

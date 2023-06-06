@@ -36,7 +36,9 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
   const [attendanceData, setAttendanceData] = useState<any>([]);
   const userData = useAppSelector((state: RootState) => state.userSlice.value);
   const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
+
   const email = tokenData?.email ? tokenData?.email : userData?.email;
+  const role = tokenData?.role ? tokenData?.role : userData?.role;
   useEffect(() => {
     dispatch(getUsers({ status: status, date: defaultDate }) as any);
   }, [dispatch, status, defaultDate]);
@@ -143,7 +145,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
   useEffect(() => {
     const data1: DataType[] = [];
     let attendanceUser = user;
-    if (email !== 'admin@virtuosway.com.np') {
+    if (role !== 'admin') {
       attendanceUser = user?.filter((each) => each.email === email);
     }
     attendanceUser?.map((userData) => {

@@ -15,7 +15,6 @@ const Dashboard = () => {
   const userData = useAppSelector((state: RootState) => state.userSlice.value);
 
   const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
-  console.log(tokenData, '<------ this is token data');
   return (
     <div className='dashboard-page'>
       <div className='dash-container'>
