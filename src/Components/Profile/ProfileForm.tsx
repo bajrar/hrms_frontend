@@ -27,8 +27,6 @@ export const selectedEmployee = (state: any, id: string) =>
   state?.find((item: any) => item?.employeeNumber === id);
 
 export const ProfileForm = ({
-  setIsModalOpen,
-  update = false,
   employeeId = '',
   isDisable = false,
   defaultValue: employeeData = {},
@@ -135,22 +133,6 @@ export const ProfileForm = ({
     });
   }, [employeeData]);
 
-  const onUpdateEmployee = async (values: any) => {
-    const { dateOfJoining, dob, ...rest } = values;
-    try {
-      const res = await apis.updateEmployee(
-        { ...rest, dob: getDob, dateOfJoining: getDateOfJoining },
-        employeeData._id
-      );
-      if (res.status === 201) {
-        form.resetFields();
-        getEmployee();
-      }
-    } catch {
-    } finally {
-      setIsModalOpen(false);
-    }
-  };
   const firstRow = [
     {
       name: 'employeeId',
@@ -260,10 +242,6 @@ export const ProfileForm = ({
       value: 'resigned',
     },
   ];
-  const closeModal = () => {
-    form.resetFields();
-    setIsModalOpen(false);
-  };
 
   const dateFormat = 'YYYY/MM/DD';
   return (
