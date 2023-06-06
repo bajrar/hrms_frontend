@@ -82,8 +82,6 @@ export const LoginPage = ({}: LoginPageProps) => {
     dispatch(verifyTokenStatus() as any);
   }, []);
   const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
-  console.log(loginData, ',,00000');
-
   return (
     <main className='loginpage_main'>
       <ToastContainer

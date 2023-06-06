@@ -22,6 +22,7 @@ import { ForgetPassword } from '../LoginPage/ForgetPassword';
 import { OtpSection } from '../LoginPage/OtpSection';
 import { ChangePassword } from '../LoginPage/ChangePassword';
 import AdminRouteHOC from '../../HOC/adminProtected';
+import { AdminProtectedRoute } from './adminProtected';
 
 type MainRoutesProps = {};
 
@@ -51,9 +52,6 @@ export const MainRoutes = ({}: MainRoutesProps) => {
           <Route path='*' element={<PageNotFound />} />
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/leave' element={<Leave />} />
-          <Route path='/employee' element={<Employee />} />
-          <Route path='/attendance' element={<Attendance />} />
-          <Route path='/reports' element={<Reports />} />
           <Route
             path='/attendance/:employeeId'
             element={<EmployeeAttendance />}
@@ -63,11 +61,14 @@ export const MainRoutes = ({}: MainRoutesProps) => {
           <Route path='/holidays' element={<Holidays />} />
           <Route path='/leave-allocation' element={<LeaveAllocation />} />
           <Route path='/leave/:leaveId' element={<LeaveDetails />} />
-
-          <Route path='/device-manager' element={<DeviceManager />} />
-          {/* <Route path='/job-summary' element={<JobSummary />} /> */}
-          <Route path='/job-summary' Component={AdminRouteHOC(JobSummary)} />
-          <Route path='/applicants' element={<Applicants />} />
+          <Route element={<AdminProtectedRoute />}>
+            <Route path='/device-manager' element={<DeviceManager />} />
+            <Route path='/attendance' element={<Attendance />} />
+            <Route path='/reports' element={<Reports />} />
+            <Route path='/employee' element={<Employee />} />
+            <Route path='/job-summary' element={<JobSummary />} />
+            <Route path='/applicants' element={<Applicants />} />
+          </Route>
         </Route>
         {hasEmail && (
           <>
