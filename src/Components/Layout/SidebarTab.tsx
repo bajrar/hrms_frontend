@@ -44,7 +44,7 @@ const SideBarTab = () => {
     setSmallSidebar(!smallSidebar);
   };
   const closeSidebar = (routeTo: string) => {
-    if (userSn) {
+    if (routeTo === 'attendance') {
       navigate(`/${routeTo}/${userSn}`);
     } else {
       navigate(`/${routeTo}`);
