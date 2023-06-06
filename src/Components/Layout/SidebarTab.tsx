@@ -20,7 +20,6 @@ const SideBarTab = () => {
   const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
   const userRole = tokenData?.role ? tokenData?.role : userData?.role;
   const userSn = tokenData?.userSn;
-  console.log({ userSn });
   const navigate = useNavigate();
   const userAccess = ['Vacancy Management', 'Employee Management', 'v'];
   function getItem(

@@ -10,9 +10,10 @@ import { token } from '../apis/constants/ApisService';
 import { DownOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Button, Dropdown, message, Space, Tooltip } from 'antd';
-import { useState } from 'react';
-import { useAppSelector } from '../../hooks/useTypedSelector';
+import { useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
 import { RootState } from '../../store';
+import { verifyTokenStatus } from '../../redux/features/verifyTokenSlice';
 
 const handleMenuClick: MenuProps['onClick'] = (e) => {
   if (e.key === '1') {
@@ -41,13 +42,15 @@ const menuProps = {
 };
 const Navbar = () => {
   const [openDropdown, setOpenDropdown] = useState(true);
-  // const userData = useAppSelector(
-  //   (state: RootState) => state?.userSlice?.value
-  // );
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(verifyTokenStatus() as any);
+  }, []);
+
   const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
   const userData = useAppSelector((state: RootState) => state.userSlice.value);
-  const userName = tokenData?.email ? tokenData?.email : userData?.email;
-
+  const userName = userData?.email ? userData?.email : tokenData?.email;
+  console.log(userName, ',------ this is user name' );
   return (
     <div className='navbar-dash padding'>
       <div className='navbar-dash__left'>

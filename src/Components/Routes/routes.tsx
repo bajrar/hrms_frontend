@@ -21,6 +21,7 @@ import LeaveDetails from '../../pages/LeaveAllocation/LeaveDetails';
 import { ForgetPassword } from '../LoginPage/ForgetPassword';
 import { OtpSection } from '../LoginPage/OtpSection';
 import { ChangePassword } from '../LoginPage/ChangePassword';
+import AdminRouteHOC from '../../HOC/adminProtected';
 
 type MainRoutesProps = {};
 
@@ -64,7 +65,8 @@ export const MainRoutes = ({}: MainRoutesProps) => {
           <Route path='/leave/:leaveId' element={<LeaveDetails />} />
 
           <Route path='/device-manager' element={<DeviceManager />} />
-          <Route path='/job-summary' element={<JobSummary />} />
+          {/* <Route path='/job-summary' element={<JobSummary />} /> */}
+          <Route path='/job-summary' Component={AdminRouteHOC(JobSummary)} />
           <Route path='/applicants' element={<Applicants />} />
         </Route>
         {hasEmail && (
