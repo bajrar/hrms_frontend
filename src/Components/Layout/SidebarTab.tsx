@@ -19,6 +19,8 @@ const SideBarTab = () => {
   const userData = useAppSelector((state: RootState) => state.userSlice.value);
   const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
   const userRole = tokenData?.role ? tokenData?.role : userData?.role;
+  const userSn = tokenData?.userSn;
+  console.log({ userSn });
   const navigate = useNavigate();
   const userAccess = ['Vacancy Management', 'Employee Management', 'v'];
   function getItem(
@@ -43,7 +45,11 @@ const SideBarTab = () => {
     setSmallSidebar(!smallSidebar);
   };
   const closeSidebar = (routeTo: string) => {
-    navigate(`/${routeTo}`);
+    if (userSn) {
+      navigate(`/${routeTo}/${userSn}`);
+    } else {
+      navigate(`/${routeTo}`);
+    }
     setSmallSidebar(!smallSidebar);
   };
   const items: MenuProps['items'] = [
