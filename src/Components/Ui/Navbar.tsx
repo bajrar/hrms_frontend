@@ -1,52 +1,45 @@
+import { useNavigate } from 'react-router-dom';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faBell,
-  faChevronDown,
-  faMagnifyingGlass,
-} from '@fortawesome/free-solid-svg-icons';
+import { faBell, faChevronDown, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import './navbar.css';
 import { logoutUser } from '../apis/constants/Api';
-import { token } from '../apis/constants/ApisService';
 import { DownOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Button, Dropdown, message, Space, Tooltip } from 'antd';
-import { useState } from 'react';
 import { useAppSelector } from '../../hooks/useTypedSelector';
 import { RootState } from '../../store';
 
-const handleMenuClick: MenuProps['onClick'] = (e) => {
-  if (e.key === '1') {
-    console.log('profile');
-  } else if (e.key === '2') {
-    logoutUser();
-  }
-};
-
-const items: MenuProps['items'] = [
-  {
-    label: 'Profile',
-    key: '1',
-    icon: <UserOutlined onClick={() => logoutUser()} />,
-  },
-  {
-    label: 'Logout',
-    key: '2',
-    icon: <LogoutOutlined />,
-  },
-];
-
-const menuProps = {
-  items,
-  onClick: handleMenuClick,
-};
 const Navbar = () => {
-  const [openDropdown, setOpenDropdown] = useState(true);
-  const userData = useAppSelector(
-    (state: RootState) => state?.userSlice?.value
-  );
-  console.log(userData, '<0------- thisi suser data');
-  const userName = userData?.userName;
-  console.log(userName, '<---- this is user');
+  const navigate = useNavigate();
+  const userData = useAppSelector((state: RootState) => state?.userSlice?.value);
+
+  const handleMenuClick: MenuProps['onClick'] = (e) => {
+    if (e.key === '1') {
+      navigate('/profile');
+    } else if (e.key === '2') {
+      logoutUser();
+    }
+  };
+
+  const items: MenuProps['items'] = [
+    {
+      label: 'Profile',
+      key: '1',
+      icon: <UserOutlined onClick={() => logoutUser()} />,
+    },
+    {
+      label: 'Logout',
+      key: '2',
+      icon: <LogoutOutlined />,
+    },
+  ];
+
+  const menuProps = {
+    items,
+    onClick: handleMenuClick,
+  };
+
   return (
     <div className='navbar-dash padding'>
       <div className='navbar-dash__left'>
@@ -61,7 +54,7 @@ const Navbar = () => {
         <Dropdown menu={menuProps}>
           <Button type='text'>
             <Space>
-              {userName}
+              {userData?.userName || ''}
               <DownOutlined />
             </Space>
           </Button>

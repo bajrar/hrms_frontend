@@ -1,7 +1,7 @@
 const UserDashborad = () => {
   return (
     <div>
-      <h1>UserDashborad</h1>
+      <h1>super test</h1>
     </div>
   );
 };

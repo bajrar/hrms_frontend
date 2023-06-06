@@ -21,6 +21,7 @@ import LeaveDetails from '../../pages/LeaveAllocation/LeaveDetails';
 import { ForgetPassword } from '../LoginPage/ForgetPassword';
 import { OtpSection } from '../LoginPage/OtpSection';
 import { ChangePassword } from '../LoginPage/ChangePassword';
+import Profile from '../../pages/Profile/Profile';
 
 type MainRoutesProps = {};
 
@@ -53,10 +54,7 @@ export const MainRoutes = ({}: MainRoutesProps) => {
           <Route path='/employee' element={<Employee />} />
           <Route path='/attendance' element={<Attendance />} />
           <Route path='/reports' element={<Reports />} />
-          <Route
-            path='/attendance/:employeeId'
-            element={<EmployeeAttendance />}
-          />
+          <Route path='/attendance/:employeeId' element={<EmployeeAttendance />} />
           <Route path='/shift' element={<Shift />} />
           <Route path='/shift/:shiftId' element={<ShiftDetails />} />
           <Route path='/holidays' element={<Holidays />} />
@@ -66,6 +64,7 @@ export const MainRoutes = ({}: MainRoutesProps) => {
           <Route path='/device-manager' element={<DeviceManager />} />
           <Route path='/job-summary' element={<JobSummary />} />
           <Route path='/applicants' element={<Applicants />} />
+          <Route path='/profile' element={<Profile />} />
         </Route>
         {hasEmail && (
           <>

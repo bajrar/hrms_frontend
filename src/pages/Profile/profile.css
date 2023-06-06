@@ -1,0 +1,14 @@
+.profile-container__header {
+  border-bottom: 1px solid #d8d8d8;
+  padding-top: 32px;
+}
+.title {
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 33px;
+}
+
+.profile-container__info {
+  margin: 10px 0;
+  padding: 1rem 2.5rem;
+}
