@@ -107,8 +107,6 @@ const EmployeeAttendance = () => {
   const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
   const userSn = tokenData?.userSn ? tokenData?.userSn : userData?.userSn;
   const role = tokenData?.role ? tokenData?.role : userData?.role;
-  console.log({ userSn, employeeId: Number(employeeId) });
-  console.log(userSn !== Number(employeeId), '<----- this is tatus');
 
   useEffect(() => {
     if (role !== 'admin' && userSn !== Number(employeeId)) {
