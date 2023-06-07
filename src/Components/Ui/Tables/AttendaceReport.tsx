@@ -44,8 +44,12 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
   }, [dispatch, status, defaultDate]);
 
   const { user, loading } = useAppSelector((state) => state.attendanceSlice);
-
   const columns: ColumnsType<DataType> = [
+    {
+      title: 'SN',
+      dataIndex: 'sn',
+      key: 'sn',
+    },
     {
       title: 'EID',
       dataIndex: 'id',
@@ -148,10 +152,11 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
     if (role === 'user') {
       attendanceUser = user?.filter((each) => each.email === email);
     }
-    attendanceUser?.map((userData) => {
+    attendanceUser?.map((userData, sn) => {
       userData?.attendanceRecords?.map((attendance: any) => {
         if (userData.employeeName.toLowerCase().includes(searchText)) {
           const tableData = {
+            sn: sn + 1,
             id: userData?.employeeNumber,
             key: userData?.employeeNumber,
             date: attendance?.attendanceByDate?.date,
