@@ -1,9 +1,9 @@
 import { useEffect, useState, memo, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
 import { Button, Form, Input, Radio, RadioChangeEvent, DatePicker, Select, Row, Col } from 'antd';
 import { toast } from 'react-toastify';
 
 import { apis, axiosApiInstance } from '../apis/constants/ApisService';
-import './add-employee-form.css';
 import BreadCrumbs from '../Ui/BreadCrumbs/BreadCrumbs';
 import Layout from '../Layout';
 import Navbar from '../Ui/Navbar';
@@ -15,13 +15,14 @@ import ModalComponent from '../Ui/Modal/Modal';
 import ViewAllEmployee from '../Ui/Tables/ViewAllEmployee';
 import { isErrored } from 'stream';
 import { useAppSelector } from '../../hooks/useTypedSelector';
-import { useDispatch } from 'react-redux';
 import { getSingleEmployee } from '../../redux/features/singleEmployeeSlice';
 import moment from 'moment';
 import { getEmployee } from '../../redux/features/employeeSlice';
 import dayjs from 'dayjs';
 import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
 import NepaliDate from 'nepali-date-converter';
+import './add-employee-form.css';
+import Projects from './Projects/Projects';
 
 export const selectedEmployee = (state: any, id: string) =>
   state?.find((item: any) => item?.employeeNumber === id);
@@ -484,7 +485,9 @@ export const ProfileForm = ({
             </div>
           </div>
         </Col>
-        <Col span={8}>PROJECTS</Col>
+        <Col span={8}>
+          <Projects />
+        </Col>
       </Row>
     </>
   );

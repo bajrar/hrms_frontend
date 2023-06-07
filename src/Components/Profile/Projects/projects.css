@@ -1,0 +1,15 @@
+.project-container {
+  margin: 0 1rem;
+  padding: 0 1rem;
+  border-left: 1px solid #d8d8d8;
+}
+
+.project-table-container {
+  margin: 1.5rem 0;
+}
+
+.project-input-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
