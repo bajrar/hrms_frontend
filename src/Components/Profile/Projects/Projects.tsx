@@ -114,7 +114,7 @@ const Projects = () => {
       <div className='project-table-container'>
         <Table
           columns={columns}
-          pagination={{ position: ['bottomCenter'], defaultCurrent: 1, total: 50 }}
+          pagination={{ position: ['bottomCenter'], pageSize: 5 }}
           dataSource={data}
         />
       </div>
