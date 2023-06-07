@@ -94,10 +94,7 @@ const SideBarTab = () => {
           '2'
         ),
         getItem(
-          <div
-            className='sidenav-link'
-            onClick={() => closeSidebar('leave-allocation')}
-          >
+          <div className='sidenav-link' onClick={() => closeSidebar('leave')}>
             Leave Allocation
           </div>,
           '3'

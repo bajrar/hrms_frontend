@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
@@ -22,6 +22,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import Layout from '../../Components/Layout';
 import Navbar from '../../Components/Ui/Navbar';
+import { RootState } from '../../store';
 
 export const AttendanceReport = [
   {
@@ -99,7 +100,21 @@ const EmployeeAttendance = () => {
     setEndDate(bsDate);
   };
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   let { employeeId } = useParams();
+
+  const userData = useAppSelector((state: RootState) => state.userSlice.value);
+  const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
+  const userSn = tokenData?.userSn ? tokenData?.userSn : userData?.userSn;
+  console.log({ userSn, employeeId: Number(employeeId) });
+  console.log(userSn !== Number(employeeId), '<----- this is tatus');
+
+  useEffect(() => {
+    if (userSn !== Number(employeeId)) {
+      // navigate(`/attendance/${employeeId}`);
+      navigate(`/`);
+    }
+  }, [employeeId]);
 
   useEffect(() => {
     if (startDate && endDate) {

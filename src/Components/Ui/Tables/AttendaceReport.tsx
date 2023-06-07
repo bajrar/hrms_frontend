@@ -37,8 +37,8 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
   const userData = useAppSelector((state: RootState) => state.userSlice.value);
   const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
 
-  const email = tokenData?.email ? tokenData?.email : userData?.email;
   const role = tokenData?.role ? tokenData?.role : userData?.role;
+  const email = tokenData?.email ? tokenData?.email : userData?.email;
   useEffect(() => {
     dispatch(getUsers({ status: status, date: defaultDate }) as any);
   }, [dispatch, status, defaultDate]);

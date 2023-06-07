@@ -35,26 +35,26 @@ export const MainRoutes = ({}: MainRoutesProps) => {
         <Route element={<ProtectedRoute />}>
           <Route path='*' element={<PageNotFound />} />
           <Route path='/dashboard' element={<Dashboard />} />
-          <Route path='/leave' element={<Leave />} />
-          <Route path='/employee' element={<Employee />} />
-          <Route path='/attendance' element={<Attendance />} />
-          <Route path='/reports' element={<Reports />} />
+          <Route path='/holidays' element={<Holidays />} />
+          <Route path='/leave' element={<LeaveAllocation />} />
+          {/* <Route path='/leave' element={<Leave />} /> */}
           <Route
             path='/attendance/:employeeId'
             element={<EmployeeAttendance />}
           />
           <Route path='/shift' element={<Shift />} />
-          <Route path='/shift/:shiftId' element={<ShiftDetails />} />
-          <Route path='/holidays' element={<Holidays />} />
-          <Route path='/leave-allocation' element={<LeaveAllocation />} />
-          <Route path='/leave/:leaveId' element={<LeaveDetails />} />
           <Route element={<AdminProtectedRoute />}>
+            <Route path='/shift/:shiftId' element={<ShiftDetails />} />
+            <Route path='/leave/:leaveId' element={<LeaveDetails />} />
+            <Route path='/attendance' element={<Attendance />} />
             <Route path='/device-manager' element={<DeviceManager />} />
             <Route path='/attendance' element={<Attendance />} />
             <Route path='/reports' element={<Reports />} />
             <Route path='/employee' element={<Employee />} />
             <Route path='/job-summary' element={<JobSummary />} />
             <Route path='/applicants' element={<Applicants />} />
+            <Route path='/employee' element={<Employee />} />
+            <Route path='/reports' element={<Reports />} />
           </Route>
         </Route>
         <Route element={<ProtectedOtpRoute />}>
