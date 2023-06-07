@@ -5,10 +5,13 @@ import BreadCrumbs from '../../Components/Ui/BreadCrumbs/BreadCrumbs';
 import './leaveAllocation.css';
 import Layout from '../../Components/Layout';
 import Navbar from '../../Components/Ui/Navbar';
+import { useAppSelector } from '../../hooks/useTypedSelector';
+import { RootState } from '../../store';
 
 const LeaveAllocation = () => {
-  const isAdmin = localStorage.getItem('isAdmin') === 'true' ? true : false;
-  console.log(typeof isAdmin);
+  const userData = useAppSelector((state: RootState) => state.userSlice.value);
+  const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
+  const userRole = tokenData?.role ? tokenData?.role : userData?.role;
   const items: TabsProps['items'] = [
     {
       key: '1',
@@ -21,9 +24,8 @@ const LeaveAllocation = () => {
       children: <ApplyLeave />,
     },
   ];
-  const filteredItems = isAdmin
-    ? items
-    : items.filter((item) => item.key === '2');
+  const filteredItems =
+    userRole === 'admin' ? items : items.filter((item) => item.key === '2');
   return (
     <Layout>
       <Navbar />

@@ -10,6 +10,8 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './addLeaveForm.css';
 import ModalComponent from '../Ui/Modal/Modal';
 import ApplyLeaveForm from './ApplyLeaveForm';
+import { useAppSelector } from '../../hooks/useTypedSelector';
+import { RootState } from '../../store';
 
 export interface DataType {
   eid?: string;
@@ -31,7 +33,7 @@ const ApplyLeave = () => {
   const onEndDateChange = ({ bsDate }: any) => {
     setEndDate(bsDate);
   };
- 
+
   const columns: ColumnsType<DataType> = [
     {
       title: 'EID',
