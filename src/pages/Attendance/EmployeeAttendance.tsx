@@ -106,11 +106,12 @@ const EmployeeAttendance = () => {
   const userData = useAppSelector((state: RootState) => state.userSlice.value);
   const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
   const userSn = tokenData?.userSn ? tokenData?.userSn : userData?.userSn;
+  const role = tokenData?.role ? tokenData?.role : userData?.role;
   console.log({ userSn, employeeId: Number(employeeId) });
   console.log(userSn !== Number(employeeId), '<----- this is tatus');
 
   useEffect(() => {
-    if (userSn !== Number(employeeId)) {
+    if (role !== 'admin' && userSn !== Number(employeeId)) {
       // navigate(`/attendance/${employeeId}`);
       navigate(`/`);
     }
