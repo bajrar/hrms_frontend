@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
 import { RootState } from '../../store';
 import { verifyTokenStatus } from '../../redux/features/verifyTokenSlice';
+import { AiOutlineMenu } from 'react-icons/ai';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -44,7 +45,7 @@ const SideBarTab = () => {
     setSmallSidebar(!smallSidebar);
   };
   const closeSidebar = (routeTo: string) => {
-    if (userRole === 'user') {
+    if (userRole === 'user' && routeTo === 'attendance') {
       navigate(`/${routeTo}/${userSn}`);
     } else {
       navigate(`/${routeTo}`);

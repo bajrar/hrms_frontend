@@ -60,6 +60,17 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
       dataIndex: 'date',
       key: 'date',
     },
+
+    {
+      title: 'NAME',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'DESIGNATION',
+      dataIndex: 'designation',
+      key: 'designation',
+    },
     {
       title: 'STATUS',
       dataIndex: 'status',
@@ -97,16 +108,6 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
       },
     },
     {
-      title: 'NAME',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'DESIGNATION',
-      dataIndex: 'designation',
-      key: 'designation',
-    },
-    {
       title: 'CLOCK IN ',
       dataIndex: 'clockIn',
       key: 'clockIn',
@@ -116,6 +117,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
       dataIndex: 'clockOut',
       key: 'clockOut',
     },
+    
     {
       title: 'WORK HOURS',
       dataIndex: 'workHours',
@@ -130,6 +132,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
         );
       },
     },
+    
     {
       title: '',
       dataIndex: 'view',

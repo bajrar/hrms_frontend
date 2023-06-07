@@ -16,6 +16,8 @@ import { getHolidays } from '../../redux/features/holidaysSlice';
 import { useAppSelector } from '../../hooks/useTypedSelector';
 import Layout from '../../Components/Layout';
 import Navbar from '../../Components/Ui/Navbar';
+import { verifyTokenStatus } from '../../redux/features/verifyTokenSlice';
+import { RootState } from '../../store';
 export interface DataType {
   holidayName?: string;
   date?: string;
@@ -30,7 +32,13 @@ const Holidays = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [holidaysArray, setHolidayArray] = useState<any[]>([]);
   const dispatch = useDispatch();
-  const isAdmin = localStorage.getItem('isAdmin') === 'true' ? true : false;
+
+  useEffect(() => {
+    dispatch(verifyTokenStatus() as any);
+  }, []);
+  const userData = useAppSelector((state: RootState) => state.userSlice.value);
+  const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
+  const userRole = tokenData?.role ? tokenData?.role : userData?.role;
 
   const onStartDateChange = ({ bsDate }: any) => {
     setStartDate(bsDate);
@@ -141,7 +149,7 @@ const Holidays = () => {
               <CalendarOutlined className='calendar-icon' />
             </div>
           </div>
-          {isAdmin && (
+          {userRole === 'admin' && (
             <button className='primary-btn' onClick={showModal}>
               <FontAwesomeIcon icon={faPlus} /> Add Holidays
             </button>
