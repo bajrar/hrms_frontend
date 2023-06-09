@@ -18,6 +18,7 @@ import { todayInBs } from './GetTodaysDate';
 
 function Calendar({ month, year }: { month: number; year: IYear }) {
   let yearNumber: keyof NepaliMonthDays = year.year.toString();
+  const monthInString = month + 1 <= 9 ? `0${month + 1}` : month + 1;
   const [weeks, setWeeks] = useState<any>([]);
   const [startindDayData, setStartindDayData] = useState<number[]>([]);
   const [earlyIn, setEarlyIn] = useState<boolean>(false);
@@ -35,11 +36,12 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
   }, [year]);
 
   const [startOfDate, setStartOfDate] = useState(
-    `${year.year}/${month + 1}/01`
+    `${year.year}/${monthInString}/01`
+    // `${year.year}/${month + 1}/01`
   );
 
   const [endOfDate, setEndofDate] = useState<any>(
-    `${year.year}/${month + 1}/${nepaliMonthDays[yearNumber][month]}`
+    `${year.year}/${monthInString}/${nepaliMonthDays[yearNumber][month]}`
   );
 
   useEffect(() => {
@@ -71,7 +73,7 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
     if (year.year === todayInBs.getYear() && month === todayInBs.getMonth()) {
       setStartOfDate(`${todayInBs.getYear()}/${localMonth}/01`);
     } else {
-      setStartOfDate(`${year.year}/${month + 1}/01`);
+      setStartOfDate(`${year.year}/${monthInString}/01`);
     }
 
     dispatch(
@@ -82,7 +84,6 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
       }) as any
     );
   }, [dispatch, employeeId, endOfDate, month, year, startOfDate, todayInBs]);
-  console.log({ endOfDate });
   // Create an array of weeks in the month
   useEffect(() => {
     const weeksArr = [];
