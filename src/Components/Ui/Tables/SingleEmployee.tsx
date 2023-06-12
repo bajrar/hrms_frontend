@@ -18,9 +18,12 @@ interface DataType {
   workHours: string;
 }
 export const formatTime = (time: any) => {
-  const t = time;
+  const t = time ?? '';
   const q = t.split(':');
-  return `${q[0]}:${q[1]}`;
+  return q.length >= 2 ? `${q[0]}:${q[1]}` : '';
+  // const t = time;
+  // const q = t?.split(':');
+  // return `${q[0]}:${q[1]}`;    
 };
 const SingleEmployee = ({
   startDate,

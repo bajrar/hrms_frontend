@@ -23,6 +23,9 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import Layout from '../../Components/Layout';
 import Navbar from '../../Components/Ui/Navbar';
 import { RootState } from '../../store';
+import { Modal } from 'antd';
+import ModalComponent from '../../Components/Ui/Modal/Modal';
+import AttendanceRequest from './AttendanceRequest';
 
 export const AttendanceReport = [
   {
@@ -85,6 +88,20 @@ const EmployeeAttendance = () => {
   const [endDate, setEndDate] = useState();
   const [changeTab, setChangeTab] = useState<boolean>(true);
   const [attendanceReport, setAttendanceReport] = useState<any>([]);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   const [year, setYear] = useState<IYear>({
     year: todayInBs.getYear(),
     startDay: 4,
@@ -107,7 +124,6 @@ const EmployeeAttendance = () => {
   const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
   const userSn = tokenData?.userSn ? tokenData?.userSn : userData?.userSn;
   const role = tokenData?.role ? tokenData?.role : userData?.role;
-
   useEffect(() => {
     if (role !== 'admin' && userSn !== Number(employeeId)) {
       // navigate(`/attendance/${employeeId}`);
@@ -175,6 +191,7 @@ const EmployeeAttendance = () => {
   return (
     <Layout>
       <Navbar />
+
       <div className='attendace-page'>
         <BreadCrumbs
           imagesrc='/images/attendance.svg'
@@ -301,7 +318,27 @@ const EmployeeAttendance = () => {
           )}
           <div className='d-flex attendance-filters-right'>
             {changeTab ? (
-              <DownloadBtn report={attendanceReport} />
+              <>
+                {role === 'admin' ? (
+                  <DownloadBtn report={attendanceReport} />
+                ) : (
+                  <button
+                    onClick={showModal}
+                    className='d-flex download-btn justify-content-between align-items-center'
+                  >
+                    Request Check In
+                  </button>
+                )}
+
+                <ModalComponent
+                  openModal={isModalOpen}
+                  classNames='holidays-modal'
+                  closeModal={setIsModalOpen}
+                >
+                  <h3 className='modal-title'>ADD HOLIDAYS</h3>
+                  <AttendanceRequest setIsModalOpen={setIsModalOpen} />
+                </ModalComponent>
+              </>
             ) : (
               <div className='total-working-hours'>
                 Total Working hours{' '}
