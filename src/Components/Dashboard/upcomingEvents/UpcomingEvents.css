@@ -76,6 +76,9 @@
   /* border: 1px solid #d8d8d8; */
   border-radius: 4px;
 }
+.upcoming-event-upcoming-events-items.smallWidth {
+  width: 100%;
+}
 .upcoming-event-upcoming-dobs-items {
   display: flex;
   flex-direction: column;
@@ -87,6 +90,9 @@
   /* border: 1px solid #f4fbf5; */
   border-radius: 4px;
 }
+.upcoming-event-upcoming-dobs-items.smallWidth {
+  width: 100%;
+}
 .upcoming-event-upcoming-holidays-items {
   display: flex;
   flex-direction: column;
@@ -97,6 +103,9 @@
   background: #f2f5f9;
   border: 1px solid #f2f5f9;
   border-radius: 4px;
+}
+.upcoming-event-upcoming-holidays-items.smallWidth {
+  width: 100%;
 }
 .upcoming-event-today-items {
   display: flex;
@@ -120,6 +129,9 @@
 #formatted-eventdate-event {
   border-left: 5px solid #00b9f1;
   padding: 10px;
+}
+.upcoming-events-calendar-item.smallWidth {
+  width: calc((100% - 130px) / 6);
 }
 @media (min-width: 768px) and (max-width: 1400px) {
   .upcoming-events-calendar-item {

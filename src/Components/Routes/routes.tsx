@@ -22,27 +22,13 @@ import { ForgetPassword } from '../LoginPage/ForgetPassword';
 import { OtpSection } from '../LoginPage/OtpSection';
 import { ChangePassword } from '../LoginPage/ChangePassword';
 import Profile from '../../pages/Profile/Profile';
+import AdminRouteHOC from '../../HOC/adminProtected';
+import { ProtectedOtpRoute } from './protectedOtp';
+import { AdminProtectedRoute } from './adminProtected';
 
 type MainRoutesProps = {};
 
 export const MainRoutes = ({}: MainRoutesProps) => {
-  const [hasEmail, sethasEmail] = React.useState('');
-
-  const cookies: any = document.cookie;
-
-  const cookieArray = cookies.split(';');
-  const cookieValues: any = {};
-  cookieArray.forEach((cookie: any) => {
-    const [name, value] = cookie.trim().split('=');
-    cookieValues[name] = value;
-  });
-
-  const email = cookieValues.email;
-  useEffect(() => {
-    // const hasEmail = cookieValues.email;
-    sethasEmail(email);
-  }, [email]);
-
   return (
     <React.Fragment>
       <Routes>
@@ -50,28 +36,33 @@ export const MainRoutes = ({}: MainRoutesProps) => {
         <Route element={<ProtectedRoute />}>
           <Route path='*' element={<PageNotFound />} />
           <Route path='/dashboard' element={<Dashboard />} />
-          <Route path='/leave' element={<Leave />} />
-          <Route path='/employee' element={<Employee />} />
-          <Route path='/attendance' element={<Attendance />} />
-          <Route path='/reports' element={<Reports />} />
-          <Route path='/attendance/:employeeId' element={<EmployeeAttendance />} />
-          <Route path='/shift' element={<Shift />} />
-          <Route path='/shift/:shiftId' element={<ShiftDetails />} />
           <Route path='/holidays' element={<Holidays />} />
-          <Route path='/leave-allocation' element={<LeaveAllocation />} />
-          <Route path='/leave/:leaveId' element={<LeaveDetails />} />
-
-          <Route path='/device-manager' element={<DeviceManager />} />
-          <Route path='/job-summary' element={<JobSummary />} />
-          <Route path='/applicants' element={<Applicants />} />
+          <Route path='/leave' element={<LeaveAllocation />} />
+          {/* <Route path='/leave' element={<Leave />} /> */}
+          <Route
+            path='/attendance/:employeeId'
+            element={<EmployeeAttendance />}
+          />
+          <Route path='/shift' element={<Shift />} />
+          <Route element={<AdminProtectedRoute />}>
+            <Route path='/shift/:shiftId' element={<ShiftDetails />} />
+            <Route path='/leave/:leaveId' element={<LeaveDetails />} />
+            <Route path='/attendance' element={<Attendance />} />
+            <Route path='/device-manager' element={<DeviceManager />} />
+            <Route path='/attendance' element={<Attendance />} />
+            <Route path='/reports' element={<Reports />} />
+            <Route path='/employee' element={<Employee />} />
+            <Route path='/job-summary' element={<JobSummary />} />
+            <Route path='/applicants' element={<Applicants />} />
+            <Route path='/employee' element={<Employee />} />
+            <Route path='/reports' element={<Reports />} />
+          </Route>
           <Route path='/profile' element={<Profile />} />
         </Route>
-        {hasEmail && (
-          <>
-            <Route path='/verifyOtp' element={<OtpSection />} />
-            <Route path='/ChangePassword' element={<ChangePassword />} />
-          </>
-        )}
+        <Route element={<ProtectedOtpRoute />}>
+          <Route path='/verifyOtp' element={<OtpSection />} />
+          <Route path='/ChangePassword' element={<ChangePassword />} />
+        </Route>
         <Route path='/forgotPassword' element={<ForgetPassword />} />
       </Routes>
     </React.Fragment>

@@ -18,6 +18,7 @@ import { todayInBs } from './GetTodaysDate';
 
 function Calendar({ month, year }: { month: number; year: IYear }) {
   let yearNumber: keyof NepaliMonthDays = year.year.toString();
+  const monthInString = month + 1 <= 9 ? `0${month + 1}` : month + 1;
   const [weeks, setWeeks] = useState<any>([]);
   const [startindDayData, setStartindDayData] = useState<number[]>([]);
   const [earlyIn, setEarlyIn] = useState<boolean>(false);
@@ -35,11 +36,12 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
   }, [year]);
 
   const [startOfDate, setStartOfDate] = useState(
-    `${year.year}/${month + 1}/01`
+    `${year.year}/${monthInString}/01`
+    // `${year.year}/${month + 1}/01`
   );
 
   const [endOfDate, setEndofDate] = useState<any>(
-    `${year.year}/${month + 1}/${nepaliMonthDays[yearNumber][month]}`
+    `${year.year}/${monthInString}/${nepaliMonthDays[yearNumber][month]}`
   );
 
   useEffect(() => {
@@ -48,20 +50,30 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
       month === todayInBs.getMonth() &&
       nepaliMonthDays[yearNumber][month] > todayInBs.getDay()
     ) {
+      let localMonth: any;
+      let localDate: any;
+      if (todayInBs.getMonth() + 1 < 10) {
+        localMonth = `0${todayInBs.getMonth() + 1}`;
+      }
+      if (todayInBs.getDate() < 10) {
+        localDate = `0${todayInBs.getDate()}`;
+      }
       setEndofDate(
-        `${todayInBs.getYear()}/${
-          todayInBs.getMonth() + 1
-        }/${todayInBs.getDate()}`
+        `${todayInBs.getYear()}/${localMonth}/${todayInBs.getDate()}`
       );
     } else {
       setEndofDate(
         `${year.year}/${month + 1}/${nepaliMonthDays[yearNumber][month]}`
       );
     }
+    const localMonth =
+      todayInBs.getMonth() + 1 < 10
+        ? `0${todayInBs.getMonth() + 1}`
+        : todayInBs.getMonth() + 1;
     if (year.year === todayInBs.getYear() && month === todayInBs.getMonth()) {
-      setStartOfDate(`${todayInBs.getYear()}/${todayInBs.getMonth() + 1}/01`);
+      setStartOfDate(`${todayInBs.getYear()}/${localMonth}/01`);
     } else {
-      setStartOfDate(`${year.year}/${month + 1}/01`);
+      setStartOfDate(`${year.year}/${monthInString}/01`);
     }
 
     dispatch(
@@ -72,7 +84,6 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
       }) as any
     );
   }, [dispatch, employeeId, endOfDate, month, year, startOfDate, todayInBs]);
-
   // Create an array of weeks in the month
   useEffect(() => {
     const weeksArr = [];

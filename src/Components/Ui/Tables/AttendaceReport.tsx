@@ -35,15 +35,21 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
   const dispatch = useAppDispatch();
   const [attendanceData, setAttendanceData] = useState<any>([]);
   const userData = useAppSelector((state: RootState) => state.userSlice.value);
-  const email = userData?.email;
-  const token = localStorage.getItem('token');
+  const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
+
+  const role = tokenData?.role ? tokenData?.role : userData?.role;
+  const email = tokenData?.email ? tokenData?.email : userData?.email;
   useEffect(() => {
     dispatch(getUsers({ status: status, date: defaultDate }) as any);
   }, [dispatch, status, defaultDate]);
 
   const { user, loading } = useAppSelector((state) => state.attendanceSlice);
-
   const columns: ColumnsType<DataType> = [
+    {
+      title: 'SN',
+      dataIndex: 'sn',
+      key: 'sn',
+    },
     {
       title: 'EID',
       dataIndex: 'id',
@@ -53,6 +59,17 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
       title: 'DATE',
       dataIndex: 'date',
       key: 'date',
+    },
+
+    {
+      title: 'NAME',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'DESIGNATION',
+      dataIndex: 'designation',
+      key: 'designation',
     },
     {
       title: 'STATUS',
@@ -91,16 +108,6 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
       },
     },
     {
-      title: 'NAME',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'DESIGNATION',
-      dataIndex: 'designation',
-      key: 'designation',
-    },
-    {
       title: 'CLOCK IN ',
       dataIndex: 'clockIn',
       key: 'clockIn',
@@ -110,6 +117,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
       dataIndex: 'clockOut',
       key: 'clockOut',
     },
+    
     {
       title: 'WORK HOURS',
       dataIndex: 'workHours',
@@ -124,6 +132,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
         );
       },
     },
+    
     {
       title: '',
       dataIndex: 'view',
@@ -143,13 +152,14 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
   useEffect(() => {
     const data1: DataType[] = [];
     let attendanceUser = user;
-    if (email !== 'admin@virtuosway.com.np') {
+    if (role === 'user') {
       attendanceUser = user?.filter((each) => each.email === email);
     }
-    attendanceUser?.map((userData) => {
+    attendanceUser?.map((userData, sn) => {
       userData?.attendanceRecords?.map((attendance: any) => {
         if (userData.employeeName.toLowerCase().includes(searchText)) {
           const tableData = {
+            sn: sn + 1,
             id: userData?.employeeNumber,
             key: userData?.employeeNumber,
             date: attendance?.attendanceByDate?.date,

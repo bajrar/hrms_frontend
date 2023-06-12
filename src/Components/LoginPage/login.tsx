@@ -13,11 +13,13 @@ import { Spin } from 'antd';
 import { useAppSelector } from '../../hooks/useTypedSelector';
 import { RootState } from '../../store';
 import { getUserData } from '../../redux/features/userSlice';
+import { verifyTokenStatus } from '../../redux/features/verifyTokenSlice';
 type LoginPageProps = {};
 
 export const LoginPage = ({}: LoginPageProps) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [loginData, setLoginData] = useState({} as any);
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
@@ -59,12 +61,14 @@ export const LoginPage = ({}: LoginPageProps) => {
       const res = await apis.getLogin(inputs);
       dispatch(getToken(res.data.token));
       dispatch(getUserData(res.data.user));
+      setLoginData(res.data.user);
       if (res.status === 200) {
         localStorage.setItem('token', res.data.token);
         // localStorage.setItem('email', inputs?.email);
         // localStorage.setItem('isAdmin', res.data.user?.admin);
         // localStorage.setItem('userName', res.data.user?.userName);
         navigate('/dashboard');
+        window.location.reload();
       }
     } catch (error) {
       console.log(error);
@@ -74,6 +78,10 @@ export const LoginPage = ({}: LoginPageProps) => {
     setIsLoading(false);
   };
 
+  useEffect(() => {
+    dispatch(verifyTokenStatus() as any);
+  }, []);
+  const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
   return (
     <main className='loginpage_main'>
       <ToastContainer

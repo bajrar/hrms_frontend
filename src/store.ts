@@ -19,6 +19,9 @@ import singleEmployeeSlice from './redux/features/singleEmployeeSlice';
 import announcementSlice from './redux/features/announcementSlice';
 import upcomingEventSlice from './redux/features/upcomingEvents';
 import userSlice from './redux/features/userSlice';
+import verifyTokenSlice from './redux/features/verifyTokenSlice';
+import { attendanceRequestSlice } from './redux/features/attendanceUpdateSlice';
+import { setupListeners } from '@reduxjs/toolkit/dist/query';
 
 export const store = configureStore({
   reducer: {
@@ -42,7 +45,12 @@ export const store = configureStore({
     announcement: announcementSlice,
     upcomingEvents: upcomingEventSlice,
     userSlice: userSlice,
+    verifyTokenSlice:verifyTokenSlice,
+    [attendanceRequestSlice.reducerPath]:attendanceRequestSlice.reducer
   },
-});
+  middleware: (getDefaultMiddleware) =>
+  getDefaultMiddleware().concat(attendanceRequestSlice.middleware),
+})
+setupListeners(store.dispatch)
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

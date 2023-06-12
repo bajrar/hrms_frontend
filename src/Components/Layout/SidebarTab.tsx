@@ -4,15 +4,23 @@ import { Link, useNavigate } from 'react-router-dom';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
 import { useEffect } from 'react';
-import { useAppSelector } from '../../hooks/useTypedSelector';
+import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
 import { RootState } from '../../store';
+import { verifyTokenStatus } from '../../redux/features/verifyTokenSlice';
+import { AiOutlineMenu } from 'react-icons/ai';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
 const SideBarTab = () => {
   const [smallSidebar, setSmallSidebar] = useState<boolean>(true);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(verifyTokenStatus() as any);
+  }, []);
   const userData = useAppSelector((state: RootState) => state.userSlice.value);
-  const userRole = userData?.role;
+  const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
+  const userRole = tokenData?.role ? tokenData?.role : userData?.role;
+  const userSn = tokenData?.userSn;
   const navigate = useNavigate();
   const userAccess = ['Vacancy Management', 'Employee Management', 'v'];
   function getItem(
@@ -37,7 +45,16 @@ const SideBarTab = () => {
     setSmallSidebar(!smallSidebar);
   };
   const closeSidebar = (routeTo: string) => {
-    navigate(`/${routeTo}`);
+    if (userRole === 'user' && routeTo === 'attendance') {
+      navigate(`/${routeTo}/${userSn}`);
+    } else {
+      navigate(`/${routeTo}`);
+    }
+    // if (routeTo === 'attendance' && userSn) {
+    //   navigate(`/${routeTo}/${userSn}`);
+    // } else {
+    //   navigate(`/${routeTo}`);
+    // }
     setSmallSidebar(!smallSidebar);
   };
   const items: MenuProps['items'] = [
@@ -77,10 +94,7 @@ const SideBarTab = () => {
           '2'
         ),
         getItem(
-          <div
-            className='sidenav-link'
-            onClick={() => closeSidebar('leave-allocation')}
-          >
+          <div className='sidenav-link' onClick={() => closeSidebar('leave')}>
             Leave Allocation
           </div>,
           '3'

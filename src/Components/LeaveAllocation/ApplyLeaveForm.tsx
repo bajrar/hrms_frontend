@@ -1,30 +1,34 @@
-import { Button, Form, Input, Select, message } from "antd";
-import Selects from "../Ui/Selects/Selects";
-import Calendar from "@sbmdkl/nepali-datepicker-reactjs";
-import "@sbmdkl/nepali-datepicker-reactjs/dist/index.css";
-import { IForm } from "../Shifts/AddShiftForm";
-import { useAppSelector } from "../../hooks/useTypedSelector";
-import "./addLeaveForm.css";
-import { useEffect, useState } from "react";
-import { reduceByKeys } from "../../hooks/HelperFunctions";
-import { apis } from "../apis/constants/ApisService";
+import { Button, Form, Input, Select, message } from 'antd';
+import Selects from '../Ui/Selects/Selects';
+import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
+import '@sbmdkl/nepali-datepicker-reactjs/dist/index.css';
+import { IForm } from '../Shifts/AddShiftForm';
+import { useAppSelector } from '../../hooks/useTypedSelector';
+import './addLeaveForm.css';
+import { useEffect, useState } from 'react';
+import { reduceByKeys } from '../../hooks/HelperFunctions';
+import { apis } from '../apis/constants/ApisService';
+import { RootState } from '../../store';
 
 const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
   const [leaveNameArray, setLeaveNameArray] = useState<any[]>([]);
   const [leaveNameSelect, setLeaveNameSelect] = useState<any[]>([]);
   const [form] = Form.useForm();
 
+  const userData = useAppSelector((state: RootState) => state.userSlice.value);
+  const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
+  const userRole = tokenData?.role ? tokenData?.role : userData?.role;
+
   const { leaves } = useAppSelector((state) => state.leaveSlice);
   console.log(leaves);
   useEffect(() => {
-    const shiftNameArray = reduceByKeys(leaves?.leave, "_id", "leaveName");
+    const shiftNameArray = reduceByKeys(leaves?.leave, '_id', 'leaveName');
     console.log({ shiftNameArray });
     setLeaveNameArray(shiftNameArray);
   }, [leaves?.leave]);
   useEffect(() => {
     if (leaveNameArray) {
       const leaveArray = leaveNameArray?.map((leaveName: any) => {
-        console.log(leaveName, "<------- this leave");
         return {
           label: leaveName?.label,
           value: leaveName?.value,
@@ -36,8 +40,8 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
 
   const onleaveName = (value: any) => {
     console.log(value);
-    form.setFieldValue("leaveName", value);
-    const result = form.getFieldValue("leaveName");
+    form.setFieldValue('leaveName', value);
+    const result = form.getFieldValue('leaveName');
     console.log({ result });
   };
 
@@ -49,20 +53,18 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
 
   const onFinish = async (values: any) => {
     console.log(values);
-    // const {from:startDate.bsDate,to:endDate.bsDate}= values
     const { startDate, endTime, leaveName, ...rest } = values;
-    console.log(rest, "<----- this is rest");
     try {
       const res = await apis.applyLeave(
         { from: startDate.bsDate, to: endTime.bsDate, ...rest },
         values.leaveName
       );
       if (res.status === 200) {
-        message.success("Leave Applied");
+        message.success('Leave Applied');
         form.resetFields();
       }
     } catch {
-      message.error("Something Went Wrong");
+      message.error('Something Went Wrong');
     } finally {
       setIsModalOpen(false);
     }
@@ -71,125 +73,127 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
   console.log({ leaveNameSelect });
 
   return (
-    <div className="assign-leave-form">
-      <Form layout="vertical" onFinish={onFinish}>
-        <div className="d-flex form-second-row align-items-start">
+    <div className='assign-leave-form'>
+      <Form layout='vertical' onFinish={onFinish}>
+        <div className='d-flex form-second-row align-items-start'>
           <Form.Item
-            className="form-input col"
-            name="leaveName"
-            label="Select Leave *"
-            rules={[{ required: true, message: "Leave Name is Required" }]}
+            className='form-input col'
+            name='leaveName'
+            label='Select Leave *'
+            rules={[{ required: true, message: 'Leave Name is Required' }]}
           >
             <Select
-              placeholder="Select the type of leave"
-              className="selects form-input-wrapper"
+              placeholder='Select the type of leave'
+              className='selects form-input-wrapper'
               options={leaveNameSelect}
               onSelect={onleaveName}
             />
           </Form.Item>
           <Form.Item
-            className="form-input col shift-time"
-            name="approvedBy"
-            label="Approved By *"
+            className='form-input col shift-time'
+            name='approvedBy'
+            label='Approved By *'
             rules={[
               {
                 required: true,
-                message: "Start time is Required",
+                message: 'Start time is Required',
               },
             ]}
           >
             <Input
-              placeholder="Enter the name of the person who approved this leave"
-              className="form-input-wrapper"
-              type="text"
+              placeholder='Enter the name of the person who approved this leave'
+              className='form-input-wrapper'
+              type='text'
             />
           </Form.Item>
         </div>
-        <div className="form-second-row align-items-start ">
-          <Form.Item
-            className="form-input col unit-input"
-            name="employeeId"
-            label="Employee ID *"
-            rules={[{ required: true, message: "Shift Name is Required" }]}
-          >
-            <Input
-              placeholder="Type the employee ID to search and select"
-              className="form-input-wrapper days-input"
-              type="text"
-            />
-          </Form.Item>
-          <Form.Item
-            className="form-input col"
-            name="employeeName"
-            label="Employee Name *"
-            rules={[{ required: true, message: "Shift Name is Required" }]}
-          >
-            <Input
-              placeholder="Enter the maximum unit allowed (e.g. 100 days)"
-              className="form-input-wrapper"
-              type="text"
-            />
-          </Form.Item>
-        </div>
+        {userRole === 'admin' && (
+          <div className='form-second-row align-items-start '>
+            <Form.Item
+              className='form-input col unit-input'
+              name='employeeId'
+              label='Employee ID *'
+              rules={[{ required: true, message: 'Shift Name is Required' }]}
+            >
+              <Input
+                placeholder='Type the employee ID to search and select'
+                className='form-input-wrapper days-input'
+                type='text'
+              />
+            </Form.Item>
+            <Form.Item
+              className='form-input col'
+              name='employeeName'
+              label='Employee Name *'
+              rules={[{ required: true, message: 'Shift Name is Required' }]}
+            >
+              <Input
+                placeholder='Enter the maximum unit allowed (e.g. 100 days)'
+                className='form-input-wrapper'
+                type='text'
+              />
+            </Form.Item>
+          </div>
+        )}
 
-        <div className="d-flex align-items-center start-end-container ">
+        <div className='d-flex align-items-center start-end-container '>
           <Form.Item
-            className="form-input col shift-time"
-            name="startDate"
-            label="Select Date *"
+            className='form-input col shift-time'
+            name='startDate'
+            label='Select Date *'
             rules={[
               {
                 required: true,
-                message: "Start time is Required",
+                message: 'Start time is Required',
               },
             ]}
           >
             <Calendar
               // onChange={onStartDateChange}
-              className=" date-picker  "
-              dateFormat="YYYY/MM/DD"
-              language="en"
+              className=' date-picker  '
+              dateFormat='YYYY/MM/DD'
+              language='en'
             />
           </Form.Item>
 
           <Form.Item
-            className="form-input col shift-time"
-            name="endTime"
+            className='form-input col shift-time'
+            name='endTime'
             label=<div></div>
             rules={[
               {
                 required: true,
-                message: "End time is Required",
+                message: 'End time is Required',
               },
             ]}
           >
             <Calendar
               // onChange={onEndDateChange}
-              className="date-picker "
-              dateFormat="YYYY/MM/DD"
-              language="en"
+              className='date-picker '
+              dateFormat='YYYY/MM/DD'
+              language='en'
             />
           </Form.Item>
         </div>
 
         <Form.Item
-          className="form-input col mt-2"
-          name="reason"
-          label="Reason for leave *"
+          className='form-input col mt-2'
+          name='reason'
+          label='Reason for leave *'
         >
           <TextArea
-            style={{ height: 96, resize: "none" }}
+            style={{ height: 96, resize: 'none' }}
             // onChange={onChange}
-            placeholder="Enter the reason for your leave"
+            placeholder='Enter the reason for your leave'
           />
         </Form.Item>
 
-        <div className="form-btn-container mt-2">
-          <Button type="default" onClick={() => onCancel()}>
+        <div className='form-btn-container mt-2'>
+          <Button type='default' onClick={() => onCancel()}>
             Cancel
           </Button>
 
-          <Button type="primary" htmlType="submit">
+          <Button type='primary' htmlType='submit'>
             Add
           </Button>
         </div>

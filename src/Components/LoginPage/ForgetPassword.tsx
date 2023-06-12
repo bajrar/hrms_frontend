@@ -45,10 +45,7 @@ export const ForgetPassword = ({}: ForgetPasswordProps) => {
       if (response.status === 200) {
         const { email, otp } = response.data;
 
-        // Store email and otp in cookies
-        document.cookie = `email=${email}; path=/`;
-        // document.cookie = `otp=${otp}; path=/`;
-
+        localStorage.setItem("email", email);
         navigate("/verifyOtp");
       }
     } catch (error) {

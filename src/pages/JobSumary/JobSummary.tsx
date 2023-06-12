@@ -40,7 +40,7 @@ const JobSummary = () => {
 
   useEffect(() => {
     dispatch(getJobs() as any);
-  }, [dispatch]);
+  }, []);
 
   const { jobs } = useAppSelector((state) => state.jobsSlice);
   const { job } = useAppSelector((state) => state.singleJobSlice);

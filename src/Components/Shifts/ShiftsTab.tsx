@@ -14,6 +14,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
 import AssignShiftForm from './AssignShiftForm';
 import { apis } from '../apis/constants/ApisService';
 import DeleteModal from '../Ui/DeleteModal/DeleteModal';
+import { verifyTokenStatus } from '../../redux/features/verifyTokenSlice';
+import { RootState } from '../../store';
 
 export interface DataType {
   date: string;
@@ -142,6 +144,11 @@ const ShiftsTab = () => {
   }, [dispatch]);
 
   const { data } = useAppSelector((state: any) => state.shiftSlice);
+  useEffect(() => {
+    dispatch(verifyTokenStatus() as any);
+  }, []);
+  const userData = useAppSelector((state: RootState) => state.userSlice.value);
+  const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
 
   useEffect(() => {
     const shifts: DataType[] = [];
@@ -176,18 +183,22 @@ const ShiftsTab = () => {
             onChange={(e) => setSearchText(e.target.value.toLowerCase())}
           />
         </form>
-        <div className='d-flex align-items-center button-container '>
-          <button className='assign-shift-btn' onClick={showAssignShiftModal}>
-            Assign shifts
-          </button>
-          <button
-            className='primary-btn add-shift-btn'
-            onClick={showAddShiftModal}
-          >
-            <FontAwesomeIcon icon={faPlus} />
-            Add Shifts
-          </button>
-        </div>
+        {userData?.role ? (
+          userData.role
+        ) : tokenData?.role === 'admin' ? (
+          <div className='d-flex align-items-center button-container '>
+            <button className='assign-shift-btn' onClick={showAssignShiftModal}>
+              Assign shifts
+            </button>
+            <button
+              className='primary-btn add-shift-btn'
+              onClick={showAddShiftModal}
+            >
+              <FontAwesomeIcon icon={faPlus} />
+              Add Shifts
+            </button>
+          </div>
+        ) : null}
       </div>
       <Table
         columns={columns}

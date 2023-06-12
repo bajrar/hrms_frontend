@@ -7,8 +7,10 @@ import { logoutUser } from '../apis/constants/Api';
 import { DownOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Button, Dropdown, message, Space, Tooltip } from 'antd';
-import { useAppSelector } from '../../hooks/useTypedSelector';
+import { useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
 import { RootState } from '../../store';
+import { verifyTokenStatus } from '../../redux/features/verifyTokenSlice';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -40,6 +42,14 @@ const Navbar = () => {
     onClick: handleMenuClick,
   };
 
+  const [openDropdown, setOpenDropdown] = useState(true);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(verifyTokenStatus() as any);
+  }, []);
+
+  const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
+  const userName = userData?.email ? userData?.email : tokenData?.email;
   return (
     <div className='navbar-dash padding'>
       <div className='navbar-dash__left'>

@@ -2,6 +2,7 @@
   "name": "virtuoswayhr",
   "version": "0.1.0",
   "private": true,
+ 
   "dependencies": {
     "@ant-design/plots": "^1.2.5",
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
@@ -52,7 +53,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prettier": "prettier --write ."
+
   },
   "eslintConfig": {
     "extends": [
@@ -78,5 +81,10 @@
     "@types/d3": "^7.4.0",
     "@types/react-calendar": "^3.9.0",
     "@types/react-pdf": "^6.2.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run prettier"
+    }
   }
 }
