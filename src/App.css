@@ -1,16 +1,22 @@
 :root {
   --voilet: #051a63;
-  --lightBlue:#00b9f1;
-  --whitesmoke:whitesmoke;
+  --lightBlue: #00b9f1;
+  --whitesmoke: whitesmoke;
 }
-.dash-container__header{
-  border-bottom:1px solid #D8D8D8;
+.dash-container__header {
+  border-bottom: 1px solid #d8d8d8;
   padding-top: 32px;
 }
-.title{
+.title {
   font-weight: 400;
   font-size: 22px;
   line-height: 33px;
+}
+body {
+  ::-webkit-scrollbar {
+    width: 0; /* Remove scrollbar space */
+    background: transparent; /* Optional: just make scrollbar invisible */
+  }
 }
 /* 
 *{

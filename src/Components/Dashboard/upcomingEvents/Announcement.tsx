@@ -22,7 +22,11 @@ import TextArea from "antd/es/input/TextArea";
 import NepaliDate from "nepali-date-converter";
 import { apis } from "../../apis/constants/ApisService";
 
-const Announcement = () => {
+type PropsType = {
+  isAdmin?: boolean;
+};
+
+const Announcement = ({ isAdmin = true }: PropsType) => {
   const dispatch = useDispatch();
   const [openAnnounceModel, setOpenAnnounceModel] = useState<boolean>(false);
   const [form] = Form.useForm();
@@ -95,8 +99,8 @@ const Announcement = () => {
 
   return (
     <>
-      <div className="announcement-container">
-        <div className="announcement-container-date">
+      <div className={`announcement-container ${!isAdmin && "user"}`}>
+        <div className={`announcement-container-date ${!isAdmin && "d-none"}`}>
           <div className="announcement-container-date-calendar">
             <h5 className="date">{formatDate(currentDate)}</h5>
             <span>
@@ -104,15 +108,23 @@ const Announcement = () => {
             </span>
           </div>
         </div>
-        <div className="announcement-container-title">
+        <div
+          className={`announcement-container-title py-2 ${!isAdmin && "user"}`}
+        >
           <div className="announcement-container-title-left">
             <h4>
               <img src="vector.svg" alt="announcement logo" />
               Announcement
             </h4>
-            <p>Don't miss to announce important notice</p>
+            <p className={`${!isAdmin && "d-none border-none"}`}>
+              Don't miss to announce important notice
+            </p>
           </div>
-          <div className="announcement-container-title-right">
+          <div
+            className={`announcement-container-title-right ${
+              !isAdmin && " d-none "
+            }`}
+          >
             <button onClick={() => setOpenAnnounceModel(true)}>
               <span>
                 <TbPlus />
@@ -121,6 +133,7 @@ const Announcement = () => {
             </button>
           </div>
         </div>
+
         {loading ? (
           <Skeleton active />
         ) : (
@@ -142,6 +155,7 @@ const Announcement = () => {
                         type="text"
                         danger
                         onClick={() => showDeleteModal(announcement)}
+                        className={`${!isAdmin && "d-none"}`}
                       >
                         Delete
                       </Button>

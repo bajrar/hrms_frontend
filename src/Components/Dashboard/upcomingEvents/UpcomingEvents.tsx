@@ -7,7 +7,10 @@ import { getUpcomingEvents } from "../../../redux/features/upcomingEvents";
 import { formatDate } from "./helperFunction";
 import { Skeleton } from "antd";
 
-const UpcomingEvents = () => {
+type PropsType = {
+  isSmall?: boolean;
+};
+const UpcomingEvents = ({ isSmall = false }: PropsType) => {
   const getLastDayOfMonth = (year: number, month: number) => {
     const nepaliMonths = [
       31, // Baisakh
@@ -94,7 +97,7 @@ const UpcomingEvents = () => {
         <h4>Events</h4>
         <p>Don't miss the important schedule</p>
       </div>
-      <div className="upcoming-events-calendar">
+      <div className="upcoming-events-calendar mb-2">
         {loading ? (
           <Skeleton active />
         ) : (
@@ -125,7 +128,12 @@ const UpcomingEvents = () => {
             const buttonClass =
               formattedItem === todayDay ? "current-date" : "";
             return (
-              <div className="upcoming-events-calendar-item" key={index}>
+              <div
+                className={`upcoming-events-calendar-item  ${
+                  isSmall && "smallWidth"
+                } `}
+                key={index}
+              >
                 <button
                   className={`${buttonClass} ${dobButtonClass} ${holidayButtonClass} ${eventButtonClass}`}
                 >
@@ -145,7 +153,11 @@ const UpcomingEvents = () => {
             {hasEventToday?.length > 0 ||
             hasDobToday?.length > 0 ||
             hasHolidayToday?.length > 0 ? (
-              <div className="upcoming-event-today-items">
+              <div
+                className={`upcoming-event-upcoming-today-items  ${
+                  isSmall && "smallWidth"
+                } `}
+              >
                 {hasEventToday?.length > 0 && (
                   <div className="upcoming-event-upcoming-events-items">
                     {hasEventToday?.map((event: any, index: any) => (
@@ -160,7 +172,11 @@ const UpcomingEvents = () => {
                   </div>
                 )}
                 {hasDobToday?.length > 0 && (
-                  <div className="upcoming-event-upcoming-dobs-items">
+                  <div
+                    className={`upcoming-event-upcoming-dobs-items  ${
+                      isSmall && "smallWidth"
+                    } `}
+                  >
                     {hasDobToday?.map((dob: any, index: any) => (
                       <div key={index}>
                         <p id="formatted-eventdate-dob">
@@ -173,7 +189,11 @@ const UpcomingEvents = () => {
                   </div>
                 )}
                 {hasHolidayToday?.length > 0 && (
-                  <div className="upcoming-event-upcoming-holidays-items">
+                  <div
+                    className={`upcoming-event-upcoming-holidays-items  ${
+                      isSmall && "smallWidth"
+                    } `}
+                  >
                     {hasHolidayToday?.map((holiday: any, index: any) => (
                       <div key={index}>
                         <p id="formatted-eventdate-holidays">
@@ -201,7 +221,9 @@ const UpcomingEvents = () => {
             <div className="upcoming-event-upcoming-events">
               {upcomingEvents?.events?.map((event: any, index: any) => (
                 <div
-                  className="upcoming-event-upcoming-events-items"
+                  className={`upcoming-event-upcoming-events-items  ${
+                    isSmall && "smallWidth"
+                  } `}
                   key={index}
                 >
                   <p id="formatted-eventdate-event">
@@ -214,7 +236,12 @@ const UpcomingEvents = () => {
               ))}
 
               {upcomingEvents?.dob?.map((dob: any, index: any) => (
-                <div className="upcoming-event-upcoming-dobs-items" key={index}>
+                <div
+                  className={`upcoming-event-upcoming-dobs-items  ${
+                    isSmall && "smallWidth"
+                  } `}
+                  key={index}
+                >
                   <p id="formatted-eventdate-dob">{formatDate(dob.dob)}</p>
                   <h5>Birthday</h5>
                   <p>{dob.employeeName}</p>
@@ -223,7 +250,9 @@ const UpcomingEvents = () => {
 
               {upcomingEvents?.holidays?.map((holiday: any, index: any) => (
                 <div
-                  className="upcoming-event-upcoming-holidays-items"
+                  className={`upcoming-event-upcoming-holidays-items  ${
+                    isSmall && "smallWidth"
+                  } `}
                   key={index}
                 >
                   <p id="formatted-eventdate-holidays">
