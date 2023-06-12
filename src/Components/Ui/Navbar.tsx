@@ -1,7 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faChevronDown, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import {
+  faBell,
+  faChevronDown,
+  faMagnifyingGlass,
+} from '@fortawesome/free-solid-svg-icons';
 import './navbar.css';
 import { logoutUser } from '../apis/constants/Api';
 import { DownOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
@@ -14,7 +18,9 @@ import { verifyTokenStatus } from '../../redux/features/verifyTokenSlice';
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const userData = useAppSelector((state: RootState) => state?.userSlice?.value);
+  const userData = useAppSelector(
+    (state: RootState) => state?.userSlice?.value
+  );
 
   const handleMenuClick: MenuProps['onClick'] = (e) => {
     if (e.key === '1') {
@@ -64,7 +70,7 @@ const Navbar = () => {
         <Dropdown menu={menuProps}>
           <Button type='text'>
             <Space>
-              {userData?.userName || ''}
+              {userName}
               <DownOutlined />
             </Space>
           </Button>
