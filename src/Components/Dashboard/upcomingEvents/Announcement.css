@@ -6,6 +6,9 @@
   left: 0;
   width: 100%;
 }
+.announcement-container.user {
+  gap: 0;
+}
 .announcement-container-date {
   display: flex;
   justify-content: flex-end;
@@ -41,6 +44,9 @@
   justify-content: space-between;
   padding-left: 15px;
   border-bottom: 1px solid #d8d8d8;
+}
+.announcement-container-title.user {
+  border-bottom: none;
 }
 .announcement-container-title-left {
   display: flex;
