@@ -12,6 +12,7 @@ import ModalComponent from '../Ui/Modal/Modal';
 import ApplyLeaveForm from './ApplyLeaveForm';
 import { useAppSelector } from '../../hooks/useTypedSelector';
 import { RootState } from '../../store';
+import { CalendarOutlined } from '@ant-design/icons';
 
 export interface DataType {
   eid?: string;
@@ -81,6 +82,7 @@ const ApplyLeave = () => {
             dateFormat='YYYY/MM/DD'
             language='en'
           />{' '}
+          <CalendarOutlined className='calendar-icon' />
           To
           <Calendar
             onChange={onEndDateChange}
@@ -88,6 +90,7 @@ const ApplyLeave = () => {
             dateFormat='YYYY/MM/DD'
             language='en'
           />
+          <CalendarOutlined className='calendar-icon' />
         </div>
         <div className='d-flex daily-report-saerch-right'>
           <Selects placeHolder='Search leave name' className='leave-inputs' />

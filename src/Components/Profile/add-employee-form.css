@@ -111,10 +111,17 @@ input[type='number'] {
   padding-left: 10px;
   width: 100%;
 }
-.calender-container-picker {
+/* .calender-container-picker {
   width: 100%;
   border: 1px solid rgba(2, 60, 135, 0.4);
   border-radius: 4px;
+  height: 40px;
+  padding-left: 10px;
+} */
+.calender-container-picker {
+  border: 1px solid rgba(2, 60, 135, 0.4);
+  border-radius: 4px;
+  width: 316px;
   height: 40px;
   padding-left: 10px;
 }
