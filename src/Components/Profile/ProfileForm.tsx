@@ -1,6 +1,16 @@
 import { useEffect, useState, memo, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
-import { Button, Form, Input, Radio, RadioChangeEvent, DatePicker, Select, Row, Col } from 'antd';
+import {
+  Button,
+  Form,
+  Input,
+  Radio,
+  RadioChangeEvent,
+  DatePicker,
+  Select,
+  Row,
+  Col,
+} from 'antd';
 import { toast } from 'react-toastify';
 
 import { apis, axiosApiInstance } from '../apis/constants/ApisService';
@@ -23,6 +33,7 @@ import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
 import NepaliDate from 'nepali-date-converter';
 import './add-employee-form.css';
 import Projects from './Projects/Projects';
+import { useGetUserProfileQuery } from '../../redux/features/profileSlice';
 
 export const selectedEmployee = (state: any, id: string) =>
   state?.find((item: any) => item?.employeeNumber === id);
@@ -41,7 +52,12 @@ export const ProfileForm = ({
   const [getDateOfJoining, setDateOfJoining] = useState();
   const [getDob, setDob] = useState();
   const defaultDob = employeeData?.dob?.split('/').join('-');
-  const defaultdateOfJoining = employeeData?.dateOfJoining?.split('/').join('-');
+  const defaultdateOfJoining = employeeData?.dateOfJoining
+    ?.split('/')
+    .join('-');
+  const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
+  const { data, isLoading } = useGetUserProfileQuery(tokenData.userSn);
+  console.log(data, '<------- profile data>');
   // useEffect(()=>{
   //   dispatch(getSingleEmployee())
   // },[])
@@ -262,7 +278,9 @@ export const ProfileForm = ({
                 disabled={isDisable}
               >
                 <div className='row p-0'>
-                  <h3 className='add-employee__section-header'>Basic Information</h3>
+                  <h3 className='add-employee__section-header'>
+                    Basic Information
+                  </h3>
                   <hr />
                   <div className='add-employee__section p-0'>
                     {firstRow.map((item, index) => {
@@ -337,7 +355,10 @@ export const ProfileForm = ({
                 </div>
 
                 <div className='row p-0 mt-4'>
-                  <h3 className='add-employee__section-header'> Office Details</h3>
+                  <h3 className='add-employee__section-header'>
+                    {' '}
+                    Office Details
+                  </h3>
                   <hr />
                   <div className='add-employee__section p-0'>
                     {thirdRow.map((item, index) => (
@@ -417,7 +438,12 @@ export const ProfileForm = ({
                           label='Probation Period :'
                           className='form-input col-8 mx-3'
                           name='probationPeriod'
-                          rules={[{ required: true, message: 'Probation period required' }]}
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Probation period required',
+                            },
+                          ]}
                           initialValue={employeeData?.probationPeriod}
                         >
                           <Select
@@ -425,7 +451,9 @@ export const ProfileForm = ({
                             showSearch
                             placeholder='Days'
                             optionFilterProp='children'
-                            filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                            filterOption={(input, option) =>
+                              (option?.label ?? '').includes(input)
+                            }
                             options={[
                               { label: '1 month', value: '1 month' },
                               { label: '3 months', value: '3 months' },
@@ -437,7 +465,9 @@ export const ProfileForm = ({
                         <Form.Item
                           className='form-input col-3 form-input-wrapper'
                           name='count'
-                          rules={[{ required: true, message: 'Days count required' }]}
+                          rules={[
+                            { required: true, message: 'Days count required' },
+                          ]}
                           initialValue={employeeData?.count}
                         >
                           <Input

@@ -22,6 +22,7 @@ import userSlice from './redux/features/userSlice';
 import verifyTokenSlice from './redux/features/verifyTokenSlice';
 import { attendanceRequestSlice } from './redux/features/attendanceUpdateSlice';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
+import { profileSlice } from './redux/features/profileSlice';
 
 export const store = configureStore({
   reducer: {
@@ -46,10 +47,12 @@ export const store = configureStore({
     upcomingEvents: upcomingEventSlice,
     userSlice: userSlice,
     verifyTokenSlice:verifyTokenSlice,
-    [attendanceRequestSlice.reducerPath]:attendanceRequestSlice.reducer
+    [attendanceRequestSlice.reducerPath]:attendanceRequestSlice.reducer,
+    [profileSlice.reducerPath]:profileSlice.reducer,
+
   },
   middleware: (getDefaultMiddleware) =>
-  getDefaultMiddleware().concat(attendanceRequestSlice.middleware),
+  getDefaultMiddleware().concat(attendanceRequestSlice.middleware).concat(profileSlice.middleware),
 })
 setupListeners(store.dispatch)
 export type RootState = ReturnType<typeof store.getState>;
