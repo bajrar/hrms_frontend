@@ -10,12 +10,17 @@ const ProfileInfo = () => {
   const { data, isLoading } = useGetUserProfileQuery(tokenData.userSn || '');
 
   console.log(data);
+
   return (
     <>
       {isLoading ? (
         <Spinner />
       ) : (
-        <ProfileForm isDisable={false} employeeId={tokenData.userSn} defaultValue={data.employee} />
+        <ProfileForm
+          isDisable={false}
+          employeeId={tokenData.userSn}
+          defaultValue={{ ...data.employee }}
+        />
       )}
     </>
   );

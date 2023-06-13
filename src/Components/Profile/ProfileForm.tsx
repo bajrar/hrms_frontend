@@ -7,8 +7,8 @@ import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
 import NepaliDate from 'nepali-date-converter';
 import './add-employee-form.css';
 import Projects from './Projects/Projects';
-import { useGetUserProfileQuery } from '../../redux/features/profileSlice';
-import { useAppSelector } from '../../hooks/useTypedSelector';
+import { useRequestProfileUpdateMutation } from '../../redux/features/profileSlice';
+import { ToastContainer, toast } from 'react-toastify';
 
 export const selectedEmployee = (state: any, id: string) =>
   state?.find((item: any) => item?.employeeNumber === id);
@@ -17,6 +17,7 @@ type PropTypes = {
   employeeId: string;
   isDisable: boolean;
   defaultValue: {
+    _id: string;
     designation: string;
     email: string;
     employeeNumber: string;
@@ -35,36 +36,15 @@ export const ProfileForm = ({
   employeeId = '',
   isDisable = false,
   defaultValue: employeeData,
-}: any) => {
+}: PropTypes) => {
   const [gender, setGender] = useState('');
   const [status, setStatus] = useState('');
   const currentDate = new NepaliDate(new Date()).format('YYYY-MM-DD');
-  // const [employeeData, setEmployeeData] = useState({} as any);
-  const dispatch = useDispatch();
   const [getDateOfJoining, setDateOfJoining] = useState();
   const [getDob, setDob] = useState();
   const defaultDob = employeeData?.dob?.split('/').join('-');
   const defaultdateOfJoining = employeeData?.dateOfJoining?.split('/').join('-');
-  const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
-  // useEffect(()=>{
-  //   dispatch(getSingleEmployee())
-  // },[])
-  // const { employee } = useAppSelector(
-  //   (state) => state.singleEmployeeSlice?.employee
-  // );
-
-  // const employeeData = update ? selectedEmployee(employee, employeeId) : {}
-
-  // console.log({employee},'<------ employeeee')
-  // console.log({employeeId})
-
-  // useEffect(() => {
-  //   dispatch(
-  //     getSingleEmployee({
-  //       employeeId,
-  //     }) as any
-  //   );
-  // }, []);
+  const [requestProfileUpdate, { error, isLoading, data }] = useRequestProfileUpdateMutation();
 
   const onStartDateChange = ({ bsDate }: any) => {
     setDateOfJoining(bsDate);
@@ -77,30 +57,30 @@ export const ProfileForm = ({
   const onSelect = (e: any) => {
     setStatus(e);
   };
-  const onFinish = async (values: any) => {
-    console.log(values);
-    const { dateOfJoining, dob, ...rest } = values;
 
-    /*  try {
-      const res = await apis.addEmployee({
+  const onFinish = async (values: any) => {
+    const { dateOfJoining, dob, count, probationPeriod, ...rest } = values;
+    try {
+      const payload = await requestProfileUpdate({
+        userSn: employeeData._id,
+        probation: {
+          period: probationPeriod,
+          count,
+        },
         ...rest,
         dob: getDob,
         dateOfJoining: getDateOfJoining,
+      }).unwrap();
+      toast.success('Request sent successfully', {
+        position: 'top-center',
+        autoClose: 5000,
       });
-
-      if (res.status === 201) {
-        toast.success('Employee Submitted Sucesfully', {
-          position: 'top-center',
-          autoClose: 5000,
-        });
-        window.location.reload();
-      }
     } catch {
       toast.error('Something Went Wrong', {
         position: 'top-center',
         autoClose: 5000,
       });
-    } */
+    }
   };
 
   const onChangeRadio = (e: RadioChangeEvent) => {
@@ -196,6 +176,7 @@ export const ProfileForm = ({
 
   return (
     <>
+      <ToastContainer />
       <Row>
         <Col span={16}>
           <p>Profile Information</p>
