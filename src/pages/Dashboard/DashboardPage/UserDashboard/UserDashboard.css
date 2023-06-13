@@ -7,9 +7,12 @@
   border-left: 1px solid #d8d8d8;
 }
 .user-dashboard_daily_attendance-status {
-  border: 1px solid #d8d8d8;
+  /* border: 1px solid #d8d8d8; */
   overflow: hidden;
 }
 .user-dashboard__daily-attendance-track {
-  border: 1px solid #d8d8d8;
+  /* border: 1px solid #d8d8d8; */
+}
+.user-dashboard_announcement {
+  border-left: 1px solid #d8d8d8;
 }
