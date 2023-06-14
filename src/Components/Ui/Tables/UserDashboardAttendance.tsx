@@ -6,6 +6,7 @@ import { useAppSelector } from '../../../hooks/useTypedSelector';
 import { EmployeeStats } from '../../../pages/Attendance/Attendance';
 import { CompareFunction } from './AttendaceReport';
 import { useGetAttendanceByDateRangeQuery } from '../../../redux/api/attendanceByDateSlice';
+import NepaliDate from 'nepali-date-converter';
 
 interface DataType {
   id?: string;
@@ -28,10 +29,13 @@ export const formatTime = (time: any) => {
 };
 const UserDashboardAttendance = () => {
   const [attendanceData, setAttendanceData] = useState<any>([]);
+  const currentDate = new NepaliDate(new Date()).format('YYYY/MM/DD');
+  const startDate = new NepaliDate(new Date()).format('YYYY/MM');
+
   const { data: employee } = useGetAttendanceByDateRangeQuery({
     userSn: 200,
-    startDate: '2080/02/01',
-    endDate: '2080/02/30',
+    startDate: `${startDate}/01`,
+    endDate: currentDate,
   });
   let { employeeId } = useParams();
 
@@ -53,7 +57,23 @@ const UserDashboardAttendance = () => {
       render: (item) => {
         return (
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            {item.split('-').map((ite: any, i: number) => {
+            <div
+              style={{
+                // backgroundColor: '#22BB33',
+                borderLeft: `4px solid ${
+                  item === 'Absent'
+                    ? 'red'
+                    : item === 'Holiday'
+                    ? '#9376E0'
+                    : '#44BB32'
+                }`,
+              }}
+              className={`employee-stats `}
+            >
+              {item}
+            </div>
+
+            {/* {item.split('-').map((ite: any, i: number) => {
               return (
                 <EmployeeStats
                   key={i}
@@ -75,7 +95,7 @@ const UserDashboardAttendance = () => {
                   }
                 />
               );
-            })}
+            })} */}
           </div>
         );
       },
@@ -86,10 +106,11 @@ const UserDashboardAttendance = () => {
       dataIndex: 'workHours',
       key: 'workHours',
       render: (item) => {
+        console.log(item === '', '<------ this is work ahr');
         return (
           <div className='workhours'>
             <p>
-              {item} {item === '' ? '' : 'Hours'}{' '}
+              {item} {item === '' ? '-' : 'Hours'}{' '}
             </p>
           </div>
         );
@@ -108,11 +129,16 @@ const UserDashboardAttendance = () => {
         key: userData?._id,
         date: userData?.attendanceByDate?.date,
         name: userData?.employeeName,
-        status:
-          userData?.attendanceByDate?.holiday ||
-          userData?.attendanceByDate?.absent
-            ? ''
-            : `${userData?.attendanceByDate?.morningStatus} - ${userData?.attendanceByDate?.eveningStatus}`,
+        status: userData?.attendanceByDate?.absent
+          ? 'Absent'
+          : userData?.attendanceByDate?.holiday
+          ? 'Holiday'
+          : 'Present',
+        // status:
+        //   userData?.attendanceByDate?.holiday ||
+        //   userData?.attendanceByDate?.absent
+        //     ? ''
+        //     : `${userData?.attendanceByDate?.morningStatus} - ${userData?.attendanceByDate?.eveningStatus}`,
         designation: userData?.designation,
         clockIn: userData?.attendanceByDate?.absent
           ? 'Absent'
@@ -142,13 +168,13 @@ const UserDashboardAttendance = () => {
   return (
     <div className='single-employee'>
       <Table
-        rowClassName={(record) =>
-          record.clockIn === 'Absent'
-            ? 'absent-class'
-            : record.clockIn === 'Holiday'
-            ? 'holiday-class'
-            : ''
-        }
+        // rowClassName={(record) =>
+        //   record.clockIn === 'Absent'
+        //     ? 'absent-class'
+        //     : record.clockIn === 'Holiday'
+        //     ? 'holiday-class'
+        //     : ''
+        // }
         columns={columns}
         dataSource={attendanceData}
         // pagination={tableParams.pagination}
