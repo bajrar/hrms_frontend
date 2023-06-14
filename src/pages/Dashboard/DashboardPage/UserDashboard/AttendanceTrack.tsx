@@ -27,17 +27,20 @@ const AttendanceTrack = () => {
           <div className="progress-bar">
             <Tooltip title="3 done / 3 in progress / 4 to do">
               <Progress
-                percent={60}
-                success={{ percent: 30, strokeColor: "#023C87" }}
+                percent={100}
+                success={{
+                  percent: 40,
+                  strokeColor: "#023C87",
+                }}
                 type="circle"
                 strokeColor="#66D5F7"
+                strokeWidth={10}
               />
             </Tooltip>
           </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Button
               type="primary"
-              //   icon={<AiOutlineClockCircle />}
               style={{
                 width: "50%",
                 display: "flex",
@@ -93,10 +96,30 @@ const AttendanceTrack = () => {
             </div>
           </div>
         </div>
-        <div className="track-box col averageCheck">
-          <div className="track-box_header">
-            <h4 className="track-box_heading">Average Check In / Check Out</h4>
-            <p className="track-box_heading-date">of a month</p>
+        <div className="track-box-averageCheck col">
+          <div className="track-box-averageCheck-box">
+            <div className="track-box_header">
+              <h4 className="track-box_heading">
+                Average Check In / Check Out
+              </h4>
+              <p className="track-box_heading-date">of a month</p>
+            </div>
+            <div className="clock_input">
+              <h4 className="clock_input-heading">CLOCK IN AT</h4>
+              <p className="clock_input-paragraph">8:45:44 a.m.</p>
+            </div>
+            <div className="clock_input">
+              <h4 className="clock_input-heading">CLOCK OUT AT</h4>
+              <p className="clock_input-paragraph">18:45:44 p.m.</p>
+            </div>
+          </div>
+          <div className="attendance-status">
+            <span className="attendance-status__label">Attendance Status</span>
+            <span className="attendance-status__value">Present</span>
+          </div>
+          <div className="leave-request">
+            <span className="leave-request__label">Leave Request</span>
+            <span className="leave-request__value">Pending (1)</span>
           </div>
         </div>
       </div>
