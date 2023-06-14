@@ -1,9 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./AttendanceTrack.css";
 import { Progress, Tooltip, Button } from "antd";
 import { AiOutlineClockCircle } from "react-icons/ai";
+import { useGetAllWorkhoursQuery } from "../../../../redux/api/employeeWorkhour";
+import { useAppSelector } from "../../../../hooks/useTypedSelector";
+import { useDispatch } from "react-redux";
+import { verifyTokenStatus } from "../../../../redux/features/verifyTokenSlice";
+import { RootState } from "../../../../store";
 
 const AttendanceTrack = () => {
+  const dispatch = useDispatch();
+  // const userData = useAppSelector((state: RootState) => state.userSlice.value);
+  useEffect(() => {
+    dispatch(verifyTokenStatus() as any);
+  }, [dispatch]);
+  const userData = useAppSelector((state: RootState) => state.userSlice.value);
+  const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
+  const userSn = tokenData?.userSn ? tokenData?.userSn : userData?.userSn;
+  console.log({ userSn });
+  const { data } = useGetAllWorkhoursQuery(userSn || "");
+  console.log("data", data);
+  const yesterdayPercent = (data?.yesterdayWorkHour / 9) * 100;
+  const weekPercent = (data?.weekWorkHour / 45) * 100;
+  const monthPercent = (data?.monthWorkHour / 180) * 100;
+  const totalPercent = (data?.totalWorkHour / 2160) * 100;
   return (
     <div className="attendance-track">
       <div className="attendance-track_title">
@@ -60,39 +80,63 @@ const AttendanceTrack = () => {
           </div>
           <div className="work-hour-box">
             <div className="work-hour-box_time-info">
-              <div className="work-hour-box_day">Today</div>
-              <div className="work-hour-box_time">3h 20m 20s / 9hrs</div>
+              <div className="work-hour-box_day">Yesterday</div>
+              <div className="work-hour-box_time">
+                {data?.yesterdayWorkHour}hrs / 9hrs
+              </div>
             </div>
             <div className="work-hour-box_progressbar">
-              <Progress percent={50} showInfo={false} strokeColor="#023C87" />
+              <Progress
+                percent={yesterdayPercent}
+                showInfo={false}
+                strokeColor="#023C87"
+              />
             </div>
           </div>
 
           <div className="work-hour-box">
             <div className="work-hour-box_time-info">
               <div className="work-hour-box_day">This Week</div>
-              <div className="work-hour-box_time">44h 20m 30s / 45hrs</div>
+              <div className="work-hour-box_time">
+                {data?.weekWorkHour}hrs / 45hrs
+              </div>
             </div>
             <div className="work-hour-box_progressbar">
-              <Progress percent={50} showInfo={false} strokeColor=" #22BB33" />
+              <Progress
+                percent={weekPercent}
+                showInfo={false}
+                strokeColor=" #22BB33"
+              />
             </div>
           </div>
           <div className="work-hour-box">
             <div className="work-hour-box_time-info">
               <div className="work-hour-box_day">This month</div>
-              <div className="work-hour-box_time">160h 20m 30s / 180hrs</div>
+              <div className="work-hour-box_time">
+                {data?.monthWorkHour}hrs/ 180hrs
+              </div>
             </div>
             <div className="work-hour-box_progressbar">
-              <Progress percent={50} showInfo={false} strokeColor="#9747FF" />
+              <Progress
+                percent={monthPercent}
+                showInfo={false}
+                strokeColor="#9747FF"
+              />
             </div>
           </div>
           <div className="work-hour-box">
             <div className="work-hour-box_time-info">
-              <div className="work-hour-box_day">Remaining</div>
-              <div className="work-hour-box_time">160h 20m 30s / 180hrs</div>
+              <div className="work-hour-box_day">Total</div>
+              <div className="work-hour-box_time">
+                {data?.totalWorkHour}hrs/ 2160hrs
+              </div>
             </div>
             <div className="work-hour-box_progressbar">
-              <Progress percent={50} showInfo={false} strokeColor="#F0AD4E" />
+              <Progress
+                percent={totalPercent}
+                showInfo={false}
+                strokeColor="#F0AD4E"
+              />
             </div>
           </div>
         </div>
