@@ -77,17 +77,17 @@ const AttendanceRequest = ({ setIsModalOpen }: any) => {
   return (
     <div>
       <Form
-        layout='vertical'
+        layout="vertical"
         onFinish={onFinish}
-        autoComplete='off'
-        className='shift-assign-form'
+        autoComplete="off"
+        className="shift-assign-form"
         form={form}
       >
-        <div className='form-second-row align-items-start'>
+        <div className="form-second-row align-items-start">
           <Form.Item
-            className='form-input col shift-time'
-            name='startDate'
-            label='Select Date *'
+            className="form-input col shift-time"
+            name="startDate"
+            label="Select Date *"
             rules={[
               {
                 required: true,
@@ -97,26 +97,26 @@ const AttendanceRequest = ({ setIsModalOpen }: any) => {
           >
             <Calendar
               onChange={onStartChange}
-              className='date-picker  '
-              dateFormat='YYYY/MM/DD'
-              language='en'
+              className="date-picker  "
+              dateFormat="YYYY/MM/DD"
+              language="en"
               maxDate={tommorowDate}
             />
           </Form.Item>
           <Form.Item
-            className='form-input col'
-            name='selectTime'
-            label='Select Time *'
+            className="form-input col"
+            name="selectTime"
+            label="Select Time *"
             rules={[{ required: true, message: 'Holiday Name is Required' }]}
           >
             <TimePicker
-              name='startTime'
+              name="startTime"
               onSelect={onStartChange}
               use12Hours
-              format='HH:mm a'
+              format="HH:mm a"
               defaultOpenValue={dayjs('00:00', 'HH:mm')}
-              placeholder='Start Time'
-              className='start-time'
+              placeholder="Start Time"
+              className="start-time"
               value={dayjs(startTime, 'HH:mm')}
               onChange={onStartTimeChange}
             />
@@ -124,23 +124,23 @@ const AttendanceRequest = ({ setIsModalOpen }: any) => {
         </div>
         <div style={{ marginTop: 20 }}>
           <Form.Item
-            className='form-input col'
-            name='notes'
-            label='Notes *'
+            className="form-input col"
+            name="notes"
+            label="Notes *"
             rules={[{ required: true, message: 'Notes is required' }]}
           >
             <TextArea
               style={{ height: 96, resize: 'none' }}
               onChange={onChange}
-              placeholder='Enter any additional notes or comments related to this holiday'
+              placeholder="Enter any additional notes or comments related to this holiday"
             />
           </Form.Item>
         </div>
-        <div className='form-btn-container' style={{ marginTop: 15 }}>
-          <Button type='default' onClick={handleCancel}>
+        <div className="form-btn-container" style={{ marginTop: 15 }}>
+          <Button type="default" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button type='primary' htmlType='submit'>
+          <Button type="primary" htmlType="submit">
             Add
           </Button>
         </div>

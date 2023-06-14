@@ -1,3 +1,4 @@
 {
-    "notebook.formatOnSave.enabled": true
+    "notebook.formatOnSave.enabled": true,
+    "files.autoSave": "afterDelay"
 }

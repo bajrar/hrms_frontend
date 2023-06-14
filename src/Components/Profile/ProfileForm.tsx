@@ -37,7 +37,6 @@ import { useGetUserProfileQuery } from '../../redux/features/profileSlice';
 
 export const selectedEmployee = (state: any, id: string) =>
   state?.find((item: any) => item?.employeeNumber === id);
-
 export const ProfileForm = ({
   employeeId = '',
   isDisable = false,
@@ -267,26 +266,26 @@ export const ProfileForm = ({
         <Col span={16}>
           <p>Profile Information</p>
           <hr />
-          <div className='mb-4'>
+          <div className="mb-4">
             <div style={{ paddingInline: 5 }}>
               <Form
-                layout='vertical'
+                layout="vertical"
                 onFinish={onFinish}
-                autoComplete='off'
+                autoComplete="off"
                 form={form}
                 initialValues={{ name: employeeData?.employeeId }}
                 disabled={isDisable}
               >
-                <div className='row p-0'>
-                  <h3 className='add-employee__section-header'>
+                <div className="row p-0">
+                  <h3 className="add-employee__section-header">
                     Basic Information
                   </h3>
                   <hr />
-                  <div className='add-employee__section p-0'>
+                  <div className="add-employee__section p-0">
                     {firstRow.map((item, index) => {
                       return (
                         <Form.Item
-                          className='form-input col'
+                          className="form-input col"
                           name={item.name}
                           label={item.label}
                           rules={[{ required: true, message: item.message }]}
@@ -296,7 +295,7 @@ export const ProfileForm = ({
                           <Input
                             name={item.name}
                             placeholder={item.placeHolder}
-                            className='form-input-wrapper'
+                            className="form-input-wrapper"
                             type={item.type}
                           />
                         </Form.Item>
@@ -305,12 +304,12 @@ export const ProfileForm = ({
                   </div>
                 </div>
 
-                <div className='row p-0 mt-4'>
-                  <div className='add-employee__section p-0'>
+                <div className="row p-0 mt-4">
+                  <div className="add-employee__section p-0">
                     <Form.Item
-                      label='Date of Birth'
-                      className='form-input col'
-                      name='dob'
+                      label="Date of Birth"
+                      className="form-input col"
+                      name="dob"
                       // initialValue={employeeData.dob}
                       initialValue={moment(employeeData?.dob)}
                     >
@@ -326,23 +325,23 @@ export const ProfileForm = ({
                 /> */}
                       <Calendar
                         onChange={onDobChange}
-                        className=' date-picker calender-container-picker'
-                        dateFormat='YYYY/MM/DD'
-                        language='en'
+                        className=" date-picker calender-container-picker"
+                        dateFormat="YYYY/MM/DD"
+                        language="en"
                         defaultDate={defaultDob}
                         maxDate={currentDate}
                       />
                     </Form.Item>
 
                     <Form.Item
-                      label='Gender'
-                      className='form-input col'
-                      name='gender'
+                      label="Gender"
+                      className="form-input col"
+                      name="gender"
                       rules={[{ required: true, message: 'Gender required' }]}
                       initialValue={employeeData?.gender}
                     >
                       <Radio.Group
-                        className='radio-container'
+                        className="radio-container"
                         onChange={onChangeRadio}
                         value={gender}
                       >
@@ -354,16 +353,16 @@ export const ProfileForm = ({
                   </div>
                 </div>
 
-                <div className='row p-0 mt-4'>
-                  <h3 className='add-employee__section-header'>
+                <div className="row p-0 mt-4">
+                  <h3 className="add-employee__section-header">
                     {' '}
                     Office Details
                   </h3>
                   <hr />
-                  <div className='add-employee__section p-0'>
+                  <div className="add-employee__section p-0">
                     {thirdRow.map((item, index) => (
                       <Form.Item
-                        className='form-input col'
+                        className="form-input col"
                         name={item.name}
                         label={item.label}
                         rules={[{ required: true, message: item.message }]}
@@ -373,7 +372,7 @@ export const ProfileForm = ({
                         <Input
                           name={item.name}
                           placeholder={item.placeHolder}
-                          className='form-input-wrapper'
+                          className="form-input-wrapper"
                           type={item.type}
                         />
                       </Form.Item>
@@ -381,11 +380,11 @@ export const ProfileForm = ({
                   </div>
                 </div>
 
-                <div className='row p-0 mt-4'>
-                  <div className='add-employee__section p-0'>
+                <div className="row p-0 mt-4">
+                  <div className="add-employee__section p-0">
                     {fourthRow.map((item, index) => (
                       <Form.Item
-                        className='form-input col'
+                        className="form-input col"
                         name={item.name}
                         label={item.label}
                         rules={[{ required: true, message: item.message }]}
@@ -394,7 +393,7 @@ export const ProfileForm = ({
                       >
                         <Input
                           name={item.name}
-                          className='form-input-wrapper'
+                          className="form-input-wrapper"
                           type={item.type}
                           placeholder={item.placeHolder}
                         />
@@ -403,12 +402,12 @@ export const ProfileForm = ({
                   </div>
                 </div>
 
-                <div className='row p-0 mt-4'>
-                  <div className='add-employee__section p-0'>
+                <div className="row p-0 mt-4">
+                  <div className="add-employee__section p-0">
                     <Form.Item
-                      label='Date of Joining'
-                      className='form-input col'
-                      name='dateOfJoining'
+                      label="Date of Joining"
+                      className="form-input col"
+                      name="dateOfJoining"
                       initialValue={moment(employeeData?.dateOfJoining)}
                     >
                       {/* <DatePicker
@@ -424,20 +423,20 @@ export const ProfileForm = ({
                       <Calendar
                         onChange={onStartDateChange}
                         defaultDate={defaultdateOfJoining}
-                        className=' date-picker calender-container-picker '
-                        dateFormat='YYYY/MM/DD'
+                        className=" date-picker calender-container-picker "
+                        dateFormat="YYYY/MM/DD"
                         maxDate={currentDate}
-                        language='en'
+                        language="en"
                         // hideDefaultValue
                       />
                     </Form.Item>
 
-                    <div className='form-input col'>
-                      <div className='row'>
+                    <div className="form-input col">
+                      <div className="row">
                         <Form.Item
-                          label='Probation Period :'
-                          className='form-input col-8 mx-3'
-                          name='probationPeriod'
+                          label="Probation Period :"
+                          className="form-input col-8 mx-3"
+                          name="probationPeriod"
                           rules={[
                             {
                               required: true,
@@ -447,10 +446,10 @@ export const ProfileForm = ({
                           initialValue={employeeData?.probationPeriod}
                         >
                           <Select
-                            size='large'
+                            size="large"
                             showSearch
-                            placeholder='Days'
-                            optionFilterProp='children'
+                            placeholder="Days"
+                            optionFilterProp="children"
                             filterOption={(input, option) =>
                               (option?.label ?? '').includes(input)
                             }
@@ -463,18 +462,18 @@ export const ProfileForm = ({
                         </Form.Item>
 
                         <Form.Item
-                          className='form-input col-3 form-input-wrapper'
-                          name='count'
+                          className="form-input col-3 form-input-wrapper"
+                          name="count"
                           rules={[
                             { required: true, message: 'Days count required' },
                           ]}
                           initialValue={employeeData?.count}
                         >
                           <Input
-                            name='count'
-                            size='large'
-                            placeholder='Days'
-                            type='number'
+                            name="count"
+                            size="large"
+                            placeholder="Days"
+                            type="number"
                             style={{ marginTop: '1.85rem', height: 'inherit' }}
                           />
                         </Form.Item>
@@ -506,8 +505,8 @@ export const ProfileForm = ({
               ))}
             </div>
  */}
-                <div className='form-footer mt-4' style={{ display: 'flex' }}>
-                  <Button type='primary' htmlType='submit'>
+                <div className="form-footer mt-4" style={{ display: 'flex' }}>
+                  <Button type="primary" htmlType="submit">
                     Request Edit
                   </Button>
                 </div>
