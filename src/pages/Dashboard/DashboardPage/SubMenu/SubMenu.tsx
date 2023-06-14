@@ -14,6 +14,8 @@ import { RootState } from "../../../../store";
 import { verifyTokenStatus } from "../../../../redux/features/verifyTokenSlice";
 import { useDispatch } from "react-redux";
 import { Spin } from "antd";
+import NepaliDate from "nepali-date-converter";
+import { MdCalendarToday } from "react-icons/md";
 
 type SubMenuProps = {};
 
@@ -27,6 +29,20 @@ export const SubMenu = ({}: SubMenuProps) => {
   const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
   const userRole = tokenData?.role ? tokenData?.role : userData?.role;
   // const userRole = tokenData?.role;
+  const operations = (
+    <Button
+      type="dashed"
+      style={{
+        display: "flex",
+        gap: 20,
+        alignItems: "center",
+        justifyContent: "center",
+        marginRight: "20px",
+      }}
+    >
+      {new NepaliDate().format("ddd DD, MMMM YYYY")} <MdCalendarToday />
+    </Button>
+  );
 
   if (!userRole) {
     return (
@@ -44,7 +60,7 @@ export const SubMenu = ({}: SubMenuProps) => {
     <div className="hr-dashboard-sub-menu">
       <div className="row hr-dashboard-sub-menu-content">
         <>
-          <Tabs defaultActiveKey="1">
+          <Tabs defaultActiveKey="1" tabBarExtraContent={operations}>
             <Tabs.TabPane tab="Dashboard" key="1">
               {userRole === "admin" ? (
                 <>
@@ -64,6 +80,7 @@ export const SubMenu = ({}: SubMenuProps) => {
                 <UserDashborad />
               )}
             </Tabs.TabPane>
+
             {userRole === "admin" && (
               <Tabs.TabPane tab="Upcoming events" key="2">
                 <div className="dashboard-upcoming-events">
