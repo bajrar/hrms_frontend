@@ -138,3 +138,8 @@
     width: calc((100% - 130px) / 12);
   }
 }
+@media (min-width: 768px) and (max-width: 1300px) {
+  .upcoming-events-calendar-item.smallWidth {
+    width: calc((100% - 90px) / 3);
+  }
+}
