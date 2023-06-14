@@ -25,13 +25,7 @@ export const formatTime = (time: any) => {
   // const q = t?.split(':');
   // return `${q[0]}:${q[1]}`;
 };
-const SingleEmployee = ({
-  startDate,
-  endDate,
-}: {
-  startDate: any;
-  endDate: any;
-}) => {
+const UserDashboardAttendance = () => {
   const [attendanceData, setAttendanceData] = useState<any>([]);
 
   let { employeeId } = useParams();
@@ -81,16 +75,6 @@ const SingleEmployee = ({
     },
 
     {
-      title: 'CLOCK IN',
-      dataIndex: 'clockIn',
-      key: 'clockIn',
-    },
-    {
-      title: 'CLOCK  OUT',
-      dataIndex: 'clockOut',
-      key: 'clockOut',
-    },
-    {
       title: 'WORK HOURS',
       dataIndex: 'workHours',
       key: 'workHours',
@@ -103,11 +87,6 @@ const SingleEmployee = ({
           </div>
         );
       },
-    },
-    {
-      title: 'REMARKS',
-      dataIndex: 'remarks',
-      key: 'remarks',
     },
   ];
 
@@ -171,4 +150,4 @@ const SingleEmployee = ({
   );
 };
 
-export default SingleEmployee;
+export default UserDashboardAttendance;

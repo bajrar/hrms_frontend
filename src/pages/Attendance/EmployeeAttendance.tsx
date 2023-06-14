@@ -192,15 +192,15 @@ const EmployeeAttendance = () => {
     <Layout>
       <Navbar />
 
-      <div className="attendace-page">
+      <div className='attendace-page'>
         <BreadCrumbs
-          imagesrc="/images/attendance.svg"
-          location="Attendance / Shift Management"
-          location1="Attendance"
+          imagesrc='/images/attendance.svg'
+          location='Attendance / Shift Management'
+          location1='Attendance'
           location2={`${employee.employeeName}`}
         />
         <hr />
-        <div className="d-flex employee-stats-container flex-wrap  ">
+        <div className='d-flex employee-stats-container flex-wrap  '>
           {AttendanceReport.map((item: IEmployeeStats) => {
             return (
               <EmployeeStats
@@ -226,29 +226,29 @@ const EmployeeAttendance = () => {
         options={months}
         suffixIcon={<FontAwesomeIcon icon={faAngleDown} />}
       /> */}
-        <div className="d-flex attendance-filters-container justify-content-between">
+        <div className='d-flex attendance-filters-container justify-content-between'>
           {changeTab ? (
-            <div className="attendance-filters">
+            <div className='attendance-filters'>
               <Calendar
                 onChange={onStartDateChange}
-                className=" date-picker calender-container-picker "
-                dateFormat="YYYY/MM/DD"
-                language="en"
+                className=' date-picker calender-container-picker '
+                dateFormat='YYYY/MM/DD'
+                language='en'
               />{' '}
               To
               <Calendar
                 onChange={onEndDateChange}
-                className=" date-picker calender-container-picker"
-                dateFormat="YYYY/MM/DD"
-                language="en"
+                className=' date-picker calender-container-picker'
+                dateFormat='YYYY/MM/DD'
+                language='en'
               />
             </div>
           ) : (
-            <div className="d-flex button-container">
-              <div className="year-list-container">
+            <div className='d-flex button-container'>
+              <div className='year-list-container'>
                 <button
                   onClick={() => setOpenYearList(!openYearList)}
-                  className="date-selector"
+                  className='date-selector'
                 >
                   Year{' '}
                   <FontAwesomeIcon
@@ -272,7 +272,7 @@ const EmployeeAttendance = () => {
                           });
                           setOpenYearList(!openYearList);
                         }}
-                        className="date-selector-list"
+                        className='date-selector-list'
                       >
                         <>{year}</>
                       </li>
@@ -280,10 +280,10 @@ const EmployeeAttendance = () => {
                   })}
                 </ul>
               </div>
-              <div className="month-list-container">
+              <div className='month-list-container'>
                 <button
                   onClick={() => setOpenMonthList(!openMonthList)}
-                  className="date-selector"
+                  className='date-selector'
                 >
                   Month{' '}
                   <FontAwesomeIcon
@@ -306,7 +306,7 @@ const EmployeeAttendance = () => {
                           setMonth(i);
                           setOpenMonthList(!openMonthList);
                         }}
-                        className="date-selector-list"
+                        className='date-selector-list'
                       >
                         {month}
                       </li>
@@ -316,7 +316,7 @@ const EmployeeAttendance = () => {
               </div>
             </div>
           )}
-          <div className="d-flex attendance-filters-right">
+          <div className='d-flex attendance-filters-right'>
             {changeTab ? (
               <>
                 {role === 'admin' ? (
@@ -324,7 +324,7 @@ const EmployeeAttendance = () => {
                 ) : (
                   <button
                     onClick={showModal}
-                    className="d-flex download-btn justify-content-between align-items-center"
+                    className='d-flex download-btn justify-content-between align-items-center'
                   >
                     Request Check In
                   </button>
@@ -332,15 +332,15 @@ const EmployeeAttendance = () => {
 
                 <ModalComponent
                   openModal={isModalOpen}
-                  classNames="holidays-modal"
+                  classNames='holidays-modal'
                   closeModal={setIsModalOpen}
                 >
-                  <h3 className="modal-title">ADD HOLIDAYS</h3>
+                  <h3 className='modal-title'>ADD HOLIDAYS</h3>
                   <AttendanceRequest setIsModalOpen={setIsModalOpen} />
                 </ModalComponent>
               </>
             ) : (
-              <div className="total-working-hours">
+              <div className='total-working-hours'>
                 Total Working hours{' '}
                 <span>
                   ( {employee.TotalWorkingHours}
@@ -348,7 +348,7 @@ const EmployeeAttendance = () => {
                 </span>
               </div>
             )}
-            <div className="d-flex switches">
+            <div className='d-flex switches'>
               <div
                 className={
                   changeTab ? 'switch-container ' : 'switch-container border'
@@ -361,7 +361,7 @@ const EmployeeAttendance = () => {
                       ? '/images/calendar-inactive.svg'
                       : '/images/calendar-active.svg'
                   }
-                  alt=""
+                  alt=''
                 />
               </div>
               <div
@@ -378,7 +378,7 @@ const EmployeeAttendance = () => {
                       ? '/images/list-active.png'
                       : '/images/list-inactive.svg'
                   }
-                  alt=""
+                  alt=''
                 />
               </div>
             </div>
