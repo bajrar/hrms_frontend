@@ -70,7 +70,7 @@ const SideBarTab = () => {
             className='sidenav-link'
             onClick={() => closeSidebar('employee')}
           >
-            Add Employee
+            Employee
           </div>,
           '1'
         ),

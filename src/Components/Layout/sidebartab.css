@@ -3,7 +3,11 @@
   min-height: 100vh;
   /* width: 320px !important; */
   background-color: #f2f5f9;
-  transition: all 0.5s ease-in;
+  /* transition: all 0.5s ease-in; */
+}
+.sidebar:hover{
+background-color: #edf4fe;
+
 }
 .logo-container {
   margin-top: 32px;
