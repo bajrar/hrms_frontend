@@ -24,8 +24,18 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
   const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
   const userRole = tokenData?.role ? tokenData?.role : userData?.role;
   const { data: employeeData } = useGetUserProfileQuery(tokenData.userSn || '');
+
   const { data, isLoading } = useGetLeavesQuery('leave');
-  const [applyLeave, { data: leaveResponse }] = useApplyLeaveMutation();
+
+  const [
+    applyLeave,
+    {
+      data: leaveResponse,
+      error: leaveError,
+      isSuccess: isLeaveSuccess,
+      isError: isLeaveError,
+    },
+  ] = useApplyLeaveMutation();
   useEffect(() => {
     const leaveNameArray = reduceByKeys(data?.leave, '_id', 'leaveName');
     setLeaveNameArray(leaveNameArray);
@@ -52,10 +62,8 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
     setIsModalOpen(false);
   };
   const { TextArea } = Input;
-
   const onFinish = async (values: any) => {
     const { startDate, endTime, leaveName, ...rest } = values;
-
     try {
       await applyLeave({
         from: startDate.bsDate,
@@ -87,11 +95,13 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
     }
   };
   useEffect(() => {
-    if (leaveResponse?.message === 'leave applied') {
+    if (isLeaveSuccess) {
       message.success(leaveResponse?.message);
       form.resetFields();
+    } else if (isLeaveError) {
+      message.error('');
     }
-  }, [leaveResponse]);
+  }, [leaveResponse, isLeaveSuccess, isLeaveError]);
   return (
     <div className='assign-leave-form'>
       <Form layout='vertical' onFinish={onFinish}>
