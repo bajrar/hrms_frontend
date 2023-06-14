@@ -9,6 +9,11 @@ import { useEffect, useState } from 'react';
 import { reduceByKeys } from '../../hooks/HelperFunctions';
 import { apis } from '../apis/constants/ApisService';
 import { RootState } from '../../store';
+import {
+  useApplyLeaveMutation,
+  useGetLeavesQuery,
+} from '../../redux/api/leaveSlice';
+import { useGetUserProfileQuery } from '../../redux/features/profileSlice';
 
 const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
   const [leaveNameArray, setLeaveNameArray] = useState<any[]>([]);
@@ -18,14 +23,13 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
   const userData = useAppSelector((state: RootState) => state.userSlice.value);
   const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
   const userRole = tokenData?.role ? tokenData?.role : userData?.role;
-
-  const { leaves } = useAppSelector((state) => state.leaveSlice);
-  console.log(leaves);
+  const { data: employeeData } = useGetUserProfileQuery(tokenData.userSn || '');
+  const { data, isLoading } = useGetLeavesQuery('leave');
+  const [applyLeave, { data: leaveResponse }] = useApplyLeaveMutation();
   useEffect(() => {
-    const shiftNameArray = reduceByKeys(leaves?.leave, '_id', 'leaveName');
-    console.log({ shiftNameArray });
-    setLeaveNameArray(shiftNameArray);
-  }, [leaves?.leave]);
+    const leaveNameArray = reduceByKeys(data?.leave, '_id', 'leaveName');
+    setLeaveNameArray(leaveNameArray);
+  }, [data?.leave, isLoading]);
   useEffect(() => {
     if (leaveNameArray) {
       const leaveArray = leaveNameArray?.map((leaveName: any) => {
@@ -39,10 +43,8 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
   }, [leaveNameArray]);
 
   const onleaveName = (value: any) => {
-    console.log(value);
     form.setFieldValue('leaveName', value);
     const result = form.getFieldValue('leaveName');
-    console.log({ result });
   };
 
   const onCancel = () => {
@@ -52,26 +54,44 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
   const { TextArea } = Input;
 
   const onFinish = async (values: any) => {
-    console.log(values);
     const { startDate, endTime, leaveName, ...rest } = values;
+
     try {
-      const res = await apis.applyLeave(
-        { from: startDate.bsDate, to: endTime.bsDate, ...rest },
-        values.leaveName
-      );
-      if (res.status === 200) {
-        message.success('Leave Applied');
-        form.resetFields();
-      }
+      await applyLeave({
+        from: startDate.bsDate,
+        to: endTime.bsDate,
+        employeeId: employeeData?.employee?.employeeNumber,
+        employeeName: employeeData?.employee?.employeeName,
+        id: values.leaveName,
+        ...rest,
+      });
+      // const res = await apis.applyLeave(
+      //   {
+      //     from: startDate.bsDate,
+      //     to: endTime.bsDate,
+      //     employeeId: employeeData?.employee?.employeeNumber,
+      //     employeeName: employeeData?.employee?.employeeName,
+      //     ...rest,
+      //   },
+      //   values.leaveName
+      // );
+      // if (res.status === 200) {
+      //   message.success('Leave Applied');
+      //   form.resetFields();
+      // }
+      setIsModalOpen(false);
     } catch {
       message.error('Something Went Wrong');
     } finally {
-      setIsModalOpen(false);
+      // setIsModalOpen(false);
     }
   };
-
-  console.log({ leaveNameSelect });
-
+  useEffect(() => {
+    if (leaveResponse?.message === 'leave applied') {
+      message.success(leaveResponse?.message);
+      form.resetFields();
+    }
+  }, [leaveResponse]);
   return (
     <div className='assign-leave-form'>
       <Form layout='vertical' onFinish={onFinish}>
