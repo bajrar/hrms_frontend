@@ -5,6 +5,7 @@ import type { ColumnsType } from 'antd/es/table';
 import { useAppSelector } from '../../../hooks/useTypedSelector';
 import { EmployeeStats } from '../../../pages/Attendance/Attendance';
 import { CompareFunction } from './AttendaceReport';
+import { useGetAttendanceByDateRangeQuery } from '../../../redux/api/attendanceByDateSlice';
 
 interface DataType {
   id?: string;
@@ -27,12 +28,18 @@ export const formatTime = (time: any) => {
 };
 const UserDashboardAttendance = () => {
   const [attendanceData, setAttendanceData] = useState<any>([]);
-
+  const { data: employee } = useGetAttendanceByDateRangeQuery({
+    userSn: 200,
+    startDate: '2080/02/01',
+    endDate: '2080/02/30',
+  });
   let { employeeId } = useParams();
 
-  const { employee } = useAppSelector(
-    (state: any) => state.SingleAttendanceSlice
-  );
+  // const { employee } = useAppSelector(
+  //   (state: any) => state.SingleAttendanceSlice
+  // );
+
+  console.log({ employee }, '<------ this is the employee');
   const columns: ColumnsType<DataType> = [
     {
       title: 'DATE',

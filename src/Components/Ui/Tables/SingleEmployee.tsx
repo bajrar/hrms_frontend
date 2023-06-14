@@ -114,7 +114,6 @@ const SingleEmployee = ({
   useEffect(() => {
     setAttendanceData(employee);
   }, [employeeId]);
-
   useEffect(() => {
     const data1: DataType[] = [];
     employee?.result?.map((userData: any) => {
