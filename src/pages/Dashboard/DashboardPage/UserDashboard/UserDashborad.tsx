@@ -15,7 +15,9 @@ const UserDashborad = () => {
           <hr />
           <div className='row  user-dashboard_daily_attendance-status p-2'>
             <div className='col-7'>
-              <h5>Attendance Status for a month</h5>
+              <p style={{ fontWeight: 'bold', textAlign: 'center' }}>
+                Attendance Status for a Current month
+              </p>
               <UserDashboardAttendance />
             </div>
 

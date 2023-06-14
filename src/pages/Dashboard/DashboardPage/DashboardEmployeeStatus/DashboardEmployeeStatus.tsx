@@ -21,10 +21,8 @@ export const DashboardEmployeeStatus = ({}: EmployeeStatusProps) => {
                 style={{ width: '100%' }}
                 placeholder='Select and filter by'
                 options={[
-                  { value: 'jack', label: 'Jack' },
-                  { value: 'lucy', label: 'Lucy' },
-                  { value: 'Yiminghe', label: 'yiminghe' },
-                  { value: 'disabled', label: 'Disabled', disabled: true },
+                  { value: 'employeeName', label: 'Employee Name' },
+                  { value: 'status', label: 'Status' },
                 ]}
               />
             </div>
