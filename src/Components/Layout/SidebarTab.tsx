@@ -8,11 +8,15 @@ import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
 import { RootState } from '../../store';
 import { verifyTokenStatus } from '../../redux/features/verifyTokenSlice';
 import { AiOutlineMenu } from 'react-icons/ai';
+import { setClose, setOpen } from '../../redux/features/sidebarSlice';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
+const isOpenSelector = (state: any) => state.sidebarSlice.isOpen;
 const SideBarTab = () => {
-  const [smallSidebar, setSmallSidebar] = useState<boolean>(true);
+  // const [smallSidebar, setSmallSidebar] = useState<boolean>(true);
+  const smallSidebar = useAppSelector(isOpenSelector);
+
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(verifyTokenStatus() as any);
@@ -41,8 +45,18 @@ const SideBarTab = () => {
     else null as any;
   }
 
+  // const openSidebar = () => {
+  //   setSmallSidebar(!smallSidebar);
+  // };
+
   const openSidebar = () => {
-    setSmallSidebar(!smallSidebar);
+    if (smallSidebar) {
+      dispatch(setClose());
+    } else {
+      dispatch(setOpen());
+    }
+
+    // Additional logic or side effects
   };
   const closeSidebar = (routeTo: string) => {
     if (userRole === 'user' && routeTo === 'attendance') {
@@ -55,7 +69,7 @@ const SideBarTab = () => {
     // } else {
     //   navigate(`/${routeTo}`);
     // }
-    setSmallSidebar(!smallSidebar);
+    // setSmallSidebar(!smallSidebar);
   };
   const items: MenuProps['items'] = [
     getItem(

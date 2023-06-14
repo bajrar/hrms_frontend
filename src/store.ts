@@ -26,6 +26,7 @@ import { profileSlice } from './redux/features/profileSlice';
 import { leaveSliceApi } from './redux/api/leaveSlice';
 import { attendanceByDateApi } from './redux/api/attendanceByDateSlice';
 import { employeeWorkhourSliceApi } from './redux/api/employeeWorkhour';
+import sidebarSlice from './redux/features/sidebarSlice';
 
 export const store = configureStore({
   reducer: {
@@ -50,6 +51,7 @@ export const store = configureStore({
     upcomingEvents: upcomingEventSlice,
     userSlice: userSlice,
     verifyTokenSlice:verifyTokenSlice,
+    sidebarSlice:sidebarSlice,
     [attendanceRequestSlice.reducerPath]:attendanceRequestSlice.reducer,
     [profileSlice.reducerPath]:profileSlice.reducer,
     [leaveSliceApi.reducerPath]:leaveSliceApi.reducer,
