@@ -1,0 +1,91 @@
+.attendance-track {
+  display: flex;
+  flex-direction: column;
+}
+.attendance-track_heading {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  color: #333333;
+}
+
+.attendance-track_paragraph {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #666666;
+}
+.attendance-track_track-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+.track-box {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  /* width: 100%; */
+  gap: 20px;
+  height: 400px;
+  border: 1px solid #d8d8d8;
+  border-radius: 4px;
+}
+
+.track-box_header {
+  display: flex;
+  gap: 20px;
+}
+.track-box_heading {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  background: linear-gradient(270deg, #00b9f1 0%, #023c87 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.clock_input {
+  background: #ffffff;
+  border: 1px solid #d8d8d8;
+  border-radius: 4px;
+  padding: 10px;
+  height: 65px;
+  width: 90%;
+}
+.clock_input-heading {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 19px;
+  color: #333333;
+}
+.clock-button {
+  text-align: center;
+}
+.work-hour-box {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #d8d8d8;
+  border-radius: 4px;
+  padding: 5px;
+}
+.work-hour-box_time-info {
+  display: flex;
+  justify-content: space-between;
+}
+.work-hour-box_day {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 19px;
+  color: #333333;
+}
+.work-hour-box_time {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 19px;
+  color: #333333;
+}

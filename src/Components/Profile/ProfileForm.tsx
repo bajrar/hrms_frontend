@@ -1,81 +1,50 @@
 import { useEffect, useState, memo, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
-import {
-  Button,
-  Form,
-  Input,
-  Radio,
-  RadioChangeEvent,
-  DatePicker,
-  Select,
-  Row,
-  Col,
-} from 'antd';
-import { toast } from 'react-toastify';
-
-import { apis, axiosApiInstance } from '../apis/constants/ApisService';
-import BreadCrumbs from '../Ui/BreadCrumbs/BreadCrumbs';
-import Layout from '../Layout';
-import Navbar from '../Ui/Navbar';
-import Selects from '../Ui/Selects/Selects';
-import { WorkingCondition } from '../../utils/Constants';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import ModalComponent from '../Ui/Modal/Modal';
-import ViewAllEmployee from '../Ui/Tables/ViewAllEmployee';
-import { isErrored } from 'stream';
-import { useAppSelector } from '../../hooks/useTypedSelector';
-import { getSingleEmployee } from '../../redux/features/singleEmployeeSlice';
+import { Button, Form, Input, Radio, RadioChangeEvent, DatePicker, Select, Row, Col } from 'antd';
 import moment from 'moment';
-import { getEmployee } from '../../redux/features/employeeSlice';
 import dayjs from 'dayjs';
 import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
 import NepaliDate from 'nepali-date-converter';
 import './add-employee-form.css';
 import Projects from './Projects/Projects';
-import { useGetUserProfileQuery } from '../../redux/features/profileSlice';
+import { useRequestProfileUpdateMutation } from '../../redux/features/profileSlice';
+import { ToastContainer, toast } from 'react-toastify';
 
 export const selectedEmployee = (state: any, id: string) =>
   state?.find((item: any) => item?.employeeNumber === id);
+
+type PropTypes = {
+  employeeId: string;
+  isDisable: boolean;
+  defaultValue: {
+    _id: string;
+    designation: string;
+    email: string;
+    employeeNumber: string;
+    gender: string;
+    mobileNumber: string;
+    reportingManager: string;
+    employeeName: string;
+    dob: string;
+    count: string;
+    probationPeriod: string;
+    dateOfJoining: string;
+  };
+};
+
 export const ProfileForm = ({
   employeeId = '',
   isDisable = false,
-  defaultValue: employeeData = {},
-}: any) => {
+  defaultValue: employeeData,
+}: PropTypes) => {
   const [gender, setGender] = useState('');
-  const [searchText, setSearchText] = useState('');
   const [status, setStatus] = useState('');
   const currentDate = new NepaliDate(new Date()).format('YYYY-MM-DD');
-  // const [employeeData, setEmployeeData] = useState({} as any);
-  const dispatch = useDispatch();
   const [getDateOfJoining, setDateOfJoining] = useState();
   const [getDob, setDob] = useState();
   const defaultDob = employeeData?.dob?.split('/').join('-');
-  const defaultdateOfJoining = employeeData?.dateOfJoining
-    ?.split('/')
-    .join('-');
-  const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
-  const { data, isLoading } = useGetUserProfileQuery(tokenData.userSn);
-  console.log(data, '<------- profile data>');
-  // useEffect(()=>{
-  //   dispatch(getSingleEmployee())
-  // },[])
-  // const { employee } = useAppSelector(
-  //   (state) => state.singleEmployeeSlice?.employee
-  // );
-
-  // const employeeData = update ? selectedEmployee(employee, employeeId) : {}
-
-  // console.log({employee},'<------ employeeee')
-  // console.log({employeeId})
-
-  // useEffect(() => {
-  //   dispatch(
-  //     getSingleEmployee({
-  //       employeeId,
-  //     }) as any
-  //   );
-  // }, []);
+  const defaultdateOfJoining = employeeData?.dateOfJoining?.split('/').join('-');
+  const [requestProfileUpdate, { error, isLoading, data }] = useRequestProfileUpdateMutation();
 
   const onStartDateChange = ({ bsDate }: any) => {
     setDateOfJoining(bsDate);
@@ -88,30 +57,30 @@ export const ProfileForm = ({
   const onSelect = (e: any) => {
     setStatus(e);
   };
-  const onFinish = async (values: any) => {
-    console.log(values);
-    const { dateOfJoining, dob, ...rest } = values;
 
-    /*  try {
-      const res = await apis.addEmployee({
+  const onFinish = async (values: any) => {
+    const { dateOfJoining, dob, count, probationPeriod, ...rest } = values;
+    try {
+      const payload = await requestProfileUpdate({
+        userSn: employeeData._id,
+        probation: {
+          period: probationPeriod,
+          count,
+        },
         ...rest,
         dob: getDob,
         dateOfJoining: getDateOfJoining,
+      }).unwrap();
+      toast.success('Request sent successfully', {
+        position: 'top-center',
+        autoClose: 5000,
       });
-
-      if (res.status === 201) {
-        toast.success('Employee Submitted Sucesfully', {
-          position: 'top-center',
-          autoClose: 5000,
-        });
-        window.location.reload();
-      }
     } catch {
       toast.error('Something Went Wrong', {
         position: 'top-center',
         autoClose: 5000,
       });
-    } */
+    }
   };
 
   const onChangeRadio = (e: RadioChangeEvent) => {
@@ -156,7 +125,7 @@ export const ProfileForm = ({
       message: 'Employee Id is Required',
       placeHolder: '001',
       type: 'number',
-      initialValue: employeeData?.employeeId,
+      initialValue: employeeId,
     },
     {
       name: 'employeeName',
@@ -205,63 +174,9 @@ export const ProfileForm = ({
     },
   ];
 
-  const emergencyContact = [
-    {
-      name: 'emergencyName',
-      label: 'Emergency Contact Name',
-      message: 'Emergency Contact Name Required',
-      placeHolder: 'EX: John Doe',
-      type: 'text',
-      initialValue: employeeData?.emergencyName,
-    },
-    {
-      name: 'emergencyContact',
-      label: 'Emergency Contact Number',
-      message: 'Emergency Contact Number Required',
-      placeHolder: 'EX: 2541210',
-      type: 'number',
-      initialValue: employeeData?.emergencyContact,
-    },
-    {
-      name: 'parentName',
-      label: "Father's/Mother's Name",
-      message: "Father's/ Mother's Name Required",
-      placeHolder: 'John Doe',
-      type: 'text',
-      initialValue: employeeData?.parentName,
-    },
-    {
-      name: 'spouseName',
-      label: 'Spouse Name',
-      message: 'Spouse Name Required',
-      placeHolder: 'John Doe',
-      type: 'text',
-      initialValue: employeeData?.spouseName,
-    },
-  ];
-
-  const WorkingCondition = [
-    {
-      label: 'All Status',
-      value: '',
-    },
-    {
-      label: 'Working',
-      value: 'working',
-    },
-    {
-      label: 'Pending',
-      value: 'pending',
-    },
-    {
-      label: 'Resigned',
-      value: 'resigned',
-    },
-  ];
-
-  const dateFormat = 'YYYY/MM/DD';
   return (
     <>
+      <ToastContainer />
       <Row>
         <Col span={16}>
           <p>Profile Information</p>
@@ -273,13 +188,11 @@ export const ProfileForm = ({
                 onFinish={onFinish}
                 autoComplete="off"
                 form={form}
-                initialValues={{ name: employeeData?.employeeId }}
+                initialValues={{ name: employeeId }}
                 disabled={isDisable}
               >
-                <div className="row p-0">
-                  <h3 className="add-employee__section-header">
-                    Basic Information
-                  </h3>
+                <div className='row p-0'>
+                  <h3 className='add-employee__section-header'>Basic Information</h3>
                   <hr />
                   <div className="add-employee__section p-0">
                     {firstRow.map((item, index) => {
@@ -353,11 +266,8 @@ export const ProfileForm = ({
                   </div>
                 </div>
 
-                <div className="row p-0 mt-4">
-                  <h3 className="add-employee__section-header">
-                    {' '}
-                    Office Details
-                  </h3>
+                <div className='row p-0 mt-4'>
+                  <h3 className='add-employee__section-header'> Office Details</h3>
                   <hr />
                   <div className="add-employee__section p-0">
                     {thirdRow.map((item, index) => (
@@ -448,11 +358,9 @@ export const ProfileForm = ({
                           <Select
                             size="large"
                             showSearch
-                            placeholder="Days"
-                            optionFilterProp="children"
-                            filterOption={(input, option) =>
-                              (option?.label ?? '').includes(input)
-                            }
+                            placeholder='Days'
+                            optionFilterProp='children'
+                            filterOption={(input, option) => (option?.label ?? '').includes(input)}
                             options={[
                               { label: '1 month', value: '1 month' },
                               { label: '3 months', value: '3 months' },
@@ -462,11 +370,9 @@ export const ProfileForm = ({
                         </Form.Item>
 
                         <Form.Item
-                          className="form-input col-3 form-input-wrapper"
-                          name="count"
-                          rules={[
-                            { required: true, message: 'Days count required' },
-                          ]}
+                          className='form-input col-3 form-input-wrapper'
+                          name='count'
+                          rules={[{ required: true, message: 'Days count required' }]}
                           initialValue={employeeData?.count}
                         >
                           <Input
