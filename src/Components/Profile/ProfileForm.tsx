@@ -177,8 +177,6 @@ export const ProfileForm = ({
   return (
     <>
       <ToastContainer />
-      <Row>
-        <Col span={16}>
           <p>Profile Information</p>
           <hr />
           <div className="mb-4">
@@ -419,11 +417,6 @@ export const ProfileForm = ({
               </Form>
             </div>
           </div>
-        </Col>
-        <Col span={8}>
-          <Projects />
-        </Col>
-      </Row>
     </>
   );
 };

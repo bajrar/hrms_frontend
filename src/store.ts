@@ -27,6 +27,7 @@ import { leaveSliceApi } from './redux/api/leaveSlice';
 import { attendanceByDateApi } from './redux/api/attendanceByDateSlice';
 import { employeeWorkhourSliceApi } from './redux/api/employeeWorkhour';
 import sidebarSlice from './redux/features/sidebarSlice';
+import { projectTeamSlice } from './redux/features/projectTeam.slice';
 
 export const store = configureStore({
   reducer: {
@@ -45,25 +46,31 @@ export const store = configureStore({
     leaveSlice: leaveSlice,
     singleLeave: singleLeaveSlice,
     monthlyReport: monthlyReportSlice,
-    employeeSlice:employeeSlice,
+    employeeSlice: employeeSlice,
     singleEmployeeSlice: singleEmployeeSlice,
     announcement: announcementSlice,
     upcomingEvents: upcomingEventSlice,
     userSlice: userSlice,
-    verifyTokenSlice:verifyTokenSlice,
-    sidebarSlice:sidebarSlice,
-    [attendanceRequestSlice.reducerPath]:attendanceRequestSlice.reducer,
-    [profileSlice.reducerPath]:profileSlice.reducer,
-    [leaveSliceApi.reducerPath]:leaveSliceApi.reducer,
-    [attendanceByDateApi.reducerPath]:attendanceByDateApi.reducer,
-    [employeeWorkhourSliceApi.reducerPath]:employeeWorkhourSliceApi.reducer,
-
-
+    verifyTokenSlice: verifyTokenSlice,
+    sidebarSlice: sidebarSlice,
+    [attendanceRequestSlice.reducerPath]: attendanceRequestSlice.reducer,
+    [profileSlice.reducerPath]: profileSlice.reducer,
+    [leaveSliceApi.reducerPath]: leaveSliceApi.reducer,
+    [attendanceByDateApi.reducerPath]: attendanceByDateApi.reducer,
+    [employeeWorkhourSliceApi.reducerPath]: employeeWorkhourSliceApi.reducer,
+    [projectTeamSlice.reducerPath]: projectTeamSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-  // getDefaultMiddleware().concat(attendanceRequestSlice.middleware).concat(profileSlice.middleware),
-  getDefaultMiddleware().concat([attendanceRequestSlice.middleware,profileSlice.middleware,leaveSliceApi.middleware,employeeWorkhourSliceApi.middleware,attendanceByDateApi.middleware]),
-})
-setupListeners(store.dispatch)
+    // getDefaultMiddleware().concat(attendanceRequestSlice.middleware).concat(profileSlice.middleware),
+    getDefaultMiddleware().concat([
+      attendanceRequestSlice.middleware,
+      profileSlice.middleware,
+      leaveSliceApi.middleware,
+      employeeWorkhourSliceApi.middleware,
+      attendanceByDateApi.middleware,
+      projectTeamSlice.middleware,
+    ]),
+});
+setupListeners(store.dispatch);
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
