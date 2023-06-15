@@ -8,7 +8,7 @@ import AttendaceCount from "../../../../Components/Dashboard/AttendanceCount/Att
 import EmployeeCountByDesignation from "../../../../Components/Dashboard/AttendanceCount/EmployeeCountByDesignation";
 import UpcomingEvents from "../../../../Components/Dashboard/upcomingEvents/UpcomingEvents";
 import Announcement from "../../../../Components/Dashboard/upcomingEvents/Announcement";
-import UserDashborad from "../UserDashboard/UserDashborad";
+import UserDashboard from "../UserDashboard/UserDashboard";
 import { useAppSelector } from "../../../../hooks/useTypedSelector";
 import { RootState } from "../../../../store";
 import { verifyTokenStatus } from "../../../../redux/features/verifyTokenSlice";
@@ -17,6 +17,7 @@ import { Spin } from "antd";
 import NepaliDate from "nepali-date-converter";
 import { MdCalendarToday } from "react-icons/md";
 import { useGetTokenDataQuery } from "../../../../redux/api/tokenSlice";
+import { getUserData } from "../../../../redux/features/userSlice";
 
 type SubMenuProps = {};
 
@@ -31,6 +32,9 @@ export const SubMenu = ({}: SubMenuProps) => {
   // const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
   const userRole = tokenData?.role ? tokenData?.role : userData?.role;
 
+useEffect(()=>{
+  dispatch(getUserData())
+},[])
 
   
   // const userRole = tokenData?.role;
@@ -82,7 +86,7 @@ export const SubMenu = ({}: SubMenuProps) => {
                   </div>
                 </>
               ) : (
-                <UserDashborad />
+                <UserDashboard />
               )}
             </Tabs.TabPane>
 

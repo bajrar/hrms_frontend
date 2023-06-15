@@ -4,7 +4,7 @@ import UserDashboardAttendance from '../../../../Components/Ui/Tables/UserDashbo
 import AttendanceTrack from './AttendanceTrack';
 import './UserDashboard.css';
 
-const UserDashborad = () => {
+const UserDashboard = () => {
   return (
     <>
       <div className='row user-dashboard'>
@@ -34,4 +34,4 @@ const UserDashborad = () => {
   );
 };
 
-export default UserDashborad;
+export default UserDashboard;

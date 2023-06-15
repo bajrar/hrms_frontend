@@ -247,7 +247,7 @@ const SideBarTab = () => {
           className='small-logo-container'
           onClick={() => navigate('/dashboard')}
         >
-          <img src='/images/small-logo.svg' alt='virtuos logo' />
+          <img src='/images/small-logo.svg' alt='Virtuosway Logo' />
         </div>
       ) : (
         <div className='logo-container' onClick={() => navigate('/dashboard')}>
