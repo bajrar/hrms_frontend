@@ -16,18 +16,23 @@ import { useDispatch } from "react-redux";
 import { Spin } from "antd";
 import NepaliDate from "nepali-date-converter";
 import { MdCalendarToday } from "react-icons/md";
+import { useGetTokenDataQuery } from "../../../../redux/api/tokenSlice";
 
 type SubMenuProps = {};
 
 export const SubMenu = ({}: SubMenuProps) => {
   const dispatch = useDispatch();
   // const userData = useAppSelector((state: RootState) => state.userSlice.value);
-  useEffect(() => {
-    dispatch(verifyTokenStatus() as any);
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(verifyTokenStatus() as any);
+  // }, [dispatch]);
   const userData = useAppSelector((state: RootState) => state.userSlice.value);
-  const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
+  const {data:tokenData}  = useGetTokenDataQuery('token')
+  // const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
   const userRole = tokenData?.role ? tokenData?.role : userData?.role;
+
+
+  
   // const userRole = tokenData?.role;
   const operations = (
     <Button

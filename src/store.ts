@@ -27,6 +27,7 @@ import { leaveSliceApi } from './redux/api/leaveSlice';
 import { attendanceByDateApi } from './redux/api/attendanceByDateSlice';
 import { employeeWorkhourSliceApi } from './redux/api/employeeWorkhour';
 import sidebarSlice from './redux/features/sidebarSlice';
+import { tokenSliceApi } from './redux/api/tokenSlice';
 
 export const store = configureStore({
   reducer: {
@@ -57,12 +58,13 @@ export const store = configureStore({
     [leaveSliceApi.reducerPath]:leaveSliceApi.reducer,
     [attendanceByDateApi.reducerPath]:attendanceByDateApi.reducer,
     [employeeWorkhourSliceApi.reducerPath]:employeeWorkhourSliceApi.reducer,
+    [tokenSliceApi.reducerPath]:tokenSliceApi.reducer,
 
 
   },
   middleware: (getDefaultMiddleware) =>
   // getDefaultMiddleware().concat(attendanceRequestSlice.middleware).concat(profileSlice.middleware),
-  getDefaultMiddleware().concat([attendanceRequestSlice.middleware,profileSlice.middleware,leaveSliceApi.middleware,employeeWorkhourSliceApi.middleware,attendanceByDateApi.middleware]),
+  getDefaultMiddleware().concat([attendanceRequestSlice.middleware,profileSlice.middleware,leaveSliceApi.middleware,employeeWorkhourSliceApi.middleware,attendanceByDateApi.middleware,tokenSliceApi.middleware]),
 })
 setupListeners(store.dispatch)
 export type RootState = ReturnType<typeof store.getState>;
