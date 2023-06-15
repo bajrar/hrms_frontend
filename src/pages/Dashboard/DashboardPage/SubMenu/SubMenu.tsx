@@ -9,35 +9,19 @@ import EmployeeCountByDesignation from "../../../../Components/Dashboard/Attenda
 import UpcomingEvents from "../../../../Components/Dashboard/upcomingEvents/UpcomingEvents";
 import Announcement from "../../../../Components/Dashboard/upcomingEvents/Announcement";
 import UserDashboard from "../UserDashboard/UserDashboard";
-import { useAppSelector } from "../../../../hooks/useTypedSelector";
-import { RootState } from "../../../../store";
-import { verifyTokenStatus } from "../../../../redux/features/verifyTokenSlice";
 import { useDispatch } from "react-redux";
 import { Spin } from "antd";
 import NepaliDate from "nepali-date-converter";
 import { MdCalendarToday } from "react-icons/md";
 import { useGetTokenDataQuery } from "../../../../redux/api/tokenSlice";
-import { getUserData } from "../../../../redux/features/userSlice";
 
 type SubMenuProps = {};
 
 export const SubMenu = ({}: SubMenuProps) => {
   const dispatch = useDispatch();
-  // const userData = useAppSelector((state: RootState) => state.userSlice.value);
-  // useEffect(() => {
-  //   dispatch(verifyTokenStatus() as any);
-  // }, [dispatch]);
-  const userData = useAppSelector((state: RootState) => state.userSlice.value);
   const {data:tokenData}  = useGetTokenDataQuery('token')
-  // const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
-  const userRole = tokenData?.role ? tokenData?.role : userData?.role;
-
-useEffect(()=>{
-  dispatch(getUserData())
-},[])
-
-  
-  // const userRole = tokenData?.role;
+  const userRole = tokenData?.role
+  const isAdmin = userRole ==='admin'
   const operations = (
     <Button
       type="dashed"
@@ -71,7 +55,7 @@ useEffect(()=>{
         <>
           <Tabs defaultActiveKey="1" tabBarExtraContent={operations}>
             <Tabs.TabPane tab="Dashboard" key="1">
-              {userRole === "admin" ? (
+              {isAdmin ? (
                 <>
                   <div className="row">
                     <div className="col-lg-6 hr-dashboard-sub-menu-content-left">
@@ -90,7 +74,7 @@ useEffect(()=>{
               )}
             </Tabs.TabPane>
 
-            {userRole === "admin" && (
+            {isAdmin && (
               <Tabs.TabPane tab="Upcoming events" key="2">
                 <div className="dashboard-upcoming-events">
                   <div className="Upcoming col-8">

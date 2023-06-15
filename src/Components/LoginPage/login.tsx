@@ -67,7 +67,7 @@ export const LoginPage = ({}: LoginPageProps) => {
         // localStorage.setItem('email', inputs?.email);
         // localStorage.setItem('isAdmin', res.data.user?.admin);
         // localStorage.setItem('userName', res.data.user?.userName);
-        navigate('/dashboard');
+        // navigate('/dashboard');
         window.location.reload();
       }
     } catch (error) {
@@ -81,7 +81,6 @@ export const LoginPage = ({}: LoginPageProps) => {
   useEffect(() => {
     dispatch(verifyTokenStatus() as any);
   }, []);
-  const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
   return (
     <main className='loginpage_main'>
       <ToastContainer
