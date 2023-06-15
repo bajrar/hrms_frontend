@@ -159,7 +159,11 @@ const UpcomingEvents = ({ isSmall = false }: PropsType) => {
                 } `}
               >
                 {hasEventToday?.length > 0 && (
-                  <div className="upcoming-event-upcoming-events-items">
+                  <div
+                    className={`upcoming-event-upcoming-events-items  ${
+                      isSmall && "smallWidth"
+                    }`}
+                  >
                     {hasEventToday?.map((event: any, index: any) => (
                       <div key={index}>
                         <p id="formatted-eventdate-event">
