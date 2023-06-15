@@ -25,6 +25,7 @@ import Profile from '../../pages/Profile/Profile';
 import AdminRouteHOC from '../../HOC/adminProtected';
 import { ProtectedOtpRoute } from './protectedOtp';
 import { AdminProtectedRoute } from './adminProtected';
+import RequestLeave from '../Leave/RequestLeave';
 
 type MainRoutesProps = {};
 
@@ -38,7 +39,7 @@ export const MainRoutes = ({}: MainRoutesProps) => {
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/holidays' element={<Holidays />} />
           <Route path='/leave' element={<LeaveAllocation />} />
-          {/* <Route path='/leave' element={<Leave />} /> */}
+          <Route path='/request-leave' element={<RequestLeave />} />
           <Route
             path='/attendance/:employeeId'
             element={<EmployeeAttendance />}

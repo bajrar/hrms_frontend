@@ -107,9 +107,15 @@ const SideBarTab = () => {
           </div>,
           '2'
         ),
-        getItem(
+        userRole==='admin'?  getItem(
           <div className='sidenav-link' onClick={() => closeSidebar('leave')}>
             Leave Allocation
+          </div>,
+          '3'
+        ):
+        getItem(
+          <div className='sidenav-link' onClick={() => closeSidebar('request-leave')}>
+            Request Leave
           </div>,
           '3'
         ),

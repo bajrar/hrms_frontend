@@ -13,7 +13,7 @@ export const Leave = (props: Props) => {
 
   const onFinish = async (values: any) => {
     const { Date, ...rest } = values;
-    let From = Date[0].$d;
+    let From = Date[0].$d;  
     let To = Date[1].$d;
     values = { Date: { From, To }, ...rest };
     console.log('Success:', values);
