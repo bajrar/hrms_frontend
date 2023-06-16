@@ -123,20 +123,12 @@ const SingleEmployee = ({
         key: userData?._id,
         date: userData?.attendanceByDate?.date,
         name: userData?.employeeName,
-        status:
-          userData?.attendanceByDate?.morningStatus === 'WFH'
-            ? 'Working From Home'
-            : userData?.attendanceByDate?.holiday ||
-              userData?.attendanceByDate?.absent
-            ? 'Holiday'
-            : `${userData?.attendanceByDate?.morningStatus} - ${userData?.attendanceByDate?.eveningStatus}`,
-
-        // status:
-        //   userData?.attendanceByDate?.holiday ||
-        //   userData?.attendanceByDate?.absent
-        //     ? ''
-        //     : `${userData?.attendanceByDate?.morningStatus} - ${userData?.attendanceByDate?.eveningStatus}`,
-
+        status: userData?.attendanceByDate?.wfh
+          ? 'Working From Home'
+          : userData?.attendanceByDate?.holiday ||
+            userData?.attendanceByDate?.absent
+          ? 'Holiday'
+          : `${userData?.attendanceByDate?.morningStatus} - ${userData?.attendanceByDate?.eveningStatus}`,
         designation: userData?.designation,
         clockIn: userData?.attendanceByDate?.absent
           ? 'Absent'
