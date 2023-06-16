@@ -128,13 +128,13 @@ const SingleEmployee = ({
             ? 'Working From Home'
             : userData?.attendanceByDate?.holiday ||
               userData?.attendanceByDate?.absent
-            ? 'Holiday'
+            ? 'Absent'
             : `${userData?.attendanceByDate?.morningStatus} - ${userData?.attendanceByDate?.eveningStatus}`,
         designation: userData?.designation,
         clockIn: userData?.attendanceByDate?.absent
-          ? 'Absent'
+          ? '-'
           : userData?.attendanceByDate?.holiday
-          ? 'Holiday'
+          ? '-'
           : `${formatTime(userData?.attendanceByDate?.entryTime)}`,
         clockOut: userData?.attendanceByDate?.absent
           ? '-'
