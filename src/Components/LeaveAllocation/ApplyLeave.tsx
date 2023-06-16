@@ -1,5 +1,5 @@
 import { Table } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
 import '@sbmdkl/nepali-datepicker-reactjs/dist/index.css';
 import type { ColumnsType } from 'antd/es/table';
@@ -13,6 +13,8 @@ import ApplyLeaveForm from './ApplyLeaveForm';
 import { useAppSelector } from '../../hooks/useTypedSelector';
 import { RootState } from '../../store';
 import { CalendarOutlined } from '@ant-design/icons';
+import { reduceByKeys } from '../../hooks/HelperFunctions';
+import { useGetLeavesQuery } from '../../redux/api/leaveSlice';
 
 export interface DataType {
   eid?: string;
@@ -27,6 +29,10 @@ const ApplyLeave = () => {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [leaveNameArray, setLeaveNameArray] = useState<any[]>([]);
+  const [leaveNameSelect, setLeaveNameSelect] = useState<any[]>([]);
+  const [filterLeaveData, setFilterLeaveData] = useState<any>([]);
+  const [searchByLeave, setSearchByLeave] = useState('');
   const userDetails = localStorage.getItem('userDetails');
   const employeeDetails = JSON.parse(userDetails || '');
   console.log(
@@ -39,6 +45,7 @@ const ApplyLeave = () => {
   const onEndDateChange = ({ bsDate }: any) => {
     setEndDate(bsDate);
   };
+  const { data: leaveData, isLoading } = useGetLeavesQuery('leave');
 
   const columns: ColumnsType<DataType> = [
     {
@@ -77,6 +84,39 @@ const ApplyLeave = () => {
     setIsModalOpen(true);
   };
 
+  useEffect(() => {
+    const leaveNameArray = reduceByKeys(
+      leaveData?.leave,
+      'leaveName',
+      'leaveName'
+    );
+    setLeaveNameArray(leaveNameArray);
+  }, [leaveData?.leave, isLoading]);
+  useEffect(() => {
+    if (leaveNameArray) {
+      const leaveArray = leaveNameArray?.map((leaveName: any) => {
+        return {
+          label: leaveName?.label,
+          value: leaveName?.value,
+        };
+      });
+      setLeaveNameSelect(leaveArray);
+    }
+  }, [leaveNameArray]);
+  const onLeaveChange = (value: string) => {
+    setSearchByLeave(value);
+  };
+  const allLeaveTaken = employeeDetails?.leave.flatMap(
+    (leave: any) => leave.leaveTakenOn
+  );
+
+  useEffect(() => {
+    const filterLeaveData = searchByLeave
+      ? allLeaveTaken.filter((leave: any) => leave.leaveType === searchByLeave)
+      : allLeaveTaken;
+    setFilterLeaveData(filterLeaveData);
+  }, [searchByLeave]);
+
   return (
     <div className='assign-leave'>
       <div className='d-flex justify-content-between align-items-center daily-report-search'>
@@ -98,17 +138,20 @@ const ApplyLeave = () => {
           <CalendarOutlined className='calendar-icon' />
         </div>
         <div className='d-flex daily-report-saerch-right'>
-          <Selects placeHolder='Search leave name' className='leave-inputs' />
+          <Selects
+            onSelect={onLeaveChange}
+            options={leaveNameSelect}
+            placeHolder='Search leave name'
+            className='leave-inputs'
+          />
+          {/* <Selects placeHolder='Search leave name' className='leave-inputs' /> */}
           <button className='primary-btn' onClick={showModal}>
             <FontAwesomeIcon icon={faPlus} /> Apply Leave
           </button>
         </div>
       </div>
       <div className='daily-report-table-container'>
-        <Table
-          columns={columns}
-          dataSource={employeeDetails?.leave[0]?.leaveTakenOn}
-        />
+        <Table columns={columns} dataSource={filterLeaveData} />
       </div>
       <ModalComponent
         openModal={isModalOpen}
