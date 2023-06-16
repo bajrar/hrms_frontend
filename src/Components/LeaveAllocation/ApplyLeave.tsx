@@ -35,10 +35,7 @@ const ApplyLeave = () => {
   const [searchByLeave, setSearchByLeave] = useState('');
   const userDetails = localStorage.getItem('userDetails');
   const employeeDetails = JSON.parse(userDetails || '');
-  console.log(
-    '🚀 ~ file: RequestLeave.tsx:12 ~ RequestLeave ~ employeeDetails:',
-    employeeDetails?.leave
-  );
+
   const onStartDateChange = ({ bsDate }: any) => {
     setStartDate(bsDate);
   };
@@ -65,8 +62,14 @@ const ApplyLeave = () => {
     },
     {
       title: 'DATE',
-      dataIndex: 'from',
       key: 'date',
+      render: (item, record: any) => {
+        return (
+          <div>
+            {record.from} -{record.to}{' '}
+          </div>
+        );
+      },
     },
     {
       title: 'REASON FOR LEAVE',
