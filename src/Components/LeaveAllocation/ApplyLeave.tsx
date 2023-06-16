@@ -27,9 +27,12 @@ const ApplyLeave = () => {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const userDetails = localStorage.getItem('userDetails')
-  const employeeDetails = JSON.parse(userDetails || '')
-  console.log("🚀 ~ file: RequestLeave.tsx:12 ~ RequestLeave ~ employeeDetails:", employeeDetails?.leave)
+  const userDetails = localStorage.getItem('userDetails');
+  const employeeDetails = JSON.parse(userDetails || '');
+  console.log(
+    '🚀 ~ file: RequestLeave.tsx:12 ~ RequestLeave ~ employeeDetails:',
+    employeeDetails?.leave
+  );
   const onStartDateChange = ({ bsDate }: any) => {
     setStartDate(bsDate);
   };
@@ -40,8 +43,8 @@ const ApplyLeave = () => {
   const columns: ColumnsType<DataType> = [
     {
       title: 'EID',
-      dataIndex: 'eid',
-      key: 'eid',
+      dataIndex: 'employeeId',
+      key: 'employeeId',
     },
     {
       title: 'EMPLOYEE NAME',
@@ -102,7 +105,10 @@ const ApplyLeave = () => {
         </div>
       </div>
       <div className='daily-report-table-container'>
-        <Table columns={columns}   dataSource={employeeDetails?.leave[0]?.leaveTakenOn}/>
+        <Table
+          columns={columns}
+          dataSource={employeeDetails?.leave[0]?.leaveTakenOn}
+        />
       </div>
       <ModalComponent
         openModal={isModalOpen}
