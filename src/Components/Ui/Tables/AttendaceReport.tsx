@@ -166,12 +166,14 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
             key: userData?.employeeNumber,
             date: attendance?.attendanceByDate?.date,
             name: userData?.employeeName,
-            status: attendance?.attendanceByDate?.wfh
-              ? 'Working From Home'
-              : attendance?.attendanceByDate?.holiday ||
-                attendance?.attendanceByDate?.absent
-              ? 'Holiday'
-              : `${attendance?.attendanceByDate?.morningStatus} - ${attendance?.attendanceByDate?.eveningStatus}`,
+
+            status:
+              attendance?.attendanceByDate?.status === 'WFH'
+                ? 'Working From Home'
+                : attendance?.attendanceByDate?.holiday ||
+                  attendance?.attendanceByDate?.absent
+                ? 'Holiday'
+                : `${attendance?.attendanceByDate?.morningStatus} - ${attendance?.attendanceByDate?.eveningStatus}`,
 
             designation: userData?.designation,
             clockIn: attendance?.attendanceByDate?.absent
