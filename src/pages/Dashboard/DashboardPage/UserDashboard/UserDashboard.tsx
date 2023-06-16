@@ -9,11 +9,9 @@ const UserDashboard = () => {
     <>
       <div className='row user-dashboard'>
         <div className='col-9 user-dashboard__daily-attendance '>
-          {/* <div className='row  h-25 user-dashboard__daily-attendance-track p-4'> */}
           <div className='p-4'>
             <AttendanceTrack />
           </div>
-          {/* </div> */}
           <hr />
           <div className='row  user-dashboard_daily_attendance-status p-2'>
             <div className='col-7'>
