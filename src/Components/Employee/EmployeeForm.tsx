@@ -142,7 +142,6 @@ export const EmployeeForm = ({
       dob: dayjs(dob, 'YYYY/MM/DD'),
     });
   }, [employeeData]);
-
   if (!setIsModalOpen) {
     return <> </>;
   }
