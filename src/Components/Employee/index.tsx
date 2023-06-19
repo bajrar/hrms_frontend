@@ -246,7 +246,7 @@ export const Employee = () => {
       ? sortedData.filter((each: any) => each.status === status)
       : sortedData;
     setFilterData(data);
-  }, [attendanceData, filterData]);
+  }, [attendanceData, status]);
 
   return (
     <>
