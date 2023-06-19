@@ -1,15 +1,20 @@
+import { Button } from 'antd';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Button } from 'antd';
-import Layout from '../Layout';
-import BreadCrumbs from '../Ui/BreadCrumbs/BreadCrumbs';
-import Navbar from '../Ui/Navbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { useGetProfileQuery } from '../../redux/api/employee';
-import Spinner from '../Spinner/Spinner';
 
+import Layout from '../Layout';
+import Navbar from '../Ui/Navbar';
+import Spinner from '../Spinner/Spinner';
+import EmployeeForm from './EmployeeForm';
+import ModalComponent from '../Ui/Modal/Modal';
+import BreadCrumbs from '../Ui/BreadCrumbs/BreadCrumbs';
+import { useGetProfileQuery } from '../../redux/api/employee';
+
+/* ASSETS */
 import './employeeDetails.css';
+import './add-employee-form.css';
+import { faPen, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 enum empKeys {
   empId = 'employeeNumber',
@@ -32,6 +37,8 @@ const EmpDetails = () => {
   const { empId } = useParams();
   const navigate = useNavigate();
   const [employeeData, setEmployeeData] = useState<any>(null);
+  const [activeEmployee, setActiveEmployee] = useState<any>(undefined);
+
   const { isLoading, error, data } = useGetProfileQuery(empId);
 
   useEffect(() => {
@@ -110,6 +117,7 @@ const EmpDetails = () => {
                     size='xs'
                     onClick={() => {
                       /* open modal */
+                      setActiveEmployee(data?.employee);
                     }}
                   />
                 </span>
@@ -148,6 +156,22 @@ const EmpDetails = () => {
           </div>
         </Layout>
       )}
+
+      {/* MODAL CMP */}
+      <ModalComponent
+        openModal={!!activeEmployee}
+        classNames='holidays-modal'
+        closeModal={() => setActiveEmployee(undefined)}
+      >
+        {!!activeEmployee && (
+          <EmployeeForm
+            update
+            setIsModalOpen={() => setActiveEmployee('')}
+            employeeId={activeEmployee}
+            defaultValue={activeEmployee}
+          />
+        )}
+      </ModalComponent>
     </>
   );
 };
