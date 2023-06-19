@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Table } from 'antd';
+import { Skeleton, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useAppSelector } from '../../../hooks/useTypedSelector';
 import { EmployeeStats } from '../../../pages/Attendance/Attendance';
@@ -34,7 +34,7 @@ const UserDashboardAttendance = () => {
   const startDate = new NepaliDate(new Date()).format('YYYY/MM');
   const { data: tokenData } = useGetTokenDataQuery('token');
   console.log({ tokenData });
-  const { data: employee } = useGetAttendanceByDateRangeQuery({
+  const { data: employee, isLoading } = useGetAttendanceByDateRangeQuery({
     userSn: tokenData?.userSn,
     startDate: `${startDate}/01`,
     endDate: currentDate,
@@ -167,7 +167,9 @@ const UserDashboardAttendance = () => {
     setAttendanceData(data1);
   }, [employee]);
 
-  return (
+  return isLoading ? (
+    <Skeleton active />
+  ) : (
     <div className='single-employee'>
       <Table
         // rowClassName={(record) =>

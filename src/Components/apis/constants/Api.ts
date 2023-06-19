@@ -4,7 +4,7 @@ import { axiosApiInstance } from './ApisService';
 
 export const logoutUser = () => {
   localStorage.clear();
-  window.location.replace('/login');
+  window.location.replace('/');
 };
 
 axiosApiInstance.interceptors.response.use(
