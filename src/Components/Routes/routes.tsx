@@ -26,6 +26,7 @@ import AdminRouteHOC from '../../HOC/adminProtected';
 import { ProtectedOtpRoute } from './protectedOtp';
 import { AdminProtectedRoute } from './adminProtected';
 import RequestLeave from '../Leave/RequestLeave';
+import EmpDetails from '../Employee/EmployeeDetails';
 
 type MainRoutesProps = {};
 
@@ -44,6 +45,7 @@ export const MainRoutes = ({}: MainRoutesProps) => {
             path='/attendance/:employeeId'
             element={<EmployeeAttendance />}
           />
+          <Route path='/attendance/:employeeId' element={<EmployeeAttendance />} />
           <Route path='/shift' element={<Shift />} />
           <Route element={<AdminProtectedRoute />}>
             <Route path='/shift/:shiftId' element={<ShiftDetails />} />
@@ -53,6 +55,7 @@ export const MainRoutes = ({}: MainRoutesProps) => {
             <Route path='/attendance' element={<Attendance />} />
             <Route path='/reports' element={<Reports />} />
             <Route path='/employee' element={<Employee />} />
+            <Route path='/employee/:empId' element={<EmpDetails />} />
             <Route path='/job-summary' element={<JobSummary />} />
             <Route path='/applicants' element={<Applicants />} />
             <Route path='/employee' element={<Employee />} />

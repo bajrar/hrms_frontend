@@ -12,25 +12,25 @@ import {
 } from "antd";
 import { toast } from "react-toastify";
 
-import { apis } from "../apis/constants/ApisService";
-import "./add-employee-form.css";
-import BreadCrumbs from "../Ui/BreadCrumbs/BreadCrumbs";
-import Layout from "../Layout";
-import Navbar from "../Ui/Navbar";
-import Selects from "../Ui/Selects/Selects";
-import { WorkingCondition } from "../../utils/Constants";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faPlus } from "@fortawesome/free-solid-svg-icons";
-import ModalComponent from "../Ui/Modal/Modal";
-import ViewAllEmployee from "../Ui/Tables/ViewAllEmployee";
-import { isErrored } from "stream";
-import { EmployeeForm } from "./EmployeeForm";
-import { Link } from "react-router-dom";
-import { CompareFunction } from "../Ui/Tables/AttendaceReport";
-import { ColumnsType } from "antd/es/table";
-import { useAppDispatch, useAppSelector } from "../../hooks/useTypedSelector";
-import { getEmployee } from "../../redux/features/employeeSlice";
-import { EmployeeStats } from "../../pages/Attendance/Attendance";
+import { apis } from '../apis/constants/ApisService';
+import './add-employee-form.css';
+import BreadCrumbs from '../Ui/BreadCrumbs/BreadCrumbs';
+import Layout from '../Layout';
+import Navbar from '../Ui/Navbar';
+import Selects from '../Ui/Selects/Selects';
+import { WorkingCondition } from '../../utils/Constants';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen, faPlus } from '@fortawesome/free-solid-svg-icons';
+import ModalComponent from '../Ui/Modal/Modal';
+import ViewAllEmployee from '../Ui/Tables/ViewAllEmployee';
+import { isErrored } from 'stream';
+import { EmployeeForm } from './EmployeeForm';
+import { Link, useNavigate } from 'react-router-dom';
+import { CompareFunction } from '../Ui/Tables/AttendaceReport';
+import { ColumnsType } from 'antd/es/table';
+import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
+import { getEmployee } from '../../redux/features/employeeSlice';
+import { EmployeeStats } from '../../pages/Attendance/Attendance';
 
 export interface DataType {
   id?: string;
@@ -53,6 +53,7 @@ export const Employee = () => {
   const dispatch = useAppDispatch();
   const [attendanceData, setAttendanceData] = useState<any>([]);
   const [filterData, setFilterData] = useState<any>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // dispatch(getUsers({ status: status, date: defaultDate }) as any);
@@ -154,6 +155,7 @@ export const Employee = () => {
       dataIndex: "view",
       key: "view",
       render: (item) => {
+        console.log(item);
         return (
           <div
             style={{
@@ -174,7 +176,7 @@ export const Employee = () => {
             <Button
               className="viewMoreBtn"
               onClick={() => {
-                setIsViewOpen(true);
+                navigate(`/employee/${item?.employeeNumber}`);
               }}
               type="text"
             >
@@ -239,12 +241,8 @@ export const Employee = () => {
   }, [employee, searchText]);
 
   useEffect(() => {
-    const sortedData = [...attendanceData].sort((a, b) =>
-      a.name.localeCompare(b.name)
-    );
-    const data = status
-      ? sortedData.filter((each: any) => each.status === status)
-      : sortedData;
+    const sortedData = [...attendanceData].sort((a, b) => a.name.localeCompare(b.name));
+    const data = status ? sortedData.filter((each: any) => each.status === status) : sortedData;
     setFilterData(data);
   }, [attendanceData, filterData]);
 
@@ -279,10 +277,7 @@ export const Employee = () => {
                 placeHolder="Search"
               />
 
-              <button
-                className="primary-btn"
-                onClick={() => setIsModalOpen(true)}
-              >
+              <button className='primary-btn' onClick={() => setIsModalOpen(true)}>
                 <FontAwesomeIcon icon={faPlus} /> Add Employee
               </button>
             </div>
@@ -312,10 +307,7 @@ export const Employee = () => {
         classNames="add-employee-modal holidays-modal"
         closeModal={setIsModalOpen}
       >
-        <EmployeeForm
-          setIsModalOpen={setIsModalOpen}
-          employeeId={activeEmployee}
-        />
+        <EmployeeForm setIsModalOpen={setIsModalOpen} employeeId={activeEmployee} />
 
         {/* <h3 className='modal-title'>ADD EMPLOYEE</h3> 
         <div className='mb-4'>
@@ -576,7 +568,7 @@ export const Employee = () => {
 
       {/* view Details */}
 
-      <ModalComponent
+      {/* <ModalComponent
         openModal={isViewOpen}
         classNames="add-employee-modal holidays-modal"
         closeModal={setIsViewOpen}
@@ -588,7 +580,7 @@ export const Employee = () => {
           defaultValue={activeEmployee}
           isDisable
         />
-      </ModalComponent>
+      </ModalComponent> */}
 
       {/* view Details */}
 
