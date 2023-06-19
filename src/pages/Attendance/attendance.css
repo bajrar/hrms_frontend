@@ -100,6 +100,12 @@
   position: relative;
   /* color: transparent; */
 }
+.wfh-class {
+  background-color: rgba(187, 33, 36, 0.05);
+  border-bottom: 0.5px solid #be1eea !important ;
+  position: relative;
+  /* color: transparent; */
+}
 .absent-class > td {
   background-color: rgba(187, 33, 36, 0.05);
   border-bottom: 0.5px solid #bb2124 !important ;

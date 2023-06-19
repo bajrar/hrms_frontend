@@ -14,14 +14,9 @@ import { Button, Dropdown, message, Space, Tooltip } from 'antd';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
 import { RootState } from '../../store';
-import { verifyTokenStatus } from '../../redux/features/verifyTokenSlice';
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const userData = useAppSelector(
-    (state: RootState) => state?.userSlice?.value
-  );
-
   const handleMenuClick: MenuProps['onClick'] = (e) => {
     if (e.key === '1') {
       navigate('/profile');
@@ -49,13 +44,10 @@ const Navbar = () => {
   };
 
   const [openDropdown, setOpenDropdown] = useState(true);
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(verifyTokenStatus() as any);
-  }, []);
+  const userDetails:any = localStorage.getItem('userDetails')
+  const employeeDetails = JSON.parse(userDetails)
+  const userName = employeeDetails?.employeeName
 
-  const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
-  const userName = userData?.email ? userData?.email : tokenData?.email;
   return (
     <div className='navbar-dash padding'>
       <div className='navbar-dash__left'>

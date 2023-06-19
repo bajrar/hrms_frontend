@@ -19,6 +19,7 @@ background-color: #edf4fe;
   margin-top: 32px;
   margin-bottom: 68px;
   height: 116px;
+  cursor: pointer;
 }
 .icons-container {
   height: 20px;

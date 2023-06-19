@@ -2,19 +2,18 @@ import { Tabs, TabsProps } from 'antd';
 import AddLeave from '../../Components/LeaveAllocation/AddLeave';
 import ApplyLeave from '../../Components/LeaveAllocation/ApplyLeave';
 import BreadCrumbs from '../../Components/Ui/BreadCrumbs/BreadCrumbs';
-import './leaveAllocation.css';
+// import './leaveAllocation.css';
 import Layout from '../../Components/Layout';
 import Navbar from '../../Components/Ui/Navbar';
 
-const LeaveAllocation = () => {
+const RequestLeave = () => {
+    const userDetails = localStorage.getItem('userDetails')
+    const employeeDetails = JSON.parse(userDetails || '')
+    console.log("🚀 ~ file: RequestLeave.tsx:12 ~ RequestLeave ~ employeeDetails:", employeeDetails?.leave)
+    
   const items: TabsProps['items'] = [
     {
       key: '1',
-      label: `Add Leave`,
-      children: <AddLeave />,
-    },
-    {
-      key: '2',
       label: `Apply Leave`,
       children: <ApplyLeave />,
     },
@@ -37,4 +36,4 @@ const LeaveAllocation = () => {
   );
 };
 
-export default LeaveAllocation;
+export default RequestLeave;

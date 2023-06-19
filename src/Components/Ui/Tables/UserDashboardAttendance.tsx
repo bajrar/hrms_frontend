@@ -7,6 +7,7 @@ import { EmployeeStats } from '../../../pages/Attendance/Attendance';
 import { CompareFunction } from './AttendaceReport';
 import { useGetAttendanceByDateRangeQuery } from '../../../redux/api/attendanceByDateSlice';
 import NepaliDate from 'nepali-date-converter';
+import { useGetTokenDataQuery } from '../../../redux/api/tokenSlice';
 
 interface DataType {
   id?: string;
@@ -31,9 +32,10 @@ const UserDashboardAttendance = () => {
   const [attendanceData, setAttendanceData] = useState<any>([]);
   const currentDate = new NepaliDate(new Date()).format('YYYY/MM/DD');
   const startDate = new NepaliDate(new Date()).format('YYYY/MM');
-
+  const { data: tokenData } = useGetTokenDataQuery('token');
+  console.log({ tokenData });
   const { data: employee } = useGetAttendanceByDateRangeQuery({
-    userSn: 200,
+    userSn: tokenData?.userSn,
     startDate: `${startDate}/01`,
     endDate: currentDate,
   });

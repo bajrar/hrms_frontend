@@ -63,11 +63,12 @@ export const LoginPage = ({}: LoginPageProps) => {
       dispatch(getUserData(res.data.user));
       setLoginData(res.data.user);
       if (res.status === 200) {
+        localStorage.setItem('userDetails',JSON.stringify(res.data?.userDetails))
         localStorage.setItem('token', res.data.token);
         // localStorage.setItem('email', inputs?.email);
         // localStorage.setItem('isAdmin', res.data.user?.admin);
         // localStorage.setItem('userName', res.data.user?.userName);
-        navigate('/dashboard');
+        // navigate('/dashboard');
         window.location.reload();
       }
     } catch (error) {
@@ -81,7 +82,6 @@ export const LoginPage = ({}: LoginPageProps) => {
   useEffect(() => {
     dispatch(verifyTokenStatus() as any);
   }, []);
-  const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
   return (
     <main className='loginpage_main'>
       <ToastContainer

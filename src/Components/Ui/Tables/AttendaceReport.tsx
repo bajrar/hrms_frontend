@@ -98,6 +98,8 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
                       ? '#BB2124'
                       : CompareFunction(ite) === 'absent'
                       ? '#BB2124'
+                      : ite === 'Working From Home'
+                      ? '#9747FF'
                       : 'transparent '
                   }
                 />
@@ -117,7 +119,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
       dataIndex: 'clockOut',
       key: 'clockOut',
     },
-    
+
     {
       title: 'WORK HOURS',
       dataIndex: 'workHours',
@@ -132,7 +134,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
         );
       },
     },
-    
+
     {
       title: '',
       dataIndex: 'view',
@@ -164,16 +166,22 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
             key: userData?.employeeNumber,
             date: attendance?.attendanceByDate?.date,
             name: userData?.employeeName,
-            status: attendance?.attendanceByDate?.absent
-              ? 'Absent'
-              : attendance.holiday
-              ? 'Holiday'
-              : `${attendance?.attendanceByDate?.morningStatus} - ${attendance?.attendanceByDate?.eveningStatus}`,
+
+            status:
+              attendance?.attendanceByDate?.status === 'WFH'
+                ? 'Working From Home'
+                : attendance?.attendanceByDate?.holiday
+                ? 'Holiday'
+                : attendance.attendanceByDate?.absent
+                ? 'Absent'
+                : `${attendance?.attendanceByDate?.morningStatus} - ${attendance?.attendanceByDate?.eveningStatus}`,
+
             designation: userData?.designation,
-            clockIn: attendance?.attendanceByDate?.absent
+            clockIn:  
+            attendance?.attendanceByDate?.absent
               ? 'Absent'
               : attendance?.attendanceByDate?.holiday
-              ? 'Absent'
+              ? 'Holiday'
               : `${formatTime(attendance?.attendanceByDate?.entryTime)}`,
             clockOut: attendance?.attendanceByDate?.absent
               ? 'Absent'
@@ -183,9 +191,9 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
               ? attendance?.attendanceByDate?.exitTime
               : `${formatTime(attendance?.attendanceByDate?.exitTime)}`,
             workHours: attendance?.attendanceByDate?.absent
-              ? '-'
+              ? '0.00'
               : attendance?.attendanceByDate?.holiday
-              ? '-'
+              ? '0.00'
               : attendance?.attendanceByDate?.workHour,
             view: userData?.employeeNumber,
           };

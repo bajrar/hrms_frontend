@@ -107,9 +107,15 @@ const SideBarTab = () => {
           </div>,
           '2'
         ),
-        getItem(
+        userRole==='admin'?  getItem(
           <div className='sidenav-link' onClick={() => closeSidebar('leave')}>
             Leave Allocation
+          </div>,
+          '3'
+        ):
+        getItem(
+          <div className='sidenav-link' onClick={() => closeSidebar('request-leave')}>
+            Request Leave
           </div>,
           '3'
         ),
@@ -247,7 +253,7 @@ const SideBarTab = () => {
           className='small-logo-container'
           onClick={() => navigate('/dashboard')}
         >
-          <img src='/images/small-logo.svg' alt='virtuos logo' />
+          <img src='/images/small-logo.svg' alt='Virtuosway Logo' />
         </div>
       ) : (
         <div className='logo-container' onClick={() => navigate('/dashboard')}>

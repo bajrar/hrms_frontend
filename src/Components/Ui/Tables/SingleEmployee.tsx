@@ -70,6 +70,8 @@ const SingleEmployee = ({
                       ? '#BB2124'
                       : CompareFunction(ite) === 'latein'
                       ? '#BB2124'
+                      : ite === 'Working From Home'
+                      ? '#9747FF'
                       : 'transparent '
                   }
                 />
@@ -122,20 +124,22 @@ const SingleEmployee = ({
         date: userData?.attendanceByDate?.date,
         name: userData?.employeeName,
         status:
-          userData?.attendanceByDate?.holiday ||
-          userData?.attendanceByDate?.absent
-            ? ''
+          userData?.attendanceByDate?.status === 'WFH'
+            ? 'Working From Home'
+            : userData?.attendanceByDate?.holiday ||
+              userData?.attendanceByDate?.absent
+            ? 'Absent'
             : `${userData?.attendanceByDate?.morningStatus} - ${userData?.attendanceByDate?.eveningStatus}`,
         designation: userData?.designation,
         clockIn: userData?.attendanceByDate?.absent
-          ? 'Absent'
+          ? '-'
           : userData?.attendanceByDate?.holiday
-          ? 'Holiday'
+          ? '-'
           : `${formatTime(userData?.attendanceByDate?.entryTime)}`,
         clockOut: userData?.attendanceByDate?.absent
-          ? ''
+          ? '-'
           : userData?.attendanceByDate?.holiday
-          ? ''
+          ? '-'
           : userData?.attendanceByDate?.exitTime === '-'
           ? userData?.attendanceByDate?.exitTime
           : `${formatTime(userData?.attendanceByDate?.exitTime)}`,
