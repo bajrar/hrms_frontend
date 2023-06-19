@@ -1,19 +1,20 @@
-import './Login.css';
-import { useEffect, useState } from 'react';
-import { apis } from '../apis/constants/ApisService';
-import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { getToken } from '../../features/authSlice';
-import { useDispatch } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
-import { Spin } from 'antd';
-import { useAppSelector } from '../../hooks/useTypedSelector';
-import { RootState } from '../../store';
-import { getUserData } from '../../redux/features/userSlice';
-import { verifyTokenStatus } from '../../redux/features/verifyTokenSlice';
+import "./Login.css";
+import { useEffect, useState } from "react";
+import { apis } from "../apis/constants/ApisService";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { getToken } from "../../features/authSlice";
+import { useDispatch } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
+import { Spin } from "antd";
+import { useAppSelector } from "../../hooks/useTypedSelector";
+import { RootState } from "../../store";
+import { getUserData } from "../../redux/features/userSlice";
+import { verifyTokenStatus } from "../../redux/features/verifyTokenSlice";
+import Spinner from "../Spinner/Spinner";
 type LoginPageProps = {};
 
 export const LoginPage = ({}: LoginPageProps) => {
@@ -25,10 +26,10 @@ export const LoginPage = ({}: LoginPageProps) => {
   };
 
   const userRole = useAppSelector((state: RootState) => state.userSlice.value);
+  const auth = localStorage.getItem("token");
   useEffect(() => {
-    const auth = localStorage.getItem('token');
     if (auth) {
-      navigate('/dashboard');
+      navigate("/dashboard");
     }
   }, []); // Add empty dependency array to run the effect only once
 
@@ -36,8 +37,8 @@ export const LoginPage = ({}: LoginPageProps) => {
   const navigate = useNavigate();
 
   const [inputs, setInputs] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -51,7 +52,7 @@ export const LoginPage = ({}: LoginPageProps) => {
     e.preventDefault();
 
     if (!inputs.email || !inputs.password) {
-      toast.error('All fields are required.');
+      toast.error("All fields are required.");
       return;
     }
 
@@ -63,8 +64,11 @@ export const LoginPage = ({}: LoginPageProps) => {
       dispatch(getUserData(res.data.user));
       setLoginData(res.data.user);
       if (res.status === 200) {
-        localStorage.setItem('userDetails',JSON.stringify(res.data?.userDetails))
-        localStorage.setItem('token', res.data.token);
+        localStorage.setItem(
+          "userDetails",
+          JSON.stringify(res.data?.userDetails)
+        );
+        localStorage.setItem("token", res.data.token);
         // localStorage.setItem('email', inputs?.email);
         // localStorage.setItem('isAdmin', res.data.user?.admin);
         // localStorage.setItem('userName', res.data.user?.userName);
@@ -73,7 +77,7 @@ export const LoginPage = ({}: LoginPageProps) => {
       }
     } catch (error) {
       console.log(error);
-      toast.error('Invalid Credentials');
+      toast.error("Invalid Credentials");
     }
 
     setIsLoading(false);
@@ -83,87 +87,95 @@ export const LoginPage = ({}: LoginPageProps) => {
     dispatch(verifyTokenStatus() as any);
   }, []);
   return (
-    <main className='loginpage_main'>
-      <ToastContainer
-        position='top-center'
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme='light'
-      />
-      <div className='main_container container virtuosway-hr-login-page'>
-        <form onSubmit={handleSubmit}>
-          <div className='main-logo-container d-flex align-items-center justify-content-center'>
-            <div className='logo '>
-              <img src='/images/virtuos-logo.svg' alt='logo' />
-            </div>
-          </div>
-          <h2 className='sign-up-header'>Sign in </h2>
-          <p className='sign-up-text'>Enter your sign in credentials.</p>
-          <div className='form_container'>
-            <div className='labels'>
-              <label htmlFor=''>Email:</label>
-            </div>
-            <input
-              type='email'
-              name='email'
-              id='email'
-              placeholder='Enter your work email'
-              onChange={handleChange}
-            />
-            <p className='note-message'>
-              Note: example@eeposit.com / example@virtuosway.com
-            </p>
-          </div>
-          <div className='form_container'>
-            <div className='labels'>
-              <label htmlFor=''>Password:</label>
-            </div>
-            <div className='password-input-container'>
-              <input
-                type={passwordVisible ? 'text' : 'password'}
-                name='password'
-                id='password'
-                placeholder='Enter password'
-                onChange={handleChange}
-              />
-              <button
-                type='button' // Change the button type to "button" instead of "submit"
-                className='toggle-password-visibility'
-                onClick={togglePasswordVisibility}
-              >
-                <FontAwesomeIcon icon={passwordVisible ? faEyeSlash : faEye} />
-              </button>
-            </div>
-          </div>
-          <Link to='/forgotPassword' className='forgot-password'>
-            Forgot password?
-          </Link>
-          <button
-            type='submit'
-            className='login-button'
-            disabled={isLoading}
-            style={{
-              backgroundColor: isLoading ? '#DBDFEA' : '',
-            }}
-          >
-            {isLoading ? (
-              <>
-                <div>
-                  <Spin style={{ color: 'white' }} />
+    <>
+      {auth ? (
+        <Spinner />
+      ) : (
+        <main className="loginpage_main">
+          <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
+          <div className="main_container container virtuosway-hr-login-page">
+            <form onSubmit={handleSubmit}>
+              <div className="main-logo-container d-flex align-items-center justify-content-center">
+                <div className="logo ">
+                  <img src="/images/virtuos-logo.svg" alt="logo" />
                 </div>
-              </>
-            ) : (
-              'Sign In'
-            )}
-          </button>
-        </form>
-      </div>
-    </main>
+              </div>
+              <h2 className="sign-up-header">Sign in </h2>
+              <p className="sign-up-text">Enter your sign in credentials.</p>
+              <div className="form_container">
+                <div className="labels">
+                  <label htmlFor="">Email:</label>
+                </div>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="Enter your work email"
+                  onChange={handleChange}
+                />
+                <p className="note-message">
+                  Note: example@eeposit.com / example@virtuosway.com
+                </p>
+              </div>
+              <div className="form_container">
+                <div className="labels">
+                  <label htmlFor="">Password:</label>
+                </div>
+                <div className="password-input-container">
+                  <input
+                    type={passwordVisible ? "text" : "password"}
+                    name="password"
+                    id="password"
+                    placeholder="Enter password"
+                    onChange={handleChange}
+                  />
+                  <button
+                    type="button" // Change the button type to "button" instead of "submit"
+                    className="toggle-password-visibility"
+                    onClick={togglePasswordVisibility}
+                  >
+                    <FontAwesomeIcon
+                      icon={passwordVisible ? faEyeSlash : faEye}
+                    />
+                  </button>
+                </div>
+              </div>
+              <Link to="/forgotPassword" className="forgot-password">
+                Forgot password?
+              </Link>
+              <button
+                type="submit"
+                className="login-button"
+                disabled={isLoading}
+                style={{
+                  backgroundColor: isLoading ? "#DBDFEA" : "",
+                }}
+              >
+                {isLoading ? (
+                  <>
+                    <div>
+                      <Spin style={{ color: "white" }} />
+                    </div>
+                  </>
+                ) : (
+                  "Sign In"
+                )}
+              </button>
+            </form>
+          </div>
+        </main>
+      )}
+    </>
   );
 };
