@@ -1,19 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-
 import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
 import '@sbmdkl/nepali-datepicker-reactjs/dist/index.css';
-
 import BreadCrumbs from '../../Components/Ui/BreadCrumbs/BreadCrumbs';
 import SingleEmployee, {
   formatTime,
 } from '../../Components/Ui/Tables/SingleEmployee';
 import { IEmployeeStats, EmployeeStats } from './Attendance';
-
 import { useAppSelector } from '../../hooks/useTypedSelector';
 import { getEmployeeData } from '../../redux/features/SingleAttendanceSlice';
-
 import CustomCalendar from '../../Components/Customcalendar/CustomCalendar';
 import { monthNames, startDay } from '../../utils/Constants';
 import { todayInBs } from '../../Components/Customcalendar/GetTodaysDate';
