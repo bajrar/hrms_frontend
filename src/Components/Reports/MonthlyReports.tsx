@@ -126,30 +126,35 @@ const MonthlyReports = () => {
     );
   }, [dispatch, startDate, endDate]);
 
-  const { reports } = useAppSelector((state) => state.monthlyReport);
+  const { reports, loading } = useAppSelector((state) => state.monthlyReport);
 
   useEffect(() => {
     const data: DataType[] = [];
     reports?.monthlyReport?.map((monthReport: any) => {
-      const tableData = {
-        id: monthReport?.userSn,
-        name: monthReport?.employeeName,
-        payroll: monthReport?.payroll,
-        weekend: monthReport?.weekends,
-        holiday: monthReport?.holiday,
-        duty: monthReport?.duty,
-        present: monthReport?.present,
-        absent: monthReport?.absent,
-        total: monthReport?.totaldays,
-        annual: monthReport?.annualLeaveTaken,
-        sick: monthReport?.sickLeaveTaken,
-        withoutPay: monthReport?.unpaidLeaveTaken,
-        substitute: 0,
-      };
-      data.push(tableData);
+   
+      if(monthReport.employeeName.toLowerCase().includes(searchText)) {
+
+        const tableData = {
+          id: monthReport?.userSn,
+          name: monthReport?.employeeName,
+          payroll: monthReport?.payroll,
+          weekend: monthReport?.weekends,
+          holiday: monthReport?.holiday,
+          duty: monthReport?.duty,
+          present: monthReport?.present,
+          absent: monthReport?.absent,
+          total: monthReport?.totaldays,
+          annual: monthReport?.annualLeaveTaken,
+          sick: monthReport?.sickLeaveTaken,
+          withoutPay: monthReport?.unpaidLeaveTaken,
+          substitute: 0,
+        };
+        data.push(tableData);
+      }
+      
     });
     setMonthlyReportData(data);
-  }, [reports, startDate, endDate]);
+  }, [reports, startDate, endDate, searchText]);
 
   const disableDate = startDate?.split("/").join("-");
 
@@ -186,11 +191,11 @@ const MonthlyReports = () => {
         />
         <div className="d-flex daily-report-saerch-right">
           <Selects placeHolder="Search project name" />
-          <DownloadBtn report={[]} />
+          <DownloadBtn report={monthlyReportData} />
         </div>
       </div>
       <div className="daily-report-table-container">
-        <Table columns={columns} dataSource={monthlyReportData} />
+        <Table columns={columns} dataSource={monthlyReportData} loading={loading} />
       </div>
     </div>
   );

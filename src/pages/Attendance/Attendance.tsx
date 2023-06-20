@@ -11,8 +11,10 @@ import { getAttedanceStatus } from '../../redux/features/attendanceStatusSlice';
 import Selects from '../../Components/Ui/Selects/Selects';
 import Layout from '../../Components/Layout';
 import Navbar from '../../Components/Ui/Navbar';
-import { todayInBsFormat } from '../../Components/Customcalendar/GetTodaysDate';
+import { today, todayInBsFormat } from '../../Components/Customcalendar/GetTodaysDate';
 import { CalendarOutlined } from '@ant-design/icons';
+import NepaliDate from 'nepali-date-converter';
+
 
 export interface IEmployeeStats {
   status: string;
@@ -60,6 +62,12 @@ const Attendance = () => {
   const onDateChange = ({ bsDate }: any) => {
     setDefaultDate(bsDate);
   };
+
+  const today: any = new NepaliDate()
+  today.setDate(today.getDate() + 1)
+  const tommorrowDate = today.format('YYYY/MM/DD')
+
+  const disableDate = tommorrowDate?.split('/').join('-');
 
   useEffect(() => {
     dispatch(getAttedanceStatus() as any);
@@ -175,6 +183,7 @@ const Attendance = () => {
             className='calender-container-picker '
             language='en'
             dateFormat='YYYY/MM/DD'
+            maxDate = {disableDate}
           />
           <CalendarOutlined className='calendar-icon' />
         </div>
@@ -189,10 +198,17 @@ const Attendance = () => {
 
           <input
             type='text'
-            placeholder='Search members'
+            placeholder='Search by Name'
             className='search-field'
             value={searchText}
             onChange={(e) => setSearchText(e.target.value.toLowerCase())}
+            onKeyDown={(e) => {
+              const key = e.key;
+              const regex = /^[A-Za-z\s]+$/;
+              if (!regex.test(key)) {
+                e.preventDefault();
+              }
+            }}
           />
         </div>
 

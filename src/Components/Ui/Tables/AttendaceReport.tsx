@@ -44,6 +44,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
   }, [dispatch, status, defaultDate]);
 
   const { user, loading } = useAppSelector((state) => state.attendanceSlice);
+
   const columns: ColumnsType<DataType> = [
     {
       title: 'SN',
@@ -159,6 +160,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
     }
     attendanceUser?.map((userData, sn) => {
       userData?.attendanceRecords?.map((attendance: any) => {
+        
         if (userData.employeeName.toLowerCase().includes(searchText)) {
           const tableData = {
             sn: sn + 1,

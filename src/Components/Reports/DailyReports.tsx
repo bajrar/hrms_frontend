@@ -2,10 +2,10 @@ import { useState } from 'react';
 import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-
 import Selects from '../Ui/Selects/Selects';
 import DownloadBtn from '../Ui/DownloadBtn/DownloadBtn';
 import './dailyReport.css';
+import NepaliDate from 'nepali-date-converter';
 
 export interface DataType {
   id?: string;
@@ -75,6 +75,10 @@ const DailyReports = () => {
     },
   ];
 
+  const today: any = new NepaliDate()
+  today.setDate(today.getDate() + 1)
+  const disable2morrowDate = today.format('YYYY-MM-DD')
+
   return (
     <div>
       <div className='attendance-filters working-condition p-0'>
@@ -83,6 +87,7 @@ const DailyReports = () => {
           className='calender-container-picker '
           language='en'
           dateFormat='YYYY/MM/DD'
+          maxDate = {disable2morrowDate}
         />
       </div>
 
