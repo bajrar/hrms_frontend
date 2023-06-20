@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Table } from 'antd';
+import { ConfigProvider, Empty, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import './attendanceReport.css';
 import {
@@ -154,23 +154,28 @@ const ViewAllEmployee = ({
     setAttendanceData(data1);
   }, [employee, searchText]);
 
+  console.log(status);
+  
+
   const filterData = status
     ? attendanceData.filter((each: any) => each.status === status)
     : attendanceData;
 
   return (
+    <ConfigProvider renderEmpty={() => <Empty image="/images/NoData.png" imageStyle={{height: '300px'}} description="" />}>
     <Table
-      rowClassName={(record) =>
-        record.status === 'resigned'
-          ? 'absent-class'
-          : record.status === 'pending'
-          ? 'holiday-class'
-          : ''
-      }
-      columns={columns}
-      dataSource={filterData}
-      loading={loading}
+        rowClassName={(record) =>
+          record.status === 'resigned'
+            ? 'absent-class'
+            : record.status === 'pending'
+            ? 'holiday-class'
+            : ''
+        }
+        columns={columns}
+        dataSource={filterData}
+        loading={loading} 
     />
+    </ConfigProvider>
   );
 };
 

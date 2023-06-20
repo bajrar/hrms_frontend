@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Table } from 'antd';
+import { ConfigProvider, Empty, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 
 import './attendanceReport.css';
@@ -210,6 +210,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
   }, [user, searchText]);
 
   return (
+    <ConfigProvider renderEmpty={() => <Empty image="/images/NoData.png" imageStyle={{height: '300px',}} description="" />}>
     <Table
       rowClassName={(record) =>
         record.clockIn === 'Absent'
@@ -218,12 +219,14 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
           ? 'holiday-class'
           : ''
       }
+      
       columns={columns}
       dataSource={attendanceData}
       loading={loading}
 
       // pagination={tableParams.pagination}
     />
+    </ConfigProvider>
   );
 };
 

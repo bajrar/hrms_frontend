@@ -21,7 +21,7 @@ const ShiftDetails = () => {
         }) as any
       );
     }
-  }, [dispatch]);
+  }, [dispatch, shiftId]);
 
   return (
     <Layout>

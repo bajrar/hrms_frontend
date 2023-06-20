@@ -155,7 +155,7 @@ export const Employee = () => {
       dataIndex: "view",
       key: "view",
       render: (item) => {
-        console.log(item);
+        // console.log(item);
         return (
           <div
             style={{

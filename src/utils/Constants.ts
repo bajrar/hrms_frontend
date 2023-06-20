@@ -103,6 +103,47 @@ export const WorkingCondition = [
     value: 'Late_Out',
   },
 ];
+
+export const ProjectTeamOptions = [
+  {
+    label: 'All',
+    value: '',
+  },
+  {
+    label: 'HR',
+    value: 'HR',
+  },
+  {
+    label: 'Software Developer',
+    value: 'Software Developer',
+  },
+
+  {
+    label: 'React Native Developer',
+    value: 'React Native Developer',
+  },
+  {
+    label: 'React Native',
+    value: 'React Native',
+  },
+  {
+    label: 'QA',
+    value: 'QA',
+  },
+  {
+    label: 'Frontend Developer',
+    value: 'Frontend Developer',
+  },
+  {
+    label: 'Sr. Frontend Developer',
+    value: 'Sr. Frontend Developer',
+  },
+  {
+    label: 'Executive Developer',
+    value: 'Executive Developer',
+  },
+];
+
 export const workingDay = [
   {
     value: 'Monday - Friday',

@@ -1,5 +1,5 @@
 import { Tabs } from 'antd';
-import type { TabsProps } from 'antd';
+// import type { TabsProps } from 'antd';
 
 import BreadCrumbs from '../../Components/Ui/BreadCrumbs/BreadCrumbs';
 import ShiftsTab from '../../Components/Shifts/ShiftsTab';
