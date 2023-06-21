@@ -215,7 +215,7 @@ const DailyReports = () => {
            
              />
             
-          <DownloadBtn report={[]} />
+          <DownloadBtn report={attendanceData} />
         </div>
       </div>
       <div className='daily-report-table-container'>
