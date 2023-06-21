@@ -42,8 +42,14 @@ const ApplyLeave = () => {
   const onEndDateChange = ({ bsDate }: any) => {
     setEndDate(bsDate);
   };
-  const { data: leaveData, isLoading } = useGetLeavesQuery('leave');
-  console.log("🚀 ~ file: ApplyLeave.tsx:46 ~ ApplyLeave ~ leaveData:", leaveData)
+  // const { data: leaveData, isLoading } = useGetLeavesQuery('leave');
+  const { data: leaveData, isLoading } = useGetLeavesQuery(
+    'leave/employee/appliedLeave'
+  );
+  console.log(
+    '🚀 ~ file: ApplyLeave.tsx:46 ~ ApplyLeave ~ leaveData:',
+    leaveData
+  );
 
   const columns: ColumnsType<DataType> = [
     {
@@ -110,8 +116,13 @@ const ApplyLeave = () => {
   const onLeaveChange = (value: string) => {
     setSearchByLeave(value);
   };
-  const allLeaveTaken = employeeDetails?.leave.flatMap(
-    (leave: any) => leave.leaveTakenOn
+  // const allLeaveTaken = employeeDetails?.leave.flatMap(
+  //   (leave: any) => leave.leaveTakenOn
+  // );
+  const allLeaveTaken = leaveData?.leave;
+  console.log(
+    '🚀 ~ file: ApplyLeave.tsx:122 ~ ApplyLeave ~ allLeaveTaken:',
+    allLeaveTaken
   );
 
   useEffect(() => {
@@ -119,7 +130,7 @@ const ApplyLeave = () => {
       ? allLeaveTaken.filter((leave: any) => leave.leaveType === searchByLeave)
       : allLeaveTaken;
     setFilterLeaveData(filterLeaveData);
-  }, [searchByLeave]);
+  }, [searchByLeave, isLoading]);
 
   return (
     <div className='assign-leave'>
