@@ -263,7 +263,7 @@ export const Employee = () => {
           >
             <input
               type="text"
-              placeholder="Search members"
+              placeholder="Search names"
               className="search-field"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value.toLowerCase())}
