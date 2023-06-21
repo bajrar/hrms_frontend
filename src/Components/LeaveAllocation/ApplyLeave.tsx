@@ -43,6 +43,7 @@ const ApplyLeave = () => {
     setEndDate(bsDate);
   };
   const { data: leaveData, isLoading } = useGetLeavesQuery('leave');
+  console.log("🚀 ~ file: ApplyLeave.tsx:46 ~ ApplyLeave ~ leaveData:", leaveData)
 
   const columns: ColumnsType<DataType> = [
     {
