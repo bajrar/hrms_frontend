@@ -66,6 +66,7 @@ export const Employee = () => {
   const onSelect = (e: any) => {
     setStatus(e);
   };
+
   const showModal = () => {
     setIsModalOpen(!isModalOpen);
   };
