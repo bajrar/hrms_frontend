@@ -14,6 +14,7 @@ type BasicInfoFormProps = {
   changeTab: (key: string) => void;
   formValues: Employee;
   setFormValues: React.Dispatch<React.SetStateAction<Employee>>;
+  tabControls: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const OfficeDetailsForm = ({
@@ -21,6 +22,7 @@ const OfficeDetailsForm = ({
   changeTab,
   formValues,
   setFormValues,
+  tabControls,
 }: BasicInfoFormProps) => {
   const [form] = Form.useForm();
 
@@ -36,6 +38,7 @@ const OfficeDetailsForm = ({
   const onFinish = (values: any) => {
     console.log('<-------------------------- prevState', formValues);
     setFormValues({ ...formValues, ...values });
+    tabControls(false);
     changeTab('3');
   };
 

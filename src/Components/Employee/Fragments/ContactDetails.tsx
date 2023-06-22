@@ -14,7 +14,6 @@ import '../add-employee-form.css';
 type BasicInfoFormProps = {
   closeModal: (state: boolean) => void;
   formValues: Employee;
-  setFormValues: React.Dispatch<React.SetStateAction<Employee>>;
 };
 
 const ContactDetail = ({ closeModal, formValues }: BasicInfoFormProps) => {

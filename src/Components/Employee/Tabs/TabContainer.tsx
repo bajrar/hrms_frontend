@@ -72,10 +72,12 @@ const initialState = {
 const TabContainer = ({ closeModal }: TabContainerProps) => {
   const [activeKey, setActiveKey] = useState('1');
   const [formValues, setFormValues] = useState<Employee>(initialState);
+  const [isTab, setIsTab] = useState<boolean>(true);
+  const [isTab2, setIsTab2] = useState<boolean>(true);
 
   const onKeyChange = (key: string) => setActiveKey(key);
 
-  const tabItems: TabItems[] = [
+  const tabItems = [
     {
       label: 'Basic Information',
       key: '1',
@@ -85,6 +87,7 @@ const TabContainer = ({ closeModal }: TabContainerProps) => {
           changeTab={onKeyChange}
           formValues={formValues}
           setFormValues={setFormValues}
+          tabControls={setIsTab}
         />
       ),
     },
@@ -97,19 +100,16 @@ const TabContainer = ({ closeModal }: TabContainerProps) => {
           changeTab={onKeyChange}
           formValues={formValues}
           setFormValues={setFormValues}
+          tabControls={setIsTab2}
         />
       ),
+      disabled: isTab,
     },
     {
       label: 'Emergency Contact Details',
       key: '3',
-      children: (
-        <ContactDetails
-          closeModal={closeModal}
-          formValues={formValues}
-          setFormValues={setFormValues}
-        />
-      ),
+      children: <ContactDetails closeModal={closeModal} formValues={formValues} />,
+      disabled: isTab2,
     },
   ];
 
