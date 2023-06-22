@@ -1,37 +1,22 @@
+import { Button, Form, Table } from 'antd';
 import { useEffect, useState } from 'react';
-import {
-  Button,
-  Form,
-  Input,
-  Radio,
-  RadioChangeEvent,
-  DatePicker,
-  Select,
-  Table,
-  Modal,
-} from 'antd';
-import { toast } from 'react-toastify';
 
-import { apis } from '../apis/constants/ApisService';
-import './add-employee-form.css';
-import BreadCrumbs from '../Ui/BreadCrumbs/BreadCrumbs';
+import { faPen, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ColumnsType } from 'antd/es/table';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
+import { EmployeeStats } from '../../pages/Attendance/Attendance';
+import { getEmployee } from '../../redux/features/employeeSlice';
 import Layout from '../Layout';
+import BreadCrumbs from '../Ui/BreadCrumbs/BreadCrumbs';
+import ModalComponent from '../Ui/Modal/Modal';
 import Navbar from '../Ui/Navbar';
 import Selects from '../Ui/Selects/Selects';
-import { WorkingCondition } from '../../utils/Constants';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faPlus } from '@fortawesome/free-solid-svg-icons';
-import ModalComponent from '../Ui/Modal/Modal';
-import ViewAllEmployee from '../Ui/Tables/ViewAllEmployee';
-import { isErrored } from 'stream';
-import { EmployeeForm } from './EmployeeForm';
-import { Link, useNavigate } from 'react-router-dom';
 import { CompareFunction } from '../Ui/Tables/AttendaceReport';
-import { ColumnsType } from 'antd/es/table';
-import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
-import { getEmployee } from '../../redux/features/employeeSlice';
-import { EmployeeStats } from '../../pages/Attendance/Attendance';
+import { EmployeeForm } from './EmployeeForm';
 import TabContainer from './Tabs/TabContainer';
+import './add-employee-form.css';
 
 export interface DataType {
   id?: string;
