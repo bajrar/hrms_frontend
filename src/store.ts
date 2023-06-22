@@ -30,6 +30,7 @@ import sidebarSlice from './redux/features/sidebarSlice';
 import { projectTeamSlice } from './redux/features/projectTeam.slice';
 import { employeeApi } from './redux/api/employee';
 import { tokenSliceApi } from './redux/api/tokenSlice';
+import { announceSliceApi } from './redux/api/announceSliceApi';
 
 export const store = configureStore({
   reducer: {
@@ -55,6 +56,7 @@ export const store = configureStore({
     userSlice: userSlice,
     verifyTokenSlice: verifyTokenSlice,
     sidebarSlice: sidebarSlice,
+
     [attendanceRequestSlice.reducerPath]: attendanceRequestSlice.reducer,
     [profileSlice.reducerPath]: profileSlice.reducer,
     [leaveSliceApi.reducerPath]: leaveSliceApi.reducer,
@@ -63,6 +65,7 @@ export const store = configureStore({
     [projectTeamSlice.reducerPath]: projectTeamSlice.reducer,
     [tokenSliceApi.reducerPath]: tokenSliceApi.reducer,
     [employeeApi.reducerPath]: employeeApi.reducer,
+    [announceSliceApi.reducerPath]: announceSliceApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     // getDefaultMiddleware().concat(attendanceRequestSlice.middleware).concat(profileSlice.middleware),
@@ -75,6 +78,7 @@ export const store = configureStore({
       projectTeamSlice.middleware,
       tokenSliceApi.middleware,
       employeeApi.middleware,
+      announceSliceApi.middleware
     ]),
 });
 setupListeners(store.dispatch);
