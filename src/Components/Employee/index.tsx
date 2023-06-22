@@ -263,9 +263,9 @@ export const Employee = () => {
             style={{ display: 'flex', justifyContent: 'space-between' }}
           >
             <input
-              type='text'
-              placeholder='Search members'
-              className='search-field'
+              type="text"
+              placeholder="Search names"
+              className="search-field"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value.toLowerCase())}
             />
