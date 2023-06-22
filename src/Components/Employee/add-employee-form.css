@@ -42,6 +42,11 @@ input[type='number'] {
   display: flex;
   gap: 60px;
 }
+
+.add-employee__section__tab {
+  display: flex;
+  gap: 20px;
+}
 .form-input {
   padding: 0 !important;
 }
@@ -109,8 +114,8 @@ input[type='number'] {
 .calender-container-picker {
   border: 1px solid rgba(2, 60, 135, 0.4);
   border-radius: 4px;
-  width: 316px;
-  height: 40px;
+  width: 100% !important;
+  height: 45px;
   padding-left: 10px;
 }
 @media screen and (min-width: 1920px) {

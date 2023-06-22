@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   Button,
   Form,
@@ -9,8 +9,8 @@ import {
   Select,
   Table,
   Modal,
-} from "antd";
-import { toast } from "react-toastify";
+} from 'antd';
+import { toast } from 'react-toastify';
 
 import { apis } from '../apis/constants/ApisService';
 import './add-employee-form.css';
@@ -31,6 +31,7 @@ import { ColumnsType } from 'antd/es/table';
 import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
 import { getEmployee } from '../../redux/features/employeeSlice';
 import { EmployeeStats } from '../../pages/Attendance/Attendance';
+import TabContainer from './Tabs/TabContainer';
 
 export interface DataType {
   id?: string;
@@ -42,9 +43,9 @@ export interface DataType {
 }
 
 export const Employee = () => {
-  const [gender, setGender] = useState("");
-  const [searchText, setSearchText] = useState("");
-  const [status, setStatus] = useState("");
+  const [gender, setGender] = useState('');
+  const [searchText, setSearchText] = useState('');
+  const [status, setStatus] = useState('');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isViewOpen, setIsViewOpen] = useState<boolean>(false);
   // const [UpdateisModalOpen, setUpdateIsModalOpen] = useState<boolean>(false);
@@ -102,46 +103,46 @@ export const Employee = () => {
     //   key: 'sn',
     // },
     {
-      title: "EID",
-      dataIndex: "id",
-      key: "id",
+      title: 'EID',
+      dataIndex: 'id',
+      key: 'id',
     },
     {
-      title: "EMPLOYEE NAME",
-      dataIndex: "name",
-      key: "name",
+      title: 'EMPLOYEE NAME',
+      dataIndex: 'name',
+      key: 'name',
     },
     {
-      title: "DATE OF JOINING",
-      dataIndex: "date",
-      key: "date",
+      title: 'DATE OF JOINING',
+      dataIndex: 'date',
+      key: 'date',
     },
 
     {
-      title: "DESIGNATION",
-      dataIndex: "designation",
-      key: "designation",
+      title: 'DESIGNATION',
+      dataIndex: 'designation',
+      key: 'designation',
     },
     {
-      title: "STATUS",
-      dataIndex: "status",
-      key: "status",
+      title: 'STATUS',
+      dataIndex: 'status',
+      key: 'status',
       render: (item) => {
         return (
-          <div style={{ display: "flex", alignItems: "center" }}>
-            {item.split("-").map((ite: any, i: number) => {
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            {item.split('-').map((ite: any, i: number) => {
               return (
                 <EmployeeStats
                   key={i}
                   status={ite}
                   color={
-                    CompareFunction(ite) === "working"
-                      ? "#22BB33"
-                      : CompareFunction(ite) === "pending"
-                      ? "#F0AD4E"
-                      : CompareFunction(ite) === "resigned"
-                      ? "#BB2124"
-                      : "transparent"
+                    CompareFunction(ite) === 'working'
+                      ? '#22BB33'
+                      : CompareFunction(ite) === 'pending'
+                      ? '#F0AD4E'
+                      : CompareFunction(ite) === 'resigned'
+                      ? '#BB2124'
+                      : 'transparent'
                   }
                 />
               );
@@ -151,34 +152,34 @@ export const Employee = () => {
       },
     },
     {
-      title: "ACTION",
-      dataIndex: "view",
-      key: "view",
+      title: 'ACTION',
+      dataIndex: 'view',
+      key: 'view',
       render: (item) => {
         // console.log(item);
         return (
           <div
             style={{
-              display: "flex",
+              display: 'flex',
               gap: 20,
-              justifyContent: "center",
-              alignItems: "center",
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
           >
             <FontAwesomeIcon
               icon={faPen}
-              color="#35639F"
+              color='#35639F'
               // onClick={() => updateEmployee(id)}
               onClick={() => {
                 setActiveEmployee({ ...item });
               }}
             />
             <Button
-              className="viewMoreBtn"
+              className='viewMoreBtn'
               onClick={() => {
                 navigate(`/employee/${item?.employeeNumber}`);
               }}
-              type="text"
+              type='text'
             >
               VIEW
             </Button>
@@ -199,20 +200,20 @@ export const Employee = () => {
 
   const WorkingCondition = [
     {
-      label: "All Status",
-      value: "",
+      label: 'All Status',
+      value: '',
     },
     {
-      label: "Working",
-      value: "working",
+      label: 'Working',
+      value: 'working',
     },
     {
-      label: "Pending",
-      value: "pending",
+      label: 'Pending',
+      value: 'pending',
     },
     {
-      label: "Resigned",
-      value: "resigned",
+      label: 'Resigned',
+      value: 'resigned',
     },
   ];
 
@@ -221,7 +222,7 @@ export const Employee = () => {
     employee?.employee?.map((userData: any, sn: any) => {
       if (userData.employeeName.toLowerCase().includes(searchText)) {
         const dateObject = new Date(userData?.dateOfJoining);
-        const formattedDate = dateObject?.toISOString()?.split("T")[0];
+        const formattedDate = dateObject?.toISOString()?.split('T')[0];
         const tableData = {
           id: userData?.employeeNumber,
           key: userData?.employeeNumber,
@@ -252,29 +253,29 @@ export const Employee = () => {
         <Navbar />
         <div style={{ margin: 40 }}>
           <BreadCrumbs
-            imagesrc="/images/attendance.svg"
-            location="Employee Management"
-            location1="View Employee"
+            imagesrc='/images/attendance.svg'
+            location='Employee Management'
+            location1='View Employee'
           />
           <hr />
           <div
-            className="attendance-filters-bottom d-flex "
-            style={{ display: "flex", justifyContent: "space-between" }}
+            className='attendance-filters-bottom d-flex '
+            style={{ display: 'flex', justifyContent: 'space-between' }}
           >
             <input
-              type="text"
-              placeholder="Search members"
-              className="search-field"
+              type='text'
+              placeholder='Search members'
+              className='search-field'
               value={searchText}
               onChange={(e) => setSearchText(e.target.value.toLowerCase())}
             />
-            <div className="div" style={{ display: "flex", gap: 10 }}>
+            <div className='div' style={{ display: 'flex', gap: 10 }}>
               <Selects
-                defaultValue="allStatus"
+                defaultValue='allStatus'
                 onSelect={onSelect}
                 value={status}
                 options={WorkingCondition}
-                placeHolder="Search"
+                placeHolder='Search'
               />
 
               <button className='primary-btn' onClick={() => setIsModalOpen(true)}>
@@ -284,15 +285,15 @@ export const Employee = () => {
           </div>
         </div>
 
-        <div className="attendace-page">
-          <div className="row table-container">
+        <div className='attendace-page'>
+          <div className='row table-container'>
             <Table
               rowClassName={(record) =>
-                record.status === "resigned"
-                  ? "absent-class"
-                  : record.status === "pending"
-                  ? "holiday-class"
-                  : ""
+                record.status === 'resigned'
+                  ? 'absent-class'
+                  : record.status === 'pending'
+                  ? 'holiday-class'
+                  : ''
               }
               columns={columns}
               dataSource={filterData}
@@ -304,10 +305,11 @@ export const Employee = () => {
 
       <ModalComponent
         openModal={isModalOpen}
-        classNames="add-employee-modal holidays-modal"
+        classNames='add-employee-modal holidays-modal'
+        destroyOnClose={true}
         closeModal={setIsModalOpen}
       >
-        <EmployeeForm setIsModalOpen={setIsModalOpen} employeeId={activeEmployee} />
+        <TabContainer closeModal={setIsModalOpen} />
 
         {/* <h3 className='modal-title'>ADD EMPLOYEE</h3> 
         <div className='mb-4'>
@@ -553,13 +555,13 @@ export const Employee = () => {
       </ModalComponent> */}
       <ModalComponent
         openModal={!!activeEmployee}
-        classNames="holidays-modal"
+        classNames='holidays-modal'
         closeModal={() => setActiveEmployee(undefined)}
       >
         {!!activeEmployee && (
           <EmployeeForm
             update
-            setIsModalOpen={() => setActiveEmployee("")}
+            setIsModalOpen={() => setActiveEmployee('')}
             employeeId={activeEmployee}
             defaultValue={activeEmployee}
           />
