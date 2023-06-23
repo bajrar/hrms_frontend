@@ -44,7 +44,7 @@ export interface DataType {
   designation: string;
 }
 
-export const ManageProjects = () => {
+export const ViewManage = () => {
   const [gender, setGender] = useState("");
   const [searchText, setSearchText] = useState("");
   const [status, setStatus] = useState("");
@@ -65,6 +65,7 @@ export const ManageProjects = () => {
 
   const { employee, loading } = useAppSelector((state) => state.employeeSlice);
   const [form] = Form.useForm();
+  //   console.log(employee, "EE");
 
   const showModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -78,12 +79,12 @@ export const ManageProjects = () => {
 
   const columns: ColumnsType<DataType> = [
     {
-      title: "PROJECT NAME",
+      title: "EID",
       dataIndex: "employeeNumber",
       key: "employeeNumber",
     },
     {
-      title: "DEPARTMENT/SECTION",
+      title: "EMPLOYEE NAME",
       dataIndex: "employeeName",
       key: "employeeName",
       filteredValue: [searchText],
@@ -95,9 +96,14 @@ export const ManageProjects = () => {
       },
     },
     {
-      title: "ADDED DATE",
+      title: "EMPLOYEE EMAIL",
       dataIndex: "dateOfJoining",
       key: "dateOfJoining",
+    },
+    {
+      title: "PROJECT NOTES",
+      dataIndex: "designation",
+      key: "designation",
     },
     {
       title: "ACTION",
@@ -120,18 +126,6 @@ export const ManageProjects = () => {
               color="#35639F"
               onClick={() => setActiveEmployee({ ...item })}
             />
-            <Button
-              className=""
-              style={{
-                color: "#3333F1",
-              }}
-              onClick={() => {
-                navigate(`/manageProjects/${item?.employeeNumber}`);
-              }}
-              type="text"
-            >
-              VIEW
-            </Button>
           </div>
         );
       },
@@ -147,6 +141,7 @@ export const ManageProjects = () => {
             imagesrc="/images/attendance.svg"
             location="Employee Management"
             location1="Manage Projects"
+            location2="Apply Here"
           />
           <hr />
           <div
@@ -155,33 +150,10 @@ export const ManageProjects = () => {
           >
             <input
               type="text"
-              placeholder="Search"
+              placeholder="Apply Here"
               className="search-field"
               onChange={(e) => setSearchText(e.target.value)}
             />
-            <div className="div" style={{ display: "flex", gap: 10 }}>
-              <button
-                type="button"
-                className="btn"
-                style={{
-                  height: "40px",
-                  color: "#007bff",
-                  backgroundColor: "transparent",
-                  backgroundImage: "none",
-                  borderColor: "#007bff",
-                }}
-                onClick={() => setIsViewOpen(true)}
-              >
-                Assign Project
-              </button>
-
-              <button
-                className="primary-btn"
-                onClick={() => setIsModalOpen(true)}
-              >
-                <FontAwesomeIcon icon={faPlus} /> Add Projects
-              </button>
-            </div>
           </div>
         </div>
 
@@ -244,4 +216,4 @@ export const ManageProjects = () => {
   );
 };
 
-export default ManageProjects;
+export default ViewManage;

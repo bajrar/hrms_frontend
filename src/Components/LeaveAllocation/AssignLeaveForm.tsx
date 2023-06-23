@@ -170,7 +170,7 @@ const AssignLeaveForm = ({ setIsAssignOpen, setUpdateModalIsModal }: any) => {
       </Form.Item>
 
       <div className="form-btn-container" style={{ marginTop: 15 }}>
-        <Button type="default" onClick={() => setUpdateModalIsModal(false)}>
+        <Button type="default" onClick={() => setIsAssignOpen(false)}>
           Cancel
         </Button>
         <Button type="primary" htmlType="submit">

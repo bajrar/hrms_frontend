@@ -44,7 +44,11 @@ const Announcement = ({ isAdmin = true }: PropsType) => {
 
   // const { announcement } = useAppSelector((state) => state.announcement);
   const { data: tokenData } = useGetTokenDataQuery("token");
-  const { data: announcement, isLoading } = useGetAnnouncementQuery({
+  const {
+    data: announcement,
+    isLoading,
+    refetch,
+  } = useGetAnnouncementQuery({
     userSn: tokenData.userSn,
   });
   console.log({ announcement });
@@ -71,7 +75,8 @@ const Announcement = ({ isAdmin = true }: PropsType) => {
         const res = await apis.deleteAnnouncement(selectedAnnouncement._id);
         if (res.status === 200) {
           message.success("Announcement deleted");
-          dispatch(getAnnouncement() as any);
+          // dispatch(getAnnouncement() as any);
+          refetch();
         }
       } catch {
         message.error("Something Went Wrong");
@@ -92,7 +97,8 @@ const Announcement = ({ isAdmin = true }: PropsType) => {
       if (res.status === 200) {
         message.success("Announcement Created");
         form.resetFields();
-        dispatch(getAnnouncement() as any);
+        // dispatch(getAnnouncement() as any);
+        refetch();
       }
     } catch {
       message.error("Something Went Wrong");
@@ -104,7 +110,7 @@ const Announcement = ({ isAdmin = true }: PropsType) => {
   const currentDate = new NepaliDate(new Date()).format("YYYY/MM/DD");
 
   console.log("announcement: -->", announcement);
-  console.log({ tokenData });
+  console.log({ tokenData }, "Token");
 
   return (
     <>
