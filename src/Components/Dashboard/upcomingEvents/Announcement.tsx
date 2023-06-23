@@ -21,6 +21,8 @@ import ModalComponent from "../../Ui/Modal/Modal";
 import TextArea from "antd/es/input/TextArea";
 import NepaliDate from "nepali-date-converter";
 import { apis } from "../../apis/constants/ApisService";
+import { useGetTokenDataQuery } from "../../../redux/api/tokenSlice";
+import { useGetAnnouncementQuery } from "../../../redux/api/announceSliceApi";
 
 type PropsType = {
   isAdmin?: boolean;
@@ -40,7 +42,15 @@ const Announcement = ({ isAdmin = true }: PropsType) => {
 
   const { TextArea } = Input;
 
-  const { announcement } = useAppSelector((state) => state.announcement);
+  // const { announcement } = useAppSelector((state) => state.announcement);
+  const { data: tokenData } = useGetTokenDataQuery("token");
+  const {
+    data: announcement,
+    isLoading,
+    refetch,
+  } = useGetAnnouncementQuery({
+    userSn: tokenData.userSn,
+  });
   console.log({ announcement });
   useEffect(() => {
     setLoading(true);
@@ -65,7 +75,8 @@ const Announcement = ({ isAdmin = true }: PropsType) => {
         const res = await apis.deleteAnnouncement(selectedAnnouncement._id);
         if (res.status === 200) {
           message.success("Announcement deleted");
-          dispatch(getAnnouncement() as any);
+          // dispatch(getAnnouncement() as any);
+          refetch();
         }
       } catch {
         message.error("Something Went Wrong");
@@ -86,7 +97,8 @@ const Announcement = ({ isAdmin = true }: PropsType) => {
       if (res.status === 200) {
         message.success("Announcement Created");
         form.resetFields();
-        dispatch(getAnnouncement() as any);
+        // dispatch(getAnnouncement() as any);
+        refetch();
       }
     } catch {
       message.error("Something Went Wrong");
@@ -96,6 +108,9 @@ const Announcement = ({ isAdmin = true }: PropsType) => {
   };
 
   const currentDate = new NepaliDate(new Date()).format("YYYY/MM/DD");
+
+  console.log("announcement: -->", announcement);
+  console.log({ tokenData }, "Token");
 
   return (
     <>
@@ -165,6 +180,33 @@ const Announcement = ({ isAdmin = true }: PropsType) => {
                 </div>
               )
             )}
+            {/* leave ko lagi */}
+            {announcement?.leaveMessages.length > 0 &&
+              announcement?.leaveMessages?.map((leave: any, index: any) => (
+                <div
+                  className="announcement-container-announcements-box"
+                  key={index}
+                >
+                  <div className="announcement-container-announcements-box-right">
+                    <h4>On Leave</h4>
+                    <p>{leave}</p>
+                  </div>
+                  <div className="announcement-container-announcements-box-left ">
+                    <p>{formatDate(currentDate)}</p>
+                    <div className="announcement-container-announcements-box-buttons">
+                      <Button
+                        type="text"
+                        danger
+                        onClick={() => showDeleteModal(announcement)}
+                        className={`${!isAdmin && "d-none"}`}
+                      >
+                        Delete
+                      </Button>
+                      <Button type="primary">View</Button>
+                    </div>
+                  </div>
+                </div>
+              ))}
           </div>
         )}
       </div>

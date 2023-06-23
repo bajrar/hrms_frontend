@@ -96,6 +96,15 @@ const SideBarTab = () => {
           </div>,
           '1'
         ),
+        getItem(
+          <div
+            className='sidenav-link'
+            onClick={() => closeSidebar('manageProjects')}
+          >
+            Manage Projects
+          </div>,
+          '1'
+        ),
       ]
     ),
 

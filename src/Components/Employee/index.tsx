@@ -243,8 +243,12 @@ export const Employee = () => {
   }, [employee, searchText]);
 
   useEffect(() => {
-    const sortedData = [...attendanceData].sort((a, b) => a.name.localeCompare(b.name));
-    const data = status ? sortedData.filter((each: any) => each.status === status) : sortedData;
+    const sortedData = [...attendanceData].sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+    const data = status
+      ? sortedData.filter((each: any) => each.status === status)
+      : sortedData;
     setFilterData(data);
   }, [attendanceData, status]);
 
@@ -265,7 +269,7 @@ export const Employee = () => {
           >
             <input
               type='text'
-              placeholder='Search members'
+              placeholder='Search names'
               className='search-field'
               value={searchText}
               onChange={(e) => setSearchText(e.target.value.toLowerCase())}
@@ -279,7 +283,10 @@ export const Employee = () => {
                 placeHolder='Search'
               />
 
-              <button className='primary-btn' onClick={() => setIsModalOpen(true)}>
+              <button
+                className='primary-btn'
+                onClick={() => setIsModalOpen(true)}
+              >
                 <FontAwesomeIcon icon={faPlus} /> Add Employee
               </button>
             </div>

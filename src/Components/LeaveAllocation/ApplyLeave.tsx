@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
 import '@sbmdkl/nepali-datepicker-reactjs/dist/index.css';
 import type { ColumnsType } from 'antd/es/table';
-
 import Selects from '../Ui/Selects/Selects';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -61,6 +60,7 @@ const ApplyLeave = () => {
     },
     {
       title: 'EMPLOYEE NAME',
+      dataIndex: 'employeeName',
       key: 'employeeName',
     },
     {
@@ -136,22 +136,27 @@ const ApplyLeave = () => {
   return (
     <div className='assign-leave'>
       <div className='d-flex justify-content-between align-items-center daily-report-search'>
-        <div className='attendance-filters'>
-          <Calendar
-            onChange={onStartDateChange}
-            className='date-picker calender-container-picker leave-inputs '
-            dateFormat='YYYY/MM/DD'
-            language='en'
-          />{' '}
-          <CalendarOutlined className='calendar-icon' />
+        <div className='attendance-filters calendar-wrapper'>
+          <div className='calendar-wrapper'>
+            <Calendar
+              onChange={onStartDateChange}
+              className='date-picker calender-container-picker leave-inputs calender-wrapper '
+              dateFormat='YYYY/MM/DD'
+              language='en'
+            />
+            <CalendarOutlined className='calendar-icon' />
+          </div>
           To
-          <Calendar
-            onChange={onEndDateChange}
-            className='date-picker calender-container-picker leave-inputs'
-            dateFormat='YYYY/MM/DD'
-            language='en'
-          />
-          <CalendarOutlined className='calendar-icon' />
+          <div className='calendar-wrapper'>
+            <Calendar
+              onChange={onEndDateChange}
+              className='date-picker calender-container-picker leave-inputs'
+              dateFormat='YYYY/MM/DD'
+              language='en'
+            />
+
+            <CalendarOutlined className='calendar-icon' />
+          </div>
         </div>
         <div className='d-flex daily-report-saerch-right'>
           <Selects
