@@ -38,7 +38,7 @@ const AttendanceTrack = () => {
         }) as any
       );
     }
-  }, [dispatch, startDate, userSn]);
+  }, [dispatch, startDate]);
 
   // Calculate progress percentages
   const yesterdayPercent = useMemo(
@@ -255,7 +255,11 @@ const AttendanceTrack = () => {
           </div>
           <div className="attendance-status">
             <span className="attendance-status__label">Attendance Status</span>
-            <span className="attendance-status__value">Present</span>
+            <span
+              className={`attendance-status__value ${!startTime && "absent"}`}
+            >
+              {startTime ? "Present" : "Absent"}
+            </span>
           </div>
           <div className="leave-request">
             <span className="leave-request__label">Leave Request</span>
