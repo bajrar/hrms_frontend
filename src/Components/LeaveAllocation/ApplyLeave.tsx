@@ -15,6 +15,7 @@ import { RootState } from '../../store';
 import { CalendarOutlined } from '@ant-design/icons';
 import { reduceByKeys } from '../../hooks/HelperFunctions';
 import { useGetLeavesQuery } from '../../redux/api/leaveSlice';
+import { useGetTokenDataQuery } from '../../redux/api/tokenSlice';
 
 export interface DataType {
   eid?: string;
@@ -43,13 +44,14 @@ const ApplyLeave = () => {
     setEndDate(bsDate);
   };
   // const { data: leaveData, isLoading } = useGetLeavesQuery('leave');
-  const { data: leaveData, isLoading } = useGetLeavesQuery(
-    'leave/employee/appliedLeave'
-  );
-  console.log(
-    '🚀 ~ file: ApplyLeave.tsx:46 ~ ApplyLeave ~ leaveData:',
-    leaveData
-  );
+
+  const { data: tokenData } = useGetTokenDataQuery('token');
+  const userRole = tokenData?.role;
+  let leaveEndpont = 'leave/employee/appliedLeave';
+  if (userRole === 'user') {
+    leaveEndpont = `leave/employee/appliedLeave?userSn=${tokenData?.userSn}`;
+  }
+  const { data: leaveData, isLoading } = useGetLeavesQuery(leaveEndpont);
 
   const columns: ColumnsType<DataType> = [
     {
@@ -166,7 +168,11 @@ const ApplyLeave = () => {
         </div>
       </div>
       <div className='daily-report-table-container'>
-        <Table columns={columns} dataSource={filterLeaveData} />
+        <Table
+          columns={columns}
+          dataSource={filterLeaveData}
+          loading={isLoading}
+        />
       </div>
       <ModalComponent
         openModal={isModalOpen}
