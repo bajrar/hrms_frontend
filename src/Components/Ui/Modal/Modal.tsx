@@ -8,6 +8,7 @@ interface IModal {
   closeModal?: any;
   classNames?: string;
   okText?: string;
+  destroyOnClose?: boolean;
 }
 
 const ModalComponent = ({
@@ -17,6 +18,7 @@ const ModalComponent = ({
   closeModal,
   classNames,
   okText,
+  destroyOnClose = false,
 }: IModal) => {
   const handleCancel = () => {
     closeModal(false);
@@ -28,6 +30,7 @@ const ModalComponent = ({
         open={openModal}
         onOk={handleOk}
         onCancel={handleCancel}
+        destroyOnClose={destroyOnClose}
         closable
         className={`${classNames}`}
         okText={okText}
