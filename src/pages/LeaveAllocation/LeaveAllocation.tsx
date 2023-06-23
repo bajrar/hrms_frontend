@@ -19,6 +19,7 @@ const LeaveAllocation = () => {
       children: <ApplyLeave />,
     },
   ];
+
   return (
     <Layout>
       <Navbar />
@@ -28,7 +29,7 @@ const LeaveAllocation = () => {
           imagesrc='/images/leave.svg'
           location='Leave Management'
           location1='Leave Allocation'
-          location2='Add Leave'
+          location2={'Add Leave'}
         />
         <hr />
         <Tabs defaultActiveKey='1' items={items} />

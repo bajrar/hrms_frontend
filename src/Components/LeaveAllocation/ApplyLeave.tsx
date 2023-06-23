@@ -61,7 +61,6 @@ const ApplyLeave = () => {
     },
     {
       title: 'EMPLOYEE NAME',
-      dataIndex: 'employeeName',
       key: 'employeeName',
     },
     {

@@ -30,6 +30,7 @@ import sidebarSlice from './redux/features/sidebarSlice';
 import { projectTeamSlice } from './redux/features/projectTeam.slice';
 import { employeeApi } from './redux/api/employee';
 import { tokenSliceApi } from './redux/api/tokenSlice';
+import { applicantApiSlice } from './redux/api/applicantApiSlice';
 
 export const store = configureStore({
   reducer: {
@@ -63,6 +64,7 @@ export const store = configureStore({
     [projectTeamSlice.reducerPath]: projectTeamSlice.reducer,
     [tokenSliceApi.reducerPath]: tokenSliceApi.reducer,
     [employeeApi.reducerPath]: employeeApi.reducer,
+    [applicantApiSlice.reducerPath]: applicantApiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     // getDefaultMiddleware().concat(attendanceRequestSlice.middleware).concat(profileSlice.middleware),
@@ -75,6 +77,7 @@ export const store = configureStore({
       projectTeamSlice.middleware,
       tokenSliceApi.middleware,
       employeeApi.middleware,
+      applicantApiSlice.middleware
     ]),
 });
 setupListeners(store.dispatch);

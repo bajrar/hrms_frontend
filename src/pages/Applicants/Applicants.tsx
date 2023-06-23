@@ -1,23 +1,27 @@
-import { faPen } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Form, Select, Table, message } from "antd";
-import type { ColumnsType } from "antd/es/table";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Form, Select, Table, message } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-import BreadCrumbs from "../../Components/Ui/BreadCrumbs/BreadCrumbs";
-import ModalComponent from "../../Components/Ui/Modal/Modal";
-import Selects from "../../Components/Ui/Selects/Selects";
-import { useAppSelector } from "../../hooks/useTypedSelector";
-import { getApplicants } from "../../redux/features/applicantsSlice";
-import { getSingleApplicant } from "../../redux/features/singleApplicantSlice";
-import "./applicants.css";
-import { API_URL, API_URL1 } from "../../Components/apis/constants/constant";
-import { apis } from "../../Components/apis/constants/ApisService";
-import Layout from "../../Components/Layout";
-import Navbar from "../../Components/Ui/Navbar";
-import { Link } from "react-router-dom";
-import { BsLinkedin } from "react-icons/bs";
+import BreadCrumbs from '../../Components/Ui/BreadCrumbs/BreadCrumbs';
+import ModalComponent from '../../Components/Ui/Modal/Modal';
+import Selects from '../../Components/Ui/Selects/Selects';
+import { useAppSelector } from '../../hooks/useTypedSelector';
+import { getApplicants } from '../../redux/features/applicantsSlice';
+import { getSingleApplicant } from '../../redux/features/singleApplicantSlice';
+import './applicants.css';
+import { API_URL, API_URL1 } from '../../Components/apis/constants/constant';
+import { apis } from '../../Components/apis/constants/ApisService';
+import Layout from '../../Components/Layout';
+import Navbar from '../../Components/Ui/Navbar';
+import { Link } from 'react-router-dom';
+import { BsLinkedin } from 'react-icons/bs';
+import {
+  useGetSingleApplicantQuery,
+  useGetApplicantsQuery,
+} from '../../redux/api/applicantApiSlice';
 
 export interface DataType {
   position?: string;
@@ -35,31 +39,33 @@ const Applicants = () => {
   const [filterApplicantArary, setFilterApplicantArary] = useState<any[]>();
   const [applicantModal, setApplicantModal] = useState<boolean>(false);
   const [updateStatus, setUpdateStatus] = useState<boolean>(false);
-  const [applicantId, setApplicantId] = useState<string>("");
-  const [searchText, setSearchText] = useState("");
-  const [filterType, setFilterByType] = useState("");
+  const [applicantId, setApplicantId] = useState<string>('');
+  const [searchText, setSearchText] = useState('');
+  const [filterType, setFilterByType] = useState('');
   const [page, setPage] = useState(1);
   const [form] = Form.useForm();
 
   const filterByType = [
     {
-      value: "applicantName",
-      label: "Applicant Name ( A- Z )",
+      value: 'applicantName',
+      label: 'Applicant Name ( A- Z )',
     },
     {
-      value: "-applicantName",
-      label: "Applicant Name ( Z - A )",
+      value: '-applicantName',
+      label: 'Applicant Name ( Z - A )',
     },
     {
-      value: "position",
-      label: "Position",
+      value: 'position',
+      label: 'Position',
     },
     {
-      value: "status",
-      label: "Status",
+      value: 'status',
+      label: 'Status',
     },
   ];
+
   const viewSingleApplicant = (applicantId: any) => {
+    console.log({ applicantId });
     dispatch(getSingleApplicant({ applicantId }) as any);
     setApplicantModal(true);
   };
@@ -69,48 +75,48 @@ const Applicants = () => {
 
   const columns: ColumnsType<DataType> = [
     {
-      title: "POSITION",
-      dataIndex: "position",
-      key: "position",
+      title: 'POSITION',
+      dataIndex: 'position',
+      key: 'position',
     },
     {
-      title: "APPLICANT NAME",
-      dataIndex: "applicantName",
-      key: "applicantName",
+      title: 'APPLICANT NAME',
+      dataIndex: 'applicantName',
+      key: 'applicantName',
     },
     {
-      title: "EMAIL",
-      dataIndex: "email",
-      key: "email",
+      title: 'EMAIL',
+      dataIndex: 'email',
+      key: 'email',
     },
     {
-      title: "ADDRESS",
-      dataIndex: "address",
-      key: "address",
+      title: 'ADDRESS',
+      dataIndex: 'address',
+      key: 'address',
     },
     {
-      title: "CITY",
-      dataIndex: "city",
-      key: "city",
+      title: 'CITY',
+      dataIndex: 'city',
+      key: 'city',
     },
     {
-      title: "STATUS",
-      dataIndex: "status",
-      key: "status",
+      title: 'STATUS',
+      dataIndex: 'status',
+      key: 'status',
     },
     {
-      title: "ACTION",
-      dataIndex: "action",
-      key: "action",
+      title: 'ACTION',
+      dataIndex: 'action',
+      key: 'action',
       render: (record) => (
-        <div className="d-flex action-btn-container">
+        <div className='d-flex action-btn-container'>
           <FontAwesomeIcon
             icon={faPen}
-            color="#35639F"
+            color='#35639F'
             onClick={() => openUdateModal(record)}
           />
           <span
-            className="viewMoreBtn"
+            className='viewMoreBtn'
             onClick={() => viewSingleApplicant(record)}
           >
             View
@@ -124,11 +130,10 @@ const Applicants = () => {
     dispatch(getApplicants({ pageNumber: page }) as any);
   }, [dispatch, page]);
 
-  const { applicants, loading } = useAppSelector(
-    (state) => state.applicantSlice
-  );
+  const { isLoading, data: applicants } = useGetApplicantsQuery({ page });
+  // const { data: applicant } = useGetSingleApplicantQuery({ applicantId });
   const { applicant } = useAppSelector((state) => state.singleApplicantSlice);
-
+  console.log({ applicant, applicants });
   useEffect(() => {
     const applicantsData: DataType[] = [];
     applicants?.applicants?.map((item: any) => {
@@ -156,7 +161,7 @@ const Applicants = () => {
     try {
       const res = await apis.updateApplicantStatus(values, applicantId);
       if (res.status === 201) {
-        message.success("Status Updated");
+        message.success('Status Updated');
         form.resetFields();
         dispatch(getApplicants({ pageNumber: page }) as any);
       }
@@ -184,13 +189,13 @@ const Applicants = () => {
     }
   }, [searchText, applicantArray, filterType]);
 
-  if (filterType === "applicantName") {
+  if (filterType === 'applicantName') {
     filterApplicantArary?.sort((a, b) => {
       const valueA = a.applicantName?.toLowerCase();
       const valueB = b.applicantName?.toLowerCase();
       return valueA.localeCompare(valueB);
     });
-  } else if (filterType === "-applicantName") {
+  } else if (filterType === '-applicantName') {
     filterApplicantArary?.sort((a, b) => {
       const valueA = a.applicantName?.toLowerCase();
       const valueB = b.applicantName?.toLowerCase();
@@ -205,109 +210,109 @@ const Applicants = () => {
   return (
     <Layout>
       <Navbar />
-      <div className="applicants-page padding">
+      <div className='applicants-page padding'>
         <hr />
         <BreadCrumbs
-          imagesrc="/images/vacancy.svg"
-          location="Vacancy Management"
-          location1="Applicants"
+          imagesrc='/images/vacancy.svg'
+          location='Vacancy Management'
+          location1='Applicants'
         />
         <hr />
 
-        <div className="d-flex align-items-start applicants-header">
+        <div className='d-flex align-items-start applicants-header'>
           <Selects
-            className="applicants-select"
-            placeHolder="Filter by type"
+            className='applicants-select'
+            placeHolder='Filter by type'
             options={filterByType}
             onSelect={onSelect}
           />
           <input
-            type="text"
-            placeholder="Search"
-            className="search-field"
+            type='text'
+            placeholder='Search'
+            className='search-field'
             value={searchText}
             onChange={(e) => setSearchText(e.target.value.toLowerCase())}
           />
         </div>
         <Table
           columns={columns}
-          className="table-container"
+          className='table-container'
           dataSource={filterApplicantArary}
           pagination={{
             current: page,
             onChange: handlePaginationChange,
             total: applicants?.totalCount,
           }}
-          loading={loading}
+          loading={isLoading}
         />
         <ModalComponent
           openModal={applicantModal}
           //  handleCancel={handleCancel}
           closeModal={setApplicantModal}
         >
-          <h3 className="modal-title">APPLICANTS DETAILS</h3>
-          <table className="application-table">
+          <h3 className='modal-title'>APPLICANTS DETAILS</h3>
+          <table className='application-table'>
             <tbody>
-              <tr className="application-table-row">
-                <th className="application-table-head">POSITION</th>
-                <td className="application-table-body">
+              <tr className='application-table-row'>
+                <th className='application-table-head'>POSITION</th>
+                <td className='application-table-body'>
                   {applicant?.applicant?.position}
                 </td>
               </tr>
-              <tr className="application-table-row">
-                <th className="application-table-head">APPLICANT NAME</th>
-                <td className="application-table-body">
+              <tr className='application-table-row'>
+                <th className='application-table-head'>APPLICANT NAME</th>
+                <td className='application-table-body'>
                   {`${applicant?.applicant?.fullName} `}
                 </td>
               </tr>
-              <tr className="application-table-row">
-                <th className="application-table-head">EMAIL</th>
-                <td className="application-table-body">
+              <tr className='application-table-row'>
+                <th className='application-table-head'>EMAIL</th>
+                <td className='application-table-body'>
                   {applicant?.applicant?.email}
                 </td>
               </tr>
-              <tr className="application-table-row">
-                <th className="application-table-head">PHONE</th>
-                <td className="application-table-body">
+              <tr className='application-table-row'>
+                <th className='application-table-head'>PHONE</th>
+                <td className='application-table-body'>
                   {applicant?.applicant?.phone}
                 </td>
               </tr>
               <tr>
-                <th className="application-table-head">ADDRESS</th>
-                <td className="application-table-body">
+                <th className='application-table-head'>ADDRESS</th>
+                <td className='application-table-body'>
                   {applicant?.applicant?.address}
                 </td>
               </tr>
-              <tr className="application-table-row">
-                <th className="application-table-head">CITY</th>
-                <td className="application-table-body">
+              <tr className='application-table-row'>
+                <th className='application-table-head'>CITY</th>
+                <td className='application-table-body'>
                   {applicant?.applicant?.city}
                 </td>
               </tr>
-              <tr className="application-table-row">
-                <th className="application-table-head">LINKEDIN</th>
-                <td className="application-table-body">
+              <tr className='application-table-row'>
+                <th className='application-table-head'>LINKEDIN</th>
+                <td className='application-table-body'>
                   <Link
                     to={applicant?.applicant?.linkedIn}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="link-button"
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='link-button'
                   >
                     {/* {applicant?.applicant?.linkedIn} */}
                     {/* View LinkedIn */}
-                    <BsLinkedin fontSize={"18px"} />
+                    <BsLinkedin fontSize={'18px'} />
                   </Link>
                 </td>
               </tr>
-              <tr className="application-table-row">
-                <th className="application-table-head">
+              <tr className='application-table-row'>
+                <th className='application-table-head'>
                   RESUME AND COVER LETTER
                 </th>
-                <td className="application-table-body">
+                <td className='application-table-body'>
                   <Link
                     to={`${API_URL1}public/resume/${applicant?.applicant?.resume}`}
-                    target="_blank"
-                    className="link-button"
+                    target='_blank'
+                    className='link-button'
                   >
                     View Resume
                   </Link>
@@ -320,31 +325,31 @@ const Applicants = () => {
           <Form
             onFinish={handleUpdateStatus}
             form={form}
-            autoComplete="off"
-            className="p-2"
+            autoComplete='off'
+            className='p-2'
           >
             <Form.Item
-              className="form-input col "
-              name="status"
-              label="Status *"
-              rules={[{ required: true, message: "Status is Required" }]}
+              className='form-input col '
+              name='status'
+              label='Status *'
+              rules={[{ required: true, message: 'Status is Required' }]}
             >
               <Select
                 options={[
-                  { value: "selected", label: "Selected" },
-                  { value: "confirmed", label: "Confirmed" },
-                  { value: "rejected", label: "Rejected" },
-                  { value: "pending", label: "Pending" },
+                  { value: 'selected', label: 'Selected' },
+                  { value: 'confirmed', label: 'Confirmed' },
+                  { value: 'rejected', label: 'Rejected' },
+                  { value: 'pending', label: 'Pending' },
                 ]}
-                className="selects status-selects"
-                placeholder="Update status"
+                className='selects status-selects'
+                placeholder='Update status'
               ></Select>
             </Form.Item>
-            <div className="form-btn-container mt-4">
-              <Button type="default" onClick={handleCancel}>
+            <div className='form-btn-container mt-4'>
+              <Button type='default' onClick={handleCancel}>
                 Cancel
               </Button>
-              <Button type="primary" htmlType="submit">
+              <Button type='primary' htmlType='submit'>
                 Add
               </Button>
             </div>
