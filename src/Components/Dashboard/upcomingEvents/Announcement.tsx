@@ -53,7 +53,7 @@ const Announcement = ({ isAdmin = true }: PropsType) => {
     dispatch(getAnnouncement() as any)
       .then(() => setLoading(false))
       .catch(() => setLoading(false));
-  }, [dispatch]);
+  }, [dispatch, announcement]);
 
   const handleCancel = () => {
     setOpenAnnounceModel(false);

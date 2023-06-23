@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./AttendanceTrack.css";
 import NepaliDate from "nepali-date-converter";
 import { Progress, Tooltip, Button, Skeleton, Space } from "antd";
@@ -9,54 +9,102 @@ import { useDispatch } from "react-redux";
 import { verifyTokenStatus } from "../../../../redux/features/verifyTokenSlice";
 import { RootState } from "../../../../store";
 import { DotChartOutlined } from "@ant-design/icons";
+import { getEmployeeData } from "../../../../redux/features/SingleAttendanceSlice";
 
 const AttendanceTrack = () => {
   const [runningTime, setRunningTime] = useState("0:00:00");
   const dispatch = useDispatch();
+
+  // Fetch user data and verify token status
   useEffect(() => {
     dispatch(verifyTokenStatus() as any);
   }, [dispatch]);
+
+  // Fetch work hours data
   const userData = useAppSelector((state: RootState) => state.userSlice.value);
   const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
   const userSn = tokenData?.userSn ? tokenData?.userSn : userData?.userSn;
   const { data, isLoading } = useGetAllWorkhoursQuery(userSn || "");
-  const yesterdayPercent = (data?.yesterdayWorkHour / 9) * 100;
-  const weekPercent = (data?.weekWorkHour / 45) * 100;
-  const monthPercent = (data?.monthWorkHour / 180) * 100;
-  const totalPercent = (data?.totalWorkHour / 2160) * 100;
+
+  // Fetch employee data
+  const startDate = new NepaliDate().format("YYYY/MM/DD");
+  useEffect(() => {
+    if (startDate) {
+      dispatch(
+        getEmployeeData({
+          userSn: userSn,
+          startDate: startDate,
+          endDate: startDate,
+        }) as any
+      );
+    }
+  }, [dispatch, startDate, userSn]);
+
+  // Calculate progress percentages
+  const yesterdayPercent = useMemo(
+    () => (data?.yesterdayWorkHour / 9) * 100,
+    [data?.yesterdayWorkHour]
+  );
+  const weekPercent = useMemo(
+    () => (data?.weekWorkHour / 45) * 100,
+    [data?.weekWorkHour]
+  );
+  const monthPercent = useMemo(
+    () => (data?.monthWorkHour / 180) * 100,
+    [data?.monthWorkHour]
+  );
+  const totalPercent = useMemo(
+    () => (data?.totalWorkHour / 2160) * 100,
+    [data?.totalWorkHour]
+  );
+  const { employee, loading } = useAppSelector(
+    (state: any) => state.SingleAttendanceSlice
+  );
+
+  // Clock running time calculation
+  const startTime = useMemo(
+    () => employee?.result?.[0]?.attendanceByDate?.entryTime,
+    [employee?.result]
+  );
+  let startHour: any, startMinutes: any;
+  if (startTime) {
+    const [hourStr, minuteStr] = startTime.split(":");
+    startHour = parseInt(hourStr, 10);
+    startMinutes = parseInt(minuteStr, 10);
+  }
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const currentTime = new Date();
-      const hours = currentTime.getHours();
-      const minutes = currentTime.getMinutes();
-      const seconds = currentTime.getSeconds();
+    if (startTime && !isNaN(startHour) && !isNaN(startMinutes)) {
+      const interval = setInterval(() => {
+        const currentTime = new Date();
+        const hours = currentTime.getHours();
+        const minutes = currentTime.getMinutes();
+        const seconds = currentTime.getSeconds();
 
-      // Calculate the time difference in hours, minutes, and seconds after 9 AM
-      const timeDiff = (hours - 9) * 60 * 60 + minutes * 60 + seconds;
+        // Calculate the time difference in hours, minutes, and seconds
+        const timeDiff =
+          (hours - startHour) * 3600 + (minutes - startMinutes) * 60 + seconds;
+        const formattedTime = formatTime(timeDiff);
+        setRunningTime(formattedTime);
+      }, 1000);
 
-      const formattedTime = formatTime(timeDiff);
-      setRunningTime(formattedTime);
-    }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [startTime, startHour, startMinutes]);
 
-    return () => clearInterval(interval);
-  }, []);
+  function formatTime(timeDiff: any) {
+    const hours = Math.floor(timeDiff / 3600);
+    const minutes = Math.floor((timeDiff % 3600) / 60);
+    const seconds = timeDiff % 60;
 
-  const formatTime = (time: any) => {
-    const hours = Math.floor(time / 3600);
-    const minutes = Math.floor((time % 3600) / 60);
-    const seconds = time % 60;
+    const formattedTime = `${hours}hr ${minutes}m ${seconds}s`;
+    return formattedTime;
+  }
 
-    const formattedHours = hours;
-    const formattedMinutes = minutes;
-    const formattedSeconds = seconds;
-
-    return `${formattedHours}hr ${formattedMinutes}m ${formattedSeconds}s`;
-  };
+  // Calculate clock progress
   const currentTime = new Date();
   const hours = currentTime.getHours();
   const timeDiff = hours - 9;
-
   const clockProgress = (timeDiff / 9) * 100;
 
   const customContent = (
@@ -86,7 +134,8 @@ const AttendanceTrack = () => {
           <div className="clock_input">
             <h4 className="clock_input-heading">CLOCK IN AT</h4>
             <p className="clock_input-paragraph">
-              {new NepaliDate().format(" ddd, DD MMMM")} 8:45:44 a.m.
+              {new NepaliDate().format(" ddd, DD MMMM")}{" "}
+              {employee?.result?.[0]?.attendanceByDate?.entryTime}
             </p>
           </div>
           <div className="progress-bar">
