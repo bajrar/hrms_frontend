@@ -22,6 +22,8 @@ const Navbar = () => {
       navigate('/profile');
     } else if (e.key === '2') {
       logoutUser();
+    } else if (e.key === '3') {
+      localStorage.setItem('tempRole', 'user');
     }
   };
 
@@ -36,6 +38,11 @@ const Navbar = () => {
       key: '2',
       icon: <LogoutOutlined />,
     },
+    {
+      label: 'View As User',
+      key: '3',
+      icon: <LogoutOutlined />,
+    },
   ];
 
   const menuProps = {
@@ -44,9 +51,9 @@ const Navbar = () => {
   };
 
   const [openDropdown, setOpenDropdown] = useState(true);
-  const userDetails:any = localStorage.getItem('userDetails')
-  const employeeDetails = JSON.parse(userDetails)
-  const userName = employeeDetails?.employeeName
+  const userDetails: any = localStorage.getItem('userDetails');
+  const employeeDetails = JSON.parse(userDetails);
+  const userName = employeeDetails?.employeeName;
 
   return (
     <div className='navbar-dash padding'>

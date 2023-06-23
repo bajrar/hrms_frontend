@@ -45,7 +45,6 @@ const UserDashboardAttendance = () => {
   //   (state: any) => state.SingleAttendanceSlice
   // );
 
-  console.log({ employee }, '<------ this is the employee');
   const columns: ColumnsType<DataType> = [
     {
       title: 'DATE',
@@ -108,7 +107,6 @@ const UserDashboardAttendance = () => {
       dataIndex: 'workHours',
       key: 'workHours',
       render: (item) => {
-        console.log(item === '', '<------ this is work ahr');
         return (
           <div className='workhours'>
             <p>
