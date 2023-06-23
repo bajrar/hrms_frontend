@@ -9,6 +9,7 @@ import { RootState } from '../../store';
 import { verifyTokenStatus } from '../../redux/features/verifyTokenSlice';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { setClose, setOpen } from '../../redux/features/sidebarSlice';
+import { useGetTokenDataQuery } from '../../redux/api/tokenSlice';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -22,8 +23,15 @@ const SideBarTab = () => {
     dispatch(verifyTokenStatus() as any);
   }, []);
   const userData = useAppSelector((state: RootState) => state.userSlice.value);
-  const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
-  const userRole = tokenData?.role ? tokenData?.role : userData?.role;
+  // const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
+  const { data: tokenData, isLoading } = useGetTokenDataQuery('token');
+
+  const userRoleData = useAppSelector(
+    (state: RootState) => state.userRoleSlice
+  );
+  // const userRole = tokenData?.role ? tokenData?.role : userData?.role;
+  const isAdmin = userRoleData?.role === 'admin';
+
   const userSn = tokenData?.userSn;
   const navigate = useNavigate();
   const userAccess = ['Vacancy Management', 'Employee Management', 'v'];
@@ -34,7 +42,7 @@ const SideBarTab = () => {
     children?: MenuItem[],
     type?: 'group'
   ): any {
-    if (userRole === 'admin' || !userAccess.includes(label))
+    if (isAdmin || !userAccess.includes(label))
       return {
         key,
         icon,
@@ -59,7 +67,7 @@ const SideBarTab = () => {
     // Additional logic or side effects
   };
   const closeSidebar = (routeTo: string) => {
-    if (userRole === 'user' && routeTo === 'attendance') {
+    if (!isAdmin && routeTo === 'attendance') {
       navigate(`/${routeTo}/${userSn}`);
     } else {
       navigate(`/${routeTo}`);
@@ -107,18 +115,25 @@ const SideBarTab = () => {
           </div>,
           '2'
         ),
-        userRole==='admin'?  getItem(
-          <div className='sidenav-link' onClick={() => closeSidebar('leave')}>
-            Leave Allocation
-          </div>,
-          '3'
-        ):
-        getItem(
-          <div className='sidenav-link' onClick={() => closeSidebar('request-leave')}>
-            Request Leave
-          </div>,
-          '3'
-        ),
+        isAdmin
+          ? getItem(
+              <div
+                className='sidenav-link'
+                onClick={() => closeSidebar('leave')}
+              >
+                Leave Allocation
+              </div>,
+              '3'
+            )
+          : getItem(
+              <div
+                className='sidenav-link'
+                onClick={() => closeSidebar('request-leave')}
+              >
+                Request Leave
+              </div>,
+              '3'
+            ),
       ]
     ),
 
@@ -176,7 +191,7 @@ const SideBarTab = () => {
               '8'
             )
           : null,
-        userRole === 'admin'
+        isAdmin
           ? getItem(
               <div
                 className='sidenav-link'
@@ -187,7 +202,7 @@ const SideBarTab = () => {
               '9'
             )
           : null,
-        userRole === 'admin'
+        isAdmin
           ? getItem(
               <div
                 className='sidenav-link'

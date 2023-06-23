@@ -31,6 +31,7 @@ import { projectTeamSlice } from './redux/features/projectTeam.slice';
 import { employeeApi } from './redux/api/employee';
 import { tokenSliceApi } from './redux/api/tokenSlice';
 import { applicantApiSlice } from './redux/api/applicantApiSlice';
+import userRoleSlice from './redux/features/role/userRoleSlice';
 
 export const store = configureStore({
   reducer: {
@@ -56,6 +57,7 @@ export const store = configureStore({
     userSlice: userSlice,
     verifyTokenSlice: verifyTokenSlice,
     sidebarSlice: sidebarSlice,
+    userRoleSlice:userRoleSlice,
     [attendanceRequestSlice.reducerPath]: attendanceRequestSlice.reducer,
     [profileSlice.reducerPath]: profileSlice.reducer,
     [leaveSliceApi.reducerPath]: leaveSliceApi.reducer,

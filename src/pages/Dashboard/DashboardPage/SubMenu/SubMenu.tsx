@@ -14,22 +14,25 @@ import { Spin } from 'antd';
 import NepaliDate from 'nepali-date-converter';
 import { MdCalendarToday } from 'react-icons/md';
 import { useGetTokenDataQuery } from '../../../../redux/api/tokenSlice';
+import { RootState } from '../../../../store';
+import { useAppSelector } from '../../../../hooks/useTypedSelector';
+import { getRole } from '../../../../redux/features/role/userRoleSlice';
 
 type SubMenuProps = {};
 
 export const SubMenu = ({}: SubMenuProps) => {
-  const [isAdmin, setIsAdmin] = useState(false);
   const dispatch = useDispatch();
-  const { data: tokenData } = useGetTokenDataQuery('token');
-  const tempRole = localStorage.getItem('tempRole');
-  const userRole = tempRole || tokenData?.role;
-
-  // const isAdmin = userRole === 'admin';
+  const { data: tokenData, isLoading } = useGetTokenDataQuery('token');
+  const userRole = tokenData?.role;
   useEffect(() => {
-    if (userRole === 'admin') {
-      setIsAdmin(true);
-    }
-  }, [userRole, tempRole]);
+    dispatch(getRole(tokenData?.role));
+  }, [isLoading, tokenData, dispatch]);
+
+  const userRoleData = useAppSelector(
+    (state: RootState) => state.userRoleSlice
+  );
+  const isAdmin = userRoleData?.role === 'admin';
+
   const operations = (
     <Button
       type='dashed'
