@@ -7,3 +7,29 @@
 .daily-report-search {
   margin-top: 20px;
 }
+.unit-input {
+  display: flex;
+}
+
+.unit-container {
+  width: 100%;
+  gap: 16px;
+}
+.leave-unit-selects {
+  min-width: 264px !important;
+}
+.start-end-container {
+  gap: 22px;
+}
+.calendar-wrapper {
+
+  position: relative;
+  margin-block: 0;
+}
+
+.calendar-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px; /* Adjust the right position as needed */
+  transform: translateY(-50%);
+}
