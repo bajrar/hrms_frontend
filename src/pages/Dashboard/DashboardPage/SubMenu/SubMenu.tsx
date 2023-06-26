@@ -25,8 +25,8 @@ export const SubMenu = ({}: SubMenuProps) => {
   const { data: tokenData, isLoading } = useGetTokenDataQuery('token');
   const userRole = tokenData?.role;
   useEffect(() => {
-    dispatch(getRole(tokenData?.role));
-  }, [isLoading, tokenData, dispatch]);
+    dispatch(getRole(userRole));
+  }, [userRole, isLoading]);
 
   const userRoleData = useAppSelector(
     (state: RootState) => state.userRoleSlice

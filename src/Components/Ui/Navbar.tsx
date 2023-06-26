@@ -20,6 +20,7 @@ import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
 import { RootState } from '../../store';
 import { getRole } from '../../redux/features/role/userRoleSlice';
+import { useGetTokenDataQuery } from '../../redux/api/tokenSlice';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -28,6 +29,8 @@ const Navbar = () => {
     (state: RootState) => state.userRoleSlice
   );
   const currentRole = userRoleData.role === 'admin' ? 'user' : 'admin';
+  const { data: tokenData, isLoading } = useGetTokenDataQuery('token');
+  const userRole = tokenData?.role;
   const handleMenuClick: MenuProps['onClick'] = (e) => {
     if (e.key === '1') {
       navigate('/profile');
@@ -49,12 +52,15 @@ const Navbar = () => {
       key: '2',
       icon: <LogoutOutlined />,
     },
-    {
+  ];
+
+  if (userRole === 'admin') {
+    items.push({
       label: `View as ${currentRole}`,
       key: '3',
       icon: <SwapOutlined />,
-    },
-  ];
+    });
+  }
 
   const menuProps = {
     items,

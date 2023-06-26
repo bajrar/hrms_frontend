@@ -23,7 +23,6 @@ const SideBarTab = () => {
     dispatch(verifyTokenStatus() as any);
   }, []);
   const userData = useAppSelector((state: RootState) => state.userSlice.value);
-  // const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
   const { data: tokenData, isLoading } = useGetTokenDataQuery('token');
 
   const userRoleData = useAppSelector(

@@ -3,12 +3,11 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 
 export interface userRoleState {
   role:String
-  tempRole:String
 }
 
 const initialState: userRoleState = {
-  role: 'user',
-  tempRole : 'user'
+  role: '',
+
 }
 
 export const userRoleSlice = createSlice({
