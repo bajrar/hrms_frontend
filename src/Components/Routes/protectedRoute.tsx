@@ -21,5 +21,5 @@ export const ProtectedRoute = (children: any) => {
   if (loading) {
     return <Spinner />;
   }
-  return adminPrivate ? <Outlet /> : <Navigate to='/dashboard' />;
+  return adminPrivate ? <Outlet /> : <Navigate to='/' />;
 };

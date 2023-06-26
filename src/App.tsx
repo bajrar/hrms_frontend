@@ -12,12 +12,9 @@ function App() {
       ) : (
         <div className='App'>
           <div className='dashboard-page'>
-            {/* <Layout>
-          <Navbar /> */}
             <div className='dash-container'>
               <MainRoutes />
             </div>
-            {/* </Layout> */}
           </div>
         </div>
       )}

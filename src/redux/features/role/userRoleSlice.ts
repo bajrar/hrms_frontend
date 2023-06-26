@@ -6,7 +6,7 @@ export interface userRoleState {
 }
 
 const initialState: userRoleState = {
-  role: '',
+  role: 'admin',
 
 }
 
