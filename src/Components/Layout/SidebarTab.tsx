@@ -23,6 +23,8 @@ const SideBarTab = () => {
   //   dispatch(verifyTokenStatus() as any);
   // }, []);
   const { userSn, isAdminTemp: isAdmin } = useTokenData();
+  const authData = useAppSelector((state: RootState) => state.userSlice.value);
+  console.log({ userSn });
   const navigate = useNavigate();
   const userAccess = ['Vacancy Management', 'Employee Management', 'v'];
   function getItem(

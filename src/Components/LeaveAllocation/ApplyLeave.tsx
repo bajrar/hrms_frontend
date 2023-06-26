@@ -15,6 +15,7 @@ import { CalendarOutlined } from '@ant-design/icons';
 import { reduceByKeys } from '../../hooks/HelperFunctions';
 import { useGetLeavesQuery } from '../../redux/api/leaveSlice';
 import { useGetTokenDataQuery } from '../../redux/api/tokenSlice';
+import { useTokenData } from '../../hooks/userTokenData';
 
 export interface DataType {
   eid?: string;
@@ -44,11 +45,16 @@ const ApplyLeave = () => {
   };
   // const { data: leaveData, isLoading } = useGetLeavesQuery('leave');
 
-  const { data: tokenData } = useGetTokenDataQuery('token');
-  const userRole = tokenData?.role;
-  let leaveEndpont = 'leave/employee/appliedLeave';
-  if (userRole === 'user') {
-    leaveEndpont = `leave/employee/appliedLeave?userSn=${tokenData?.userSn}`;
+  // const { data: tokenData } = useGetTokenDataQuery('token');
+  // console.log({ tokenData }, 'token data');
+  // const userRole = tokenData?.role;
+  const { isAdmin, userSn } = useTokenData();
+  console.log({ userSn, isAdmin });
+  let leaveEndpont;
+  if (isAdmin) {
+    leaveEndpont = 'leave/employee/appliedLeave';
+  } else {
+    leaveEndpont = `leave/employee/appliedLeave?userSn=${userSn}`;
   }
   const { data: leaveData, isLoading } = useGetLeavesQuery(leaveEndpont);
 
