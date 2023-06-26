@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
 import '@sbmdkl/nepali-datepicker-reactjs/dist/index.css';
 import type { ColumnsType } from 'antd/es/table';
-
 import Selects from '../Ui/Selects/Selects';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -15,6 +14,7 @@ import { RootState } from '../../store';
 import { CalendarOutlined } from '@ant-design/icons';
 import { reduceByKeys } from '../../hooks/HelperFunctions';
 import { useGetLeavesQuery } from '../../redux/api/leaveSlice';
+import { useGetTokenDataQuery } from '../../redux/api/tokenSlice';
 
 export interface DataType {
   eid?: string;
@@ -43,13 +43,14 @@ const ApplyLeave = () => {
     setEndDate(bsDate);
   };
   // const { data: leaveData, isLoading } = useGetLeavesQuery('leave');
-  const { data: leaveData, isLoading } = useGetLeavesQuery(
-    'leave/employee/appliedLeave'
-  );
-  console.log(
-    '🚀 ~ file: ApplyLeave.tsx:46 ~ ApplyLeave ~ leaveData:',
-    leaveData
-  );
+
+  const { data: tokenData } = useGetTokenDataQuery('token');
+  const userRole = tokenData?.role;
+  let leaveEndpont = 'leave/employee/appliedLeave';
+  if (userRole === 'user') {
+    leaveEndpont = `leave/employee/appliedLeave?userSn=${tokenData?.userSn}`;
+  }
+  const { data: leaveData, isLoading } = useGetLeavesQuery(leaveEndpont);
 
   const columns: ColumnsType<DataType> = [
     {
@@ -135,22 +136,27 @@ const ApplyLeave = () => {
   return (
     <div className='assign-leave'>
       <div className='d-flex justify-content-between align-items-center daily-report-search'>
-        <div className='attendance-filters'>
-          <Calendar
-            onChange={onStartDateChange}
-            className='date-picker calender-container-picker leave-inputs '
-            dateFormat='YYYY/MM/DD'
-            language='en'
-          />{' '}
-          <CalendarOutlined className='calendar-icon' />
+        <div className='attendance-filters calendar-wrapper'>
+          <div className='calendar-wrapper'>
+            <Calendar
+              onChange={onStartDateChange}
+              className='date-picker calender-container-picker leave-inputs calender-wrapper '
+              dateFormat='YYYY/MM/DD'
+              language='en'
+            />
+            <CalendarOutlined className='calendar-icon' />
+          </div>
           To
-          <Calendar
-            onChange={onEndDateChange}
-            className='date-picker calender-container-picker leave-inputs'
-            dateFormat='YYYY/MM/DD'
-            language='en'
-          />
-          <CalendarOutlined className='calendar-icon' />
+          <div className='calendar-wrapper'>
+            <Calendar
+              onChange={onEndDateChange}
+              className='date-picker calender-container-picker leave-inputs'
+              dateFormat='YYYY/MM/DD'
+              language='en'
+            />
+
+            <CalendarOutlined className='calendar-icon' />
+          </div>
         </div>
         <div className='d-flex daily-report-saerch-right'>
           <Selects
@@ -166,7 +172,11 @@ const ApplyLeave = () => {
         </div>
       </div>
       <div className='daily-report-table-container'>
-        <Table columns={columns} dataSource={filterLeaveData} />
+        <Table
+          columns={columns}
+          dataSource={filterLeaveData}
+          loading={isLoading}
+        />
       </div>
       <ModalComponent
         openModal={isModalOpen}

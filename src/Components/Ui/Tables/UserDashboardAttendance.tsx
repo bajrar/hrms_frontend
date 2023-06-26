@@ -108,7 +108,6 @@ const UserDashboardAttendance = () => {
       dataIndex: "workHours",
       key: "workHours",
       render: (item) => {
-        console.log(item === "", "<------ this is work ahr");
         return (
           <div className="workhours">
             <p>

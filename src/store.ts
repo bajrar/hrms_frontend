@@ -30,6 +30,8 @@ import sidebarSlice from './redux/features/sidebarSlice';
 import { projectTeamSlice } from './redux/features/projectTeam.slice';
 import { employeeApi } from './redux/api/employee';
 import { tokenSliceApi } from './redux/api/tokenSlice';
+import { applicantApiSlice } from './redux/api/applicantApiSlice';
+import userRoleSlice from './redux/features/role/userRoleSlice';
 import { announceSliceApi } from './redux/api/announceSliceApi';
 
 export const store = configureStore({
@@ -56,7 +58,7 @@ export const store = configureStore({
     userSlice: userSlice,
     verifyTokenSlice: verifyTokenSlice,
     sidebarSlice: sidebarSlice,
-
+    userRoleSlice:userRoleSlice,
     [attendanceRequestSlice.reducerPath]: attendanceRequestSlice.reducer,
     [profileSlice.reducerPath]: profileSlice.reducer,
     [leaveSliceApi.reducerPath]: leaveSliceApi.reducer,
@@ -65,6 +67,7 @@ export const store = configureStore({
     [projectTeamSlice.reducerPath]: projectTeamSlice.reducer,
     [tokenSliceApi.reducerPath]: tokenSliceApi.reducer,
     [employeeApi.reducerPath]: employeeApi.reducer,
+    [applicantApiSlice.reducerPath]: applicantApiSlice.reducer,
     [announceSliceApi.reducerPath]: announceSliceApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -78,6 +81,7 @@ export const store = configureStore({
       projectTeamSlice.middleware,
       tokenSliceApi.middleware,
       employeeApi.middleware,
+      applicantApiSlice.middleware,
       announceSliceApi.middleware
     ]),
 });

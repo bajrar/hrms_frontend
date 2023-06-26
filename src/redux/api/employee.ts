@@ -18,6 +18,17 @@ export const employeeApi = createApi({
         },
       }),
     }),
+    addEmployee: builder.mutation({
+      query: (body) => ({
+        url: `employee`,
+        method: 'POST',
+        body: body,
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      }),
+    }),
+
   }),
 });
-export const { useGetProfileQuery, useRequestProfileUpdateMutation } = employeeApi;
+export const { useGetProfileQuery, useRequestProfileUpdateMutation,useAddEmployeeMutation } = employeeApi;

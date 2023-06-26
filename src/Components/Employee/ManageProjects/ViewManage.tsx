@@ -44,19 +44,12 @@ export interface DataType {
   designation: string;
 }
 
-export const ManageProjects = () => {
-  const [gender, setGender] = useState("");
-  const [searchText, setSearchText] = useState("");
-  const [status, setStatus] = useState("");
+export const ViewManage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isViewOpen, setIsViewOpen] = useState<boolean>(false);
-  // const [UpdateisModalOpen, setUpdateIsModalOpen] = useState<boolean>(false);
-  // const [getEmployeeData,setGetEmployeeData] = useState({}as any)
+
   const [activeEmployee, setActiveEmployee] = useState<any>(undefined);
   const dispatch = useAppDispatch();
-  const [attendanceData, setAttendanceData] = useState<any>([]);
-  const [filterData, setFilterData] = useState<any>([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     // dispatch(getUsers({ status: status, date: defaultDate }) as any);
@@ -65,6 +58,12 @@ export const ManageProjects = () => {
 
   const { employee, loading } = useAppSelector((state) => state.employeeSlice);
   const [form] = Form.useForm();
+  // console.log(employee, "EE");
+
+  const [selectedOption, setSelectedOption] = useState<string | undefined>(
+    undefined
+  );
+  const [filteredData, setFilteredData] = useState<any[]>(employee?.employee);
 
   const showModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -78,26 +77,31 @@ export const ManageProjects = () => {
 
   const columns: ColumnsType<DataType> = [
     {
-      title: "PROJECT NAME",
+      title: "EID",
       dataIndex: "employeeNumber",
       key: "employeeNumber",
     },
     {
-      title: "DEPARTMENT/SECTION",
+      title: "EMPLOYEE NAME",
       dataIndex: "employeeName",
       key: "employeeName",
-      filteredValue: [searchText],
-      onFilter: (value: any, record: any) => {
-        // console.log(record);
-        return String(record.employeeName)
-          .toLowerCase()
-          .includes(value.toLowerCase());
-      },
+      // filteredValue: [searchText],
+      // onFilter: (value: any, record: any) => {
+      //   // console.log(record);
+      //   return String(record.employeeName)
+      //     .toLowerCase()
+      //     .includes(value.toLowerCase());
+      // },
     },
     {
-      title: "ADDED DATE",
+      title: "EMPLOYEE EMAIL",
       dataIndex: "dateOfJoining",
       key: "dateOfJoining",
+    },
+    {
+      title: "PROJECT NOTES",
+      dataIndex: "designation",
+      key: "designation",
     },
     {
       title: "ACTION",
@@ -120,23 +124,27 @@ export const ManageProjects = () => {
               color="#35639F"
               onClick={() => setActiveEmployee({ ...item })}
             />
-            <Button
-              className=""
-              style={{
-                color: "#3333F1",
-              }}
-              onClick={() => {
-                navigate(`/manageProjects/${item?.employeeNumber}`);
-              }}
-              type="text"
-            >
-              VIEW
-            </Button>
           </div>
         );
       },
     },
   ];
+
+  const handleSelectChange = (value: string) => {
+    setSelectedOption(value);
+    filterTable(value);
+  };
+
+  const filterTable = (value: string) => {
+    if (value === "All") {
+      setFilteredData(employee?.employee);
+    } else {
+      const filtered = employee?.employee.filter(
+        (item: any) => item.designation === value
+      );
+      setFilteredData(filtered);
+    }
+  };
 
   return (
     <>
@@ -147,41 +155,40 @@ export const ManageProjects = () => {
             imagesrc="/images/attendance.svg"
             location="Employee Management"
             location1="Manage Projects"
+            location2="Apply Here"
           />
           <hr />
           <div
             className="attendance-filters-bottom d-flex "
             style={{ display: "flex", justifyContent: "space-between" }}
           >
-            <input
+            <Select
+              value={selectedOption}
+              defaultValue="All"
+              onChange={handleSelectChange}
+              placeholder="Apply Here"
+              style={{ width: 200, marginBottom: 16 }}
+              options={[
+                { value: "All", label: "All" },
+                { value: "React Native", label: "React Native" },
+                { value: "Executive Director", label: "Executive Director" },
+                {
+                  value: "Human Resources (HR)",
+                  label: "Human Resources (HR)",
+                },
+                {
+                  value: "React Native Developer",
+                  label: "React Native Developer",
+                },
+                { value: "QA", label: "QA" },
+              ]}
+            ></Select>
+            {/* <input
               type="text"
-              placeholder="Search"
+              placeholder="Apply Here"
               className="search-field"
               onChange={(e) => setSearchText(e.target.value)}
-            />
-            <div className="div" style={{ display: "flex", gap: 10 }}>
-              <button
-                type="button"
-                className="btn"
-                style={{
-                  height: "40px",
-                  color: "#007bff",
-                  backgroundColor: "transparent",
-                  backgroundImage: "none",
-                  borderColor: "#007bff",
-                }}
-                onClick={() => setIsViewOpen(true)}
-              >
-                Assign Project
-              </button>
-
-              <button
-                className="primary-btn"
-                onClick={() => setIsModalOpen(true)}
-              >
-                <FontAwesomeIcon icon={faPlus} /> Add Projects
-              </button>
-            </div>
+            /> */}
           </div>
         </div>
 
@@ -196,7 +203,7 @@ export const ManageProjects = () => {
                   : ""
               }
               columns={columns}
-              dataSource={employee?.employee}
+              dataSource={filteredData}
               loading={loading}
             />
           </div>
@@ -244,4 +251,4 @@ export const ManageProjects = () => {
   );
 };
 
-export default ManageProjects;
+export default ViewManage;

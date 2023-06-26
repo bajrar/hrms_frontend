@@ -28,6 +28,7 @@ import { AdminProtectedRoute } from "./adminProtected";
 import RequestLeave from "../Leave/RequestLeave";
 import EmpDetails from "../Employee/EmployeeDetails";
 import ManageProjects from "../Employee/ManageProjects/ManageProjects";
+import ViewManage from "../Employee/ManageProjects/ViewManage";
 
 type MainRoutesProps = {};
 
@@ -61,6 +62,7 @@ export const MainRoutes = ({}: MainRoutesProps) => {
             <Route path="/employee" element={<Employee />} />
             <Route path="/manageProjects" element={<ManageProjects />} />
             <Route path="/employee/:empId" element={<EmpDetails />} />
+            <Route path="/manageProjects/:empId" element={<ViewManage />} />
             <Route path="/job-summary" element={<JobSummary />} />
             <Route path="/applicants" element={<Applicants />} />
             <Route path="/employee" element={<Employee />} />
