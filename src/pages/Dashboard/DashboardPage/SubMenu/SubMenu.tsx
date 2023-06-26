@@ -17,22 +17,25 @@ import { useGetTokenDataQuery } from '../../../../redux/api/tokenSlice';
 import { RootState } from '../../../../store';
 import { useAppSelector } from '../../../../hooks/useTypedSelector';
 import { getRole } from '../../../../redux/features/role/userRoleSlice';
+import { useTokenData } from '../../../../hooks/userTokenData';
 
 type SubMenuProps = {};
 
 export const SubMenu = ({}: SubMenuProps) => {
   const dispatch = useDispatch();
   const { data: tokenData, isLoading } = useGetTokenDataQuery('token');
-  const userRole = tokenData?.role;
+  const authData = useAppSelector((state: RootState) => state.userSlice.value);
+  console.log({ authData: authData?.role });
+  // const userRole = tokenData?.role;
+  const userRole = authData?.role || tokenData?.role;
   useEffect(() => {
-    dispatch(getRole(tokenData?.role));
-  }, [isLoading, tokenData, dispatch]);
+    dispatch(getRole(userRole));
+  }, [userRole]);
 
   const userRoleData = useAppSelector(
     (state: RootState) => state.userRoleSlice
   );
-  const isAdmin = userRoleData?.role === 'admin';
-
+  const { isAdminTemp: isAdmin } = useTokenData();
   const operations = (
     <Button
       type='dashed'

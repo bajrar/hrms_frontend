@@ -10,29 +10,19 @@ import { verifyTokenStatus } from '../../redux/features/verifyTokenSlice';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { setClose, setOpen } from '../../redux/features/sidebarSlice';
 import { useGetTokenDataQuery } from '../../redux/api/tokenSlice';
+import { useTokenData } from '../../hooks/userTokenData';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
 const isOpenSelector = (state: any) => state.sidebarSlice.isOpen;
 const SideBarTab = () => {
-  // const [smallSidebar, setSmallSidebar] = useState<boolean>(true);
   const smallSidebar = useAppSelector(isOpenSelector);
 
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(verifyTokenStatus() as any);
-  }, []);
-  const userData = useAppSelector((state: RootState) => state.userSlice.value);
-  // const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
-  const { data: tokenData, isLoading } = useGetTokenDataQuery('token');
-
-  const userRoleData = useAppSelector(
-    (state: RootState) => state.userRoleSlice
-  );
-  // const userRole = tokenData?.role ? tokenData?.role : userData?.role;
-  const isAdmin = userRoleData?.role === 'admin';
-
-  const userSn = tokenData?.userSn;
+  // useEffect(() => {
+  //   dispatch(verifyTokenStatus() as any);
+  // }, []);
+  const { userSn, isAdminTemp: isAdmin } = useTokenData();
   const navigate = useNavigate();
   const userAccess = ['Vacancy Management', 'Employee Management', 'v'];
   function getItem(
@@ -72,12 +62,6 @@ const SideBarTab = () => {
     } else {
       navigate(`/${routeTo}`);
     }
-    // if (routeTo === 'attendance' && userSn) {
-    //   navigate(`/${routeTo}/${userSn}`);
-    // } else {
-    //   navigate(`/${routeTo}`);
-    // }
-    // setSmallSidebar(!smallSidebar);
   };
   const items: MenuProps['items'] = [
     getItem(
@@ -273,14 +257,11 @@ const SideBarTab = () => {
   return (
     <div className='sidebar'>
       {smallSidebar ? (
-        <div
-          className='small-logo-container'
-          onClick={() => navigate('/dashboard')}
-        >
+        <div className='small-logo-container' onClick={() => navigate('/')}>
           <img src='/images/small-logo.svg' alt='Virtuosway Logo' />
         </div>
       ) : (
-        <div className='logo-container' onClick={() => navigate('/dashboard')}>
+        <div className='logo-container' onClick={() => navigate('/')}>
           <img src='/images/virtuos-logo.svg' alt='virtuos logo' />
         </div>
       )}
