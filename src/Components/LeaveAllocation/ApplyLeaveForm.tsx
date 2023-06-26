@@ -22,6 +22,7 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
   const [form] = Form.useForm();
 
   const userData = useAppSelector((state: RootState) => state.userSlice.value);
+  const { leaves } = useAppSelector((state) => state.leaveSlice);
   const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
   const userRole = tokenData?.role ? tokenData?.role : userData?.role;
   const { data: employeeData } = useGetUserProfileQuery(tokenData.userSn || "");
@@ -38,9 +39,11 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
     },
   ] = useApplyLeaveMutation();
   useEffect(() => {
-    const leaveNameArray = reduceByKeys(data?.leave, "_id", "leaveName");
-    setLeaveNameArray(leaveNameArray);
-  }, [data?.leave, isLoading]);
+    const shiftNameArray = reduceByKeys(leaves?.leave, "_id", "leaveName");
+    setLeaveNameArray(shiftNameArray);
+  }, [leaves?.leave]);
+
+  // console.log(leaveNameArray, "select name");
   useEffect(() => {
     if (leaveNameArray) {
       const leaveArray = leaveNameArray?.map((leaveName: any) => {
@@ -53,9 +56,30 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
     }
   }, [leaveNameArray]);
 
-  const onleaveName = (value: any) => {
+  // console.log({ leaveNameSelect }, "fix select");
+  // useEffect(() => {
+  //   const leaveNameArray = reduceByKeys(data?.leave, "_id", "leaveName");
+  //   setLeaveNameArray(leaveNameArray);
+  // }, [data?.leave, isLoading]);
+  // useEffect(() => {
+  //   if (leaveNameArray) {
+  //     const leaveArray = leaveNameArray?.map((leaveName: any) => {
+  //       return {
+  //         label: leaveName?.label,
+  //         value: leaveName?.value,
+  //       };
+  //     });
+  //     setLeaveNameSelect(leaveArray);
+  //   }
+  // }, [leaveNameArray]);
+
+  // const onleaveName = (value: string[]) => {
+  //   form.setFieldValue("leaveName", value);
+  // };
+
+  const onLeaveName = (value: string) => {
+    const employeeArray: any = [];
     form.setFieldValue("leaveName", value);
-    const result = form.getFieldValue("leaveName");
   };
 
   const onCancel = () => {
@@ -159,7 +183,7 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
               placeholder="Select the type of leave"
               className="selects form-input-wrapper"
               options={leaveNameSelect}
-              onSelect={onleaveName}
+              onChange={onLeaveName}
             />
           </Form.Item>
           <Form.Item
