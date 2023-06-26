@@ -22,7 +22,7 @@ const SideBarTab = () => {
   // useEffect(() => {
   //   dispatch(verifyTokenStatus() as any);
   // }, []);
-  const { isAdmin: isAdminRole, userSn, isAdminTemp: isAdmin } = useTokenData();
+  const { userSn, isAdminTemp: isAdmin } = useTokenData();
   const navigate = useNavigate();
   const userAccess = ['Vacancy Management', 'Employee Management', 'v'];
   function getItem(

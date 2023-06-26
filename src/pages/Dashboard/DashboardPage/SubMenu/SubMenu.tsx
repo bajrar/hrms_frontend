@@ -24,10 +24,13 @@ type SubMenuProps = {};
 export const SubMenu = ({}: SubMenuProps) => {
   const dispatch = useDispatch();
   const { data: tokenData, isLoading } = useGetTokenDataQuery('token');
-  const userRole = tokenData?.role;
+  const authData = useAppSelector((state: RootState) => state.userSlice.value);
+  console.log({ authData: authData?.role });
+  // const userRole = tokenData?.role;
+  const userRole = authData?.role || tokenData?.role;
   useEffect(() => {
     dispatch(getRole(userRole));
-  }, [userRole, isLoading]);
+  }, [userRole]);
 
   const userRoleData = useAppSelector(
     (state: RootState) => state.userRoleSlice

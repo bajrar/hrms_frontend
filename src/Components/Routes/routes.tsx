@@ -37,39 +37,39 @@ export const MainRoutes = ({}: MainRoutesProps) => {
     <React.Fragment>
       <Routes>
         {/* <Route path="/" element={<LoginPage />} /> */}
-        <Route element={<ProtectedRoute />}>
-          <Route path='*' element={<PageNotFound />} />
-          <Route path='/' element={<Dashboard />} />
-          <Route path='/holidays' element={<Holidays />} />
-          <Route path='/leave' element={<LeaveAllocation />} />
-          <Route path='/request-leave' element={<RequestLeave />} />
-          <Route
-            path='/attendance/:employeeId'
-            element={<EmployeeAttendance />}
-          />
-          <Route
-            path='/attendance/:employeeId'
-            element={<EmployeeAttendance />}
-          />
-          <Route path='/shift' element={<Shift />} />
-          <Route element={<AdminProtectedRoute />}>
-            <Route path='/shift/:shiftId' element={<ShiftDetails />} />
-            <Route path='/leave/:leaveId' element={<LeaveDetails />} />
-            <Route path='/attendance' element={<Attendance />} />
-            <Route path='/device-manager' element={<DeviceManager />} />
-            <Route path='/attendance' element={<Attendance />} />
-            <Route path='/reports' element={<Reports />} />
-            <Route path='/employee' element={<Employee />} />
-            <Route path='/manageProjects' element={<ManageProjects />} />
-            <Route path='/employee/:empId' element={<EmpDetails />} />
-            <Route path='/manageProjects/:empId' element={<ViewManage />} />
-            <Route path='/job-summary' element={<JobSummary />} />
-            <Route path='/applicants' element={<Applicants />} />
-            <Route path='/employee' element={<Employee />} />
-            <Route path='/reports' element={<Reports />} />
-          </Route>
-          <Route path='/profile' element={<Profile />} />
+        {/* <Route element={<ProtectedRoute />}> */}
+        <Route path='*' element={<PageNotFound />} />
+        <Route path='/' element={<Dashboard />} />
+        <Route path='/holidays' element={<Holidays />} />
+        <Route path='/leave' element={<LeaveAllocation />} />
+        <Route path='/request-leave' element={<RequestLeave />} />
+        <Route
+          path='/attendance/:employeeId'
+          element={<EmployeeAttendance />}
+        />
+        <Route
+          path='/attendance/:employeeId'
+          element={<EmployeeAttendance />}
+        />
+        <Route path='/shift' element={<Shift />} />
+        <Route element={<AdminProtectedRoute />}>
+          <Route path='/shift/:shiftId' element={<ShiftDetails />} />
+          <Route path='/leave/:leaveId' element={<LeaveDetails />} />
+          <Route path='/attendance' element={<Attendance />} />
+          <Route path='/device-manager' element={<DeviceManager />} />
+          <Route path='/attendance' element={<Attendance />} />
+          <Route path='/reports' element={<Reports />} />
+          <Route path='/employee' element={<Employee />} />
+          <Route path='/manageProjects' element={<ManageProjects />} />
+          <Route path='/employee/:empId' element={<EmpDetails />} />
+          <Route path='/manageProjects/:empId' element={<ViewManage />} />
+          <Route path='/job-summary' element={<JobSummary />} />
+          <Route path='/applicants' element={<Applicants />} />
+          <Route path='/employee' element={<Employee />} />
+          <Route path='/reports' element={<Reports />} />
         </Route>
+        <Route path='/profile' element={<Profile />} />
+        {/* </Route> */}
         <Route element={<ProtectedOtpRoute />}>
           <Route path='/verifyOtp' element={<OtpSection />} />
           <Route path='/ChangePassword' element={<ChangePassword />} />

@@ -21,6 +21,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
 import { RootState } from '../../store';
 import { getRole, toggelRole } from '../../redux/features/role/userRoleSlice';
 import { useTokenData } from '../../hooks/userTokenData';
+import { login, logout } from '../../features/authSlice';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -30,11 +31,16 @@ const Navbar = () => {
   );
   const currentRole = userRoleData.role === 'admin' ? 'user' : 'admin';
   const { isAdmin } = useTokenData();
+  const logOut = () => {
+    // localStorage.clear();
+    // login();
+    logoutUser();
+  };
   const handleMenuClick: MenuProps['onClick'] = (e) => {
     if (e.key === '1') {
       navigate('/profile');
     } else if (e.key === '2') {
-      logoutUser();
+      logOut();
     } else if (e.key === '3') {
       dispatch(toggelRole());
     }

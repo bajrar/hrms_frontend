@@ -4,7 +4,7 @@ import { apis } from '../apis/constants/ApisService';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getToken } from '../../features/authSlice';
+import { getToken, login } from '../../features/authSlice';
 import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -27,11 +27,6 @@ export const LoginPage = ({}: LoginPageProps) => {
 
   const userRole = useAppSelector((state: RootState) => state.userSlice.value);
   const auth = localStorage.getItem('token');
-  useEffect(() => {
-    if (auth) {
-      navigate('/');
-    }
-  }, []); // Add empty dependency array to run the effect only once
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -69,11 +64,8 @@ export const LoginPage = ({}: LoginPageProps) => {
           JSON.stringify(res.data?.userDetails)
         );
         localStorage.setItem('token', res.data.token);
-        // localStorage.setItem('email', inputs?.email);
-        // localStorage.setItem('isAdmin', res.data.user?.admin);
-        // localStorage.setItem('userName', res.data.user?.userName);
-        // navigate('/dashboard');
-        window.location.reload();
+        navigate('/');
+        dispatch(login());
       }
     } catch (error) {
       console.log(error);
