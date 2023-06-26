@@ -6,8 +6,8 @@ export const useTokenData = () =>{
     const { data: tokenData, isLoading } = useGetTokenDataQuery('token');
   const authData = useAppSelector((state: RootState) => state.userSlice.value);
 
-    const isAdmin = authData?.role || tokenData?.role ==='admin'
-    const userSn = authData?.role || tokenData?.userSn
+    const isAdmin = authData?.role==='admin' || tokenData?.role ==='admin'
+    const userSn = authData?.userSn || tokenData?.userSn
     const userTokenData = useAppSelector(
         (state: RootState) => state.userRoleSlice
       );
