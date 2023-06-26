@@ -19,8 +19,8 @@ import { Button, Dropdown, message, Space, Tooltip } from 'antd';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
 import { RootState } from '../../store';
-import { getRole } from '../../redux/features/role/userRoleSlice';
-import { useGetTokenDataQuery } from '../../redux/api/tokenSlice';
+import { getRole, toggelRole } from '../../redux/features/role/userRoleSlice';
+import { useTokenData } from '../../hooks/userTokenData';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -29,15 +29,14 @@ const Navbar = () => {
     (state: RootState) => state.userRoleSlice
   );
   const currentRole = userRoleData.role === 'admin' ? 'user' : 'admin';
-  const { data: tokenData, isLoading } = useGetTokenDataQuery('token');
-  const userRole = tokenData?.role;
+  const { isAdmin } = useTokenData();
   const handleMenuClick: MenuProps['onClick'] = (e) => {
     if (e.key === '1') {
       navigate('/profile');
     } else if (e.key === '2') {
       logoutUser();
     } else if (e.key === '3') {
-      dispatch(getRole(currentRole));
+      dispatch(toggelRole());
     }
   };
 
@@ -54,7 +53,7 @@ const Navbar = () => {
     },
   ];
 
-  if (userRole === 'admin') {
+  if (isAdmin) {
     items.push({
       label: `View as ${currentRole}`,
       key: '3',

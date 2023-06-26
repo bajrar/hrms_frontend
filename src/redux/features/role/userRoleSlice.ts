@@ -3,10 +3,12 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 
 export interface userRoleState {
   role:String
+  isAdmin:boolean
 }
 
 const initialState: userRoleState = {
   role: 'admin',
+  isAdmin:true
 
 }
 
@@ -17,6 +19,9 @@ export const userRoleSlice = createSlice({
     setRole: (state) => {
       state.role ='admin'
     },
+    toggelRole: (state) => {
+      state.isAdmin = !state.isAdmin
+    },
 
     getRole: (state, action: PayloadAction<string>) => {
       state.role = action.payload
@@ -26,6 +31,6 @@ export const userRoleSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setRole, getRole } = userRoleSlice.actions
+export const { setRole, getRole,toggelRole } = userRoleSlice.actions
 
 export default userRoleSlice.reducer
