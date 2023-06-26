@@ -1,18 +1,27 @@
 import './App.css';
+import { LoginPage } from './Components/LoginPage/login';
 import { MainRoutes } from './Components/Routes/routes';
 
 function App() {
+  const auth = localStorage.getItem('token');
+
   return (
-    <div className='App'>
-      <div className='dashboard-page'>
-        {/* <Layout>
+    <>
+      {!auth ? (
+        <LoginPage />
+      ) : (
+        <div className='App'>
+          <div className='dashboard-page'>
+            {/* <Layout>
           <Navbar /> */}
-        <div className='dash-container'>
-          <MainRoutes />
+            <div className='dash-container'>
+              <MainRoutes />
+            </div>
+            {/* </Layout> */}
+          </div>
         </div>
-        {/* </Layout> */}
-      </div>
-    </div>
+      )}
+    </>
   );
 }
 
