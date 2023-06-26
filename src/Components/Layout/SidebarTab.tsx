@@ -28,8 +28,13 @@ const SideBarTab = () => {
   const userRoleData = useAppSelector(
     (state: RootState) => state.userRoleSlice
   );
-  // const userRole = tokenData?.role ? tokenData?.role : userData?.role;
-  const isAdmin = userRoleData?.role === 'admin';
+  let isAdmin: boolean;
+  if (tokenData?.role === 'admin') {
+    isAdmin = userRoleData?.role === 'admin';
+  } else {
+    isAdmin = tokenData?.role === 'admin';
+  }
+  console.log({ isAdmin });
 
   const userSn = tokenData?.userSn;
   const navigate = useNavigate();
