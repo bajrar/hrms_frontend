@@ -35,6 +35,7 @@ const LeaveAllocation = () => {
       children: <ApplyLeave />,
     },
   ];
+
   return (
     <Layout>
       <Navbar />

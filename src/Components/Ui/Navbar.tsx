@@ -8,20 +8,33 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import './navbar.css';
 import { logoutUser } from '../apis/constants/Api';
-import { DownOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import {
+  DownOutlined,
+  LogoutOutlined,
+  UserOutlined,
+  SwapOutlined,
+} from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Button, Dropdown, message, Space, Tooltip } from 'antd';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
 import { RootState } from '../../store';
+import { getRole } from '../../redux/features/role/userRoleSlice';
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const userRoleData = useAppSelector(
+    (state: RootState) => state.userRoleSlice
+  );
+  const currentRole = userRoleData.role === 'admin' ? 'user' : 'admin';
   const handleMenuClick: MenuProps['onClick'] = (e) => {
     if (e.key === '1') {
       navigate('/profile');
     } else if (e.key === '2') {
       logoutUser();
+    } else if (e.key === '3') {
+      dispatch(getRole(currentRole));
     }
   };
 
@@ -36,6 +49,11 @@ const Navbar = () => {
       key: '2',
       icon: <LogoutOutlined />,
     },
+    {
+      label: `View as ${currentRole}`,
+      key: '3',
+      icon: <SwapOutlined />,
+    },
   ];
 
   const menuProps = {
@@ -44,9 +62,9 @@ const Navbar = () => {
   };
 
   const [openDropdown, setOpenDropdown] = useState(true);
-  const userDetails:any = localStorage.getItem('userDetails')
-  const employeeDetails = JSON.parse(userDetails)
-  const userName = employeeDetails?.employeeName
+  const userDetails: any = localStorage.getItem('userDetails');
+  const employeeDetails = JSON.parse(userDetails);
+  const userName = employeeDetails?.employeeName;
 
   return (
     <div className='navbar-dash padding'>

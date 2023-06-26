@@ -10,6 +10,7 @@ import { Employee } from '../Tabs/TabContainer';
 /* Assets */
 import '../employeeDetails.css';
 import '../add-employee-form.css';
+import { useAddEmployeeMutation } from '../../../redux/api/employee';
 
 type BasicInfoFormProps = {
   closeModal: (state: boolean) => void;
@@ -18,11 +19,8 @@ type BasicInfoFormProps = {
 
 const ContactDetail = ({ closeModal, formValues }: BasicInfoFormProps) => {
   const [form] = Form.useForm();
-
-  useEffect(() => {
-    /* on mount fetch data from redux store */
-  }, []);
-
+  const [addEmployee, { data, isLoading, isSuccess }] =
+    useAddEmployeeMutation();
   const closeModalHandler = () => {
     form.resetFields();
     closeModal(false);
@@ -60,16 +58,18 @@ const ContactDetail = ({ closeModal, formValues }: BasicInfoFormProps) => {
       emergency: { name: contactName, contact, relation },
       project: { name: projectName, permission: projectPermission },
     };
-
+    console.log({ payload });
     try {
-      const res = await apis.addEmployee(payload);
-      if (res.status === 201) {
-        toast.success('Employee Submitted Sucesfully', {
-          position: 'top-center',
-          autoClose: 5000,
-        });
-        window.location.reload();
-      }
+      await addEmployee(payload);
+
+      // const res = await apis.addEmployee(payload);
+
+      // if (res.status === 201) {
+      //   toast.success('Employee Submitted Sucesfully', {
+      //     position: 'top-center',
+      //     autoClose: 5000,
+      //   });
+      // }
     } catch (err: any) {
       toast.error('Something Went Wrong', {
         position: 'top-center',
@@ -95,7 +95,12 @@ const ContactDetail = ({ closeModal, formValues }: BasicInfoFormProps) => {
                 className='form-input col'
                 label='Contact Name *'
                 name='contactName'
-                rules={[{ required: true, message: 'Please input your Contact Name !' }]}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your Contact Name !',
+                  },
+                ]}
               >
                 <Input
                   name='email'
@@ -109,7 +114,12 @@ const ContactDetail = ({ closeModal, formValues }: BasicInfoFormProps) => {
                 className='form-input col'
                 label='Contact Number * '
                 name='contact'
-                rules={[{ required: true, message: 'Please input your Contact Number!' }]}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your Contact Number!',
+                  },
+                ]}
               >
                 <Input
                   name='mobile'
@@ -125,7 +135,9 @@ const ContactDetail = ({ closeModal, formValues }: BasicInfoFormProps) => {
                 className='form-input col-6'
                 label='Relation to employee*'
                 name='relation'
-                rules={[{ required: true, message: 'Please input your relation!' }]}
+                rules={[
+                  { required: true, message: 'Please input your relation!' },
+                ]}
               >
                 <Input
                   name='email'

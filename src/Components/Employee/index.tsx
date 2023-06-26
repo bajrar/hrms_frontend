@@ -66,6 +66,7 @@ export const Employee = () => {
   const onSelect = (e: any) => {
     setStatus(e);
   };
+
   const showModal = () => {
     setIsModalOpen(!isModalOpen);
   };
@@ -242,8 +243,12 @@ export const Employee = () => {
   }, [employee, searchText]);
 
   useEffect(() => {
-    const sortedData = [...attendanceData].sort((a, b) => a.name.localeCompare(b.name));
-    const data = status ? sortedData.filter((each: any) => each.status === status) : sortedData;
+    const sortedData = [...attendanceData].sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+    const data = status
+      ? sortedData.filter((each: any) => each.status === status)
+      : sortedData;
     setFilterData(data);
   }, [attendanceData, status]);
 
@@ -263,9 +268,15 @@ export const Employee = () => {
             style={{ display: 'flex', justifyContent: 'space-between' }}
           >
             <input
+<<<<<<< HEAD
               type="text"
               placeholder="Search names"
               className="search-field"
+=======
+              type='text'
+              placeholder='Search names'
+              className='search-field'
+>>>>>>> 36cb1fb37fcadd07fad79dda7d2bf329eea74e1d
               value={searchText}
               onChange={(e) => setSearchText(e.target.value.toLowerCase())}
             />
@@ -278,7 +289,10 @@ export const Employee = () => {
                 placeHolder='Search'
               />
 
-              <button className='primary-btn' onClick={() => setIsModalOpen(true)}>
+              <button
+                className='primary-btn'
+                onClick={() => setIsModalOpen(true)}
+              >
                 <FontAwesomeIcon icon={faPlus} /> Add Employee
               </button>
             </div>
