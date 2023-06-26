@@ -3,6 +3,7 @@ import Calendar from "@sbmdkl/nepali-datepicker-reactjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
+import { CalendarOutlined } from "@ant-design/icons";
 
 import "@sbmdkl/nepali-datepicker-reactjs/dist/index.css";
 import { IForm } from "../Shifts/AddShiftForm";
@@ -109,6 +110,7 @@ const AddHolidaysForm = ({ setIsModalOpen }: IForm) => {
               dateFormat="YYYY/MM/DD"
               language="en"
             />
+            <CalendarOutlined className="calendar-icon" />
           </Form.Item>
           <div className="dash">-</div>
           <Form.Item
@@ -129,6 +131,7 @@ const AddHolidaysForm = ({ setIsModalOpen }: IForm) => {
               language="en"
               minDate={form.getFieldValue("startDate")}
             />
+            <CalendarOutlined className="calendar-icon" />
           </Form.Item>
         </div>
 

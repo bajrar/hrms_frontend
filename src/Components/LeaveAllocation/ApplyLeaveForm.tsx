@@ -1,4 +1,5 @@
 import { Button, Form, Input, Select, message } from "antd";
+import { CalendarOutlined } from "@ant-design/icons";
 import Calendar from "@sbmdkl/nepali-datepicker-reactjs";
 import "@sbmdkl/nepali-datepicker-reactjs/dist/index.css";
 import { IForm } from "../Shifts/AddShiftForm";
@@ -19,6 +20,7 @@ const { Option } = Select;
 const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
   const [leaveNameArray, setLeaveNameArray] = useState<any[]>([]);
   const [leaveNameSelect, setLeaveNameSelect] = useState<any[]>([]);
+  const [leaveOption, setLeaveOption] = useState("");
   const [form] = Form.useForm();
 
   const userData = useAppSelector((state: RootState) => state.userSlice.value);
@@ -78,7 +80,8 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
   // };
 
   const onLeaveName = (value: string) => {
-    const employeeArray: any = [];
+    // const employeeArray: any = [];
+    setLeaveOption(value);
     form.setFieldValue("leaveName", value);
   };
 
@@ -89,29 +92,31 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
   const { TextArea } = Input;
   const onFinish = async (values: any) => {
     const { startDate, endTime, leaveName, ...rest } = values;
+    console.log({ endTime });
     try {
-      await applyLeave({
-        from: startDate.bsDate,
-        to: endTime.bsDate,
-        employeeId: employeeData?.employee?.employeeNumber,
-        employeeName: employeeData?.employee?.employeeName,
-        id: values.leaveName,
-        ...rest,
-      });
-      // const res = await apis.applyLeave(
-      //   {
-      //     from: startDate.bsDate,
-      //     to: endTime.bsDate,
-      //     employeeId: employeeData?.employee?.employeeNumber,
-      //     employeeName: employeeData?.employee?.employeeName,
-      //     ...rest,
-      //   },
-      //   values.leaveName
-      // );
-      // if (res.status === 200) {
-      //   message.success('Leave Applied');
-      //   form.resetFields();
-      // }
+      // await applyLeave({
+      //   from: startDate,
+      //   to: endTime.bsDate,
+      //   employeeId: employeeData?.employee?.employeeNumber,
+      //   employeeName: employeeData?.employee?.employeeName,
+      //   id: values.leaveName,
+      //   ...rest,
+      // });
+      console.log(values.leaveName, "lllll");
+      const res = await apis.applyLeave(
+        {
+          from: startDate,
+          to: endTime.bsDate,
+          employeeId: employeeData?.employee?.employeeNumber,
+          employeeName: employeeData?.employee?.employeeName,
+          ...rest,
+        },
+        values.leaveName
+      );
+      if (res.status === 200) {
+        message.success("Leave Applied");
+        form.resetFields();
+      }
       setIsModalOpen(false);
     } catch {
       message.error("Something Went Wrong");
@@ -169,6 +174,13 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
     });
   };
 
+  const onStartChange = ({ bsDate }: any) => {
+    form.setFieldValue("startDate", bsDate);
+  };
+  const onEndChange = ({ bsDate }: any) => {
+    form.setFieldValue("endDate", bsDate);
+  };
+
   return (
     <div className="assign-leave-form">
       <Form layout="vertical" onFinish={onFinish} form={form}>
@@ -184,6 +196,7 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
               className="selects form-input-wrapper"
               options={leaveNameSelect}
               onChange={onLeaveName}
+              value={leaveOption}
             />
           </Form.Item>
           <Form.Item
@@ -273,11 +286,12 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
             ]}
           >
             <Calendar
-              // onChange={onStartDateChange}
+              onChange={onStartChange}
               className=" date-picker  "
               dateFormat="YYYY/MM/DD"
               language="en"
             />
+            <CalendarOutlined className="calendar-icon" />
           </Form.Item>
 
           <Form.Item
@@ -292,7 +306,7 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
             ]}
           >
             <Calendar
-              // onChange={onEndDateChange}
+              onChange={onEndChange}
               className="date-picker "
               dateFormat="YYYY/MM/DD"
               language="en"
@@ -312,7 +326,7 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
           />
         </Form.Item>
 
-        <div className="form-btn-container mt-2">
+        <div className="form-btn-container mt-4">
           <Button type="default" onClick={() => onCancel()}>
             Cancel
           </Button>
