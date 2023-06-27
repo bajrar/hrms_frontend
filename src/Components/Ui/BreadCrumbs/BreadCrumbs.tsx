@@ -31,7 +31,7 @@ const BreadCrumbs = ({
       </div>
       <div className='location-container'>
         <span className='location'>{location}</span> &gt;{' '}
-        <span className='location' onClick={() => navigate('')}>
+        <span className='location' onClick={() => navigate(`/${location1}`)}>
           {location1}
         </span>
         {location2 ? (
