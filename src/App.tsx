@@ -24,12 +24,11 @@ function App() {
       ) : (
         <>
           <Routes>
-            <Route path='/' element={<LoginPage />} />
             <Route element={<ProtectedOtpRoute />}>
-          <Route path='/verifyOtp' element={<OtpSection />} />
-          <Route path='/ChangePassword' element={<ChangePassword />} />
-        </Route>
-        <Route path='/forgotPassword' element={<ForgetPassword />} />
+              <Route path='/verifyOtp' element={<OtpSection />} />
+              <Route path='/ChangePassword' element={<ChangePassword />} />
+            </Route>
+            <Route path='/forgotPassword' element={<ForgetPassword />} />
           </Routes>
           <LoginPage />
         </>

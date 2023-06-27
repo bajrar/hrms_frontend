@@ -8,19 +8,10 @@ import Spinner from '../Spinner/Spinner';
 
 export const AdminProtectedRoute = () => {
   const adminPrivate = localStorage.getItem('token');
-  const dispatch = useAppDispatch();
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    dispatch(verifyTokenStatus() as any)
-      .then(() => setLoading(false))
-      .catch(() => setLoading(false));
-  }, [dispatch]);
-
-  const userData = useAppSelector((state: RootState) => state.userSlice.value);
-  const { isAdmin, isAdminTemp } = useTokenData();
-  if (loading) {
+  const { isAdmin, isAdminTemp, isLoading } = useTokenData();
+  if (isLoading) {
     return <Spinner />;
   }
-  return isAdmin ? <Outlet /> : <Navigate to='/' />;
+  return isAdminTemp || isAdmin ? <Outlet /> : <Navigate to='/' />;
 };

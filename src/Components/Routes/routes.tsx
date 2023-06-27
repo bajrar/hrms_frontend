@@ -22,7 +22,6 @@ import { ForgetPassword } from '../LoginPage/ForgetPassword';
 import { OtpSection } from '../LoginPage/OtpSection';
 import { ChangePassword } from '../LoginPage/ChangePassword';
 import Profile from '../../pages/Profile/Profile';
-import AdminRouteHOC from '../../HOC/adminProtected';
 import { ProtectedOtpRoute } from './protectedOtp';
 import { AdminProtectedRoute } from './adminProtected';
 import RequestLeave from '../Leave/RequestLeave';
@@ -37,7 +36,7 @@ export const MainRoutes = ({}: MainRoutesProps) => {
     <React.Fragment>
       <Routes>
         {/* <Route element={<ProtectedRoute />}> */}
-        
+
         <Route path='*' element={<PageNotFound />} />
         <Route path='/' element={<Dashboard />} />
         <Route path='/' element={<LoginPage />} />
@@ -48,17 +47,12 @@ export const MainRoutes = ({}: MainRoutesProps) => {
           path='/attendance/:employeeId'
           element={<EmployeeAttendance />}
         />
-        <Route
-          path='/attendance/:employeeId'
-          element={<EmployeeAttendance />}
-        />
         <Route path='/shift' element={<Shift />} />
         <Route element={<AdminProtectedRoute />}>
           <Route path='/shift/:shiftId' element={<ShiftDetails />} />
           <Route path='/leave/:leaveId' element={<LeaveDetails />} />
           <Route path='/attendance' element={<Attendance />} />
           <Route path='/device-manager' element={<DeviceManager />} />
-          <Route path='/attendance' element={<Attendance />} />
           <Route path='/reports' element={<Reports />} />
           <Route path='/employee' element={<Employee />} />
           <Route path='/manageProjects' element={<ManageProjects />} />
@@ -71,7 +65,6 @@ export const MainRoutes = ({}: MainRoutesProps) => {
         </Route>
         <Route path='/profile' element={<Profile />} />
         {/* </Route> */}
-
       </Routes>
     </React.Fragment>
   );
