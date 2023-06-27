@@ -35,6 +35,17 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
     setStartindDayData(startingDays);
   }, [year]);
 
+  // Modify the code to assign Saturday and Sunday as holidays in the year 2080
+  const isHoliday = (day: number) => {
+    if (year.year === 2080) {
+      const startingDay = startindDayData[month];
+      const isSaturday = (day + startingDay) % 7 === 6;
+      const isSunday = (day + startingDay) % 7 === 0;
+      return isSaturday || isSunday;
+    }
+    return false;
+  };
+
   const [startOfDate, setStartOfDate] = useState(
     `${year.year}/${monthInString}/01`
     // `${year.year}/${month + 1}/01`
