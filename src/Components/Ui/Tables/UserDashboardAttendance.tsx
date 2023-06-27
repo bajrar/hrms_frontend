@@ -8,6 +8,7 @@ import { CompareFunction } from './AttendaceReport';
 import { useGetAttendanceByDateRangeQuery } from '../../../redux/api/attendanceByDateSlice';
 import NepaliDate from 'nepali-date-converter';
 import { useGetTokenDataQuery } from '../../../redux/api/tokenSlice';
+import { useTokenData } from '../../../hooks/userTokenData';
 
 interface DataType {
   id?: string;
@@ -32,10 +33,10 @@ const UserDashboardAttendance = () => {
   const [attendanceData, setAttendanceData] = useState<any>([]);
   const currentDate = new NepaliDate(new Date()).format('YYYY/MM/DD');
   const startDate = new NepaliDate(new Date()).format('YYYY/MM');
-  const { data: tokenData } = useGetTokenDataQuery('token');
-  console.log({ tokenData });
+  // const { data: tokenData } = useGetTokenDataQuery('token');
+  const { userSn } = useTokenData();
   const { data: employee, isLoading } = useGetAttendanceByDateRangeQuery({
-    userSn: tokenData?.userSn,
+    userSn,
     startDate: `${startDate}/01`,
     endDate: currentDate,
   });
@@ -45,7 +46,6 @@ const UserDashboardAttendance = () => {
   //   (state: any) => state.SingleAttendanceSlice
   // );
 
-  console.log({ employee }, '<------ this is the employee');
   const columns: ColumnsType<DataType> = [
     {
       title: 'DATE',
@@ -108,7 +108,6 @@ const UserDashboardAttendance = () => {
       dataIndex: 'workHours',
       key: 'workHours',
       render: (item) => {
-        console.log(item === '', '<------ this is work ahr');
         return (
           <div className='workhours'>
             <p>

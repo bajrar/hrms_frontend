@@ -1,18 +1,25 @@
 import './App.css';
+import { LoginPage } from './Components/LoginPage/login';
 import { MainRoutes } from './Components/Routes/routes';
+import { useAppSelector } from './hooks/useTypedSelector';
 
 function App() {
+  const auth = localStorage.getItem('token');
+  const isLogined = useAppSelector((state: any) => state.authSlice.isLogined);
   return (
-    <div className='App'>
-      <div className='dashboard-page'>
-        {/* <Layout>
-          <Navbar /> */}
-        <div className='dash-container'>
-          <MainRoutes />
+    <>
+      {isLogined || auth ? (
+        <div className='App'>
+          <div className='dashboard-page'>
+            <div className='dash-container'>
+              <MainRoutes />
+            </div>
+          </div>
         </div>
-        {/* </Layout> */}
-      </div>
-    </div>
+      ) : (
+        <LoginPage />
+      )}
+    </>
   );
 }
 

@@ -1,12 +1,12 @@
-import { Button, Checkbox, Form, Input, Select, message } from 'antd';
-import { InfoCircleOutlined } from '@ant-design/icons';
+import { Button, Checkbox, Form, Input, Select, message } from "antd";
+import { InfoCircleOutlined } from "@ant-design/icons";
 
-import './addLeaveForm.css';
+import "./addLeaveForm.css";
 
-import { useDispatch } from 'react-redux';
-import { apis } from '../apis/constants/ApisService';
-import { getLeave } from '../../redux/features/leaveSlice';
-import { leaveUnit } from '../../utils/Constants';
+import { useDispatch } from "react-redux";
+import { apis } from "../apis/constants/ApisService";
+import { getLeave } from "../../redux/features/leaveSlice";
+import { leaveUnit } from "../../utils/Constants";
 
 const AddLeaveForm = ({ setIsModalOpen }: any) => {
   const { TextArea } = Input;
@@ -20,10 +20,10 @@ const AddLeaveForm = ({ setIsModalOpen }: any) => {
       const res = await apis.addLeave(values);
       if (res.status === 201) {
         dispatch(getLeave() as any);
-        message.success('Leave Created');
+        message.success("Leave Created");
       }
     } catch {
-      message.error('Something Went Wrong');
+      message.error("Something Went Wrong");
     } finally {
       form.resetFields();
       setIsModalOpen(false);
@@ -35,91 +35,91 @@ const AddLeaveForm = ({ setIsModalOpen }: any) => {
   };
 
   return (
-    <div className='add-leave-form'>
-      <Form layout='vertical' onFinish={onFinish}>
+    <div className="add-leave-form">
+      <Form layout="vertical" onFinish={onFinish}>
         <Form.Item
-          className='form-input col'
-          name='leaveName'
-          label='Leave Name *'
-          rules={[{ required: true, message: 'Leave Name is Required' }]}
+          className="form-input col"
+          name="leaveName"
+          label="Leave Name *"
+          rules={[{ required: true, message: "Leave Name is Required" }]}
         >
           <Input
-            name='leaveName'
-            placeholder='Enter the name of the new leave'
-            className='form-input-wrapper'
-            type='text'
+            name="leaveName"
+            placeholder="Enter the name of the new leave"
+            className="form-input-wrapper"
+            type="text"
           />
         </Form.Item>
-        <div className='form-second-row align-items-start '>
-          <div className='d-flex align-items-end' style={{ gap: 16 }}>
+        <div className="form-second-row align-items-start ">
+          <div className="d-flex align-items-end" style={{ gap: 16 }}>
             <Form.Item
-              className='form-input col unit-input'
-              name='unit'
-              label='Unit *'
-              rules={[{ required: true, message: 'Unit is Required' }]}
+              className="form-input col unit-input"
+              name="unit"
+              label="Unit *"
+              rules={[{ required: true, message: "Unit is Required" }]}
               tooltip={{
                 title:
-                  'This field specifies the time unit (days, hours, etc.) for the leave.',
+                  "This field specifies the time unit (days, hours, etc.) for the leave.",
                 icon: <InfoCircleOutlined />,
               }}
             >
               <Select
-                placeholder='Days'
-                className='selects form-input-wrapper leave-unit-selects'
+                placeholder="Days"
+                className="selects form-input-wrapper leave-unit-selects"
                 options={leaveUnit}
               />
             </Form.Item>
             <Form.Item
-              className='form-input col unit-input'
-              name='leaveUnit'
+              className="form-input col unit-input"
+              name="leaveUnit"
               label=<div></div>
-              rules={[{ required: true, message: 'Leave Unit is Required' }]}
+              rules={[{ required: true, message: "Leave Unit is Required" }]}
             >
               <Input
-                placeholder='60'
-                className='form-input-wrapper days-input'
-                type='number'
+                placeholder="60"
+                className="form-input-wrapper days-input"
+                type="number"
                 onClick={(e) =>
-                  form.setFieldValue('leaveUnit', Number(e.target))
+                  form.setFieldValue("leaveUnit", Number(e.target))
                 }
               />
             </Form.Item>
           </div>
           <Form.Item
-            className='form-input col'
-            name='maximumUnitAllowed'
-            label='Maximum Unit Allowed *'
+            className="form-input col"
+            name="maximumUnitAllowed"
+            label="Maximum Unit Allowed *"
             rules={[
-              { required: true, message: 'Maximum Unit Allowed is Required' },
+              { required: true, message: "Maximum Unit Allowed is Required" },
             ]}
           >
             <Input
-              placeholder='Enter the maximum unit allowed (e.g. 100 days)'
-              className='form-input-wrapper'
-              type='text'
+              placeholder="Enter the maximum unit allowed (e.g. 100 days)"
+              className="form-input-wrapper"
+              type="text"
             />
           </Form.Item>
         </div>
         <Form.Item
-          className='form-input col'
-          name='leaveDeatils'
-          label='Leave Details'
+          className="form-input col"
+          name="leaveDeatils"
+          label="Leave Details"
         >
           <TextArea
-            style={{ height: 96, resize: 'none' }}
+            style={{ height: 96, resize: "none" }}
             // onChange={onChange}
-            placeholder='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
-            '
+            placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
+            "
           />
         </Form.Item>
-        <Form.Item name='accumulated' valuePropName='checked'>
-          <Checkbox className='accumulated-check'>Accumulated</Checkbox>
+        <Form.Item name="accumulated" valuePropName="checked">
+          <Checkbox className="accumulated-check">Accumulated</Checkbox>
         </Form.Item>
-        <div className='form-btn-container'>
-          <Button type='default' onClick={() => onCancel()}>
+        <div className="form-btn-container">
+          <Button type="default" onClick={onCancel}>
             Cancel
           </Button>
-          <Button type='primary' htmlType='submit'>
+          <Button type="primary" htmlType="submit">
             Add
           </Button>
         </div>

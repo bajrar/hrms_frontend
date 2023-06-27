@@ -50,7 +50,7 @@ const AssignLeaveForm = ({ setIsAssignOpen, setUpdateModalIsModal }: any) => {
     employee?.employee?.map((each: any) => {
       employeeList.push({
         label: each.employeeName,
-        value: each.employeeNumber,
+        value: each.employeeName,
       });
       setEmployeeNameArray(employeeList);
     });
@@ -107,6 +107,7 @@ const AssignLeaveForm = ({ setIsAssignOpen, setUpdateModalIsModal }: any) => {
       setIsAssignOpen(false);
     }
   };
+
   const onLeaveName = (value: string) => {
     const employeeArray: any = [];
     form.setFieldValue("leaveName", value);
@@ -114,13 +115,16 @@ const AssignLeaveForm = ({ setIsAssignOpen, setUpdateModalIsModal }: any) => {
     const selectedLeave = leaves?.leave?.find(
       (each: any) => each._id === leaveId
     );
-    selectedLeave?.assignedTo?.map((each: any) => {
-      employeeArray.push({ label: each.employeeName, value: each.userSn });
+    employee?.employee?.map((each: any) => {
+      employeeArray.push({
+        label: each.employeeName,
+        value: each.employeeNumber,
+      });
     });
     setEmployeeNameArray(employeeArray);
   };
 
-  const onEmployeeName = (value: string) => {
+  const handleChange = (value: string[]) => {
     form.setFieldValue("assignTo", value);
   };
 
@@ -147,12 +151,15 @@ const AssignLeaveForm = ({ setIsAssignOpen, setUpdateModalIsModal }: any) => {
         rules={[{ required: true, message: "Employee(s) Name is Required" }]}
       >
         <Select
+          mode="multiple"
+          allowClear
+          style={{ width: "100%" }}
           placeholder="Type the name of an employee to search and select"
           className="selects form-input-wrapper"
           suffixIcon={<FontAwesomeIcon icon={faAngleDown} />}
-          mode="multiple"
           options={employeeNameSelect}
-          onSelect={onEmployeeName}
+          onChange={handleChange}
+          // onSelect={onEmployeeName}
         />
       </Form.Item>
 
@@ -170,7 +177,7 @@ const AssignLeaveForm = ({ setIsAssignOpen, setUpdateModalIsModal }: any) => {
       </Form.Item>
 
       <div className="form-btn-container" style={{ marginTop: 15 }}>
-        <Button type="default" onClick={() => setUpdateModalIsModal(false)}>
+        <Button type="default" onClick={() => setIsAssignOpen(false)}>
           Cancel
         </Button>
         <Button type="primary" htmlType="submit">

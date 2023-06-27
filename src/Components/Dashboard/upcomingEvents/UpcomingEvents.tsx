@@ -148,7 +148,12 @@ const UpcomingEvents = ({ isSmall = false }: PropsType) => {
                     className={`upcoming-event-upcoming-events-items  ${isSmall && 'smallWidth'}`}
                   >
                     {hasEventToday?.map((event: any, index: any) => (
-                      <div key={index}>
+                      <div
+                        className={`upcoming-event-upcoming-events-items  ${
+                          isSmall && 'smallWidth'
+                        }`}
+                        key={index}
+                      >
                         <p id='formatted-eventdate-event'>{formatDate(event.date)}</p>
                         <h5>{event.eventName}</h5>
                         <p>{event.notes}</p>
@@ -156,19 +161,22 @@ const UpcomingEvents = ({ isSmall = false }: PropsType) => {
                     ))}
                   </div>
                 )}
-                {hasDobToday?.length > 0 && (
-                  <div
-                    className={`upcoming-event-upcoming-dobs-items  ${isSmall && 'smallWidth'} `}
-                  >
-                    {hasDobToday?.map((dob: any, index: any) => (
-                      <div key={index}>
-                        <p id='formatted-eventdate-dob'>{formatDate(dob.dob)}</p>
-                        <h5>Birthday</h5>
-                        <p>{dob.employeeName}</p>
-                      </div>
-                    ))}
-                  </div>
-                )}
+
+                <div className='d-flex align-content-center justify-content-between flex-wrap'>
+                  {hasDobToday?.map((dob: any, index: any) => (
+                    <div
+                      className={`upcoming-event-upcoming-dobs-items  ${
+                        isSmall && 'smallWidth'
+                      }  mt-2`}
+                      key={index}
+                    >
+                      <p id='formatted-eventdate-dob'>{formatDate(dob.dob)}</p>
+                      <h5>Birthday</h5>
+                      <p>{dob.employeeName}</p>
+                    </div>
+                  ))}
+                </div>
+
                 {hasHolidayToday?.length > 0 && (
                   <div
                     className={`upcoming-event-upcoming-holidays-items  ${

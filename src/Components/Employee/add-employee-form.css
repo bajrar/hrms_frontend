@@ -118,6 +118,17 @@ input[type='number'] {
   height: 45px;
   padding-left: 10px;
 }
+.calendar-wrapper {
+  position: relative;
+  margin-block: 0;
+}
+
+.calendar-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px; /* Adjust the right position as needed */
+  transform: translateY(-50%);
+}
 @media screen and (min-width: 1920px) {
   .add-employee__section {
     gap: 120px;

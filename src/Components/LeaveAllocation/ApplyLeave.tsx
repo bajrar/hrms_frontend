@@ -1,9 +1,8 @@
-import { Table } from 'antd';
+import { Form, Select, Table } from 'antd';
 import { useEffect, useState } from 'react';
 import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
 import '@sbmdkl/nepali-datepicker-reactjs/dist/index.css';
 import type { ColumnsType } from 'antd/es/table';
-
 import Selects from '../Ui/Selects/Selects';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -15,6 +14,8 @@ import { RootState } from '../../store';
 import { CalendarOutlined } from '@ant-design/icons';
 import { reduceByKeys } from '../../hooks/HelperFunctions';
 import { useGetLeavesQuery } from '../../redux/api/leaveSlice';
+import { useGetTokenDataQuery } from '../../redux/api/tokenSlice';
+import { useTokenData } from '../../hooks/userTokenData';
 
 export interface DataType {
   eid?: string;
@@ -35,6 +36,8 @@ const ApplyLeave = () => {
   const [searchByLeave, setSearchByLeave] = useState('');
   const userDetails = localStorage.getItem('userDetails');
   const employeeDetails = JSON.parse(userDetails || '');
+  const [form] = Form.useForm();
+  const { Option } = Select;
 
   const onStartDateChange = ({ bsDate }: any) => {
     setStartDate(bsDate);
@@ -42,15 +45,16 @@ const ApplyLeave = () => {
   const onEndDateChange = ({ bsDate }: any) => {
     setEndDate(bsDate);
   };
-  // const { data: leaveData, isLoading } = useGetLeavesQuery('leave');
-  const { data: leaveData, isLoading } = useGetLeavesQuery(
-    'leave/employee/appliedLeave'
-  );
-  console.log(
-    '🚀 ~ file: ApplyLeave.tsx:46 ~ ApplyLeave ~ leaveData:',
-    leaveData
-  );
-
+  const { isAdmin, userSn } = useTokenData();
+  console.log({ userSn, isAdmin });
+  let leaveEndpont;
+  if (isAdmin) {
+    leaveEndpont = 'leave/employee/appliedLeave';
+  } else {
+    leaveEndpont = `leave/employee/appliedLeave?userSn=${userSn}`;
+  }
+  const { leaves } = useAppSelector((state: any) => state.leaveSlice);
+  const { data: leaveData, isLoading } = useGetLeavesQuery(leaveEndpont);
   const columns: ColumnsType<DataType> = [
     {
       title: 'EID',
@@ -66,6 +70,11 @@ const ApplyLeave = () => {
       title: 'LEAVE TYPE',
       dataIndex: 'leaveType',
       key: 'leaveType',
+      filters: leaveNameSelect.map((leaveName: any) => ({
+        text: leaveName.label,
+        value: leaveName.value,
+      })),
+      onFilter: (value: any, record: DataType) => record.leaveType === value,
     },
     {
       title: 'DATE',
@@ -95,27 +104,25 @@ const ApplyLeave = () => {
   };
 
   useEffect(() => {
-    const leaveNameArray = reduceByKeys(
-      leaveData?.leave,
-      'leaveName',
-      'leaveName'
-    );
-    setLeaveNameArray(leaveNameArray);
-  }, [leaveData?.leave, isLoading]);
+    const shiftNameArray = reduceByKeys(leaves?.leave, '_id', 'leaveName');
+    setLeaveNameArray(shiftNameArray);
+  }, [leaves?.leave]);
+
+  console.log(leaveNameArray, '2scond');
   useEffect(() => {
     if (leaveNameArray) {
-      const leaveArray = leaveNameArray?.map((leaveName: any) => {
-        return {
+      const leaveArray = [
+        { label: 'ALL', value: '' },
+        ...leaveNameArray.map((leaveName: any) => ({
           label: leaveName?.label,
-          value: leaveName?.value,
-        };
-      });
+          value: leaveName?.label,
+        })),
+      ];
       setLeaveNameSelect(leaveArray);
     }
   }, [leaveNameArray]);
-  const onLeaveChange = (value: string) => {
-    setSearchByLeave(value);
-  };
+
+  console.log(leaveNameSelect, 'JAI');
   // const allLeaveTaken = employeeDetails?.leave.flatMap(
   //   (leave: any) => leave.leaveTakenOn
   // );
@@ -125,40 +132,63 @@ const ApplyLeave = () => {
     allLeaveTaken
   );
 
+  const onLeaveChange = (value: string) => {
+    setSearchByLeave(value.toLowerCase());
+  };
+
+  console.log(searchByLeave, 'selected');
   useEffect(() => {
     const filterLeaveData = searchByLeave
-      ? allLeaveTaken.filter((leave: any) => leave.leaveType === searchByLeave)
+      ? allLeaveTaken.filter(
+          (leave: any) => leave.leaveType.toLowerCase() === searchByLeave
+        )
       : allLeaveTaken;
     setFilterLeaveData(filterLeaveData);
-  }, [searchByLeave, isLoading]);
+  }, [searchByLeave, allLeaveTaken]);
 
   return (
     <div className='assign-leave'>
       <div className='d-flex justify-content-between align-items-center daily-report-search'>
         <div className='attendance-filters'>
-          <Calendar
-            onChange={onStartDateChange}
-            className='date-picker calender-container-picker leave-inputs '
-            dateFormat='YYYY/MM/DD'
-            language='en'
-          />{' '}
-          <CalendarOutlined className='calendar-icon' />
+          <div className='calendar-wrapper'>
+            <Calendar
+              onChange={onStartDateChange}
+              className='date-picker'
+              dateFormat='YYYY/MM/DD'
+              language='en'
+            />
+            <CalendarOutlined className='calendar-icon' />
+          </div>
           To
-          <Calendar
-            onChange={onEndDateChange}
-            className='date-picker calender-container-picker leave-inputs'
-            dateFormat='YYYY/MM/DD'
-            language='en'
-          />
-          <CalendarOutlined className='calendar-icon' />
+          <div className='calendar-wrapper'>
+            <Calendar
+              onChange={onEndDateChange}
+              className='date-picker'
+              dateFormat='YYYY/MM/DD'
+              language='en'
+            />
+
+            <CalendarOutlined className='calendar-icon' />
+          </div>
         </div>
-        <div className='d-flex daily-report-saerch-right'>
-          <Selects
-            onSelect={onLeaveChange}
-            options={leaveNameSelect}
-            placeHolder='Search leave name'
-            className='leave-inputs'
-          />
+        <div className='d-flex gap-5 daily-report-saerch-right'>
+          <div className='d-flex flex-grow-1'>
+            <Select
+              showSearch
+              onChange={onLeaveChange}
+              placeholder='Search leave name'
+              className='selects form-input-wrapper w-100'
+              filterOption={(input, option: any) =>
+                option?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {leaveNameSelect.map((option) => (
+                <Option key={option.value} value={option.value}>
+                  {option.label}
+                </Option>
+              ))}
+            </Select>
+          </div>
           {/* <Selects placeHolder='Search leave name' className='leave-inputs' /> */}
           <button className='primary-btn' onClick={showModal}>
             <FontAwesomeIcon icon={faPlus} /> Apply Leave
@@ -166,7 +196,11 @@ const ApplyLeave = () => {
         </div>
       </div>
       <div className='daily-report-table-container'>
-        <Table columns={columns} dataSource={filterLeaveData} />
+        <Table
+          columns={columns}
+          dataSource={filterLeaveData}
+          loading={isLoading}
+        />
       </div>
       <ModalComponent
         openModal={isModalOpen}

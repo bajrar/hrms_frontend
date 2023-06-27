@@ -1,37 +1,54 @@
-import { Tabs, TabsProps } from 'antd';
-import AddLeave from '../../Components/LeaveAllocation/AddLeave';
-import ApplyLeave from '../../Components/LeaveAllocation/ApplyLeave';
-import BreadCrumbs from '../../Components/Ui/BreadCrumbs/BreadCrumbs';
-import './leaveAllocation.css';
-import Layout from '../../Components/Layout';
-import Navbar from '../../Components/Ui/Navbar';
+import { Tabs, TabsProps } from "antd";
+import AddLeave from "../../Components/LeaveAllocation/AddLeave";
+import BreadCrumbs from "../../Components/Ui/BreadCrumbs/BreadCrumbs";
+import "./leaveAllocation.css";
+import Layout from "../../Components/Layout";
+import Navbar from "../../Components/Ui/Navbar";
+import { useState } from "react";
+import ApplyLeave from "../../Components/LeaveAllocation/ApplyLeave";
 
 const LeaveAllocation = () => {
-  const items: TabsProps['items'] = [
+  const [activeTab, setActiveTab] = useState("1");
+
+  const handleTabChange = (key: string) => {
+    setActiveTab(key);
+  };
+
+  const getBreadcrumbsLocation2 = () => {
+    if (activeTab === "1") {
+      return "Add Leave";
+    } else if (activeTab === "2") {
+      return "Apply Leave";
+    }
+    return "";
+  };
+
+  const items: TabsProps["items"] = [
     {
-      key: '1',
+      key: "1",
       label: `Add Leave`,
       children: <AddLeave />,
     },
     {
-      key: '2',
+      key: "2",
       label: `Apply Leave`,
       children: <ApplyLeave />,
     },
   ];
+
   return (
     <Layout>
       <Navbar />
-      <div className='leave-allocation padding'>
+      <div className="leave-allocation padding">
         <hr />
         <BreadCrumbs
-          imagesrc='/images/leave.svg'
-          location='Leave Management'
-          location1='Leave Allocation'
-          location2='Add Leave'
+          imagesrc="/images/leave.svg"
+          location="Leave Management"
+          location1="Leave Allocation"
+          location2={getBreadcrumbsLocation2()}
         />
         <hr />
-        <Tabs defaultActiveKey='1' items={items} />
+        <Tabs defaultActiveKey="1" items={items} onChange={handleTabChange} />
       </div>
     </Layout>
   );

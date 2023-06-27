@@ -1,18 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { API_URL } from '../../Components/apis/constants/constant';
-import { RootState } from '../../store';
 
-export const tokenSliceApi = createApi({
-  reducerPath: 'tokenSliceApi',
+export const applicantApiSlice = createApi({
+  reducerPath: 'applicantApiSlice',
   baseQuery: fetchBaseQuery({
     baseUrl: API_URL,
     prepareHeaders: (headers, { getState }) => {
       const token = localStorage.getItem('token');
-      const state = getState() as RootState;
-      const tempToken = state.authSlice.token;
-
       if (token) {
-        console.log({token})
         headers.set('Authorization', `Bearer ${token}`);
       }
       headers.set('Content-Type', 'application/json');
@@ -20,10 +15,13 @@ export const tokenSliceApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getTokenData: builder.query({
-      query: () => `users/verifyToken`,
+    getApplicants: builder.query({
+      query: ({page}) => `applicant?pageNumber=${page}`,
+    }),
+    getSingleApplicant: builder.query({
+      query: ({applicantId}) => `applicant/${applicantId}`,
     }),
   }),
 });
 
-export const { useGetTokenDataQuery } = tokenSliceApi;
+export const { useGetApplicantsQuery,useGetSingleApplicantQuery } = applicantApiSlice;

@@ -9,6 +9,8 @@ import {
   Tooltip,
   BarChart,
   Bar,
+  ResponsiveContainer,
+  LabelList,
 } from 'recharts';
 type GraphProps = {};
 const data = [
@@ -58,6 +60,7 @@ export const Graph = ({}: GraphProps) => {
           </div>
         </div>
         <div className='hr-dashboard-graph-diagram'>
+        
           <BarChart width={graphSize.width} height={400} data={data}>
             <Bar dataKey='TE' fill='#023C87' radius={[5, 5, 0, 0]} />
             <Bar dataKey='NJ' fill='#00B9F1' radius={[5, 5, 0, 0]} />
@@ -66,10 +69,16 @@ export const Graph = ({}: GraphProps) => {
               stroke='#D8D8D8'
               vertical={false}
               strokeDasharray='5 5'
+              
             />
             <XAxis dataKey='date' axisLine={true} />
-            <YAxis orientation='right' axisLine={false} />
+            <YAxis orientation='right' axisLine={false}  />
+            <Tooltip />
+            <LabelList dataKey='TE' position='top' />
+            <LabelList dataKey='NJ' position='top' />
+            <LabelList dataKey='RE' position='top' />
           </BarChart>
+          
         </div>
       </div>
     </div>

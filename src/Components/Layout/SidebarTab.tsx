@@ -9,22 +9,22 @@ import { RootState } from '../../store';
 import { verifyTokenStatus } from '../../redux/features/verifyTokenSlice';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { setClose, setOpen } from '../../redux/features/sidebarSlice';
+import { useGetTokenDataQuery } from '../../redux/api/tokenSlice';
+import { useTokenData } from '../../hooks/userTokenData';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
 const isOpenSelector = (state: any) => state.sidebarSlice.isOpen;
 const SideBarTab = () => {
-  // const [smallSidebar, setSmallSidebar] = useState<boolean>(true);
   const smallSidebar = useAppSelector(isOpenSelector);
 
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(verifyTokenStatus() as any);
-  }, []);
-  const userData = useAppSelector((state: RootState) => state.userSlice.value);
-  const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
-  const userRole = tokenData?.role ? tokenData?.role : userData?.role;
-  const userSn = tokenData?.userSn;
+  // useEffect(() => {
+  //   dispatch(verifyTokenStatus() as any);
+  // }, []);
+  const { userSn, isAdminTemp: isAdmin } = useTokenData();
+  const authData = useAppSelector((state: RootState) => state.userSlice.value);
+  console.log({ userSn });
   const navigate = useNavigate();
   const userAccess = ['Vacancy Management', 'Employee Management', 'v'];
   function getItem(
@@ -34,7 +34,7 @@ const SideBarTab = () => {
     children?: MenuItem[],
     type?: 'group'
   ): any {
-    if (userRole === 'admin' || !userAccess.includes(label))
+    if (isAdmin || !userAccess.includes(label))
       return {
         key,
         icon,
@@ -59,17 +59,11 @@ const SideBarTab = () => {
     // Additional logic or side effects
   };
   const closeSidebar = (routeTo: string) => {
-    if (userRole === 'user' && routeTo === 'attendance') {
+    if (!isAdmin && routeTo === 'attendance') {
       navigate(`/${routeTo}/${userSn}`);
     } else {
       navigate(`/${routeTo}`);
     }
-    // if (routeTo === 'attendance' && userSn) {
-    //   navigate(`/${routeTo}/${userSn}`);
-    // } else {
-    //   navigate(`/${routeTo}`);
-    // }
-    // setSmallSidebar(!smallSidebar);
   };
   const items: MenuProps['items'] = [
     getItem(
@@ -85,6 +79,15 @@ const SideBarTab = () => {
             onClick={() => closeSidebar('employee')}
           >
             Employee
+          </div>,
+          '1'
+        ),
+        getItem(
+          <div
+            className='sidenav-link'
+            onClick={() => closeSidebar('manageProjects')}
+          >
+            Manage Projects
           </div>,
           '1'
         ),
@@ -107,18 +110,25 @@ const SideBarTab = () => {
           </div>,
           '2'
         ),
-        userRole==='admin'?  getItem(
-          <div className='sidenav-link' onClick={() => closeSidebar('leave')}>
-            Leave Allocation
-          </div>,
-          '3'
-        ):
-        getItem(
-          <div className='sidenav-link' onClick={() => closeSidebar('request-leave')}>
-            Request Leave
-          </div>,
-          '3'
-        ),
+        isAdmin
+          ? getItem(
+              <div
+                className='sidenav-link'
+                onClick={() => closeSidebar('leave')}
+              >
+                Leave Allocation
+              </div>,
+              '3'
+            )
+          : getItem(
+              <div
+                className='sidenav-link'
+                onClick={() => closeSidebar('request-leave')}
+              >
+                Request Leave
+              </div>,
+              '3'
+            ),
       ]
     ),
 
@@ -176,7 +186,7 @@ const SideBarTab = () => {
               '8'
             )
           : null,
-        userRole === 'admin'
+        isAdmin
           ? getItem(
               <div
                 className='sidenav-link'
@@ -187,7 +197,7 @@ const SideBarTab = () => {
               '9'
             )
           : null,
-        userRole === 'admin'
+        isAdmin
           ? getItem(
               <div
                 className='sidenav-link'
@@ -249,14 +259,11 @@ const SideBarTab = () => {
   return (
     <div className='sidebar'>
       {smallSidebar ? (
-        <div
-          className='small-logo-container'
-          onClick={() => navigate('/dashboard')}
-        >
+        <div className='small-logo-container' onClick={() => navigate('/')}>
           <img src='/images/small-logo.svg' alt='Virtuosway Logo' />
         </div>
       ) : (
-        <div className='logo-container' onClick={() => navigate('/dashboard')}>
+        <div className='logo-container' onClick={() => navigate('/')}>
           <img src='/images/virtuos-logo.svg' alt='virtuos logo' />
         </div>
       )}
