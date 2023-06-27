@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import "./Announcement.css";
-import { MdCampaign } from "react-icons/md";
-import { TbPlus } from "react-icons/tb";
-import { MdCalendarToday } from "react-icons/md";
-import Calendar from "@sbmdkl/nepali-datepicker-reactjs";
+import React, { useEffect, useState } from 'react';
+import './Announcement.css';
+import { MdCampaign } from 'react-icons/md';
+import { TbPlus } from 'react-icons/tb';
+import { MdCalendarToday } from 'react-icons/md';
+import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
 import {
   Button,
   DatePicker,
@@ -11,19 +11,19 @@ import {
   Input,
   message,
   Modal,
-  Skeleton,
-} from "antd";
-import { useDispatch } from "react-redux";
-import { useAppSelector } from "../../../hooks/useTypedSelector";
-import { getAnnouncement } from "../../../redux/features/announcementSlice";
-import { formatDate } from "./helperFunction";
-import ModalComponent from "../../Ui/Modal/Modal";
-import TextArea from "antd/es/input/TextArea";
-import NepaliDate from "nepali-date-converter";
-import { apis } from "../../apis/constants/ApisService";
-import { useGetTokenDataQuery } from "../../../redux/api/tokenSlice";
-import { useGetAnnouncementQuery } from "../../../redux/api/announceSliceApi";
-import { useTokenData } from "../../../hooks/userTokenData";
+  Skeleton
+} from 'antd';
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../../../hooks/useTypedSelector';
+import { getAnnouncement } from '../../../redux/features/announcementSlice';
+import { formatDate } from './helperFunction';
+import ModalComponent from '../../Ui/Modal/Modal';
+import TextArea from 'antd/es/input/TextArea';
+import NepaliDate from 'nepali-date-converter';
+import { apis } from '../../apis/constants/ApisService';
+import { useGetTokenDataQuery } from '../../../redux/api/tokenSlice';
+import { useGetAnnouncementQuery } from '../../../redux/api/announceSliceApi';
+import { useTokenData } from '../../../hooks/userTokenData';
 
 type PropsType = {
   isAdmin?: boolean;
@@ -41,21 +41,21 @@ const Announcement = ({ isAdmin = true }: PropsType) => {
   const [loading, setLoading] = useState<boolean>(true);
 
   const onStartChange = ({ bsDate }: any) => {
-    form.setFieldValue("startDate", bsDate);
+    form.setFieldValue('startDate', bsDate);
   };
 
   const { TextArea } = Input;
 
   // const { announcement } = useAppSelector((state) => state.announcement);
-  const { data: tokenData } = useGetTokenDataQuery("token");
+  const { data: tokenData } = useGetTokenDataQuery('token');
   // const { data: tokenData } = useGetTokenDataQuery('token');
   const { userSn } = useTokenData();
   const {
     data: announcement,
     isLoading,
-    refetch,
+    refetch
   } = useGetAnnouncementQuery({
-    userSn,
+    userSn
   });
   useEffect(() => {
     setLoading(true);
@@ -84,12 +84,12 @@ const Announcement = ({ isAdmin = true }: PropsType) => {
       try {
         const res = await apis.deleteAnnouncement(selectedAnnouncement._id);
         if (res.status === 200) {
-          message.success("Announcement deleted");
+          message.success('Announcement deleted');
           // dispatch(getAnnouncement() as any);
           refetch();
         }
       } catch {
-        message.error("Something Went Wrong");
+        message.error('Something Went Wrong');
       } finally {
         setDeleteModalVisible(false);
         setSelectedAnnouncement(null);
@@ -102,31 +102,31 @@ const Announcement = ({ isAdmin = true }: PropsType) => {
       const res = await apis.addAnnouncement({
         date: values.date.bsDate,
         details: values.details,
-        title: values.title,
+        title: values.title
       });
       if (res.status === 200) {
-        message.success("Announcement Created");
+        message.success('Announcement Created');
         form.resetFields();
         // dispatch(getAnnouncement() as any);
         refetch();
       }
     } catch {
-      message.error("Something Went Wrong");
+      message.error('Something Went Wrong');
     } finally {
       setOpenAnnounceModel(false);
     }
   };
 
-  const currentDate = new NepaliDate(new Date()).format("YYYY/MM/DD");
+  const currentDate = new NepaliDate(new Date()).format('YYYY/MM/DD');
 
-  console.log("announcement: -->", announcement);
-  console.log({ tokenData }, "Token");
-  console.log({ pressAnnouncement }, "Press Announcement");
+  console.log('announcement: -->', announcement);
+  console.log({ tokenData }, 'Token');
+  console.log({ pressAnnouncement }, 'Press Announcement');
 
   return (
     <>
-      <div className={`announcement-container ${!isAdmin && "user"}`}>
-        <div className={`announcement-container-date ${!isAdmin && "d-none"}`}>
+      <div className={`announcement-container ${!isAdmin && 'user'}`}>
+        <div className={`announcement-container-date ${!isAdmin && 'd-none'}`}>
           <div className="announcement-container-date-calendar">
             <h5 className="date">{formatDate(currentDate)}</h5>
             <span>
@@ -135,20 +135,20 @@ const Announcement = ({ isAdmin = true }: PropsType) => {
           </div>
         </div>
         <div
-          className={`announcement-container-title py-2 ${!isAdmin && "user"}`}
+          className={`announcement-container-title py-2 ${!isAdmin && 'user'}`}
         >
           <div className="announcement-container-title-left">
             <h4>
               <img src="vector.svg" alt="announcement logo" />
               Announcement
             </h4>
-            <p className={`${!isAdmin && "d-none border-none"}`}>
+            <p className={`${!isAdmin && 'd-none border-none'}`}>
               Don't miss to announce important notice
             </p>
           </div>
           <div
             className={`announcement-container-title-right ${
-              !isAdmin && " d-none "
+              !isAdmin && ' d-none '
             }`}
           >
             <button onClick={() => setOpenAnnounceModel(true)}>
@@ -181,7 +181,7 @@ const Announcement = ({ isAdmin = true }: PropsType) => {
                         type="text"
                         danger
                         onClick={() => showDeleteModal(announcement)}
-                        className={`${!isAdmin && "d-none"}`}
+                        className={`${!isAdmin && 'd-none'}`}
                       >
                         Delete
                       </Button>
@@ -214,7 +214,7 @@ const Announcement = ({ isAdmin = true }: PropsType) => {
                         type="text"
                         danger
                         onClick={() => showDeleteModal(announcement)}
-                        className={`${!isAdmin && "d-none"}`}
+                        className={`${!isAdmin && 'd-none'}`}
                       >
                         Delete
                       </Button>
@@ -244,7 +244,7 @@ const Announcement = ({ isAdmin = true }: PropsType) => {
             name="title"
             label="Announcement Topic *"
             rules={[
-              { required: true, message: "Announcement title is required" },
+              { required: true, message: 'Announcement title is required' }
             ]}
           >
             <Input
@@ -269,7 +269,7 @@ const Announcement = ({ isAdmin = true }: PropsType) => {
             className="form-input col pt-4"
             name="details"
             label="Description *"
-            rules={[{ required: true, message: "Description is required" }]}
+            rules={[{ required: true, message: 'Description is required' }]}
           >
             <TextArea
               placeholder="Enter the description"

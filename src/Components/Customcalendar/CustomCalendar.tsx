@@ -1,20 +1,20 @@
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
-import { useAppSelector } from "../../hooks/useTypedSelector";
-import { EmployeeStats } from "../../pages/Attendance/Attendance";
-import { IYear } from "../../pages/Attendance/EmployeeAttendance";
-import { getEmployeeData } from "../../redux/features/SingleAttendanceSlice";
+import { useAppSelector } from '../../hooks/useTypedSelector';
+import { EmployeeStats } from '../../pages/Attendance/Attendance';
+import { IYear } from '../../pages/Attendance/EmployeeAttendance';
+import { getEmployeeData } from '../../redux/features/SingleAttendanceSlice';
 import {
   daysOfWeek,
   monthNames,
   NepaliMonthDays,
-  nepaliMonthDays,
-} from "../../utils/Constants";
+  nepaliMonthDays
+} from '../../utils/Constants';
 
-import "./Customcalendar.css";
-import { todayInBs } from "./GetTodaysDate";
+import './Customcalendar.css';
+import { todayInBs } from './GetTodaysDate';
 
 function Calendar({ month, year }: { month: number; year: IYear }) {
   let yearNumber: keyof NepaliMonthDays = year.year.toString();
@@ -93,7 +93,7 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
       getEmployeeData({
         userSn: employeeId,
         startDate: startOfDate,
-        endDate: endOfDate,
+        endDate: endOfDate
       }) as any
     );
   }, [dispatch, employeeId, endOfDate, month, year, startOfDate, todayInBs]);
@@ -126,7 +126,7 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
   );
 
   const checkStatus = (morningStatus: string, eveningStatus: string) => {
-    morningStatus === "early-in" && eveningStatus === "late-out"
+    morningStatus === 'early-in' && eveningStatus === 'late-out'
       ? setEarlyIn(true)
       : setEarlyIn(false);
     return earlyIn;
@@ -169,7 +169,7 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
                       item.attendanceByDate.date
                     ).getDate();
                     if (dayDate === day) {
-                      // console.log(item?.attendanceByDate, "HAHA");
+                      // console.log(item?.attendanceByDate, 'HAHA');
                       return item?.attendanceByDate?.holiday ? (
                         <div className="status-container">
                           <EmployeeStats
@@ -193,44 +193,44 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
                           <EmployeeStats
                             backgroundColor={
                               item?.attendanceByDate?.morningStatus?.toLowerCase() ===
-                              "timely in"
-                                ? "#F4FBF5"
+                              'timely in'
+                                ? '#F4FBF5'
                                 : item?.attendanceByDate?.morningStatus?.toLowerCase() ===
-                                  "late in"
-                                ? "#FBF4F4"
-                                : ""
+                                  'late in'
+                                ? '#FBF4F4'
+                                : ''
                             }
                             color={
                               item?.attendanceByDate?.morningStatus?.toLowerCase() ===
-                              "timely in"
-                                ? "#22BB33"
+                              'timely in'
+                                ? '#22BB33'
                                 : item?.attendanceByDate?.morningStatus?.toLowerCase() ===
-                                  "late in"
-                                ? "#BB2124"
-                                : ""
+                                  'late in'
+                                ? '#BB2124'
+                                : ''
                             }
                             status={item.attendanceByDate.entryTime}
                             numberOfEmployee={item.numberOfEmployee}
                           />
-                          -{" "}
+                          -{' '}
                           <EmployeeStats
                             backgroundColor={
                               item?.attendanceByDate?.eveningStatus?.toLowerCase() ===
-                              "timely out"
-                                ? "#F4FBF5"
+                              'timely out'
+                                ? '#F4FBF5'
                                 : item?.attendanceByDate?.eveningStatus?.toLowerCase() ===
-                                  "early out"
-                                ? "#FEFBF6"
-                                : ""
+                                  'early out'
+                                ? '#FEFBF6'
+                                : ''
                             }
                             color={
                               item?.attendanceByDate?.eveningStatus?.toLowerCase() ===
-                              "timely out"
-                                ? "#22BB33"
+                              'timely out'
+                                ? '#22BB33'
                                 : item?.attendanceByDate?.eveningStatus?.toLowerCase() ===
-                                  "early out"
-                                ? "#F0AD4E"
-                                : ""
+                                  'early out'
+                                ? '#F0AD4E'
+                                : ''
                             }
                             status={item.attendanceByDate.exitTime}
                             numberOfEmployee={item.numberOfEmployee}

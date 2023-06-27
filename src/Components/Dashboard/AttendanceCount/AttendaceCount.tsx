@@ -1,9 +1,9 @@
-import { MdInfo } from "react-icons/md";
-import { PieChart, Pie, Cell } from "recharts";
-import "./attendanceCount.css";
-import { useEffect, useMemo, useState } from "react";
-import { axiosApiInstance } from "../../apis/constants/ApisService";
-import { Popover } from "antd";
+import { MdInfo } from 'react-icons/md';
+import { PieChart, Pie, Cell } from 'recharts';
+import './attendanceCount.css';
+import { useEffect, useMemo, useState } from 'react';
+import { axiosApiInstance } from '../../apis/constants/ApisService';
+import { Popover } from 'antd';
 
 const AttendaceCount = () => {
   const [dashboardData, setDashboardData] = useState([] as any);
@@ -11,10 +11,10 @@ const AttendaceCount = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const dashboard = await axiosApiInstance.get("/dashboard");
+        const dashboard = await axiosApiInstance.get('/dashboard');
         setDashboardData(dashboard.data.dashboardData);
       } catch (error) {
-        console.error("Error fetching dashboard data:", error);
+        console.error('Error fetching dashboard data:', error);
       }
     };
 
@@ -22,18 +22,18 @@ const AttendaceCount = () => {
   }, []);
 
   const data01 = [
-    { name: "Others", value: 0, color: "#E6F8FE" },
+    { name: 'Others', value: 0, color: '#E6F8FE' },
     {
-      name: "Female",
+      name: 'Female',
       value: dashboardData.maleEmployeeCount,
-      color: "#023C87",
+      color: '#023C87'
     },
     {
-      name: "Male",
+      name: 'Male',
       value: dashboardData.femaleEmployeeCount,
 
-      color: "#00B9F1",
-    },
+      color: '#00B9F1'
+    }
   ];
 
   const [showArrow, setShowArrow] = useState(true);
@@ -55,7 +55,7 @@ const AttendaceCount = () => {
   return (
     <div className="attendance-count">
       <hr />
-      <span style={{ fontWeight: "bold" }}>Employee Attendance Count</span>
+      <span style={{ fontWeight: 'bold' }}>Employee Attendance Count</span>
       <div className="attendance-count-container">
         <div>
           <div className="attedance-container">
@@ -72,8 +72,8 @@ const AttendaceCount = () => {
               <div className="d-flex flex-column gap-3">
                 <span
                   style={{
-                    borderLeft: "4px solid #BB22A3",
-                    paddingLeft: "0.5rem",
+                    borderLeft: '4px solid #BB22A3',
+                    paddingLeft: '0.5rem'
                   }}
                 >
                   Working From Home (5)
@@ -103,7 +103,7 @@ const AttendaceCount = () => {
             </div>
             <div className="on-request">
               <p>
-                Request for Approval{" "}
+                Request for Approval{' '}
                 <MdInfo color="#F0AD4E" className="mx-1 fs-6" />
               </p>
               <span className="border-start border-4 border-warning ps-2">
@@ -113,7 +113,7 @@ const AttendaceCount = () => {
           </div>
         </div>
         <div className="pie-chart-container">
-          {" "}
+          {' '}
           <h3 className="title">Gender Ratio</h3>
           <PieChart width={100} height={100}>
             <Pie
@@ -131,24 +131,24 @@ const AttendaceCount = () => {
             </Pie>
           </PieChart>
           <div>
-            <div style={{ position: "relative" }}>
+            <div style={{ position: 'relative' }}>
               <span
                 style={{
-                  width: "3px",
-                  backgroundColor: "#023C87",
-                  position: "absolute",
+                  width: '3px',
+                  backgroundColor: '#023C87',
+                  position: 'absolute'
                 }}
               >
                 &nbsp;
               </span>
               <p className="mx-2">Male 60%</p>
             </div>
-            <div style={{ position: "relative" }}>
+            <div style={{ position: 'relative' }}>
               <span
                 style={{
-                  width: "3px",
-                  backgroundColor: "#00B9F1",
-                  position: "absolute",
+                  width: '3px',
+                  backgroundColor: '#00B9F1',
+                  position: 'absolute'
                 }}
               >
                 &nbsp;

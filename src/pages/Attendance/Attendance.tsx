@@ -165,7 +165,7 @@ const Attendance = () => {
           location1="Attendance"
         />
         <hr />
-        <div className="d-flex employee-stats-container flex-wrap  ">
+        <div className="d-flex employee-stats-container flex-wrap">
           {AttendanceStatusArray.map((item: IEmployeeStats, key) => {
             return (
               <EmployeeStats

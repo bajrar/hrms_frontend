@@ -1,65 +1,65 @@
-import { useEffect, useState } from "react";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import Calendar from "@sbmdkl/nepali-datepicker-reactjs";
-import "@sbmdkl/nepali-datepicker-reactjs/dist/index.css";
-import BreadCrumbs from "../../Components/Ui/BreadCrumbs/BreadCrumbs";
+import { useEffect, useState } from 'react';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
+import '@sbmdkl/nepali-datepicker-reactjs/dist/index.css';
+import BreadCrumbs from '../../Components/Ui/BreadCrumbs/BreadCrumbs';
 import SingleEmployee, {
-  formatTime,
-} from "../../Components/Ui/Tables/SingleEmployee";
-import { IEmployeeStats, EmployeeStats } from "./Attendance";
-import { useAppSelector } from "../../hooks/useTypedSelector";
-import { getEmployeeData } from "../../redux/features/SingleAttendanceSlice";
-import CustomCalendar from "../../Components/Customcalendar/CustomCalendar";
-import { monthNames, startDay } from "../../utils/Constants";
-import { todayInBs } from "../../Components/Customcalendar/GetTodaysDate";
-import DownloadBtn from "../../Components/Ui/DownloadBtn/DownloadBtn";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import Layout from "../../Components/Layout";
-import Navbar from "../../Components/Ui/Navbar";
-import { RootState } from "../../store";
-import { Modal } from "antd";
-import ModalComponent from "../../Components/Ui/Modal/Modal";
-import AttendanceRequest from "./AttendanceRequest";
+  formatTime
+} from '../../Components/Ui/Tables/SingleEmployee';
+import { IEmployeeStats, EmployeeStats } from './Attendance';
+import { useAppSelector } from '../../hooks/useTypedSelector';
+import { getEmployeeData } from '../../redux/features/SingleAttendanceSlice';
+import CustomCalendar from '../../Components/Customcalendar/CustomCalendar';
+import { monthNames, startDay } from '../../utils/Constants';
+import { todayInBs } from '../../Components/Customcalendar/GetTodaysDate';
+import DownloadBtn from '../../Components/Ui/DownloadBtn/DownloadBtn';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import Layout from '../../Components/Layout';
+import Navbar from '../../Components/Ui/Navbar';
+import { RootState } from '../../store';
+import { Modal } from 'antd';
+import ModalComponent from '../../Components/Ui/Modal/Modal';
+import AttendanceRequest from './AttendanceRequest';
 
 export const AttendanceReport = [
   {
-    backgroundColor: "rgba(151, 71, 255, 0.1)",
-    color: "#9747FF",
-    status: "Total Working days",
-    numberOfEmployee: "35",
+    backgroundColor: 'rgba(151, 71, 255, 0.1)',
+    color: '#9747FF',
+    status: 'Total Working days',
+    numberOfEmployee: '35'
   },
   {
-    backgroundColor: "#F2F5F9",
-    color: "#023C87",
-    status: "Total Working hours",
-    numberOfEmployee: "4",
+    backgroundColor: '#F2F5F9',
+    color: '#023C87',
+    status: 'Total Working hours',
+    numberOfEmployee: '4'
   },
   {
-    backgroundColor: "rgba(0, 185, 241, 0.05)",
-    color: "#00B9F1",
-    status: "Present Days",
-    numberOfEmployee: "4",
+    backgroundColor: 'rgba(0, 185, 241, 0.05)',
+    color: '#00B9F1',
+    status: 'Present Days',
+    numberOfEmployee: '4'
   },
   {
-    backgroundColor: "rgba(34, 187, 51, 0.05)",
-    color: "#22BB33",
-    status: "Holidays",
-    numberOfEmployee: "4",
+    backgroundColor: 'rgba(34, 187, 51, 0.05)',
+    color: '#22BB33',
+    status: 'Holidays',
+    numberOfEmployee: '4'
   },
   {
-    backgroundColor: "rgba(240, 173, 78, 0.1)",
-    color: "#F0AD4E",
-    status: "Weekend",
-    numberOfEmployee: "2",
+    backgroundColor: 'rgba(240, 173, 78, 0.1)',
+    color: '#F0AD4E',
+    status: 'Weekend',
+    numberOfEmployee: '2'
   },
   {
-    backgroundColor: "rgba(187, 33, 36, 0.05",
-    color: " #BB2124",
-    status: "Absent",
-    numberOfEmployee: "4",
-  },
+    backgroundColor: 'rgba(187, 33, 36, 0.05',
+    color: ' #BB2124',
+    status: 'Absent',
+    numberOfEmployee: '4'
+  }
 ];
 
 export interface DataType {
@@ -102,9 +102,9 @@ const EmployeeAttendance = () => {
 
   const [year, setYear] = useState<IYear>({
     year: currentYear,
-    startDay: +startDay[currentYear],
+    startDay: +startDay[currentYear]
   });
-  console.log(todayInBs.getYear(), "<----------------- today year");
+  console.log(todayInBs.getYear(), '<----------------- today year');
   const [month, setMonth] = useState<any>(todayInBs.getMonth());
   const [openYearList, setOpenYearList] = useState<boolean>(false);
   const [openMonthList, setOpenMonthList] = useState<boolean>(false);
@@ -125,7 +125,7 @@ const EmployeeAttendance = () => {
   const userSn = tokenData?.userSn ? tokenData?.userSn : userData?.userSn;
   const role = tokenData?.role ? tokenData?.role : userData?.role;
   useEffect(() => {
-    if (role !== "admin" && userSn !== Number(employeeId)) {
+    if (role !== 'admin' && userSn !== Number(employeeId)) {
       // navigate(`/attendance/${employeeId}`);
       navigate(`/`);
     }
@@ -137,7 +137,7 @@ const EmployeeAttendance = () => {
         getEmployeeData({
           userSn: employeeId,
           startDate: startDate,
-          endDate: endDate,
+          endDate: endDate
         }) as any
       );
     }
@@ -158,22 +158,22 @@ const EmployeeAttendance = () => {
         Status: `${userData?.attendanceByDate?.morningStatus} - ${userData?.attendanceByDate?.eveningStatus}`,
         Designation: userData?.designation,
         ClockIn: userData?.attendanceByDate?.absent
-          ? "Absent"
+          ? 'Absent'
           : userData?.attendanceByDate?.holiday
-          ? "Holiday"
+          ? 'Holiday'
           : `${formatTime(userData?.attendanceByDate?.entryTime)}`,
         ClockOut: userData?.attendanceByDate?.absent
-          ? "Absent"
+          ? 'Absent'
           : userData?.attendanceByDate?.holiday
-          ? "Holiday"
-          : userData?.attendanceByDate?.exitTime === "-"
+          ? 'Holiday'
+          : userData?.attendanceByDate?.exitTime === '-'
           ? userData?.attendanceByDate?.exitTime
           : `${formatTime(userData?.attendanceByDate?.exitTime)}`,
         WorkHours: userData?.attendanceByDate?.absent
-          ? "-"
+          ? '-'
           : userData?.attendanceByDate?.holiday
-          ? "-"
-          : userData?.attendanceByDate?.workHour,
+          ? '-'
+          : userData?.attendanceByDate?.workHour
       };
 
       data1.push(tableData);
@@ -199,7 +199,7 @@ const EmployeeAttendance = () => {
           location2={`${employee.employeeName}`}
         />
         <hr />
-        <div className="d-flex employee-stats-container flex-wrap  ">
+        <div className="d-flex employee-stats-container flex-wrap">
           {AttendanceReport.map((item: IEmployeeStats) => {
             return (
               <EmployeeStats
@@ -233,7 +233,7 @@ const EmployeeAttendance = () => {
                 className=" date-picker calender-container-picker "
                 dateFormat="YYYY/MM/DD"
                 language="en"
-              />{" "}
+              />{' '}
               To
               <Calendar
                 onChange={onEndDateChange}
@@ -249,10 +249,10 @@ const EmployeeAttendance = () => {
                   onClick={() => setOpenYearList(!openYearList)}
                   className="date-selector"
                 >
-                  Year{" "}
+                  Year{' '}
                   <FontAwesomeIcon
                     icon={faChevronDown}
-                    style={{ color: "#000000" }}
+                    style={{ color: '#000000' }}
                   />
                 </button>
                 <ul
@@ -267,7 +267,7 @@ const EmployeeAttendance = () => {
                         onClick={() => {
                           setYear({
                             year: Number(year),
-                            startDay: Number(Object.values(startDay)[i]),
+                            startDay: Number(Object.values(startDay)[i])
                           });
                           setOpenYearList(!openYearList);
                         }}
@@ -284,10 +284,10 @@ const EmployeeAttendance = () => {
                   onClick={() => setOpenMonthList(!openMonthList)}
                   className="date-selector"
                 >
-                  Month{" "}
+                  Month{' '}
                   <FontAwesomeIcon
                     icon={faChevronDown}
-                    style={{ color: "#000000" }}
+                    style={{ color: '#000000' }}
                   />
                 </button>
                 <ul
@@ -318,7 +318,7 @@ const EmployeeAttendance = () => {
           <div className="d-flex attendance-filters-right">
             {changeTab ? (
               <>
-                {role === "admin" ? (
+                {role === 'admin' ? (
                   <DownloadBtn report={attendanceReport} />
                 ) : (
                   <button
@@ -340,32 +340,32 @@ const EmployeeAttendance = () => {
               </>
             ) : (
               <div className="total-working-hours">
-                Total Working hours{" "}
+                Total Working hours{' '}
                 <span>
                   ( {employee.TotalWorkingHours}
-                  {employee.TotalWorkingHours ? "hours" : ""} )
+                  {employee.TotalWorkingHours ? 'hours' : ''} )
                 </span>
               </div>
             )}
             <div className="d-flex switches">
               <div
                 className={
-                  changeTab ? "switch-container " : "switch-container border"
+                  changeTab ? 'switch-container ' : 'switch-container border'
                 }
                 onClick={(prev) => setChangeTab(!prev)}
               >
                 <img
                   src={
                     changeTab
-                      ? "/images/calendar-inactive.svg"
-                      : "/images/calendar-active.svg"
+                      ? '/images/calendar-inactive.svg'
+                      : '/images/calendar-active.svg'
                   }
                   alt=""
                 />
               </div>
               <div
                 className={
-                  changeTab ? "switch-container border" : "switch-container"
+                  changeTab ? 'switch-container border' : 'switch-container'
                 }
                 onClick={(prev) => {
                   setChangeTab(true);
@@ -374,8 +374,8 @@ const EmployeeAttendance = () => {
                 <img
                   src={
                     changeTab
-                      ? "/images/list-active.png"
-                      : "/images/list-inactive.svg"
+                      ? '/images/list-active.png'
+                      : '/images/list-inactive.svg'
                   }
                   alt=""
                 />
