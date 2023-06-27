@@ -10,7 +10,7 @@ export const getSingleJob = createAsyncThunk(
     } catch (err: any) {
       return rejectWithValue(err.message);
     }
-  }
+  },
 );
 interface IJob {
   loading: boolean;

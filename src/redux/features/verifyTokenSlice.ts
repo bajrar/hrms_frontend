@@ -1,17 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { axiosApiInstance } from '../../Components/apis/constants/ApisService';
 
-export const verifyTokenStatus = createAsyncThunk(
-  'verifyToken/getVerifyToken',
-  async (data, thunkApi) => {
-    try {
-      const response = await axiosApiInstance('users/verifyToken');
-      return response.data;
-    } catch (err: any) {
-      return thunkApi.rejectWithValue(err.message);
-    }
+export const verifyTokenStatus = createAsyncThunk('verifyToken/getVerifyToken', async (data, thunkApi) => {
+  try {
+    const response = await axiosApiInstance('users/verifyToken');
+    return response.data;
+  } catch (err: any) {
+    return thunkApi.rejectWithValue(err.message);
   }
-);
+});
 interface IAttendanceStatus {
   tokenData: any;
   loading: boolean;

@@ -4,18 +4,15 @@ import { axiosApiInstance } from '../../Components/apis/constants/ApisService';
 export const getSingleEmployee = createAsyncThunk(
   'employee',
   async ({ employeeId }: { employeeId: string }, { rejectWithValue }) => {
-
     debugger;
     try {
       const response = await axiosApiInstance(`employee/${employeeId}`);
 
-
-    
       return response.data;
     } catch (err: any) {
       return rejectWithValue(err.message);
     }
-  }
+  },
 );
 
 interface employeeId {
@@ -54,4 +51,3 @@ const getSingleEmployeeSlice = createSlice({
 });
 
 export default getSingleEmployeeSlice.reducer;
-

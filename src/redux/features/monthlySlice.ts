@@ -4,19 +4,14 @@ import { axiosApiInstance } from '../../Components/apis/constants/ApisService';
 
 export const getMonthlyLeave = createAsyncThunk(
   'monthlyReport/getMonthlyReport',
-  async (
-    { startDate, endDate }: { startDate?: any; endDate?: any },
-    { rejectWithValue }
-  ) => {
+  async ({ startDate, endDate }: { startDate?: any; endDate?: any }, { rejectWithValue }) => {
     try {
-      const response = await axiosApiInstance(
-        `attendance/report?from=${startDate}&to=${endDate}`
-      );
+      const response = await axiosApiInstance(`attendance/report?from=${startDate}&to=${endDate}`);
       return response.data;
     } catch (err: any) {
       return rejectWithValue(err.message);
     }
-  }
+  },
 );
 
 interface IMonthlyReport {

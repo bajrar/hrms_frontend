@@ -12,4 +12,4 @@ export const projectTeamSlice = createApi({
   }),
 });
 
-export const {useGetProjectTeamQuery} = projectTeamSlice;
+export const { useGetProjectTeamQuery } = projectTeamSlice;

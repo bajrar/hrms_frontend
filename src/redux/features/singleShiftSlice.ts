@@ -10,7 +10,7 @@ export const getSingleShift = createAsyncThunk(
     } catch (err: any) {
       return rejectWithValue(err.message);
     }
-  }
+  },
 );
 interface IShift {
   loading: boolean;

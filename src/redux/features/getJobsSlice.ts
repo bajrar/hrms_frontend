@@ -1,17 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { axiosApiInstance } from '../../Components/apis/constants/ApisService';
 
-export const getJobs = createAsyncThunk(
-  'jobs/ getJobs',
-  async (data, thunkApi) => {
-    try {
-      const response = await axiosApiInstance('jobs/admin');
-      return response.data;
-    } catch (err: any) {
-      return thunkApi.rejectWithValue(err.message);
-    }
+export const getJobs = createAsyncThunk('jobs/ getJobs', async (data, thunkApi) => {
+  try {
+    const response = await axiosApiInstance('jobs/admin');
+    return response.data;
+  } catch (err: any) {
+    return thunkApi.rejectWithValue(err.message);
   }
-);
+});
 interface IJobs {
   jobs: any[];
   loading: boolean;

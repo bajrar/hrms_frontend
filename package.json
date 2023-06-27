@@ -54,7 +54,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prettier": "prettier --write ."
+    "lint": "eslint src/**/*.ts",
+    "format": "eslint src/**/*.ts --fix",
+    "pretty": "prettier --write \"src/**/*.ts\""
   },
   "eslintConfig": {
     "extends": [
@@ -79,11 +81,16 @@
     "@types/bootstrap": "^5.2.6",
     "@types/d3": "^7.4.0",
     "@types/react-calendar": "^3.9.0",
-    "@types/react-pdf": "^6.2.0"
+    "@types/react-pdf": "^6.2.0",
+    "@typescript-eslint/eslint-plugin": "^5.60.1",
+    "@typescript-eslint/parser": "^5.60.1",
+    "eslint": "^8.43.0",
+    "husky": "^8.0.3",
+    "prettier": "^2.8.8"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run prettier"
+      "pre-commit": "npm run lint && npm run pretty"
     }
   }
 }

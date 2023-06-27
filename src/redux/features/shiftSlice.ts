@@ -1,17 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { axiosApiInstance } from '../../Components/apis/constants/ApisService';
 
-export const getShift = createAsyncThunk(
-  'shift/getShift',
-  async (data, thunkApi) => {
-    try {
-      const response = await axiosApiInstance('shift');
-      return response.data;
-    } catch (err: any) {
-      return thunkApi.rejectWithValue(err.message);
-    }
+export const getShift = createAsyncThunk('shift/getShift', async (data, thunkApi) => {
+  try {
+    const response = await axiosApiInstance('shift');
+    return response.data;
+  } catch (err: any) {
+    return thunkApi.rejectWithValue(err.message);
   }
-);
+});
 
 interface IShift {
   loading: boolean;

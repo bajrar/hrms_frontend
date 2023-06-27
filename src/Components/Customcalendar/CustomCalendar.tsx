@@ -6,12 +6,7 @@ import { useAppSelector } from '../../hooks/useTypedSelector';
 import { EmployeeStats } from '../../pages/Attendance/Attendance';
 import { IYear } from '../../pages/Attendance/EmployeeAttendance';
 import { getEmployeeData } from '../../redux/features/SingleAttendanceSlice';
-import {
-  daysOfWeek,
-  monthNames,
-  NepaliMonthDays,
-  nepaliMonthDays,
-} from '../../utils/Constants';
+import { daysOfWeek, monthNames, NepaliMonthDays, nepaliMonthDays } from '../../utils/Constants';
 
 import './Customcalendar.css';
 import { todayInBs } from './GetTodaysDate';
@@ -25,6 +20,15 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
   const dispatch = useDispatch();
   const { employeeId } = useParams();
 
+  const [startOfDate, setStartOfDate] = useState(
+    `${year.year}/${monthInString}/01`
+    // `${year.year}/${month + 1}/01`
+  );
+
+  const [endOfDate, setEndofDate] = useState<any>(
+    `${year.year}/${monthInString}/${nepaliMonthDays[yearNumber][month]}`
+  );
+
   //Calculate the starting day of each month based on the number of days in previous months
   useEffect(() => {
     const startingDays = [year.startDay];
@@ -34,15 +38,6 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
     });
     setStartindDayData(startingDays);
   }, [year]);
-
-  const [startOfDate, setStartOfDate] = useState(
-    `${year.year}/${monthInString}/01`
-    // `${year.year}/${month + 1}/01`
-  );
-
-  const [endOfDate, setEndofDate] = useState<any>(
-    `${year.year}/${monthInString}/${nepaliMonthDays[yearNumber][month]}`
-  );
 
   useEffect(() => {
     if (
@@ -58,18 +53,12 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
       if (todayInBs.getDate() < 10) {
         localDate = `0${todayInBs.getDate()}`;
       }
-      setEndofDate(
-        `${todayInBs.getYear()}/${localMonth}/${todayInBs.getDate()}`
-      );
+      setEndofDate(`${todayInBs.getYear()}/${localMonth}/${todayInBs.getDate()}`);
     } else {
-      setEndofDate(
-        `${year.year}/${month + 1}/${nepaliMonthDays[yearNumber][month]}`
-      );
+      setEndofDate(`${year.year}/${month + 1}/${nepaliMonthDays[yearNumber][month]}`);
     }
     const localMonth =
-      todayInBs.getMonth() + 1 < 10
-        ? `0${todayInBs.getMonth() + 1}`
-        : todayInBs.getMonth() + 1;
+      todayInBs.getMonth() + 1 < 10 ? `0${todayInBs.getMonth() + 1}` : todayInBs.getMonth() + 1;
     if (year.year === todayInBs.getYear() && month === todayInBs.getMonth()) {
       setStartOfDate(`${todayInBs.getYear()}/${localMonth}/01`);
     } else {
@@ -108,9 +97,7 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
     setWeeks(weeksArr);
   }, [month, year, startindDayData]);
 
-  const { employee } = useAppSelector(
-    (state: any) => state.SingleAttendanceSlice
-  );
+  const { employee } = useAppSelector((state: any) => state.SingleAttendanceSlice);
 
   const checkStatus = (morningStatus: string, eveningStatus: string) => {
     morningStatus === 'early-in' && eveningStatus === 'late-out'
@@ -144,9 +131,7 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
                   <td key={`${i}-${j}`} className='table-data-container'>
                     {day}
                     {employee?.result?.map((item: any, index: number) => {
-                      const dayDate = new Date(
-                        item.attendanceByDate.date
-                      ).getDate();
+                      const dayDate = new Date(item.attendanceByDate.date).getDate();
 
                       if (dayDate === day) {
                         return item?.attendanceByDate?.holiday ? (
@@ -171,8 +156,7 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
                           <div className='status-container'>
                             <EmployeeStats
                               backgroundColor={
-                                item?.attendanceByDate?.morningStatus?.toLowerCase() ===
-                                'timely in'
+                                item?.attendanceByDate?.morningStatus?.toLowerCase() === 'timely in'
                                   ? '#F4FBF5'
                                   : item?.attendanceByDate?.morningStatus?.toLowerCase() ===
                                     'late in'
@@ -180,8 +164,7 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
                                   : ''
                               }
                               color={
-                                item?.attendanceByDate?.morningStatus?.toLowerCase() ===
-                                'timely in'
+                                item?.attendanceByDate?.morningStatus?.toLowerCase() === 'timely in'
                                   ? '#22BB33'
                                   : item?.attendanceByDate?.morningStatus?.toLowerCase() ===
                                     'late in'
