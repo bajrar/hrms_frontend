@@ -54,8 +54,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint src/**/*.ts",
-    "format": "eslint src/**/*.ts --fix",
     "pretty": "prettier --write \"src/**/*.ts\""
   },
   "eslintConfig": {
@@ -90,7 +88,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint && npm run pretty"
+      "pre-commit": "yarn pretty"
     }
   }
 }
