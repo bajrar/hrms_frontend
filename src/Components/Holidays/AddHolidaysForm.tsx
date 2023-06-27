@@ -10,31 +10,42 @@ import { IForm } from "../Shifts/AddShiftForm";
 import { apis } from "../apis/constants/ApisService";
 import { applicableTo, statusArray } from "../../utils/Constants";
 import { getHolidays } from "../../redux/features/holidaysSlice";
+import { useAddEmployeeMutation } from "../../redux/api/employee";
+import { useAddHolidayMutation } from "../../redux/api/holidays/holidayApiSlice";
+import { useEffect } from "react";
 
 const AddHolidaysForm = ({ setIsModalOpen }: IForm) => {
   const [form] = Form.useForm();
   const { TextArea } = Input;
   const dispatch = useDispatch();
+  const [addHolidays,{data,isSuccess}] = useAddHolidayMutation()
 
   const onFinish = async (values: any) => {
     try {
-      const res = await apis.addHolidays(values);
-      if (res.status === 201) {
-        message.success("Holidays Created");
-        form.resetFields();
-        dispatch(
-          getHolidays({
-            startDate: "",
-            endDate: "",
-          }) as any
-        );
-      }
+      // const res = await apis.addHolidays(values);
+      await addHolidays(values);
+      // if (res.status === 201) {
+      //   message.success("Holidays Created");
+      //   form.resetFields();
+      //   dispatch(
+      //     getHolidays({
+      //       startDate: "",
+      //       endDate: "",
+      //     }) as any
+      //   );
+      // }
     } catch {
       message.error("Something Went Wrong");
     } finally {
       setIsModalOpen(false);
     }
   };
+
+  useEffect(()=>{
+if(isSuccess && data){
+  message.success("holiday Created")
+}
+  },[isSuccess,data])
 
   const handleCancel = () => {
     setIsModalOpen(false);
