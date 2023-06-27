@@ -30,9 +30,9 @@ const BreadCrumbs = ({
       <div className="bread-crumbs-image">
         <img src={imagesrc} alt="add employee" />
       </div>
-      <div className="location-container">
-        <span className="location">{location}</span> &gt;{" "}
-        <span className="location" onClick={() => navigate(`/${location1}`)}>
+      <div className='location-container'>
+        <span className='location'>{location}</span> &gt;{' '}
+        <span className='location' onClick={() => navigate(`/${location1}`)}>
           {location1}
         </span>
         {location2 ? (
