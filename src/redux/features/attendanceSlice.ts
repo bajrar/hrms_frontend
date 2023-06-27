@@ -3,19 +3,14 @@ import { axiosApiInstance } from '../../Components/apis/constants/ApisService';
 
 export const getUsers = createAsyncThunk(
   'users/getUsers',
-  async (
-    { status, date }: { status: string | undefined; date: string },
-    { rejectWithValue }
-  ) => {
+  async ({ status, date }: { status: string | undefined; date: string }, { rejectWithValue }) => {
     try {
-      const response = await axiosApiInstance(
-        `getEmployeeRecordWithAttendance?status=${status}&date=${date}`
-      );
+      const response = await axiosApiInstance(`getEmployeeRecordWithAttendance?status=${status}&date=${date}`);
       return response.data;
     } catch (err: any) {
       return rejectWithValue(err.message);
     }
-  }
+  },
 );
 
 interface IAttendance {

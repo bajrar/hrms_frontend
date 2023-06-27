@@ -1,4 +1,4 @@
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import { ToastContainer, toast } from 'react-toastify';
 
 import { useAddEmployeeMutation } from '../../../redux/api/employee';
@@ -15,7 +15,11 @@ type BasicInfoFormProps = {
   formValues: Employee;
 };
 
-const ContactDetail = ({ closeModal, setMaskClosable, formValues }: BasicInfoFormProps) => {
+const ContactDetail = ({
+  closeModal,
+  setMaskClosable,
+  formValues
+}: BasicInfoFormProps) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const [addEmployee, { isLoading, isSuccess }] = useAddEmployeeMutation();
@@ -54,20 +58,17 @@ const ContactDetail = ({ closeModal, setMaskClosable, formValues }: BasicInfoFor
       designation,
       probation: { type: probationPeriod, count },
       emergency: { name: contactName, contact, relation },
-      project: { name: projectName, permission: projectPermission },
+      project: { name: projectName, permission: projectPermission }
     };
     try {
       setMaskClosable(false);
       await addEmployee(payload);
-      toast.success('Employee Submitted Sucesfully', {
-        position: 'top-center',
-        autoClose: 5000,
-      });
+      message.success('Employee Submitted Sucesfully');
       navigate('/employee');
     } catch (err: any) {
       toast.error('Something Went Wrong', {
         position: 'top-center',
-        autoClose: 5000,
+        autoClose: 5000
       });
     } finally {
       closeModal(false);
@@ -77,81 +78,86 @@ const ContactDetail = ({ closeModal, setMaskClosable, formValues }: BasicInfoFor
   return (
     <>
       <ToastContainer />
-      <div className='mb-4'>
+      <div className="mb-4">
         <div style={{ paddingInline: 5 }}>
           <Form
-            layout='vertical'
+            layout="vertical"
             onFinish={onFinish}
-            autoComplete='off'
+            autoComplete="off"
             form={form}
             initialValues={{}}
           >
-            <div className='row add-employee__section__tab p-2 mt-4'>
+            <div
+              className="row add-employee__section__tab p-2 mt-4  
+             "
+            >
               <Form.Item
-                className='form-input col'
-                label='Contact Name *'
-                name='contactName'
+                className="form-input col"
+                label="Contact Name *"
+                name="contactName"
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your Contact Name !',
-                  },
+                    message: 'Please input your Contact Name !'
+                  }
                 ]}
               >
                 <Input
-                  name='email'
-                  placeholder='Enter the name of contact person (e.g. Jane Doe)'
-                  className='form-input-wrapper'
-                  type='text'
+                  name="email"
+                  placeholder='Enter the name of contact person (e.g. Jane Doe) '
+                  className="form-input-wrapper"
+                  type="text"
                 />
               </Form.Item>
 
               <Form.Item
-                className='form-input col'
-                label='Contact Number * '
-                name='contact'
+                className="form-input col"
+                label="Contact Number * "
+                name="contact"
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your Contact Number!',
-                  },
+                    message: 'Please input your Contact Number!'
+                  }
                 ]}
               >
                 <Input
-                  name='mobile'
-                  placeholder='Enter contact number (e.g. 9368745698)'
-                  className='form-input-wrapper'
-                  type='number'
+                  name="mobile"
+                  placeholder="Enter contact number (e.g. 9368745698)"
+                  className="form-input-wrapper"
+                  type="number"
                 />
               </Form.Item>
             </div>
 
-            <div className='row add-employee__section__tab p-2'>
+            <div className="row add-employee__section__tab p-2">
               <Form.Item
-                className='form-input col-6'
-                label='Relation to employee*'
-                name='relation'
-                rules={[{ required: true, message: 'Please input your relation!' }]}
+                className="form-input col-6"
+                label="Relation to employee*"
+                name="relation"
+                rules={[
+                  { required: true, message: 'Please input your relation!' }
+                ]}
               >
                 <Input
-                  name='email'
-                  placeholder='Enter the relationship of contact person (e.g. parent)'
-                  className='form-input-wrapper'
-                  type='text'
+                  name="email"
+                  placeholder="Enter the relationship of contact person (e.g. parent)"
+                  className="form-input-wrapper"
+                  type="text"
                 />
               </Form.Item>
             </div>
 
-            <div className='form-footer' style={{ display: 'flex', gap: 10 }}>
+            <div className="form-footer" style={{ display: 'flex', gap: 10 }}>
               <Button
-                type='primary'
+                type="primary"
                 onClick={() => closeModalHandler()}
                 danger
                 disabled={isLoading}
               >
                 Cancel
               </Button>
-              <Button type='primary' htmlType='submit' disabled={isLoading}>
+              <Button type="primary" htmlType="submit" disabled={isLoading}>
                 Add
               </Button>
             </div>

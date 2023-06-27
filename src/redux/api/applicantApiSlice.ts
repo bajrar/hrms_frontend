@@ -16,12 +16,12 @@ export const applicantApiSlice = createApi({
   }),
   endpoints: (builder) => ({
     getApplicants: builder.query({
-      query: ({page}) => `applicant?pageNumber=${page}`,
+      query: ({ page }) => `applicant?pageNumber=${page}`,
     }),
     getSingleApplicant: builder.query({
-      query: ({applicantId}) => `applicant/${applicantId}`,
+      query: ({ applicantId }) => `applicant/${applicantId}`,
     }),
   }),
 });
 
-export const { useGetApplicantsQuery,useGetSingleApplicantQuery } = applicantApiSlice;
+export const { useGetApplicantsQuery, useGetSingleApplicantQuery } = applicantApiSlice;

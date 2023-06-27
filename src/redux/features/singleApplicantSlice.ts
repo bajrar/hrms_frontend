@@ -10,7 +10,7 @@ export const getSingleApplicant = createAsyncThunk(
     } catch (err: any) {
       return rejectWithValue(err.message);
     }
-  }
+  },
 );
 
 interface IApplicants {

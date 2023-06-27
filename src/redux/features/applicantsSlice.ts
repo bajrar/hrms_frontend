@@ -3,14 +3,14 @@ import { axiosApiInstance } from '../../Components/apis/constants/ApisService';
 
 export const getApplicants = createAsyncThunk(
   'applicants/getApplicants',
-  async ({pageNumber}:{pageNumber:any}, thunkApi) => {
+  async ({ pageNumber }: { pageNumber: any }, thunkApi) => {
     try {
       const response = await axiosApiInstance(`applicant?pageNumber=${pageNumber}`);
       return response.data;
     } catch (err: any) {
       return thunkApi.rejectWithValue(err.message);
     }
-  }
+  },
 );
 
 interface IApplicants {

@@ -58,7 +58,7 @@ export const store = configureStore({
     userSlice: userSlice,
     verifyTokenSlice: verifyTokenSlice,
     sidebarSlice: sidebarSlice,
-    userRoleSlice:userRoleSlice,
+    userRoleSlice: userRoleSlice,
     [attendanceRequestSlice.reducerPath]: attendanceRequestSlice.reducer,
     [profileSlice.reducerPath]: profileSlice.reducer,
     [leaveSliceApi.reducerPath]: leaveSliceApi.reducer,
@@ -82,7 +82,7 @@ export const store = configureStore({
       tokenSliceApi.middleware,
       employeeApi.middleware,
       applicantApiSlice.middleware,
-      announceSliceApi.middleware
+      announceSliceApi.middleware,
     ]),
 });
 setupListeners(store.dispatch);

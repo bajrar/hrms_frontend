@@ -17,5 +17,5 @@ axiosApiInstance.interceptors.response.use(
       logoutUser();
     }
     return Promise.reject(error);
-  }
+  },
 );

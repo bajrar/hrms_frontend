@@ -16,7 +16,7 @@ export const announceSliceApi = createApi({
   }),
   endpoints: (builder) => ({
     getAnnouncement: builder.query({
-      query: ({userSn}) => `announcement/all/${userSn}`,
+      query: ({ userSn }) => `announcement/all/${userSn}`,
     }),
   }),
 });

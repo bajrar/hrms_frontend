@@ -10,7 +10,7 @@ export const getSingleLeave = createAsyncThunk(
     } catch (err: any) {
       return rejectWithValue(err.message);
     }
-  }
+  },
 );
 interface ILeave {
   loading: boolean;

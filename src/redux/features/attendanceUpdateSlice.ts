@@ -1,5 +1,5 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { API_URL } from '../../Components/apis/constants/constant'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { API_URL } from '../../Components/apis/constants/constant';
 export const attendanceRequestSlice = createApi({
   reducerPath: 'attendanceRequestSlice',
   baseQuery: fetchBaseQuery({
@@ -23,5 +23,5 @@ export const attendanceRequestSlice = createApi({
       invalidatesTags: ['patch'],
     }),
   }),
-})
-export const { useGetPostsQuery, useRequestAttendanceMutation } = attendanceRequestSlice
+});
+export const { useGetPostsQuery, useRequestAttendanceMutation } = attendanceRequestSlice;

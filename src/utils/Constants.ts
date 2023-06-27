@@ -1,6 +1,4 @@
-export const yearList = [
-  2079, 2080, 2081, 2082, 2083, 2084, 2085, 2086, 2087, 2088, 2089,
-];
+export const yearList = [2079, 2080, 2081, 2082, 2083, 2084, 2085, 2086, 2087, 2088, 2089];
 
 export const monthNames = [
   'Baishakh',
@@ -17,15 +15,7 @@ export const monthNames = [
   'Chaitra',
 ];
 
-export const daysOfWeek = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-];
+export const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 export type NepaliMonthDays = {
   2079: number[];

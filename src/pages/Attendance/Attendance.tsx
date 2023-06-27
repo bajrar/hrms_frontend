@@ -1,22 +1,22 @@
-import { useEffect, useState } from "react";
-import Calendar from "@sbmdkl/nepali-datepicker-reactjs";
-import BreadCrumbs from "../../Components/Ui/BreadCrumbs/BreadCrumbs";
-import "./attendance.css";
-import "../../Components/Employee/add-employee-form.css";
-import AttendaceReport from "../../Components/Ui/Tables/AttendaceReport";
-import "@sbmdkl/nepali-datepicker-reactjs/dist/index.css";
-import { WorkingCondition } from "../../utils/Constants";
-import { useAppDispatch, useAppSelector } from "../../hooks/useTypedSelector";
-import { getAttedanceStatus } from "../../redux/features/attendanceStatusSlice";
-import Selects from "../../Components/Ui/Selects/Selects";
-import Layout from "../../Components/Layout";
-import Navbar from "../../Components/Ui/Navbar";
+import { useEffect, useState } from 'react';
+import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
+import BreadCrumbs from '../../Components/Ui/BreadCrumbs/BreadCrumbs';
+import './attendance.css';
+import '../../Components/Employee/add-employee-form.css';
+import AttendaceReport from '../../Components/Ui/Tables/AttendaceReport';
+import '@sbmdkl/nepali-datepicker-reactjs/dist/index.css';
+import { WorkingCondition } from '../../utils/Constants';
+import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
+import { getAttedanceStatus } from '../../redux/features/attendanceStatusSlice';
+import Selects from '../../Components/Ui/Selects/Selects';
+import Layout from '../../Components/Layout';
+import Navbar from '../../Components/Ui/Navbar';
 import {
   today,
-  todayInBsFormat,
-} from "../../Components/Customcalendar/GetTodaysDate";
-import { CalendarOutlined } from "@ant-design/icons";
-import NepaliDate from "nepali-date-converter";
+  todayInBsFormat
+} from '../../Components/Customcalendar/GetTodaysDate';
+import { CalendarOutlined } from '@ant-design/icons';
+import NepaliDate from 'nepali-date-converter';
 
 export interface IEmployeeStats {
   status: string;
@@ -30,21 +30,21 @@ export const EmployeeStats = ({
   color,
   status,
   numberOfEmployee,
-  classNames,
+  classNames
 }: IEmployeeStats) => {
   return (
     <div
       style={{
         backgroundColor: backgroundColor,
-        borderLeft: `4px solid ${color}`,
+        borderLeft: `4px solid ${color}`
       }}
       className={`employee-stats ${classNames}`}
     >
-      {status}{" "}
+      {status}{' '}
       {numberOfEmployee === 0 || numberOfEmployee ? (
         <> &#40; {numberOfEmployee} &#41; </>
       ) : (
-        ""
+        ''
       )}
     </div>
   );
@@ -52,8 +52,8 @@ export const EmployeeStats = ({
 
 const Attendance = () => {
   const [defaultDate, setDefaultDate] = useState(todayInBsFormat);
-  const [searchText, setSearchText] = useState("");
-  const [status, setStatus] = useState("");
+  const [searchText, setSearchText] = useState('');
+  const [status, setStatus] = useState('');
 
   const dispatch = useAppDispatch();
 
@@ -67,9 +67,9 @@ const Attendance = () => {
 
   const today: any = new NepaliDate();
   today.setDate(today.getDate() + 1);
-  const tommorrowDate = today.format("YYYY/MM/DD");
+  const tommorrowDate = today.format('YYYY/MM/DD');
 
-  const disableDate = tommorrowDate?.split("/").join("-");
+  const disableDate = tommorrowDate?.split('/').join('-');
 
   useEffect(() => {
     dispatch(getAttedanceStatus() as any);
@@ -81,28 +81,28 @@ const Attendance = () => {
 
   const AttendanceStatusArray = [
     {
-      backgroundColor: "rgba(0, 185, 241, 0.05)",
-      color: "#023C87",
-      status: "Total Employee",
-      numberOfEmployee: attendanceStatus.totalEmployee,
+      backgroundColor: 'rgba(0, 185, 241, 0.05)',
+      color: '#023C87',
+      status: 'Total Employee',
+      numberOfEmployee: attendanceStatus.totalEmployee
     },
     {
-      backgroundColor: "rgba(0, 185, 241, 0.05)",
-      color: "#00B9F1",
-      status: "Present",
-      numberOfEmployee: attendanceStatus.presentUser,
+      backgroundColor: 'rgba(0, 185, 241, 0.05)',
+      color: '#00B9F1',
+      status: 'Present',
+      numberOfEmployee: attendanceStatus.presentUser
     },
     {
-      backgroundColor: "rgba(187, 33, 36, 0.05)",
-      color: "#BB2124",
-      status: "Absent",
-      numberOfEmployee: attendanceStatus.absentUser,
+      backgroundColor: 'rgba(187, 33, 36, 0.05)',
+      color: '#BB2124',
+      status: 'Absent',
+      numberOfEmployee: attendanceStatus.absentUser
     },
     {
-      backgroundColor: "rgba(187, 33, 36, 0.05)",
-      color: "#BB2124",
-      status: "On Leave",
-      numberOfEmployee: attendanceStatus?.absentUser,
+      backgroundColor: 'rgba(187, 33, 36, 0.05)',
+      color: '#BB2124',
+      status: 'On Leave',
+      numberOfEmployee: attendanceStatus?.absentUser
     },
     // {
     //   backgroundColor: '#F2F5F9',
@@ -111,22 +111,22 @@ const Attendance = () => {
     //   numberOfEmployee: '4',
     // },
     {
-      backgroundColor: "rgba(34, 187, 51, 0.05)",
-      color: "#22BB33",
-      status: "Working From Home",
-      numberOfEmployee: "4",
+      backgroundColor: 'rgba(34, 187, 51, 0.05)',
+      color: '#22BB33',
+      status: 'Working From Home',
+      numberOfEmployee: '4'
     },
     {
-      backgroundColor: "rgba(34, 187, 51, 0.05)",
-      color: "#22BB33",
-      status: "Timely In",
-      numberOfEmployee: attendanceStatus?.timleyIn,
+      backgroundColor: 'rgba(34, 187, 51, 0.05)',
+      color: '#22BB33',
+      status: 'Timely In',
+      numberOfEmployee: attendanceStatus?.timleyIn
     },
     {
-      backgroundColor: "rgba(34, 187, 51, 0.05)",
-      color: "#22BB33",
-      status: "Timely Out",
-      numberOfEmployee: attendanceStatus?.timleyOut,
+      backgroundColor: 'rgba(34, 187, 51, 0.05)',
+      color: '#22BB33',
+      status: 'Timely Out',
+      numberOfEmployee: attendanceStatus?.timleyOut
     },
     // {
     //   backgroundColor: 'rgba(34, 187, 51, 0.05)',
@@ -135,24 +135,24 @@ const Attendance = () => {
     //   numberOfEmployee: attendanceStatus.,
     // },
     {
-      backgroundColor: "rgba(187, 33, 36, 0.05)",
-      color: "#BB2124",
-      status: "Late In",
-      numberOfEmployee: attendanceStatus?.lateIn,
+      backgroundColor: 'rgba(187, 33, 36, 0.05)',
+      color: '#BB2124',
+      status: 'Late In',
+      numberOfEmployee: attendanceStatus?.lateIn
     },
     {
-      backgroundColor: "rgba(240, 173, 78, 0.05)",
-      color: "#F0AD4E",
-      status: "Early Out",
-      numberOfEmployee: attendanceStatus?.earlyOut,
+      backgroundColor: 'rgba(240, 173, 78, 0.05)',
+      color: '#F0AD4E',
+      status: 'Early Out',
+      numberOfEmployee: attendanceStatus?.earlyOut
     },
 
     {
-      backgroundColor: "rgba(187, 33, 36, 0.05)",
-      color: "#BB2124",
-      status: "Late out",
-      numberOfEmployee: attendanceStatus?.lateOut,
-    },
+      backgroundColor: 'rgba(187, 33, 36, 0.05)',
+      color: '#BB2124',
+      status: 'Late out',
+      numberOfEmployee: attendanceStatus?.lateOut
+    }
   ];
 
   return (

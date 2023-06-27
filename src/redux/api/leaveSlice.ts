@@ -1,11 +1,11 @@
 // Need to use the React-specific entry point to import createApi
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { API_URL } from '../../Components/apis/constants/constant'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { API_URL } from '../../Components/apis/constants/constant';
 
 // Define a service using a base URL and expected endpoints
 export const leaveSliceApi = createApi({
   reducerPath: 'leaveSliceApi',
-  baseQuery: fetchBaseQuery({ baseUrl: API_URL}),
+  baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
   endpoints: (builder) => ({
     getLeaves: builder.query({
       query: (leave) => `${leave}`,
@@ -21,8 +21,8 @@ export const leaveSliceApi = createApi({
       }),
     }),
   }),
-})
+});
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetLeavesQuery,useApplyLeaveMutation } = leaveSliceApi
+export const { useGetLeavesQuery, useApplyLeaveMutation } = leaveSliceApi;

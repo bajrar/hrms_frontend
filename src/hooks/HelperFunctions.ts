@@ -5,9 +5,6 @@ export function reduceByKey(arr: any, key: any) {
 }
 export function reduceByKeys(arr: any, id: any, name: any) {
   return arr?.reduce((accumulator: any, currentValue: any) => {
-    return [
-      ...accumulator,
-      { value: currentValue?.[id], label: currentValue?.[name] },
-    ];
+    return [...accumulator, { value: currentValue?.[id], label: currentValue?.[name] }];
   }, []);
 }

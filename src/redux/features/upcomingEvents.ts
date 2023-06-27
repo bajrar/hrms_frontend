@@ -1,25 +1,22 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { axiosApiInstance } from '../../Components/apis/constants/ApisService';
 
-export const getUpcomingEvents = createAsyncThunk(
-  'upcomingEvents/getUpcomingEvents',
-  async (data, thunkApi) => {
-    try {
-      const response = await axiosApiInstance('event/upcoming');
-      return response.data;
-    } catch (err: any) {
-      return thunkApi.rejectWithValue(err.message);
-    }
+export const getUpcomingEvents = createAsyncThunk('upcomingEvents/getUpcomingEvents', async (data, thunkApi) => {
+  try {
+    const response = await axiosApiInstance('event/upcoming');
+    return response.data;
+  } catch (err: any) {
+    return thunkApi.rejectWithValue(err.message);
   }
-);
+});
 
 interface IUpcomingEvents {
-upcomingEvents: any;
+  upcomingEvents: any;
   loading: boolean;
 }
 
 const initialState = {
-upcomingEvents: {},
+  upcomingEvents: {},
   loading: false,
 } as IUpcomingEvents;
 
@@ -38,7 +35,7 @@ const upcomingEventSlice = createSlice({
       })
       .addCase(getUpcomingEvents.rejected, (state, action) => {
         state.loading = false;
-      })
+      });
   },
 });
 export default upcomingEventSlice.reducer;

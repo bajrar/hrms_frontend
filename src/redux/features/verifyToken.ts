@@ -1,25 +1,24 @@
-import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
 export interface VerifyTokenState {
-  value: any
+  value: any;
 }
 
 const initialState: VerifyTokenState = {
   value: {},
-}
+};
 
 export const verifyTokenSlice = createSlice({
   name: 'userData',
   initialState,
   reducers: {
     getUserData: (state, action: any) => {
-      state.value = action.payload
+      state.value = action.payload;
     },
-
   },
-})
+});
 
-export const { getUserData } = verifyTokenSlice.actions
+export const { getUserData } = verifyTokenSlice.actions;
 
-export default verifyTokenSlice.reducer
+export default verifyTokenSlice.reducer;

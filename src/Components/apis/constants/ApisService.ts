@@ -103,18 +103,15 @@ export const apis = {
   getEmployee: () => {
     return axiosApiInstance.get(`/employee`);
   },
-  getSingleEmployee:(id:any)=>{
+  getSingleEmployee: (id: any) => {
     return axiosApiInstance.get(`/employee/${id}`);
   },
-  updateEmployee:(value:any,id:any)=>{
-    return axiosApiInstance.patch(`/employee/${id}`,value);
-
-  }
-  ,
+  updateEmployee: (value: any, id: any) => {
+    return axiosApiInstance.patch(`/employee/${id}`, value);
+  },
   addUserInDevice: (values: any) => {
     return axiosApiInstance.post(`/createUserAttendance`, values);
   },
-
 
   addShift: (values: any) => {
     return axiosApiInstance.post(`/createShift`, values);
@@ -142,7 +139,7 @@ export const apis = {
   deleteEmployeeFromShift: (userSn: string) => {
     return axiosApiInstance.delete(
       `/shift/${userSn}/deleteIndividual
-    `
+    `,
     );
   },
 
@@ -169,14 +166,14 @@ export const apis = {
     return axiosApiInstance.post(
       `/leave/${leaveId}
     `,
-      values
+      values,
     );
   },
   applyLeave: (values: any, leaveId: string) => {
     return axiosApiInstance.post(
       `/leave/apply/${leaveId}
     `,
-      values
+      values,
     );
   },
   deleteLeave: (leaveId: string) => {
@@ -188,10 +185,10 @@ export const apis = {
   addAnnouncement: (values: any) => {
     return axiosApiInstance.post(`/announcement`, values);
   },
-  deleteAnnouncement: (announcementId:string) => {
+  deleteAnnouncement: (announcementId: string) => {
     return axiosApiInstance.delete(`/announcement/${announcementId}`);
   },
-  forgetPassword: (values:any) => {
-    return axiosApiInstance.post(`/users/forgotPassword`,values);
+  forgetPassword: (values: any) => {
+    return axiosApiInstance.post(`/users/forgotPassword`, values);
   },
 };

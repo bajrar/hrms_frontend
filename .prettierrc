@@ -1,6 +1,13 @@
 {
-    "semi": true,
-    "trailingComma": "none",
-    "singleQuote": true,
-    "printWidth": 80
-  }
+  "semi": true,
+<<<<<<< Updated upstream
+  "trailingComma": "all",
+  "singleQuote": true,
+  "printWidth": 120,
+  "tabWidth": 2
+=======
+  "trailingComma": "none",
+  "singleQuote": true,
+  "printWidth": 80
+>>>>>>> Stashed changes
+}

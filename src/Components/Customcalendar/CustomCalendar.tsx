@@ -25,6 +25,14 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
   const dispatch = useDispatch();
   const { employeeId } = useParams();
 
+  const [startOfDate, setStartOfDate] = useState(
+    `${year.year}/${monthInString}/01`
+    // `${year.year}/${month + 1}/01`
+  );
+
+  const [endOfDate, setEndofDate] = useState<any>(
+    `${year.year}/${monthInString}/${nepaliMonthDays[yearNumber][month]}`
+  );
   console.log({ year });
 
   //Calculate the starting day of each month based on the number of days in previous months
@@ -37,6 +45,7 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
     setStartindDayData(startingDays);
   }, [year]);
 
+<<<<<<< HEAD
   // Modify the code to assign Saturday and Sunday as holidays in the year 2080
   const isHoliday = (day: number) => {
     if (year.year === 2080) {
@@ -57,6 +66,8 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
     `${year.year}/${monthInString}/${nepaliMonthDays[yearNumber][month]}`
   );
 
+=======
+>>>>>>> eb4c95b2cfce3dd70e4260f3116e99464ac8218f
   useEffect(() => {
     if (
       year.year === todayInBs.getYear() &&
@@ -71,18 +82,12 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
       if (todayInBs.getDate() < 10) {
         localDate = `0${todayInBs.getDate()}`;
       }
-      setEndofDate(
-        `${todayInBs.getYear()}/${localMonth}/${todayInBs.getDate()}`
-      );
+      setEndofDate(`${todayInBs.getYear()}/${localMonth}/${todayInBs.getDate()}`);
     } else {
-      setEndofDate(
-        `${year.year}/${month + 1}/${nepaliMonthDays[yearNumber][month]}`
-      );
+      setEndofDate(`${year.year}/${month + 1}/${nepaliMonthDays[yearNumber][month]}`);
     }
     const localMonth =
-      todayInBs.getMonth() + 1 < 10
-        ? `0${todayInBs.getMonth() + 1}`
-        : todayInBs.getMonth() + 1;
+      todayInBs.getMonth() + 1 < 10 ? `0${todayInBs.getMonth() + 1}` : todayInBs.getMonth() + 1;
     if (year.year === todayInBs.getYear() && month === todayInBs.getMonth()) {
       setStartOfDate(`${todayInBs.getYear()}/${localMonth}/01`);
     } else {
@@ -121,9 +126,7 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
     setWeeks(weeksArr);
   }, [month, year, startindDayData]);
 
-  const { employee } = useAppSelector(
-    (state: any) => state.SingleAttendanceSlice
-  );
+  const { employee } = useAppSelector((state: any) => state.SingleAttendanceSlice);
 
   const checkStatus = (morningStatus: string, eveningStatus: string) => {
     morningStatus === 'early-in' && eveningStatus === 'late-out'
