@@ -1,11 +1,11 @@
 import { Tabs, TabsProps } from "antd";
 import AddLeave from "../../Components/LeaveAllocation/AddLeave";
-import ApplyLeave from "../../Components/LeaveAllocation/ApplyLeave";
 import BreadCrumbs from "../../Components/Ui/BreadCrumbs/BreadCrumbs";
 import "./leaveAllocation.css";
 import Layout from "../../Components/Layout";
 import Navbar from "../../Components/Ui/Navbar";
 import { useState } from "react";
+import ApplyLeave from "../../Components/LeaveAllocation/ApplyLeave";
 
 const LeaveAllocation = () => {
   const [activeTab, setActiveTab] = useState("1");

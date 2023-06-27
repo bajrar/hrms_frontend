@@ -1,4 +1,4 @@
-import { Table } from 'antd';
+import { Form, Select, Table } from 'antd';
 import { useEffect, useState } from 'react';
 import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
 import '@sbmdkl/nepali-datepicker-reactjs/dist/index.css';
@@ -36,6 +36,8 @@ const ApplyLeave = () => {
   const [searchByLeave, setSearchByLeave] = useState('');
   const userDetails = localStorage.getItem('userDetails');
   const employeeDetails = JSON.parse(userDetails || '');
+  const [form] = Form.useForm();
+  const { Option } = Select;
 
   const onStartDateChange = ({ bsDate }: any) => {
     setStartDate(bsDate);
@@ -51,8 +53,8 @@ const ApplyLeave = () => {
   } else {
     leaveEndpont = `leave/employee/appliedLeave?userSn=${userSn}`;
   }
+  const { leaves } = useAppSelector((state: any) => state.leaveSlice);
   const { data: leaveData, isLoading } = useGetLeavesQuery(leaveEndpont);
-
   const columns: ColumnsType<DataType> = [
     {
       title: 'EID',
@@ -68,6 +70,11 @@ const ApplyLeave = () => {
       title: 'LEAVE TYPE',
       dataIndex: 'leaveType',
       key: 'leaveType',
+      filters: leaveNameSelect.map((leaveName: any) => ({
+        text: leaveName.label,
+        value: leaveName.value,
+      })),
+      onFilter: (value: any, record: DataType) => record.leaveType === value,
     },
     {
       title: 'DATE',
@@ -97,27 +104,25 @@ const ApplyLeave = () => {
   };
 
   useEffect(() => {
-    const leaveNameArray = reduceByKeys(
-      leaveData?.leave,
-      'leaveName',
-      'leaveName'
-    );
-    setLeaveNameArray(leaveNameArray);
-  }, [leaveData?.leave, isLoading]);
+    const shiftNameArray = reduceByKeys(leaves?.leave, '_id', 'leaveName');
+    setLeaveNameArray(shiftNameArray);
+  }, [leaves?.leave]);
+
+  console.log(leaveNameArray, '2scond');
   useEffect(() => {
     if (leaveNameArray) {
-      const leaveArray = leaveNameArray?.map((leaveName: any) => {
-        return {
+      const leaveArray = [
+        { label: 'ALL', value: '' },
+        ...leaveNameArray.map((leaveName: any) => ({
           label: leaveName?.label,
-          value: leaveName?.value,
-        };
-      });
+          value: leaveName?.label,
+        })),
+      ];
       setLeaveNameSelect(leaveArray);
     }
   }, [leaveNameArray]);
-  const onLeaveChange = (value: string) => {
-    setSearchByLeave(value);
-  };
+
+  console.log(leaveNameSelect, 'JAI');
   // const allLeaveTaken = employeeDetails?.leave.flatMap(
   //   (leave: any) => leave.leaveTakenOn
   // );
@@ -127,21 +132,28 @@ const ApplyLeave = () => {
     allLeaveTaken
   );
 
+  const onLeaveChange = (value: string) => {
+    setSearchByLeave(value.toLowerCase());
+  };
+
+  console.log(searchByLeave, 'selected');
   useEffect(() => {
     const filterLeaveData = searchByLeave
-      ? allLeaveTaken.filter((leave: any) => leave.leaveType === searchByLeave)
+      ? allLeaveTaken.filter(
+          (leave: any) => leave.leaveType.toLowerCase() === searchByLeave
+        )
       : allLeaveTaken;
     setFilterLeaveData(filterLeaveData);
-  }, [searchByLeave, isLoading]);
+  }, [searchByLeave, allLeaveTaken]);
 
   return (
     <div className='assign-leave'>
       <div className='d-flex justify-content-between align-items-center daily-report-search'>
-        <div className='attendance-filters calendar-wrapper'>
+        <div className='attendance-filters'>
           <div className='calendar-wrapper'>
             <Calendar
               onChange={onStartDateChange}
-              className='date-picker calender-container-picker leave-inputs calender-wrapper '
+              className='date-picker'
               dateFormat='YYYY/MM/DD'
               language='en'
             />
@@ -151,7 +163,7 @@ const ApplyLeave = () => {
           <div className='calendar-wrapper'>
             <Calendar
               onChange={onEndDateChange}
-              className='date-picker calender-container-picker leave-inputs'
+              className='date-picker'
               dateFormat='YYYY/MM/DD'
               language='en'
             />
@@ -159,13 +171,24 @@ const ApplyLeave = () => {
             <CalendarOutlined className='calendar-icon' />
           </div>
         </div>
-        <div className='d-flex daily-report-saerch-right'>
-          <Selects
-            onSelect={onLeaveChange}
-            options={leaveNameSelect}
-            placeHolder='Search leave name'
-            className='leave-inputs'
-          />
+        <div className='d-flex gap-5 daily-report-saerch-right'>
+          <div className='d-flex flex-grow-1'>
+            <Select
+              showSearch
+              onChange={onLeaveChange}
+              placeholder='Search leave name'
+              className='selects form-input-wrapper w-100'
+              filterOption={(input, option: any) =>
+                option?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {leaveNameSelect.map((option) => (
+                <Option key={option.value} value={option.value}>
+                  {option.label}
+                </Option>
+              ))}
+            </Select>
+          </div>
           {/* <Selects placeHolder='Search leave name' className='leave-inputs' /> */}
           <button className='primary-btn' onClick={showModal}>
             <FontAwesomeIcon icon={faPlus} /> Apply Leave

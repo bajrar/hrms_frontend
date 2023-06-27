@@ -107,6 +107,7 @@ const AssignLeaveForm = ({ setIsAssignOpen, setUpdateModalIsModal }: any) => {
       setIsAssignOpen(false);
     }
   };
+
   const onLeaveName = (value: string) => {
     const employeeArray: any = [];
     form.setFieldValue("leaveName", value);
@@ -114,8 +115,11 @@ const AssignLeaveForm = ({ setIsAssignOpen, setUpdateModalIsModal }: any) => {
     const selectedLeave = leaves?.leave?.find(
       (each: any) => each._id === leaveId
     );
-    selectedLeave?.assignedTo?.map((each: any) => {
-      employeeArray.push({ label: each.employeeName, value: each.userSn });
+    employee?.employee?.map((each: any) => {
+      employeeArray.push({
+        label: each.employeeName,
+        value: each.employeeNumber,
+      });
     });
     setEmployeeNameArray(employeeArray);
   };
