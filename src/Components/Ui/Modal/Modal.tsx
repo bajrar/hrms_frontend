@@ -9,6 +9,7 @@ interface IModal {
   classNames?: string;
   okText?: string;
   destroyOnClose?: boolean;
+  maskClosable?: boolean;
 }
 
 const ModalComponent = ({
@@ -19,6 +20,7 @@ const ModalComponent = ({
   classNames,
   okText,
   destroyOnClose = false,
+  maskClosable = true,
 }: IModal) => {
   const handleCancel = () => {
     closeModal(false);
@@ -35,6 +37,7 @@ const ModalComponent = ({
         className={`${classNames}`}
         okText={okText}
         footer={null}
+        maskClosable={maskClosable}
       >
         {openModal && children}
       </Modal>
