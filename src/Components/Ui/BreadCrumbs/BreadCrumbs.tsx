@@ -1,5 +1,5 @@
-import { useNavigate } from 'react-router-dom';
-import './breadcrumb.css';
+import { useNavigate } from "react-router-dom";
+import "./breadcrumb.css";
 
 interface IBreadCrumb {
   imagesrc: string;
@@ -21,13 +21,14 @@ const BreadCrumbs = ({
   classNames,
 }: IBreadCrumb) => {
   const navigate = useNavigate();
+  console.log({ location, location1, location2 });
 
   return (
     <div
       className={`row m-0 p-0 breadcrumbs d-flex align-items-center ${classNames}`}
     >
-      <div className='bread-crumbs-image'>
-        <img src={imagesrc} alt='add employee' />
+      <div className="bread-crumbs-image">
+        <img src={imagesrc} alt="add employee" />
       </div>
       <div className='location-container'>
         <span className='location'>{location}</span> &gt;{' '}
@@ -36,20 +37,20 @@ const BreadCrumbs = ({
         </span>
         {location2 ? (
           <>
-            &gt;{' '}
-            <span className='location' onClick={() => navigate('')}>
+            &gt;{" "}
+            <span className="location" onClick={() => navigate("")}>
               {location2}
-            </span>{' '}
+            </span>{" "}
           </>
         ) : (
-          ''
+          ""
         )}
         {location3 ? (
           <>
-            &gt;<span className='location'> {location3}</span>
+            &gt;<span className="location"> {location3}</span>
           </>
         ) : (
-          ''
+          ""
         )}
       </div>
     </div>
