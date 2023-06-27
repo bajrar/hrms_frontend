@@ -32,7 +32,7 @@ export const Employee = () => {
   const [searchText, setSearchText] = useState('');
   const [status, setStatus] = useState('');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [isViewOpen, setIsViewOpen] = useState<boolean>(false);
+  const [isMaskClosable, setIsMaskClosable] = useState<boolean>(true);
   // const [UpdateisModalOpen, setUpdateIsModalOpen] = useState<boolean>(false);
   // const [getEmployeeData,setGetEmployeeData] = useState({}as any)
   const [activeEmployee, setActiveEmployee] = useState<any>(undefined);
@@ -294,8 +294,9 @@ export const Employee = () => {
         classNames='add-employee-modal holidays-modal'
         destroyOnClose={true}
         closeModal={setIsModalOpen}
+        maskClosable={isMaskClosable}
       >
-        <TabContainer closeModal={setIsModalOpen} />
+        <TabContainer closeModal={setIsModalOpen} setMaskClosable={setIsMaskClosable} />
 
         {/* <h3 className='modal-title'>ADD EMPLOYEE</h3> 
         <div className='mb-4'>

@@ -11,10 +11,11 @@ import '../employeeDetails.css';
 
 type BasicInfoFormProps = {
   closeModal: (state: boolean) => void;
+  setMaskClosable: (state: boolean) => void;
   formValues: Employee;
 };
 
-const ContactDetail = ({ closeModal, formValues }: BasicInfoFormProps) => {
+const ContactDetail = ({ closeModal, setMaskClosable, formValues }: BasicInfoFormProps) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const [handleSubmit, { data, isLoading, isSuccess }] = useAddEmployeeMutation();
@@ -57,7 +58,8 @@ const ContactDetail = ({ closeModal, formValues }: BasicInfoFormProps) => {
     };
     try {
       await handleSubmit(payload);
-      if (data && isSuccess) {
+      setMaskClosable(false);
+      if (isSuccess) {
         toast.success('Employee Submitted Sucesfully', {
           position: 'top-center',
           autoClose: 5000,
@@ -69,9 +71,12 @@ const ContactDetail = ({ closeModal, formValues }: BasicInfoFormProps) => {
         position: 'top-center',
         autoClose: 5000,
       });
+    } finally {
+      closeModal(false);
     }
   };
 
+  console.log(isLoading);
   return (
     <>
       <ToastContainer />
@@ -140,23 +145,19 @@ const ContactDetail = ({ closeModal, formValues }: BasicInfoFormProps) => {
               </Form.Item>
             </div>
 
-            <Form.Item className='form-footer' style={{ display: 'flex', gap: 10 }}>
-              {() => (
-                <>
-                  <Button
-                    type='primary'
-                    onClick={() => closeModalHandler()}
-                    danger
-                    disabled={isLoading}
-                  >
-                    Cancel
-                  </Button>
-                  <Button type='primary' htmlType='submit' disabled={isLoading}>
-                    Add
-                  </Button>
-                </>
-              )}
-            </Form.Item>
+            <div className='form-footer' style={{ display: 'flex', gap: 10 }}>
+              <Button
+                type='primary'
+                onClick={() => closeModalHandler()}
+                danger
+                disabled={isLoading}
+              >
+                Cancel
+              </Button>
+              <Button type='primary' htmlType='submit' disabled={isLoading}>
+                Add
+              </Button>
+            </div>
           </Form>
         </div>
       </div>
