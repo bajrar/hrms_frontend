@@ -6,16 +6,12 @@ import { useAppSelector } from '../../hooks/useTypedSelector';
 import { EmployeeStats } from '../../pages/Attendance/Attendance';
 import { IYear } from '../../pages/Attendance/EmployeeAttendance';
 import { getEmployeeData } from '../../redux/features/SingleAttendanceSlice';
-<<<<<<< Updated upstream
-import { daysOfWeek, monthNames, NepaliMonthDays, nepaliMonthDays } from '../../utils/Constants';
-=======
 import {
   daysOfWeek,
   monthNames,
   NepaliMonthDays,
   nepaliMonthDays
 } from '../../utils/Constants';
->>>>>>> Stashed changes
 
 import './Customcalendar.css';
 import { todayInBs } from './GetTodaysDate';
