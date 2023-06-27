@@ -3,7 +3,7 @@ import { RootState } from "../store";
 import { useAppSelector } from "./useTypedSelector";
 
 export const useTokenData = () =>{
-    const { data: tokenData, isLoading } = useGetTokenDataQuery('token');
+    const { data: tokenData ,isLoading} = useGetTokenDataQuery('token');
   const authData = useAppSelector((state: RootState) => state.userSlice.value);
   const userDetails = useAppSelector((state: RootState) => state.userSlice.userDetails);
     const isAdmin = authData?.role==='admin' || tokenData?.role ==='admin'
@@ -19,5 +19,5 @@ export const useTokenData = () =>{
       }
   const isAdminTemp = isAdmin ? checkIsAdmin : isAdmin;
 
-    return {isAdmin,userSn,isAdminTemp}
+    return {isAdmin,userSn,isAdminTemp,isLoading}
 }

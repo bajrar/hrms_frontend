@@ -36,10 +36,11 @@ export const MainRoutes = ({}: MainRoutesProps) => {
   return (
     <React.Fragment>
       <Routes>
-        {/* <Route path="/" element={<LoginPage />} /> */}
         {/* <Route element={<ProtectedRoute />}> */}
+        
         <Route path='*' element={<PageNotFound />} />
         <Route path='/' element={<Dashboard />} />
+        <Route path='/' element={<LoginPage />} />
         <Route path='/holidays' element={<Holidays />} />
         <Route path='/leave' element={<LeaveAllocation />} />
         <Route path='/request-leave' element={<RequestLeave />} />
@@ -70,11 +71,7 @@ export const MainRoutes = ({}: MainRoutesProps) => {
         </Route>
         <Route path='/profile' element={<Profile />} />
         {/* </Route> */}
-        <Route element={<ProtectedOtpRoute />}>
-          <Route path='/verifyOtp' element={<OtpSection />} />
-          <Route path='/ChangePassword' element={<ChangePassword />} />
-        </Route>
-        <Route path='/forgotPassword' element={<ForgetPassword />} />
+
       </Routes>
     </React.Fragment>
   );
