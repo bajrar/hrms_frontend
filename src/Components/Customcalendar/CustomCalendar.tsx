@@ -119,6 +119,15 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
     return earlyIn;
   };
 
+  // Filter employee attendance data for the current month
+  const filteredAttendance = employee?.result?.filter((item: any) => {
+    const attendanceDate = new Date(item.attendanceByDate.date);
+    return (
+      attendanceDate.getFullYear() === year.year &&
+      attendanceDate.getMonth() === month
+    );
+  });
+
   // Render the calendar
   return (
     <div className="calendar-wrapper">
@@ -140,86 +149,84 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
           {weeks.map((week: any, i: number) => (
             <tr key={i} className="table-row-container">
               {week.map((day: any, j: number) => (
-                <>
-                  <td key={`${i}-${j}`} className="table-data-container">
-                    {day}
-                    {employee?.result?.map((item: any, index: number) => {
-                      const dayDate = new Date(
-                        item.attendanceByDate.date
-                      ).getDate();
-
-                      if (dayDate === day) {
-                        return item?.attendanceByDate?.holiday ? (
-                          <div className="status-container">
-                            <EmployeeStats
-                              backgroundColor="transparent"
-                              color="#9747FF"
-                              status="Holiday"
-                              classNames="holiday-container"
-                            />
-                          </div>
-                        ) : item?.attendanceByDate?.absent ? (
-                          <div className="status-container">
-                            <EmployeeStats
-                              backgroundColor="#"
-                              color="#BB2124"
-                              status="Absent"
-                              classNames="holiday-container"
-                            />
-                          </div>
-                        ) : (
-                          <div className="status-container">
-                            <EmployeeStats
-                              backgroundColor={
-                                item?.attendanceByDate?.morningStatus?.toLowerCase() ===
-                                "timely in"
-                                  ? "#F4FBF5"
-                                  : item?.attendanceByDate?.morningStatus?.toLowerCase() ===
-                                    "late in"
-                                  ? "#FBF4F4"
-                                  : ""
-                              }
-                              color={
-                                item?.attendanceByDate?.morningStatus?.toLowerCase() ===
-                                "timely in"
-                                  ? "#22BB33"
-                                  : item?.attendanceByDate?.morningStatus?.toLowerCase() ===
-                                    "late in"
-                                  ? "#BB2124"
-                                  : ""
-                              }
-                              status={item.attendanceByDate.entryTime}
-                              numberOfEmployee={item.numberOfEmployee}
-                            />
-                            -{" "}
-                            <EmployeeStats
-                              backgroundColor={
-                                item?.attendanceByDate?.eveningStatus?.toLowerCase() ===
-                                "timely out"
-                                  ? "#F4FBF5"
-                                  : item?.attendanceByDate?.eveningStatus?.toLowerCase() ===
-                                    "early out"
-                                  ? "#FEFBF6"
-                                  : ""
-                              }
-                              color={
-                                item?.attendanceByDate?.eveningStatus?.toLowerCase() ===
-                                "timely out"
-                                  ? "#22BB33"
-                                  : item?.attendanceByDate?.eveningStatus?.toLowerCase() ===
-                                    "early out"
-                                  ? "#F0AD4E"
-                                  : ""
-                              }
-                              status={item.attendanceByDate.exitTime}
-                              numberOfEmployee={item.numberOfEmployee}
-                            />
-                          </div>
-                        );
-                      }
-                    })}
-                  </td>
-                </>
+                <td key={`${i}-${j}`} className="table-data-container">
+                  {day}
+                  {filteredAttendance?.map((item: any, index: number) => {
+                    const dayDate = new Date(
+                      item.attendanceByDate.date
+                    ).getDate();
+                    if (dayDate === day) {
+                      // console.log(item?.attendanceByDate, "HAHA");
+                      return item?.attendanceByDate?.holiday ? (
+                        <div className="status-container">
+                          <EmployeeStats
+                            backgroundColor="transparent"
+                            color="#9747FF"
+                            status="Holiday"
+                            classNames="holiday-container"
+                          />
+                        </div>
+                      ) : item?.attendanceByDate?.absent ? (
+                        <div className="status-container">
+                          <EmployeeStats
+                            backgroundColor="#"
+                            color="#BB2124"
+                            status="Absent"
+                            classNames="holiday-container"
+                          />
+                        </div>
+                      ) : (
+                        <div className="status-container">
+                          <EmployeeStats
+                            backgroundColor={
+                              item?.attendanceByDate?.morningStatus?.toLowerCase() ===
+                              "timely in"
+                                ? "#F4FBF5"
+                                : item?.attendanceByDate?.morningStatus?.toLowerCase() ===
+                                  "late in"
+                                ? "#FBF4F4"
+                                : ""
+                            }
+                            color={
+                              item?.attendanceByDate?.morningStatus?.toLowerCase() ===
+                              "timely in"
+                                ? "#22BB33"
+                                : item?.attendanceByDate?.morningStatus?.toLowerCase() ===
+                                  "late in"
+                                ? "#BB2124"
+                                : ""
+                            }
+                            status={item.attendanceByDate.entryTime}
+                            numberOfEmployee={item.numberOfEmployee}
+                          />
+                          -{" "}
+                          <EmployeeStats
+                            backgroundColor={
+                              item?.attendanceByDate?.eveningStatus?.toLowerCase() ===
+                              "timely out"
+                                ? "#F4FBF5"
+                                : item?.attendanceByDate?.eveningStatus?.toLowerCase() ===
+                                  "early out"
+                                ? "#FEFBF6"
+                                : ""
+                            }
+                            color={
+                              item?.attendanceByDate?.eveningStatus?.toLowerCase() ===
+                              "timely out"
+                                ? "#22BB33"
+                                : item?.attendanceByDate?.eveningStatus?.toLowerCase() ===
+                                  "early out"
+                                ? "#F0AD4E"
+                                : ""
+                            }
+                            status={item.attendanceByDate.exitTime}
+                            numberOfEmployee={item.numberOfEmployee}
+                          />
+                        </div>
+                      );
+                    }
+                  })}
+                </td>
               ))}
             </tr>
           ))}
@@ -228,4 +235,5 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
     </div>
   );
 }
+
 export default Calendar;
