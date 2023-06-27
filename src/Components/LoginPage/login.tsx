@@ -67,6 +67,7 @@ export const LoginPage = ({}: LoginPageProps) => {
         localStorage.setItem('token', res.data.token);
         navigate('/');
         dispatch(login());
+        window.location.reload();
       }
     } catch (error) {
       console.log(error);

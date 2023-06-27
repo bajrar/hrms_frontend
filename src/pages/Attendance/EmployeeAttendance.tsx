@@ -98,12 +98,11 @@ const EmployeeAttendance = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const startDayyear: any = todayInBs.getYear().toString();
-  // console.log(startDay?.[startDayyear], "<----------- thisis year");
+  const currentYear = +todayInBs.getYear();
+
   const [year, setYear] = useState<IYear>({
-    year: todayInBs.getYear(),
-    startDay: Number(startDay?.[startDayyear]),
-    // startDay: 4,
+    year: currentYear,
+    startDay: +startDay[currentYear],
   });
   console.log(todayInBs.getYear(), "<----------------- today year");
   const [month, setMonth] = useState<any>(todayInBs.getMonth());
@@ -116,6 +115,7 @@ const EmployeeAttendance = () => {
   const onEndDateChange = ({ bsDate }: any) => {
     setEndDate(bsDate);
   };
+  console.log({ date: todayInBs.getMonth() });
   const dispatch = useDispatch();
   const navigate = useNavigate();
   let { employeeId } = useParams();

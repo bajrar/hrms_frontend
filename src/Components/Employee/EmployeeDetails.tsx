@@ -1,36 +1,36 @@
-import { Button } from "antd";
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button } from 'antd';
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import Layout from "../Layout";
-import Navbar from "../Ui/Navbar";
-import Spinner from "../Spinner/Spinner";
-import EmployeeForm from "./EmployeeForm";
-import ModalComponent from "../Ui/Modal/Modal";
-import BreadCrumbs from "../Ui/BreadCrumbs/BreadCrumbs";
-import { useGetProfileQuery } from "../../redux/api/employee";
+import Layout from '../Layout';
+import Navbar from '../Ui/Navbar';
+import Spinner from '../Spinner/Spinner';
+import EmployeeForm from './EmployeeForm';
+import ModalComponent from '../Ui/Modal/Modal';
+import BreadCrumbs from '../Ui/BreadCrumbs/BreadCrumbs';
+import { useGetProfileQuery } from '../../redux/api/employee';
 
 /* ASSETS */
-import "./employeeDetails.css";
-import "./add-employee-form.css";
-import { faPen, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import './employeeDetails.css';
+import './add-employee-form.css';
+import { faPen, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 enum empKeys {
-  empId = "employeeNumber",
-  name = "employeeName",
-  email = "email",
-  dob = "dob",
-  gender = "gender",
-  designation = "designation",
-  reportingManager = "reportingManager ",
-  status = "status",
-  dateofJoining = "dateOfJoining",
-  probation = "",
-  mobileNumber = "mobileNumber",
-  emergencyName = "",
-  emergencyContact = "emergencyContact",
-  relation = "",
+  empId = 'employeeNumber',
+  name = 'employeeName',
+  email = 'email',
+  dob = 'dob',
+  gender = 'gender',
+  designation = 'designation',
+  reportingManager = 'reportingManager ',
+  status = 'status',
+  dateofJoining = 'dateOfJoining',
+  probation = '',
+  mobileNumber = 'mobileNumber',
+  emergencyName = '',
+  emergencyContact = 'emergencyContact',
+  relation = '',
 }
 
 const EmpDetails = () => {
@@ -100,20 +100,20 @@ const EmpDetails = () => {
           <Navbar />
           <div style={{ margin: 40 }}>
             <BreadCrumbs
-              imagesrc="/images/attendance.svg"
-              location="Employee Management"
-              location1="Add Employee"
+              imagesrc='/images/attendance.svg'
+              location='Employee Management'
+              location1='employee'
               location2={data?.employee?.employeeName}
             />
             <hr />
-            <div className="employee-intro">
+            <div className='employee-intro'>
               <h4>
-                {data?.employee?.employeeName}{" "}
-                <span style={{ padding: "0 0.75rem" }}>
+                {data?.employee?.employeeName}{' '}
+                <span style={{ padding: '0 0.75rem' }}>
                   <FontAwesomeIcon
                     icon={faPen}
-                    color="#35639F"
-                    size="xs"
+                    color='#35639F'
+                    size='xs'
                     onClick={() => {
                       /* open modal */
                       setActiveEmployee(data?.employee);
@@ -122,8 +122,8 @@ const EmpDetails = () => {
                 </span>
               </h4>
               <Button
-                className="btn"
-                type="primary"
+                className='btn'
+                type='primary'
                 onClick={() =>
                   navigate(`/attendance/${data?.employee?.employeeNumber}`)
                 }
@@ -132,14 +132,14 @@ const EmpDetails = () => {
                 <FontAwesomeIcon icon={faArrowRight} />
               </Button>
             </div>
-            <div className="employee-details-container">
-              <div className="employee-details">
+            <div className='employee-details-container'>
+              <div className='employee-details'>
                 {employeeData?.primary.map((item: any) => (
-                  <div className="employee-details__meta">
-                    <h6 className="employee-details__meta-title">
+                  <div className='employee-details__meta'>
+                    <h6 className='employee-details__meta-title'>
                       {item.key.toUpperCase()}
                     </h6>
-                    <p className="employee-details__meta-content">
+                    <p className='employee-details__meta-content'>
                       {item.value}
                     </p>
                   </div>
@@ -147,15 +147,15 @@ const EmpDetails = () => {
               </div>
             </div>
 
-            <div className="employee-details-container">
+            <div className='employee-details-container'>
               <h4>IN CASE OF EMERGENCY</h4>
-              <div className="employee-details">
+              <div className='employee-details'>
                 {employeeData?.secondary.map((item: any) => (
-                  <div className="employee-details__meta">
-                    <h6 className="employee-details__meta-title">
+                  <div className='employee-details__meta'>
+                    <h6 className='employee-details__meta-title'>
                       {item.key.toUpperCase()}
                     </h6>
-                    <p className="employee-details__meta-content">
+                    <p className='employee-details__meta-content'>
                       {item.value}
                     </p>
                   </div>
@@ -169,13 +169,13 @@ const EmpDetails = () => {
       {/* MODAL CMP */}
       <ModalComponent
         openModal={!!activeEmployee}
-        classNames="holidays-modal"
+        classNames='holidays-modal'
         closeModal={() => setActiveEmployee(undefined)}
       >
         {!!activeEmployee && (
           <EmployeeForm
             update
-            setIsModalOpen={() => setActiveEmployee("")}
+            setIsModalOpen={() => setActiveEmployee('')}
             employeeId={activeEmployee}
             defaultValue={activeEmployee}
           />

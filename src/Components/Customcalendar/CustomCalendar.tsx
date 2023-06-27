@@ -25,6 +25,8 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
   const dispatch = useDispatch();
   const { employeeId } = useParams();
 
+  console.log({ year });
+
   //Calculate the starting day of each month based on the number of days in previous months
   useEffect(() => {
     const startingDays = [year.startDay];
