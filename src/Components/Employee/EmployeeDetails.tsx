@@ -90,7 +90,6 @@ const EmpDetails = () => {
       setEmployeeData({ primary: mapped, secondary: mappedSec });
     }
   }, [data]);
-  console.log(employeeData);
 
   return (
     <>

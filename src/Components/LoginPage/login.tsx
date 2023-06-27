@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import { Spin } from 'antd';
 import { useAppSelector } from '../../hooks/useTypedSelector';
 import { RootState } from '../../store';
-import { getUserData } from '../../redux/features/userSlice';
+import { getUserData, getUserDetails } from '../../redux/features/userSlice';
 import { verifyTokenStatus } from '../../redux/features/verifyTokenSlice';
 import Spinner from '../Spinner/Spinner';
 type LoginPageProps = {};
@@ -57,6 +57,7 @@ export const LoginPage = ({}: LoginPageProps) => {
       const res = await apis.getLogin(inputs);
       dispatch(getToken(res.data.token));
       dispatch(getUserData(res.data.user));
+      dispatch(getUserDetails(res.data.userDetails));
       setLoginData(res.data.user);
       if (res.status === 200) {
         localStorage.setItem(

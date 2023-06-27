@@ -36,7 +36,6 @@ const OfficeDetailsForm = ({
   };
 
   const onFinish = (values: any) => {
-    console.log('<-------------------------- prevState', formValues);
     setFormValues({ ...formValues, ...values });
     tabControls(false);
     changeTab('3');
@@ -61,7 +60,8 @@ const OfficeDetailsForm = ({
                 {
                   required: true,
                   message: 'Please input valid email!',
-                  pattern: /^[a-zA-Z0-9_.+-]+@(eeposit\.com|virtuosway\.com.np)$/,
+                  pattern:
+                    /^[a-zA-Z0-9_.+-]+@(eeposit\.com|virtuosway\.com.np)$/,
                 },
               ]}
             >
@@ -78,7 +78,9 @@ const OfficeDetailsForm = ({
               label='Mobile Number * '
               name='mobile'
               initialValue='test@eeposit.com'
-              rules={[{ required: true, message: 'Please input your Mobile Number!' }]}
+              rules={[
+                { required: true, message: 'Please input your Mobile Number!' },
+              ]}
             >
               <Input
                 name='mobile'
@@ -106,7 +108,9 @@ const OfficeDetailsForm = ({
               className='form-input col'
               label='Designation *'
               name='designation'
-              rules={[{ required: true, message: 'Please input your designation!' }]}
+              rules={[
+                { required: true, message: 'Please input your designation!' },
+              ]}
             >
               <Input
                 name='employeeId'
@@ -122,7 +126,12 @@ const OfficeDetailsForm = ({
               className='form-input col'
               label='Reporting Manager *'
               name='reportingManager'
-              rules={[{ required: true, message: 'Please input your reporting manager!' }]}
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your reporting manager!',
+                },
+              ]}
             >
               <Input
                 name='reportingManager'
@@ -132,14 +141,21 @@ const OfficeDetailsForm = ({
               />
             </Form.Item>
 
-            <Form.Item label='Status * ' className='form-input col' name='status' initialValue={{}}>
+            <Form.Item
+              label='Status * '
+              className='form-input col'
+              name='status'
+              initialValue={{}}
+            >
               <Select
                 showSearch
                 size='large'
                 placeholder='Select status'
                 style={{}}
                 optionFilterProp='children'
-                filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                filterOption={(input, option) =>
+                  (option?.label ?? '').includes(input)
+                }
                 filterSort={(optionA, optionB) =>
                   (optionA?.label ?? '')
                     .toLowerCase()
@@ -197,7 +213,9 @@ const OfficeDetailsForm = ({
                     showSearch
                     placeholder='Days'
                     optionFilterProp='children'
-                    filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                    filterOption={(input, option) =>
+                      (option?.label ?? '').includes(input)
+                    }
                     options={[
                       { label: '1 month', value: '1 month' },
                       { label: '3 months', value: '3 months' },
@@ -229,7 +247,9 @@ const OfficeDetailsForm = ({
               className='form-input col'
               label='Project Name *'
               name='projectName'
-              rules={[{ required: true, message: 'Please input your Project Name!' }]}
+              rules={[
+                { required: true, message: 'Please input your Project Name!' },
+              ]}
             >
               <Input
                 name='projectName'
@@ -257,7 +277,9 @@ const OfficeDetailsForm = ({
                 placeholder='Days'
                 optionFilterProp='children'
                 className='form-input-wrapper'
-                filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                filterOption={(input, option) =>
+                  (option?.label ?? '').includes(input)
+                }
                 options={[
                   { label: 'Owner', value: 'owner' },
                   { label: 'Admin', value: 'admin' },

@@ -5,9 +5,9 @@ import { useAppSelector } from "./useTypedSelector";
 export const useTokenData = () =>{
     const { data: tokenData, isLoading } = useGetTokenDataQuery('token');
   const authData = useAppSelector((state: RootState) => state.userSlice.value);
-
+  const userDetails = useAppSelector((state: RootState) => state.userSlice.userDetails);
     const isAdmin = authData?.role==='admin' || tokenData?.role ==='admin'
-    const userSn = authData?.userSn || tokenData?.userSn
+    const userSn =tokenData?.userSn? tokenData?.userSn: userDetails?.employeeNumber
     const userTokenData = useAppSelector(
         (state: RootState) => state.userRoleSlice
       );

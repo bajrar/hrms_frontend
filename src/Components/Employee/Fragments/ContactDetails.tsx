@@ -1,26 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Form, Input, Radio, RadioChangeEvent, Select } from 'antd';
-import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
-import NepaliDate from 'nepali-date-converter';
+import { Button, Form, Input } from 'antd';
 import { ToastContainer, toast } from 'react-toastify';
 
-import { apis } from '../../apis/constants/ApisService';
+import { useAddEmployeeMutation } from '../../../redux/api/employee';
 import { Employee } from '../Tabs/TabContainer';
 
 /* Assets */
-import '../employeeDetails.css';
+import { useNavigate } from 'react-router-dom';
 import '../add-employee-form.css';
-import { useAddEmployeeMutation } from '../../../redux/api/employee';
+import '../employeeDetails.css';
 
 type BasicInfoFormProps = {
   closeModal: (state: boolean) => void;
+  setMaskClosable: (state: boolean) => void;
   formValues: Employee;
 };
 
-const ContactDetail = ({ closeModal, formValues }: BasicInfoFormProps) => {
+const ContactDetail = ({ closeModal, setMaskClosable, formValues }: BasicInfoFormProps) => {
   const [form] = Form.useForm();
-  const [addEmployee, { data, isLoading, isSuccess }] =
-    useAddEmployeeMutation();
+  const navigate = useNavigate();
+  const [addEmployee, { isLoading, isSuccess }] = useAddEmployeeMutation();
   const closeModalHandler = () => {
     form.resetFields();
     closeModal(false);
@@ -58,23 +56,21 @@ const ContactDetail = ({ closeModal, formValues }: BasicInfoFormProps) => {
       emergency: { name: contactName, contact, relation },
       project: { name: projectName, permission: projectPermission },
     };
-    console.log({ payload });
     try {
+      setMaskClosable(false);
       await addEmployee(payload);
-
-      // const res = await apis.addEmployee(payload);
-
-      // if (res.status === 201) {
-      //   toast.success('Employee Submitted Sucesfully', {
-      //     position: 'top-center',
-      //     autoClose: 5000,
-      //   });
-      // }
+      toast.success('Employee Submitted Sucesfully', {
+        position: 'top-center',
+        autoClose: 5000,
+      });
+      navigate('/employee');
     } catch (err: any) {
       toast.error('Something Went Wrong', {
         position: 'top-center',
         autoClose: 5000,
       });
+    } finally {
+      closeModal(false);
     }
   };
 
@@ -135,9 +131,7 @@ const ContactDetail = ({ closeModal, formValues }: BasicInfoFormProps) => {
                 className='form-input col-6'
                 label='Relation to employee*'
                 name='relation'
-                rules={[
-                  { required: true, message: 'Please input your relation!' },
-                ]}
+                rules={[{ required: true, message: 'Please input your relation!' }]}
               >
                 <Input
                   name='email'
@@ -149,10 +143,15 @@ const ContactDetail = ({ closeModal, formValues }: BasicInfoFormProps) => {
             </div>
 
             <div className='form-footer' style={{ display: 'flex', gap: 10 }}>
-              <Button type='primary' onClick={() => closeModalHandler()} danger>
+              <Button
+                type='primary'
+                onClick={() => closeModalHandler()}
+                danger
+                disabled={isLoading}
+              >
                 Cancel
               </Button>
-              <Button type='primary' htmlType='submit'>
+              <Button type='primary' htmlType='submit' disabled={isLoading}>
                 Add
               </Button>
             </div>

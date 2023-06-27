@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Form, Input, Radio, RadioChangeEvent, Select } from 'antd';
 import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
-import NepaliDate from 'nepali-date-converter';
+import { Button, Form, Input, Radio, Select } from 'antd';
+import React, { useEffect } from 'react';
 
 /* Assets */
-import '../employeeDetails.css';
-import '../add-employee-form.css';
 import { Employee } from '../Tabs/TabContainer';
+import '../add-employee-form.css';
+import '../employeeDetails.css';
 
 type BasicInfoFormProps = {
   closeModal: (state: boolean) => void;
   changeTab: (key: string) => void;
   formValues: Employee;
   setFormValues: React.Dispatch<React.SetStateAction<Employee>>;
-  tabControls: React.Dispatch<React.SetStateAction<boolean>>
+  tabControls: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const BasicInfoForm = ({
@@ -21,7 +20,7 @@ const BasicInfoForm = ({
   changeTab,
   formValues,
   setFormValues,
-  tabControls
+  tabControls,
 }: BasicInfoFormProps) => {
   const [form] = Form.useForm();
 
@@ -36,7 +35,7 @@ const BasicInfoForm = ({
 
   const onFinish = (values: any) => {
     setFormValues({ ...formValues, ...values });
-    tabControls(false); 
+    tabControls(false);
     changeTab('2');
   };
 

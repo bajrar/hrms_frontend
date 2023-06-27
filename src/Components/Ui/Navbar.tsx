@@ -29,8 +29,15 @@ const Navbar = () => {
   const userRoleData = useAppSelector(
     (state: RootState) => state.userRoleSlice
   );
+<<<<<<< HEAD
   const currentRole = userRoleData.role === "admin" ? "user" : "admin";
   const { isAdmin } = useTokenData();
+=======
+  const { isAdminTemp, isAdmin } = useTokenData();
+  console.log({ isAdminTemp }, "YOYO");
+  const currentRole = isAdminTemp ? "user" : "admin";
+  // const currentRole = userRoleData.role === 'admin' ? 'user' : 'admin';
+>>>>>>> main
   const logOut = () => {
     // localStorage.clear();
     // login();

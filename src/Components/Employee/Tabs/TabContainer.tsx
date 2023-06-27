@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
 import { Tabs } from 'antd';
+import React, { useState } from 'react';
 import BasicInfoForm from '../Fragments/BasicInfoForm';
-import OfficeDetails from '../Fragments/OfficeDetails';
 import ContactDetails from '../Fragments/ContactDetails';
+import OfficeDetails from '../Fragments/OfficeDetails';
 
 type TabItems = {
   label: string;
@@ -12,6 +12,7 @@ type TabItems = {
 
 type TabContainerProps = {
   closeModal: (state: boolean) => void;
+  setMaskClosable: (state: boolean) => void;
 };
 
 type CustomDate = {
@@ -69,7 +70,7 @@ const initialState = {
   relation: '',
 } as Employee;
 
-const TabContainer = ({ closeModal }: TabContainerProps) => {
+const TabContainer = ({ closeModal, setMaskClosable }: TabContainerProps) => {
   const [activeKey, setActiveKey] = useState('1');
   const [formValues, setFormValues] = useState<Employee>(initialState);
   const [isTab, setIsTab] = useState<boolean>(true);
@@ -108,7 +109,13 @@ const TabContainer = ({ closeModal }: TabContainerProps) => {
     {
       label: 'Emergency Contact Details',
       key: '3',
-      children: <ContactDetails closeModal={closeModal} formValues={formValues} />,
+      children: (
+        <ContactDetails
+          closeModal={closeModal}
+          setMaskClosable={setMaskClosable}
+          formValues={formValues}
+        />
+      ),
       disabled: isTab2,
     },
   ];
