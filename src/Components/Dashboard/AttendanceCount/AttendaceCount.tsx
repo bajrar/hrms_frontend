@@ -11,7 +11,7 @@ const AttendaceCount = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const dashboard = await axiosApiInstance.get('/dashboard');
+        const dashboard = await axiosApiInstance.get('/');
         setDashboardData(dashboard.data.dashboardData);
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
@@ -21,7 +21,7 @@ const AttendaceCount = () => {
     fetchData();
   }, []);
 
-  const data01 = [  
+  const data01 = [
     { name: 'Others', value: 0, color: '#E6F8FE' },
     {
       name: 'Female',
@@ -44,7 +44,7 @@ const AttendaceCount = () => {
     return showArrow;
   }, [showArrow, arrowAtCenter]);
 
-  // popover Content 
+  // popover Content
   const content = (
     <div>
       <p>Content</p>
@@ -62,32 +62,53 @@ const AttendaceCount = () => {
             <p>Attendance</p>
             <div className='d-flex gap-3'>
               <div className='d-flex flex-column gap-3'>
-              <span className='border-start border-4 border-info ps-2'>Present (New baneshwor office) (10)</span>
-              <span className='border-start border-4 border-info ps-2'>Present (Old baneshwor office) (10)</span>
+                <span className='border-start border-4 border-info ps-2'>
+                  Present (New baneshwor office) (10)
+                </span>
+                <span className='border-start border-4 border-info ps-2'>
+                  Present (Old baneshwor office) (10)
+                </span>
               </div>
               <div className='d-flex flex-column gap-3'>
-              <span style={{borderLeft: '4px solid #BB22A3', paddingLeft: '0.5rem'}}>Working From Home (5)</span>
-              <span className='border-start border-4 border-danger ps-2'>On Leave (10)</span>
+                <span
+                  style={{
+                    borderLeft: '4px solid #BB22A3',
+                    paddingLeft: '0.5rem',
+                  }}
+                >
+                  Working From Home (5)
+                </span>
+                <span className='border-start border-4 border-danger ps-2'>
+                  On Leave (10)
+                </span>
               </div>
             </div>
           </div>
           <div className='leave-request-container'>
             <div className='on-leave'>
               <p>
-                On Leave Today 
-                <Popover placement="bottom" content={content} title="Title" arrow={mergedArrow}>
+                On Leave Today
+                <Popover
+                  placement='bottom'
+                  content={content}
+                  title='Title'
+                  arrow={mergedArrow}
+                >
                   <MdInfo color='#BB2124' className='mx-2 fs-6' />
                 </Popover>
-
-               
               </p>
-              <span className='border-start border-4 border-danger ps-2'>Total (10)</span>
+              <span className='border-start border-4 border-danger ps-2'>
+                Total (10)
+              </span>
             </div>
             <div className='on-request'>
               <p>
-                Request for Approval <MdInfo color='#F0AD4E' className='mx-1 fs-6' />
+                Request for Approval{' '}
+                <MdInfo color='#F0AD4E' className='mx-1 fs-6' />
               </p>
-              <span className='border-start border-4 border-warning ps-2'>Total (10)</span>
+              <span className='border-start border-4 border-warning ps-2'>
+                Total (10)
+              </span>
             </div>
           </div>
         </div>
@@ -110,12 +131,28 @@ const AttendaceCount = () => {
             </Pie>
           </PieChart>
           <div>
-            <div style={{position: 'relative'}}>
-              <span style={{width: '3px', backgroundColor: '#023C87', position: 'absolute'}}>&nbsp;</span>
+            <div style={{ position: 'relative' }}>
+              <span
+                style={{
+                  width: '3px',
+                  backgroundColor: '#023C87',
+                  position: 'absolute',
+                }}
+              >
+                &nbsp;
+              </span>
               <p className='mx-2'>Male 60%</p>
             </div>
-            <div style={{position: 'relative'}}>
-            <span style={{width: '3px', backgroundColor: '#00B9F1', position: 'absolute'}}>&nbsp;</span>
+            <div style={{ position: 'relative' }}>
+              <span
+                style={{
+                  width: '3px',
+                  backgroundColor: '#00B9F1',
+                  position: 'absolute',
+                }}
+              >
+                &nbsp;
+              </span>
               <p className='mx-2'>Female 30%</p>
             </div>
             {/* <div>

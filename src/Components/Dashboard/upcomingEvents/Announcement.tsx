@@ -23,6 +23,7 @@ import NepaliDate from "nepali-date-converter";
 import { apis } from "../../apis/constants/ApisService";
 import { useGetTokenDataQuery } from "../../../redux/api/tokenSlice";
 import { useGetAnnouncementQuery } from "../../../redux/api/announceSliceApi";
+import { useTokenData } from "../../../hooks/userTokenData";
 
 type PropsType = {
   isAdmin?: boolean;
@@ -47,14 +48,15 @@ const Announcement = ({ isAdmin = true }: PropsType) => {
 
   // const { announcement } = useAppSelector((state) => state.announcement);
   const { data: tokenData } = useGetTokenDataQuery("token");
+  // const { data: tokenData } = useGetTokenDataQuery('token');
+  const { userSn } = useTokenData();
   const {
     data: announcement,
     isLoading,
     refetch,
   } = useGetAnnouncementQuery({
-    userSn: tokenData?.userSn,
+    userSn,
   });
-  console.log({ announcement });
   useEffect(() => {
     setLoading(true);
     dispatch(getAnnouncement() as any)
