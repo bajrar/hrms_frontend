@@ -18,6 +18,8 @@ import Layout from '../../Components/Layout';
 import Navbar from '../../Components/Ui/Navbar';
 import { verifyTokenStatus } from '../../redux/features/verifyTokenSlice';
 import { RootState } from '../../store';
+import { useTokenData } from '../../hooks/userTokenData';
+import { useGetHolidayQuery } from '../../redux/api/holidays/holidayApiSlice';
 export interface DataType {
   holidayName?: string;
   date?: string;
@@ -27,18 +29,12 @@ export interface DataType {
 }
 
 const Holidays = () => {
-  const [startDate, setStartDate] = useState<any>();
-  const [endDate, setEndDate] = useState<any>();
+  const [startDate, setStartDate] = useState<any>('');
+  const [endDate, setEndDate] = useState<any>('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [holidaysArray, setHolidayArray] = useState<any[]>([]);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(verifyTokenStatus() as any);
-  }, []);
-  const userData = useAppSelector((state: RootState) => state.userSlice.value);
-  const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
-  const userRole = tokenData?.role ? tokenData?.role : userData?.role;
+  const {isAdmin}  = useTokenData()
 
   const onStartDateChange = ({ bsDate }: any) => {
     setStartDate(bsDate);
@@ -75,25 +71,7 @@ const Holidays = () => {
     },
   ];
 
-  useEffect(() => {
-    if (startDate && endDate) {
-      dispatch(
-        getHolidays({
-          startDate: startDate,
-          endDate: endDate,
-        }) as any
-      );
-    } else {
-      dispatch(
-        getHolidays({
-          startDate: '',
-          endDate: '',
-        }) as any
-      );
-    }
-  }, [dispatch, startDate, endDate]);
-
-  const { holidays } = useAppSelector((state) => state.holidaySlice);
+  const {data:holidays,isLoading} = useGetHolidayQuery({startDate:startDate===endDate?'':startDate,endData:endDate===startDate?'':endDate})
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -149,7 +127,7 @@ const Holidays = () => {
               <CalendarOutlined className='calendar-icon' />
             </div>
           </div>
-          {userRole === 'admin' && (
+          {isAdmin && (
             <button className='primary-btn' onClick={showModal}>
               <FontAwesomeIcon icon={faPlus} /> Add Holidays
             </button>
@@ -159,6 +137,7 @@ const Holidays = () => {
           columns={columns}
           className='holidays-table'
           dataSource={holidaysArray}
+          loading={isLoading}
         />
         <ModalComponent
           openModal={isModalOpen}

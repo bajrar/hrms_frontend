@@ -33,6 +33,7 @@ import { tokenSliceApi } from './redux/api/tokenSlice';
 import { applicantApiSlice } from './redux/api/applicantApiSlice';
 import userRoleSlice from './redux/features/role/userRoleSlice';
 import { announceSliceApi } from './redux/api/announceSliceApi';
+import { holidayApiSlice } from './redux/api/holidays/holidayApiSlice';
 
 export const store = configureStore({
   reducer: {
@@ -69,6 +70,7 @@ export const store = configureStore({
     [employeeApi.reducerPath]: employeeApi.reducer,
     [applicantApiSlice.reducerPath]: applicantApiSlice.reducer,
     [announceSliceApi.reducerPath]: announceSliceApi.reducer,
+    [holidayApiSlice.reducerPath]: holidayApiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     // getDefaultMiddleware().concat(attendanceRequestSlice.middleware).concat(profileSlice.middleware),
@@ -83,6 +85,7 @@ export const store = configureStore({
       employeeApi.middleware,
       applicantApiSlice.middleware,
       announceSliceApi.middleware,
+      holidayApiSlice.middleware,
     ]),
 });
 setupListeners(store.dispatch);
