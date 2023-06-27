@@ -43,11 +43,6 @@ const ApplyLeave = () => {
   const onEndDateChange = ({ bsDate }: any) => {
     setEndDate(bsDate);
   };
-  // const { data: leaveData, isLoading } = useGetLeavesQuery('leave');
-
-  // const { data: tokenData } = useGetTokenDataQuery('token');
-  // console.log({ tokenData }, 'token data');
-  // const userRole = tokenData?.role;
   const { isAdmin, userSn } = useTokenData();
   console.log({ userSn, isAdmin });
   let leaveEndpont;
