@@ -17,5 +17,5 @@ export const useTokenData = () => {
   }
   const isAdminTemp = isAdmin ? checkIsAdmin : isAdmin;
 
-  return { isAdmin, userSn, isAdminTemp };
+  return { isAdmin, userSn, isAdminTemp, isLoading };
 };
