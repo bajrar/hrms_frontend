@@ -28,7 +28,7 @@ export const employeeApi = createApi({
         },
       }),
     }),
-
   }),
 });
-export const { useGetProfileQuery, useRequestProfileUpdateMutation,useAddEmployeeMutation } = employeeApi;
+export const { useGetProfileQuery, useRequestProfileUpdateMutation, useAddEmployeeMutation } =
+  employeeApi;

@@ -18,7 +18,7 @@ type BasicInfoFormProps = {
 const ContactDetail = ({ closeModal, setMaskClosable, formValues }: BasicInfoFormProps) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
-  const [handleSubmit, { data, isLoading, isSuccess }] = useAddEmployeeMutation();
+  const [addEmployee, { isLoading, isSuccess }] = useAddEmployeeMutation();
   const closeModalHandler = () => {
     form.resetFields();
     closeModal(false);
@@ -57,15 +57,13 @@ const ContactDetail = ({ closeModal, setMaskClosable, formValues }: BasicInfoFor
       project: { name: projectName, permission: projectPermission },
     };
     try {
-      await handleSubmit(payload);
       setMaskClosable(false);
-      if (isSuccess) {
-        toast.success('Employee Submitted Sucesfully', {
-          position: 'top-center',
-          autoClose: 5000,
-        });
-        navigate('/employee');
-      }
+      await addEmployee(payload);
+      toast.success('Employee Submitted Sucesfully', {
+        position: 'top-center',
+        autoClose: 5000,
+      });
+      navigate('/employee');
     } catch (err: any) {
       toast.error('Something Went Wrong', {
         position: 'top-center',
@@ -76,7 +74,6 @@ const ContactDetail = ({ closeModal, setMaskClosable, formValues }: BasicInfoFor
     }
   };
 
-  console.log(isLoading);
   return (
     <>
       <ToastContainer />
