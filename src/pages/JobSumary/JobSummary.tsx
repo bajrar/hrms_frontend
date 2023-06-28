@@ -49,7 +49,7 @@ const JobSummary = () => {
     dispatch(
       getSingleJob({
         jobId,
-      }) as any
+      }) as any,
     );
     setResumeIsModalOpen(true);
   };
@@ -120,18 +120,10 @@ const JobSummary = () => {
       dataIndex: 'action',
       key: 'action',
       render: (record) => (
-        <div className='d-flex action-btn-container'>
-          <FontAwesomeIcon
-            icon={faPen}
-            color='#35639F'
-            onClick={() => updateJobModal(record)}
-          />
-          <FontAwesomeIcon
-            icon={faTrash}
-            color='#35639F'
-            onClick={() => openDeleteJobs(record)}
-          />
-          <span className='viewMoreBtn' onClick={() => viewSingleJob(record)}>
+        <div className="d-flex action-btn-container">
+          <FontAwesomeIcon icon={faPen} color="#35639F" onClick={() => updateJobModal(record)} />
+          <FontAwesomeIcon icon={faTrash} color="#35639F" onClick={() => openDeleteJobs(record)} />
+          <span className="viewMoreBtn" onClick={() => viewSingleJob(record)}>
             View
           </span>
         </div>
@@ -171,33 +163,21 @@ const JobSummary = () => {
   return (
     <Layout>
       <Navbar />
-      <div className='job-summary-page padding'>
+      <div className="job-summary-page padding">
         <hr />
-        <BreadCrumbs
-          imagesrc='/images/vacancy.svg'
-          location='Vacancy Management'
-          location1='Job Summary'
-        />
+        <BreadCrumbs imagesrc="/images/vacancy.svg" location="Vacancy Management" location1="Job Summary" />
         <hr />
-        <div className='d-flex justify-content-between job-summary-header'>
+        <div className="d-flex justify-content-between job-summary-header">
           <input
-            type='text'
-            className='search-field'
-            placeholder='Search positions'
+            type="text"
+            className="search-field"
+            placeholder="Search positions"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value.toLowerCase())}
           />
-          <div className='d-flex job-summary-header__right'>
-            <Selects
-              className='job-summary-selects'
-              options={jobStatus}
-              value={jobStat}
-              onSelect={onSelect}
-            />
-            <button
-              className='primary-btn'
-              onClick={() => setIsModalOpen(true)}
-            >
+          <div className="d-flex job-summary-header__right">
+            <Selects className="job-summary-selects" options={jobStatus} value={jobStat} onSelect={onSelect} />
+            <button className="primary-btn" onClick={() => setIsModalOpen(true)}>
               <FontAwesomeIcon icon={faPlus} />
               Add Jobs
             </button>
@@ -205,90 +185,61 @@ const JobSummary = () => {
         </div>
         <Table
           columns={columns}
-          className='table-container'
-          dataSource={
-            jobStat === 'allStatus'
-              ? jobsArray
-              : jobsArray.filter((job) => job.jobsStatus === jobStat)
-          }
+          className="table-container"
+          dataSource={jobStat === 'allStatus' ? jobsArray : jobsArray.filter((job) => job.jobsStatus === jobStat)}
         />
-        <ModalComponent
-          openModal={isModalOpen}
-          closeModal={setIsModalOpen}
-          classNames='add-jobs-modal'
-        >
-          <h3 className='modal-title'>ADD JOBS</h3>
+        <ModalComponent openModal={isModalOpen} closeModal={setIsModalOpen} classNames="add-jobs-modal">
+          <h3 className="modal-title">ADD JOBS</h3>
           <AddJobsForm setIsModalOpen={setIsModalOpen} />
         </ModalComponent>
         <ModalComponent
           openModal={isResumeModalOpen}
-          classNames='add-jobs-modal'
+          classNames="add-jobs-modal"
           // handleCancel={handleApplicationCancel}
           closeModal={setResumeIsModalOpen}
         >
-          <h3 className='modal-title'>VIEW DETAILS</h3>
-          <table className='application-table'>
+          <h3 className="modal-title">VIEW DETAILS</h3>
+          <table className="application-table">
             <tbody>
-              <tr className='application-table-row'>
-                <th className='application-table-head'>JOB TITLE</th>
-                <td className='application-table-body'>{job?.job?.title}</td>
+              <tr className="application-table-row">
+                <th className="application-table-head">JOB TITLE</th>
+                <td className="application-table-body">{job?.job?.title}</td>
               </tr>
-              <tr className='application-table-row'>
-                <th className='application-table-head'>EMPLOYMENT TYPE</th>
-                <td className='application-table-body'>
-                  {job?.job?.employmentType}
-                </td>
+              <tr className="application-table-row">
+                <th className="application-table-head">EMPLOYMENT TYPE</th>
+                <td className="application-table-body">{job?.job?.employmentType}</td>
               </tr>
-              <tr className='application-table-row'>
-                <th className='application-table-head'>MINIMUM EXPERIENCE</th>
-                <td className='application-table-body'>
-                  {job?.job?.minExperience}
-                </td>
+              <tr className="application-table-row">
+                <th className="application-table-head">MINIMUM EXPERIENCE</th>
+                <td className="application-table-body">{job?.job?.minExperience}</td>
               </tr>
-              <tr className='application-table-row'>
-                <th className='application-table-head'>JOB STATUS</th>
-                <td className='application-table-body'>{job?.job?.status}</td>
+              <tr className="application-table-row">
+                <th className="application-table-head">JOB STATUS</th>
+                <td className="application-table-body">{job?.job?.status}</td>
               </tr>
               {/* <tr>
               <th className='application-table-head'>ADDRESS</th>
               <td className='application-table-body'>{job?.job?.device}</td>
             </tr> */}
-              <tr className='application-table-row'>
-                <th className='application-table-head'>JOB DESCRIPTION</th>
+              <tr className="application-table-row">
+                <th className="application-table-head">JOB DESCRIPTION</th>
                 <td
-                  className='application-table-body'
+                  className="application-table-body"
                   dangerouslySetInnerHTML={{ __html: job?.job?.descriptions }}
                 ></td>
               </tr>
-              <tr className='application-table-row'>
-                <th className='application-table-head'>
-                  QUALITY AND REQUIREMENTS
-                </th>
-                <td
-                  className='application-table-body'
-                  dangerouslySetInnerHTML={{ __html: job?.job?.qnrs }}
-                ></td>
+              <tr className="application-table-row">
+                <th className="application-table-head">QUALITY AND REQUIREMENTS</th>
+                <td className="application-table-body" dangerouslySetInnerHTML={{ __html: job?.job?.qnrs }}></td>
               </tr>
             </tbody>
           </table>
         </ModalComponent>
-        <ModalComponent
-          openModal={openUpdateJob}
-          classNames='add-jobs-modal'
-          closeModal={setOpenUpdateJob}
-        >
-          <h3 className='modal-title'>UPDATE JOBS</h3>
-          <AddJobsForm
-            setIsModalOpen={setOpenUpdateJob}
-            fromUpdateJobs
-            jobId={jobId}
-          />
+        <ModalComponent openModal={openUpdateJob} classNames="add-jobs-modal" closeModal={setOpenUpdateJob}>
+          <h3 className="modal-title">UPDATE JOBS</h3>
+          <AddJobsForm setIsModalOpen={setOpenUpdateJob} fromUpdateJobs jobId={jobId} />
         </ModalComponent>
-        <DeleteModal
-          openModal={openDeleteModal}
-          setOpenModal={setOpenDeleteModal}
-          deleteItem={deleteJobs}
-        />
+        <DeleteModal openModal={openDeleteModal} setOpenModal={setOpenDeleteModal} deleteItem={deleteJobs} />
       </div>
     </Layout>
   );
