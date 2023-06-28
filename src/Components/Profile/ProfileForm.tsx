@@ -210,13 +210,10 @@ export const ProfileForm = ({
   ];
 
   const handleMonth = (value: string) => {
-    console.log(value, "VAL");
     const selectedMonth = monthAndDays.find((month: any) => {
-      console.log(month.month, "MEAW");
       return month?.month.toLowerCase().includes(value.toLowerCase());
     });
 
-    console.log(selectedMonth, "MOMO");
     if (selectedMonth) {
       form.setFieldsValue({ days: selectedMonth?.days });
       setDays(selectedMonth?.days);
@@ -232,7 +229,6 @@ export const ProfileForm = ({
     const selectedMonth = monthAndDays.find((days: any) => {
       return days?.days.toString().includes(value.toString());
     });
-    console.log(selectedMonth, "BOOOOOO");
     if (selectedMonth) {
       form.setFieldsValue({ month: selectedMonth?.month });
       setDays(selectedMonth?.days);
