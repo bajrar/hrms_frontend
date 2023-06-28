@@ -26,7 +26,6 @@ export const formatDate = (dateString: any) => {
 
     return `${dayName}, ${monthName} ${day}`;
   } catch (error) {
-    console.error('Error formatting Nepali date:', error);
     return ''; // Return an empty string or handle the error as per your requirement
   }
 };

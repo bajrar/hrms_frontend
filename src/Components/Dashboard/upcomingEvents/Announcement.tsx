@@ -26,7 +26,9 @@ const Announcement = ({ isAdmin = true }: PropsType) => {
   const [openAnnounceModel, setOpenAnnounceModel] = useState<boolean>(false);
   const [form] = Form.useForm();
   const [deleteModalVisible, setDeleteModalVisible] = useState<boolean>(false);
+  const [leaveVisible, setLeaveVisible] = useState<boolean>(false);
   const [selectedAnnouncement, setSelectedAnnouncement] = useState<any>(null);
+  const [selectedLeave, setSelectedLeave] = useState<any>(null);
 
   const [viewModalVisible, setViewModalVisible] = useState<boolean>(false);
   const [pressAnnouncement, setPressAnnouncement] = useState<any>(null);
@@ -69,6 +71,12 @@ const Announcement = ({ isAdmin = true }: PropsType) => {
   const showViewModel = (announcement: any) => {
     setPressAnnouncement(announcement);
     setViewModalVisible(true);
+  };
+
+  // leaves ko lagi
+  const showLeaveView = (leave: any) => {
+    setSelectedLeave(leave);
+    setLeaveVisible(true);
   };
 
   const handleDelete = async () => {
@@ -151,7 +159,7 @@ const Announcement = ({ isAdmin = true }: PropsType) => {
                   <p>{announcement.details}</p>
                 </div>
                 <div className="announcement-container-announcements-box-left ">
-                  <p>{formatDate(announcement.date)}</p>
+                  <p className="text-dark border-start border-4 border-success p-1">{formatDate(announcement.date)}</p>
                   <div className="announcement-container-announcements-box-buttons">
                     <Button
                       type="text"
@@ -174,20 +182,14 @@ const Announcement = ({ isAdmin = true }: PropsType) => {
                 <div className="announcement-container-announcements-box" key={index}>
                   <div className="announcement-container-announcements-box-right">
                     <h4>On Leave</h4>
-                    <p>{leave}</p>
+                    <p className="fs-5">{leave}</p>
                   </div>
-                  <div className="announcement-container-announcements-box-left ">
-                    <p>{formatDate(currentDate)}</p>
+                  <div className="announcement-container-announcements-box-left">
+                    <p className="text-dark border-start border-4 border-info p-1">{formatDate(currentDate)}</p>
                     <div className="announcement-container-announcements-box-buttons">
-                      <Button
-                        type="text"
-                        danger
-                        onClick={() => showDeleteModal(announcement)}
-                        className={`${!isAdmin && 'd-none'}`}
-                      >
-                        Delete
+                      <Button type="primary" onClick={() => showLeaveView(leave)}>
+                        View
                       </Button>
-                      <Button type="primary">View</Button>
                     </div>
                   </div>
                 </div>
@@ -247,12 +249,34 @@ const Announcement = ({ isAdmin = true }: PropsType) => {
           </h4>
         </div>
 
-        <div className="announcement-container-announcements-box-right">
-          <h4>{pressAnnouncement?.title}</h4>
-          <p>{pressAnnouncement?.details}</p>
+        <div className="announcement-container-announcements-box-right my-4">
+          <h3>{pressAnnouncement?.title}</h3>
+          <p className="fs-6">{pressAnnouncement?.details}</p>
         </div>
-        <div className="announcement-container-announcements-box-left ">
-          <p>{formatDate(pressAnnouncement?.date)}</p>
+        <div className="announcement-container-announcements-box-left mt-3 ">
+          <p className="text-dark border-start border-4 border-success p-1">{formatDate(pressAnnouncement?.date)}</p>
+        </div>
+      </Modal>
+
+      {/* leave ko lagi */}
+      <Modal
+        title="leaveView"
+        visible={leaveVisible}
+        onOk={() => setLeaveVisible(false)}
+        onCancel={() => setLeaveVisible(false)}
+      >
+        <div className="announcement-container-title-left">
+          <h4>
+            <img src="vector.svg" alt="announcement logo" />
+            On Leave
+          </h4>
+        </div>
+
+        <div className="announcement-container-announcements-box-right my-4">
+          <h3>{selectedLeave}</h3>
+        </div>
+        <div className="announcement-container-announcements-box-left mt-2">
+          <p className="text-dark border-start border-4 border-info p-1">{formatDate(currentDate)}</p>
         </div>
       </Modal>
     </>

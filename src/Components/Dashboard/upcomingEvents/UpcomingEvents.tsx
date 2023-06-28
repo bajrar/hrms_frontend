@@ -9,10 +9,12 @@ import { Button, Form, Input, Modal, Skeleton, message } from 'antd';
 import { TbPlus } from 'react-icons/tb';
 import ModalComponent from '../../Ui/Modal/Modal';
 import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
+import moment from 'moment';
 import {
   useAddUpcomingEventMutation,
   useDeleteEventMutation,
   useGetUpcomingEventsQuery,
+  useUpdateEventMutation,
 } from '../../../redux/api/eventSliceApi';
 
 type PropsType = {
@@ -22,20 +24,40 @@ type PropsType = {
 const UpcomingEvents = ({ isSmall = false, isAdmin = true }: PropsType) => {
   const [addUpcomingEvent, { data, isLoading, isError }] = useAddUpcomingEventMutation();
   const [deleteEvent, { isSuccess }] = useDeleteEventMutation();
+  const [updateEvent, { isSuccess: success }] = useUpdateEventMutation();
+
+  const [deleteModalVisible, setDeleteModalVisible] = useState<boolean>(false);
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const [openEventModel, setOpenEventModel] = useState<boolean>(false);
+  const [dateEvent, setDateEvent] = useState();
   const [form] = Form.useForm();
   const { TextArea } = Input;
 
   const onFinish = async (values: any) => {
+    console.log(values);
+    console.log(selectedEvent);
     const { date, eventName, notes } = values;
     console.log(values, 'value');
     try {
-      await addUpcomingEvent({ eventName, date: date.bsDate, notes });
-      message.success('Event Added Successfully!');
-      setOpenEventModel(false);
+      if (isEditing && selectedEvent) {
+        await updateEvent({ id: selectedEvent, body: { eventName, date: date.bs, notes } });
+        message.success('Event Updated Successfully!');
+        setIsEditing(false);
+      } else {
+        await addUpcomingEvent({ eventName, date: date.bsDate, notes });
+        message.success('Event Added Successfully!');
+        setOpenEventModel(false);
+        form.resetFields();
+      }
     } catch (error) {
       console.log(error);
+      message.error('Error Try Again');
+    } finally {
+      setOpenEventModel(false);
+      setIsEditing(false);
+      form.resetFields();
     }
   };
 
@@ -43,10 +65,8 @@ const UpcomingEvents = ({ isSmall = false, isAdmin = true }: PropsType) => {
     message.error('Submit failed!');
   };
 
-  const [deleteModalVisible, setDeleteModalVisible] = useState<boolean>(false);
-  const [selectedEvent, setSelectedEvent] = useState<any>(null);
-
   const handleDelete = async () => {
+    console.log(selectedEvent, 'select');
     if (selectedEvent) {
       try {
         await deleteEvent(selectedEvent._id);
@@ -64,6 +84,15 @@ const UpcomingEvents = ({ isSmall = false, isAdmin = true }: PropsType) => {
   const showDeleteModal = (event: any) => {
     setSelectedEvent(event);
     setDeleteModalVisible(true);
+  };
+
+  const showEditModel = (event: any) => {
+    const dateInEvent = event.date.split('/').join('-');
+    setDateEvent(dateInEvent);
+    form.setFieldsValue(event);
+    setSelectedEvent(event._id);
+    setIsEditing(true);
+    setOpenEventModel(true);
   };
 
   const getLastDayOfMonth = (year: number, month: number) => {
@@ -141,12 +170,15 @@ const UpcomingEvents = ({ isSmall = false, isAdmin = true }: PropsType) => {
   });
 
   const onStartChange = ({ bsDate }: any) => {
-    form.setFieldValue('startDate', bsDate);
+    setDateEvent(bsDate);
+
+    // form.setFieldValue('startDate', bsDate);
   };
 
   const handleCancel = () => {
     setOpenEventModel(false);
     form.resetFields();
+    setIsEditing(false);
   };
 
   return (
@@ -160,7 +192,7 @@ const UpcomingEvents = ({ isSmall = false, isAdmin = true }: PropsType) => {
           <button onClick={() => setOpenEventModel(true)}>
             <span>
               <TbPlus className="me-2" />
-              Upcoming Events
+              Add Events
             </span>
           </button>
         </div>
@@ -218,7 +250,7 @@ const UpcomingEvents = ({ isSmall = false, isAdmin = true }: PropsType) => {
                         <h5>{event.eventName}</h5>
                         <p>{event.notes}</p>
 
-                        <div className="event-container-events-box-buttons">
+                        <div className="event-container-events-box-buttons gap-3">
                           <Button
                             type="primary"
                             danger
@@ -226,6 +258,13 @@ const UpcomingEvents = ({ isSmall = false, isAdmin = true }: PropsType) => {
                             className={`${!isAdmin && 'd-none'}`}
                           >
                             Delete
+                          </Button>
+                          <Button
+                            type="primary"
+                            onClick={() => showEditModel(event)}
+                            className={`${!isAdmin && 'd-none'}`}
+                          >
+                            Edit
                           </Button>
                         </div>
                       </div>
@@ -274,7 +313,7 @@ const UpcomingEvents = ({ isSmall = false, isAdmin = true }: PropsType) => {
                   <h5>{event.eventName}</h5>
                   <p> {event.notes}</p>
 
-                  <div className="event-container-events-box-buttons">
+                  <div className="event-container-events-box-buttons gap-3 ">
                     <Button
                       type="primary"
                       danger
@@ -282,6 +321,9 @@ const UpcomingEvents = ({ isSmall = false, isAdmin = true }: PropsType) => {
                       className={`${!isAdmin && 'd-none'}`}
                     >
                       Delete
+                    </Button>
+                    <Button type="primary" onClick={() => showEditModel(event)} className={`${!isAdmin && 'd-none'}`}>
+                      Edit
                     </Button>
                   </div>
                 </div>
@@ -308,14 +350,20 @@ const UpcomingEvents = ({ isSmall = false, isAdmin = true }: PropsType) => {
         )}
       </div>
 
-      <ModalComponent openModal={openEventModel} classNames="add-jobs-modal" closeModal={setOpenEventModel}>
-        <h3 className="modal-title">Add Announcement</h3>
+      <ModalComponent
+        openModal={openEventModel}
+        classNames="add-jobs-modal"
+        closeModal={setOpenEventModel}
+        destroyOnClose
+      >
+        <h3 className="modal-title">Add Events</h3>
         <Form
           layout="vertical"
           autoComplete="off"
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           className="announcement-form"
+          // initialValues={isEditing && selectedEvent ? selectedEvent : undefined}
           form={form}
         >
           <Form.Item
@@ -326,8 +374,14 @@ const UpcomingEvents = ({ isSmall = false, isAdmin = true }: PropsType) => {
           >
             <Input placeholder="Enter the Event Name" className="form-input-wrapper" type="text" />
           </Form.Item>
-          <Form.Item label="Event Date" className="form-input col" name="date">
-            <Calendar onChange={onStartChange} className="date-picker" dateFormat="YYYY/MM/DD" language="en" />
+          <Form.Item label="Event Date" className="form-input col" name="date" initialValue={moment('2080/03/16')}>
+            <Calendar
+              onChange={onStartChange}
+              className="date-picker"
+              dateFormat="YYYY/MM/DD"
+              language="en"
+              defaultDate={dateEvent}
+            />
           </Form.Item>
           <Form.Item
             className="form-input col pt-4"
@@ -340,7 +394,7 @@ const UpcomingEvents = ({ isSmall = false, isAdmin = true }: PropsType) => {
           <div className="announcement-form-buttons">
             <Button onClick={handleCancel}>Cancel</Button>
             <Button type="primary" htmlType="submit">
-              Event
+              {isEditing ? 'Edit Event' : 'Add Event'}
             </Button>
           </div>
         </Form>

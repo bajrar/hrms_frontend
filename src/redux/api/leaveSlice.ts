@@ -6,20 +6,31 @@ import { API_URL } from '../../Components/apis/constants/constant';
 export const leaveSliceApi = createApi({
   reducerPath: 'leaveSliceApi',
   baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
+  tagTypes: ['leaves'],
+
   endpoints: (builder) => ({
+
     getLeaves: builder.query({
       query: (leave) => `${leave}`,
     }),
+
     applyLeave: builder.mutation({
       query: (payload) => ({
         url: `leave/apply/${payload.id}`,
         method: 'POST',
         body: payload,
-        // headers: {
-        //   'Content-type': 'application/json; charset=UTF-8',
-        // },
       }),
+      invalidatesTags: ['leaves']
     }),
+
+    // deleteLeave: builder.mutation({
+    //   query: (id) => ({
+    //     url: `leave/${id}`,
+    //     method: 'DELETE',
+    //   }),
+    //   invalidatesTags: ['leaves']
+    // })
+
   }),
 });
 

@@ -23,8 +23,12 @@ export const eventSliceApi = createApi({
         deleteEvent: builder.mutation({
             query: (id) => ({url: `event/${id}`, method: 'DELETE'}),
             invalidatesTags:['events']
+        }),
+        updateEvent: builder.mutation({
+            query: ({id, body}) => ({url: `event/${id}`, method: 'PATCH', body: body}),
+            invalidatesTags:['events']
         })
     })
 })
 
-export const {useAddUpcomingEventMutation,useGetUpcomingEventsQuery, useDeleteEventMutation} = eventSliceApi;
+export const {useAddUpcomingEventMutation,useGetUpcomingEventsQuery, useDeleteEventMutation, useUpdateEventMutation} = eventSliceApi;
