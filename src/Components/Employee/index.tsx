@@ -82,11 +82,11 @@ export const Employee = () => {
   // };
 
   const columns: ColumnsType<DataType> = [
-    // {
-    //   title: 'SN',
-    //   dataIndex: 'sn',
-    //   key: 'sn',
-    // },
+    {
+      title: 'SN',
+      dataIndex: 'sn',
+      key: 'sn',
+    },
     {
       title: 'EID',
       dataIndex: 'id',
@@ -217,7 +217,7 @@ export const Employee = () => {
           designation: userData?.designation,
           dob: userData?.dob,
           view: userData,
-          sn: sn + 1,
+          // sn: sn + 1,
         };
         data1.push(tableData);
       }
@@ -229,9 +229,12 @@ export const Employee = () => {
   useEffect(() => {
     const sortedData = [...attendanceData].sort((a, b) => a.name.localeCompare(b.name));
     const data = status ? sortedData.filter((each: any) => each.status === status) : sortedData;
+    for (let i = 0; i < data.length; i++) {
+      data[i]['sn'] = i + 1;
+    }
     setFilterData(data);
   }, [attendanceData, status]);
-
+  console.log({ filterData });
   return (
     <>
       <Layout>
