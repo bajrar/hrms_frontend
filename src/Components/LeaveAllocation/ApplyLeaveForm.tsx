@@ -13,6 +13,7 @@ import { useApplyLeaveMutation, useGetLeavesQuery } from '../../redux/api/leaveS
 import { useGetUserProfileQuery } from '../../redux/features/profileSlice';
 import Selects from '../Ui/Selects/Selects';
 import { useTokenData } from '../../hooks/userTokenData';
+import { useGetProfileQuery } from '../../redux/api/employeeApiSlice';
 const { Option } = Select;
 
 const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
@@ -24,15 +25,21 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
   const userData = useAppSelector((state: RootState) => state.userSlice.value);
   const { isAdmin, userSn } = useTokenData();
   const { data: employeeData } = useGetUserProfileQuery(isAdmin ? '/employee' : `/employee/${userSn}`);
-  console.log(employeeData, 'mero data');
   const { data: leaves, isLoading } = useGetLeavesQuery('leave');
-
-  const [applyLeave, { data: leaveResponse, error: leaveError, isSuccess: isLeaveSuccess, isError: isLeaveError }] =
+  const [applyLeave, { data: leaveResponse, isSuccess: isLeaveSuccess, isError: isLeaveError }] =
     useApplyLeaveMutation();
+  console.log(employeeData?.employee?.leave, 'mero data');
+  console.log(leaves?.leave, '<------ thisis is leave leave');
+
   useEffect(() => {
-    const shiftNameArray = reduceByKeys(leaves?.leave, '_id', 'leaveName');
+    const assignedLeave = employeeData?.employee?.leave;
+    const filteredLeave = leaves?.leave?.filter((each: any) =>
+      assignedLeave?.some((assigned: any) => assigned.leaveName === each.leaveName),
+    );
+    const finalLeaveArray = isAdmin ? leaves?.leave : filteredLeave;
+    const shiftNameArray = reduceByKeys(finalLeaveArray, '_id', 'leaveName');
     setLeaveNameArray(shiftNameArray);
-  }, [leaves?.leave]);
+  }, [leaves?.leave, employeeData, isAdmin]);
 
   // console.log(leaveNameArray, "select name");
   useEffect(() => {
