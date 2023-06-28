@@ -25,12 +25,9 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
   const userData = useAppSelector((state: RootState) => state.userSlice.value);
   const { isAdmin, userSn } = useTokenData();
   const { data: employeeData } = useGetUserProfileQuery(isAdmin ? '/employee' : `/employee/${userSn}`);
-  const { data: leaves, isLoading } = useGetLeavesQuery('leave');
+  const { data: leaves } = useGetLeavesQuery('leave');
   const [applyLeave, { data: leaveResponse, isSuccess: isLeaveSuccess, isError: isLeaveError }] =
     useApplyLeaveMutation();
-  console.log(employeeData?.employee?.leave, 'mero data');
-  console.log(leaves?.leave, '<------ thisis is leave leave');
-
   useEffect(() => {
     const assignedLeave = employeeData?.employee?.leave;
     const filteredLeave = leaves?.leave?.filter((each: any) =>
@@ -98,7 +95,6 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
       //   id: values.leaveName,
       //   ...rest,
       // });
-      console.log(values.leaveName, 'lllll');
       const res = await apis.applyLeave(
         {
           from: startDate,
