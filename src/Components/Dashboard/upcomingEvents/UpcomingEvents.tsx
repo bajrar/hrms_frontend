@@ -5,18 +5,23 @@ import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../../hooks/useTypedSelector';
 import { getUpcomingEvents } from '../../../redux/features/upcomingEvents';
 import { formatDate } from './helperFunction';
-import { Button, Form, Input, Skeleton, message } from 'antd';
+import { Button, Form, Input, Modal, Skeleton, message } from 'antd';
 import { TbPlus } from 'react-icons/tb';
 import ModalComponent from '../../Ui/Modal/Modal';
 import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
-import { useAddUpcomingEventMutation, useGetUpcomingEventsQuery } from '../../../redux/api/eventSliceApi';
+import {
+  useAddUpcomingEventMutation,
+  useDeleteEventMutation,
+  useGetUpcomingEventsQuery,
+} from '../../../redux/api/eventSliceApi';
 
 type PropsType = {
   isSmall?: boolean;
   isAdmin?: boolean;
 };
 const UpcomingEvents = ({ isSmall = false, isAdmin = true }: PropsType) => {
-  const [addUpcomingEvent, { data, isLoading, isError, isSuccess }] = useAddUpcomingEventMutation();
+  const [addUpcomingEvent, { data, isLoading, isError }] = useAddUpcomingEventMutation();
+  const [deleteEvent, { isSuccess }] = useDeleteEventMutation();
 
   const [openEventModel, setOpenEventModel] = useState<boolean>(false);
   const [form] = Form.useForm();
@@ -36,6 +41,29 @@ const UpcomingEvents = ({ isSmall = false, isAdmin = true }: PropsType) => {
 
   const onFinishFailed = () => {
     message.error('Submit failed!');
+  };
+
+  const [deleteModalVisible, setDeleteModalVisible] = useState<boolean>(false);
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
+
+  const handleDelete = async () => {
+    if (selectedEvent) {
+      try {
+        await deleteEvent(selectedEvent._id);
+        message.success('Event Deleted Successfully!');
+        setDeleteModalVisible(false);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setDeleteModalVisible(false);
+        setSelectedEvent(null);
+      }
+    }
+  };
+
+  const showDeleteModal = (event: any) => {
+    setSelectedEvent(event);
+    setDeleteModalVisible(true);
   };
 
   const getLastDayOfMonth = (year: number, month: number) => {
@@ -181,14 +209,25 @@ const UpcomingEvents = ({ isSmall = false, isAdmin = true }: PropsType) => {
         ) : (
           <>
             {hasEventToday?.length > 0 || hasDobToday?.length > 0 || hasHolidayToday?.length > 0 ? (
-              <div className={`upcoming-event-upcoming-today-items  ${isSmall && 'smallWidth'} `}>
+              <div className={`${isSmall && 'smallWidth'} `}>
                 {hasEventToday?.length > 0 && (
-                  <div className={`upcoming-event-upcoming-events-items  ${isSmall && 'smallWidth'}`}>
+                  <div className={`upcoming-event-upcoming-events-today ${isSmall && 'smallWidth'}`}>
                     {hasEventToday?.map((event: any, index: any) => (
-                      <div className={`upcoming-event-upcoming-events-items  ${isSmall && 'smallWidth'}`} key={index}>
+                      <div className={`upcoming-event-upcoming-events-items ${isSmall && 'smallWidth'}`} key={index}>
                         <p id="formatted-eventdate-event">{formatDate(event.date)}</p>
                         <h5>{event.eventName}</h5>
                         <p>{event.notes}</p>
+
+                        <div className="event-container-events-box-buttons">
+                          <Button
+                            type="primary"
+                            danger
+                            onClick={() => showDeleteModal(event)}
+                            className={`${!isAdmin && 'd-none'}`}
+                          >
+                            Delete
+                          </Button>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -234,6 +273,17 @@ const UpcomingEvents = ({ isSmall = false, isAdmin = true }: PropsType) => {
                   <p id="formatted-eventdate-event"> {formatDate(event.date)}</p>
                   <h5>{event.eventName}</h5>
                   <p> {event.notes}</p>
+
+                  <div className="event-container-events-box-buttons">
+                    <Button
+                      type="primary"
+                      danger
+                      onClick={() => showDeleteModal(event)}
+                      className={`${!isAdmin && 'd-none'}`}
+                    >
+                      Delete
+                    </Button>
+                  </div>
                 </div>
               ))}
 
@@ -295,6 +345,14 @@ const UpcomingEvents = ({ isSmall = false, isAdmin = true }: PropsType) => {
           </div>
         </Form>
       </ModalComponent>
+      <Modal
+        title="Confirm Delete"
+        visible={deleteModalVisible}
+        onOk={handleDelete}
+        onCancel={() => setDeleteModalVisible(false)}
+      >
+        <p>Are you sure you want to delete this Event?</p>
+      </Modal>
     </>
   );
 };
