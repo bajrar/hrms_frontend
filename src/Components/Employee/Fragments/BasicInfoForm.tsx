@@ -1,28 +1,25 @@
 import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
-import { Button, Form, Input, Radio, Select } from 'antd';
-import React, { useEffect } from 'react';
+import { Button, Form, FormInstance, Input, Radio, Select } from 'antd';
+import { useEffect } from 'react';
 
 /* Assets */
-import { Employee } from '../Tabs/TabContainer';
 import '../add-employee-form.css';
 import '../employeeDetails.css';
 
 type BasicInfoFormProps = {
   closeModal: (state: boolean) => void;
-  changeTab: (key: string) => void;
-  formValues: Employee;
-  setFormValues: React.Dispatch<React.SetStateAction<Employee>>;
-  tabControls: React.Dispatch<React.SetStateAction<boolean>>;
+  form: FormInstance<any>;
+  handleTabChange: () => void; 
+  disabledForm?: boolean
 };
 
 const BasicInfoForm = ({
   closeModal,
-  changeTab,
-  formValues,
-  setFormValues,
-  tabControls,
+  form, 
+  handleTabChange, 
+  disabledForm=false
+  
 }: BasicInfoFormProps) => {
-  const [form] = Form.useForm();
 
   useEffect(() => {
     /* on mount fetch data from redux store */
@@ -33,21 +30,14 @@ const BasicInfoForm = ({
     closeModal(false);
   };
 
-  const onFinish = (values: any) => {
-    setFormValues({ ...formValues, ...values });
-    tabControls(false);
-    changeTab('2');
-  };
-
-  return (
+    return (
     <div className='mb-4'>
       <div style={{ paddingInline: 5 }}>
         <Form
           layout='vertical'
-          onFinish={onFinish}
           autoComplete='off'
           form={form}
-          initialValues={{}}
+          disabled={disabledForm}
         >
           <div className='row add-employee__section__tab p-2 mt-4'>
             <Form.Item
@@ -146,7 +136,7 @@ const BasicInfoForm = ({
             <Button type='primary' onClick={() => closeModalHandler()} danger>
               Cancel
             </Button>
-            <Button type='primary' htmlType='submit'>
+            <Button type='primary' onClick={handleTabChange}>
               Next
             </Button>
           </div>

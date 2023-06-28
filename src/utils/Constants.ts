@@ -43,7 +43,7 @@ export const nepaliMonthDays: NepaliMonthDays = {
   2088: [30, 31, 32, 32, 30, 31, 30, 30, 29, 30, 30, 30], //2088
   2089: [30, 32, 31, 32, 31, 30, 30, 30, 29, 30, 30, 30], //2089
 };
-export const startDay:any = {
+export const startDay: any = {
   2079: '4',
 
   2080: '5',

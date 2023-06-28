@@ -1,80 +1,34 @@
-import { Button, Form, Input, message } from 'antd';
-import { ToastContainer, toast } from 'react-toastify';
+import { Button, Form, FormInstance, Input } from 'antd';
+import { ToastContainer } from 'react-toastify';
 
-import { useAddEmployeeMutation } from '../../../redux/api/employee';
-import { Employee } from '../Tabs/TabContainer';
 
 /* Assets */
-import { useNavigate } from 'react-router-dom';
 import '../add-employee-form.css';
 import '../employeeDetails.css';
 
 type BasicInfoFormProps = {
   closeModal: (state: boolean) => void;
-  setMaskClosable: (state: boolean) => void;
-  formValues: Employee;
+  form: FormInstance<any>;
+  onFinish: (values: any) => void; 
+  isLoading: boolean; 
+  disabledForm?: boolean
+
 };
 
 const ContactDetail = ({
   closeModal,
-  setMaskClosable,
-  formValues
+  form, 
+  onFinish,
+   isLoading, 
+  disabledForm=false
+
 }: BasicInfoFormProps) => {
-  const [form] = Form.useForm();
-  const navigate = useNavigate();
-  const [addEmployee, { isLoading, isSuccess }] = useAddEmployeeMutation();
   const closeModalHandler = () => {
     form.resetFields();
     closeModal(false);
   };
 
-  const onFinish = async (values: any) => {
-    const inputs = { ...formValues, ...values };
-    const {
-      idType,
-      employeeId,
-      dob,
-      mobile,
-      dateOfJoining,
-      confirmationDate,
-      designation,
-      probationPeriod,
-      count,
-      contactName,
-      contact,
-      relation,
-      projectName,
-      projectPermission,
-      ...rest
-    } = inputs;
-
-    const payload = {
-      ...rest,
-      employeeNumber: employeeId,
-      dob: dob.bsDate,
-      mobileNumber: mobile,
-      dateOfJoining: dateOfJoining.bsDate,
-      confirmationDate: confirmationDate.bsDate,
-      designation,
-      probation: { type: probationPeriod, count },
-      emergency: { name: contactName, contact, relation },
-      project: { name: projectName, permission: projectPermission }
-    };
-    try {
-      setMaskClosable(false);
-      await addEmployee(payload);
-      message.success('Employee Submitted Sucesfully');
-      navigate('/employee');
-    } catch (err: any) {
-      toast.error('Something Went Wrong', {
-        position: 'top-center',
-        autoClose: 5000
-      });
-    } finally {
-      closeModal(false);
-    }
-  };
-
+  
   return (
     <>
       <ToastContainer />
@@ -85,7 +39,8 @@ const ContactDetail = ({
             onFinish={onFinish}
             autoComplete="off"
             form={form}
-            initialValues={{}}
+            disabled={disabledForm}
+
           >
             <div
               className="row add-employee__section__tab p-2 mt-4  

@@ -17,7 +17,7 @@ export const holidayApiSlice = createApi({
   tagTypes: ['holidays'],
   endpoints: (builder) => ({
     getHoliday: builder.query({
-      query: ({ startDate,endDate }) => `holiday/getHolidaysInRange?startDate=${startDate}&&endDate=${endDate}`,
+      query: ({ startDate, endDate }) => `holiday/getHolidaysInRange?startDate=${startDate}&&endDate=${endDate}`,
       providesTags: ['holidays'],
     }),
     addHoliday: builder.mutation({
@@ -29,10 +29,9 @@ export const holidayApiSlice = createApi({
           'Content-type': 'application/json; charset=UTF-8',
         },
       }),
-      invalidatesTags :['holidays']
+      invalidatesTags: ['holidays'],
     }),
   }),
-
 });
 
-export const { useGetHolidayQuery ,useAddHolidayMutation} = holidayApiSlice;
+export const { useGetHolidayQuery, useAddHolidayMutation } = holidayApiSlice;

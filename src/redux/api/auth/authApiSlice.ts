@@ -15,14 +15,14 @@ export const authApiSlice = createApi({
   }),
   endpoints: (builder) => ({
     loginAuth: builder.mutation({
-        query: (body) => ({
-            url: `users/login`,
-            method: 'POST',
-            body: body,
-            headers: {
-              'Content-type': 'application/json; charset=UTF-8',
-            },
-          }),
+      query: (body) => ({
+        url: `users/login`,
+        method: 'POST',
+        body: body,
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      }),
     }),
   }),
 });

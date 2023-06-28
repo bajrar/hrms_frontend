@@ -1,5 +1,8 @@
-import { Tabs } from 'antd';
+import { Form, Tabs, message } from 'antd';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useAddEmployeeMutation } from '../../../redux/api/employee';
 import BasicInfoForm from '../Fragments/BasicInfoForm';
 import ContactDetails from '../Fragments/ContactDetails';
 import OfficeDetails from '../Fragments/OfficeDetails';
@@ -40,43 +43,82 @@ export type Employee = {
   relation: string;
 };
 
-const initialState = {
-  idType: '',
-  employeeId: '',
-  employeeName: '',
-  dob: {
-    bsDate: '',
-    adDate: '',
-  },
-  gender: '',
-  email: '',
-  mobile: '',
-  confirmationDate: {
-    bsDate: '',
-    adDate: '',
-  },
-  designation: '',
-  reportingManager: '',
-  status: '',
-  dateOfJoining: {
-    bsDate: '',
-    adDate: '',
-  },
-  probationPeriod: '',
-  count: '',
-  projectPermission: '',
-  contactName: '',
-  contact: '',
-  relation: '',
-} as Employee;
-
 const TabContainer = ({ closeModal, setMaskClosable }: TabContainerProps) => {
   const [activeKey, setActiveKey] = useState('1');
-  const [formValues, setFormValues] = useState<Employee>(initialState);
-  const [isTab, setIsTab] = useState<boolean>(true);
-  const [isTab2, setIsTab2] = useState<boolean>(true);
+  const [disabledForm, setDisabledForm] = useState<boolean>(false);
+  const [disabledTab, setDisabledTab] = useState<boolean>(true);
+  const [disabledTab2, setDisabledTab2] = useState<boolean>(true);
+  const [form] = Form.useForm();
+  const navigate = useNavigate();
+  const [addEmployee, { isLoading }] = useAddEmployeeMutation();
 
-  const onKeyChange = (key: string) => setActiveKey(key);
+  const onKeyChange = (key: string) => {
+    setActiveKey(key);
+  };
+
+  const onFinish = async (values: any) => {
+    const inputs = { ...values };
+    const {
+      idType,
+      employeeId,
+      dob,
+      mobile,
+      dateOfJoining,
+      confirmationDate,
+      designation,
+      probationPeriod,
+      count,
+      contactName,
+      contact,
+      relation,
+      projectName,
+      projectPermission,
+      ...rest
+    } = inputs;
+
+    const payload = {
+      ...rest,
+      employeeNumber: employeeId,
+      dob: dob.bsDate,
+      mobileNumber: mobile,
+      dateOfJoining: dateOfJoining.bsDate,
+      confirmationDate: confirmationDate.bsDate,
+      designation,
+      probation: { type: probationPeriod, count },
+      emergency: { name: contactName, contact, relation },
+      project: { name: projectName, permission: projectPermission },
+    };
+    try {
+      setMaskClosable(false);
+      setDisabledForm(true);
+      await addEmployee(payload);
+      message.success('Employee Submitted Sucesfully');
+      navigate('/employee');
+    } catch (err: any) {
+      toast.error('Something Went Wrong', {
+        position: 'top-center',
+        autoClose: 5000,
+      });
+    } finally {
+      closeModal(false);
+    }
+  };
+
+  const handleTabChange = () => {
+    console.log('hadnle tab change');
+    switch (activeKey) {
+      case '1':
+        setDisabledTab(false);
+        setActiveKey('2');
+        break;
+      case '2':
+        setDisabledTab2(false);
+        setActiveKey('3');
+        break;
+      default:
+        break;
+    }
+  };
 
   const tabItems = [
     {
@@ -85,10 +127,9 @@ const TabContainer = ({ closeModal, setMaskClosable }: TabContainerProps) => {
       children: (
         <BasicInfoForm
           closeModal={closeModal}
-          changeTab={onKeyChange}
-          formValues={formValues}
-          setFormValues={setFormValues}
-          tabControls={setIsTab}
+          form={form}
+          disabledForm={disabledForm}
+          handleTabChange={handleTabChange}
         />
       ),
     },
@@ -98,13 +139,12 @@ const TabContainer = ({ closeModal, setMaskClosable }: TabContainerProps) => {
       children: (
         <OfficeDetails
           closeModal={closeModal}
-          changeTab={onKeyChange}
-          formValues={formValues}
-          setFormValues={setFormValues}
-          tabControls={setIsTab2}
+          form={form}
+          disabledForm={disabledForm}
+          handleTabChange={handleTabChange}
         />
       ),
-      disabled: isTab,
+      disabled: disabledTab,
     },
     {
       label: 'Emergency Contact Details',
@@ -112,14 +152,16 @@ const TabContainer = ({ closeModal, setMaskClosable }: TabContainerProps) => {
       children: (
         <ContactDetails
           closeModal={closeModal}
-          setMaskClosable={setMaskClosable}
-          formValues={formValues}
+          isLoading={isLoading}
+          form={form}
+          disabledForm={disabledForm}
+          onFinish={onFinish}
         />
       ),
-      disabled: isTab2,
+      disabled: disabledTab2,
     },
   ];
 
-  return <Tabs type='card' items={tabItems} activeKey={activeKey} onChange={onKeyChange} />;
+  return <Tabs type="card" items={tabItems} activeKey={activeKey} onChange={onKeyChange} />;
 };
 export default TabContainer;
