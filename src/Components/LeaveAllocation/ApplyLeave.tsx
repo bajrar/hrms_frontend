@@ -16,6 +16,7 @@ import { reduceByKeys } from '../../hooks/HelperFunctions';
 import { useGetLeavesQuery } from '../../redux/api/leaveSlice';
 import { useGetTokenDataQuery } from '../../redux/api/tokenSlice';
 import { useTokenData } from '../../hooks/userTokenData';
+import { useNavigate } from 'react-router-dom';
 
 export interface DataType {
   eid?: string;
@@ -37,6 +38,7 @@ const ApplyLeave = () => {
   const userDetails = localStorage.getItem('userDetails');
   const employeeDetails = JSON.parse(userDetails || '');
   const [form] = Form.useForm();
+  const navigate = useNavigate();
   const { Option } = Select;
 
   const onStartDateChange = ({ bsDate }: any) => {
@@ -45,9 +47,16 @@ const ApplyLeave = () => {
   const onEndDateChange = ({ bsDate }: any) => {
     setEndDate(bsDate);
   };
-  const { isAdmin, userSn } = useTokenData();
+  const { isAdmin, userSn, isAdminTemp } = useTokenData();
+  useEffect(() => {
+    if (isAdminTemp) {
+      navigate('/leave');
+    } else {
+      navigate('/request-leave');
+    }
+  }, [isAdminTemp, navigate]);
   let leaveEndpont;
-  if (isAdmin) {
+  if (isAdminTemp) {
     leaveEndpont = 'leave/employee/appliedLeave';
   } else {
     leaveEndpont = `leave/employee/appliedLeave?userSn=${userSn}`;

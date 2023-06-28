@@ -23,9 +23,9 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
   const [form] = Form.useForm();
 
   const userData = useAppSelector((state: RootState) => state.userSlice.value);
-  const { isAdmin, userSn } = useTokenData();
-  const { data: employeeData } = useGetUserProfileQuery(isAdmin ? '/employee' : `/employee/${userSn}`);
-  const { data: leaves } = useGetLeavesQuery('leave');
+  const { isAdmin, userSn, isAdminTemp } = useTokenData();
+  const { data: employeeData } = useGetUserProfileQuery(isAdminTemp ? '/employee' : `/employee/${userSn}`);
+  const { data: leaves, isLoading } = useGetLeavesQuery('leave');
   const [applyLeave, { data: leaveResponse, isSuccess: isLeaveSuccess, isError: isLeaveError }] =
     useApplyLeaveMutation();
   useEffect(() => {
@@ -33,10 +33,10 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
     const filteredLeave = leaves?.leave?.filter((each: any) =>
       assignedLeave?.some((assigned: any) => assigned.leaveName === each.leaveName),
     );
-    const finalLeaveArray = isAdmin ? leaves?.leave : filteredLeave;
+    const finalLeaveArray = isAdminTemp ? leaves?.leave : filteredLeave;
     const shiftNameArray = reduceByKeys(finalLeaveArray, '_id', 'leaveName');
     setLeaveNameArray(shiftNameArray);
-  }, [leaves?.leave, employeeData, isAdmin]);
+  }, [leaves?.leave, employeeData, isAdmin, isAdminTemp, isLoading]);
 
   // console.log(leaveNameArray, "select name");
   useEffect(() => {
@@ -207,7 +207,7 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
             />
           </Form.Item>
         </div>
-        {isAdmin && (
+        {isAdminTemp && (
           <div className="form-second-row align-items-start ">
             <Form.Item
               className="form-input col unit-input"

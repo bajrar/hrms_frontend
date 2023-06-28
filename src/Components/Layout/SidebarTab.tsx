@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import "./sidebartab.css";
-import { Link, useNavigate } from "react-router-dom";
-import type { MenuProps } from "antd";
-import { Menu } from "antd";
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/useTypedSelector";
-import { RootState } from "../../store";
-import { verifyTokenStatus } from "../../redux/features/verifyTokenSlice";
-import { AiOutlineMenu } from "react-icons/ai";
-import { setClose, setOpen } from "../../redux/features/sidebarSlice";
-import { useGetTokenDataQuery } from "../../redux/api/tokenSlice";
-import { useTokenData } from "../../hooks/userTokenData";
+import React, { useState } from 'react';
+import './sidebartab.css';
+import { Link, useNavigate } from 'react-router-dom';
+import type { MenuProps } from 'antd';
+import { Menu } from 'antd';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
+import { RootState } from '../../store';
+import { verifyTokenStatus } from '../../redux/features/verifyTokenSlice';
+import { AiOutlineMenu } from 'react-icons/ai';
+import { setClose, setOpen } from '../../redux/features/sidebarSlice';
+import { useGetTokenDataQuery } from '../../redux/api/tokenSlice';
+import { useTokenData } from '../../hooks/userTokenData';
 
-type MenuItem = Required<MenuProps>["items"][number];
+type MenuItem = Required<MenuProps>['items'][number];
 
 const isOpenSelector = (state: any) => state.sidebarSlice.isOpen;
 const SideBarTab = () => {
@@ -26,14 +26,8 @@ const SideBarTab = () => {
   const authData = useAppSelector((state: RootState) => state.userSlice.value);
   console.log({ userSn });
   const navigate = useNavigate();
-  const userAccess = ["Vacancy Management", "Employee Management", "v"];
-  function getItem(
-    label?: any,
-    key?: React.Key,
-    icon?: React.ReactNode,
-    children?: MenuItem[],
-    type?: "group"
-  ): any {
+  const userAccess = ['Vacancy Management', 'Employee Management', 'v'];
+  function getItem(label?: any, key?: React.Key, icon?: React.ReactNode, children?: MenuItem[], type?: 'group'): any {
     if (isAdmin || !userAccess.includes(label))
       return {
         key,
@@ -59,211 +53,166 @@ const SideBarTab = () => {
     // Additional logic or side effects
   };
   const closeSidebar = (routeTo: string) => {
-    if (!isAdmin && routeTo === "attendance") {
+    if (!isAdmin && routeTo === 'attendance') {
       navigate(`/${routeTo}/${userSn}`);
     } else {
       navigate(`/${routeTo}`);
     }
   };
-  const items: MenuProps["items"] = [
+  const items: MenuProps['items'] = [
     getItem(
-      "Employee Management",
-      "sub1",
+      'Employee Management',
+      'sub1',
       <div className="icons-container" onClick={() => openSidebar()}>
         <img src="/images/employee.svg" alt="employee" />
       </div>,
       [
         getItem(
-          <div
-            className="sidenav-link"
-            onClick={() => closeSidebar("employee")}
-          >
+          <div className="sidenav-link" onClick={() => closeSidebar('employee')}>
             Employee
           </div>,
-          "1"
+          '1',
         ),
         getItem(
-          <div
-            className="sidenav-link"
-            onClick={() => closeSidebar("manageProjects")}
-          >
+          <div className="sidenav-link" onClick={() => closeSidebar('manageProjects')}>
             Manage Projects
           </div>,
-          "1"
+          '1',
         ),
-      ]
+      ],
     ),
 
     getItem(
-      "Leave Management",
-      "sub2",
+      'Leave Management',
+      'sub2',
       <div className="icons-container" onClick={() => openSidebar()}>
         <img src="/images/leave.svg" alt="leave" />
       </div>,
       [
         getItem(
-          <div
-            className="sidenav-link"
-            onClick={() => closeSidebar("holidays")}
-          >
+          <div className="sidenav-link" onClick={() => closeSidebar('holidays')}>
             Holidays
           </div>,
-          "2"
+          '2',
         ),
         isAdmin
           ? getItem(
-              <div
-                className="sidenav-link"
-                onClick={() => closeSidebar("leave")}
-              >
+              <div className="sidenav-link" onClick={() => closeSidebar('leave')}>
                 Leave Allocation
               </div>,
-              "3"
+              '3',
             )
           : getItem(
-              <div
-                className="sidenav-link"
-                onClick={() => closeSidebar("request-leave")}
-              >
+              <div className="sidenav-link" onClick={() => closeSidebar('request-leave')}>
                 Request Leave
               </div>,
-              "3"
+              '3',
             ),
-      ]
+      ],
     ),
 
     getItem(
-      "Vacancy Management",
-      "sub3",
+      'Vacancy Management',
+      'sub3',
       <div className="icons-container" onClick={() => openSidebar()}>
         <img src="/images/vacancy.svg" alt="vacancy" />
       </div>,
       [
         getItem(
-          <div
-            className="sidenav-link"
-            onClick={() => closeSidebar("job-summary")}
-          >
+          <div className="sidenav-link" onClick={() => closeSidebar('job-summary')}>
             Job Summary
           </div>,
-          "4"
+          '4',
         ),
         getItem(
-          <div
-            className="sidenav-link"
-            onClick={() => closeSidebar("applicants")}
-          >
+          <div className="sidenav-link" onClick={() => closeSidebar('applicants')}>
             Applicants
           </div>,
-          "5"
+          '5',
         ),
-      ]
+      ],
     ),
     getItem(
-      "Attendance / Shift Management",
-      "sub4",
+      'Attendance / Shift Management',
+      'sub4',
       <div className="icons-container" onClick={() => openSidebar()}>
         <img src="/images/attendance.svg" alt="attendance" />
       </div>,
       [
         getItem(
-          <div
-            className="sidenav-link"
-            onClick={() => closeSidebar("attendance")}
-          >
+          <div className="sidenav-link" onClick={() => closeSidebar('attendance')}>
             Attendance
           </div>,
-          "7"
+          '7',
         ),
         true
           ? getItem(
-              <div
-                className="sidenav-link"
-                onClick={() => closeSidebar("shift")}
-              >
+              <div className="sidenav-link" onClick={() => closeSidebar('shift')}>
                 Shift Schedule
               </div>,
-              "8"
+              '8',
             )
           : null,
         isAdmin
           ? getItem(
-              <div
-                className="sidenav-link"
-                onClick={() => closeSidebar("reports")}
-              >
+              <div className="sidenav-link" onClick={() => closeSidebar('reports')}>
                 Report
               </div>,
-              "9"
+              '9',
             )
           : null,
         isAdmin
           ? getItem(
-              <div
-                className="sidenav-link"
-                onClick={() => closeSidebar("device-manager")}
-              >
+              <div className="sidenav-link" onClick={() => closeSidebar('device-manager')}>
                 Device Manager
               </div>,
-              "10"
+              '10',
             )
           : null,
-      ]
+      ],
     ),
   ];
-  const itemss: MenuProps["items"] = [
+  const itemss: MenuProps['items'] = [
     getItem(
-      "v",
-      "sub1",
-      <div
-        className="icons-container sidebar-icon"
-        onClick={() => openSidebar()}
-      >
+      'v',
+      'sub1',
+      <div className="icons-container sidebar-icon" onClick={() => openSidebar()}>
         <img src="/images/employee.svg" alt="employee" />
-      </div>
+      </div>,
     ),
 
     getItem(
-      "",
-      "sub2",
-      <div
-        className="icons-container sidebar-icon"
-        onClick={() => openSidebar()}
-      >
+      '',
+      'sub2',
+      <div className="icons-container sidebar-icon" onClick={() => openSidebar()}>
         <img src="/images/leave.svg" alt="leave" />
-      </div>
+      </div>,
     ),
 
     getItem(
-      "v",
-      "sub3",
-      <div
-        className="icons-container sidebar-icon"
-        onClick={() => openSidebar()}
-      >
+      'v',
+      'sub3',
+      <div className="icons-container sidebar-icon" onClick={() => openSidebar()}>
         <img src="/images/vacancy.svg" alt="vacancy" />
-      </div>
+      </div>,
     ),
     getItem(
-      "",
-      "sub4",
-      <div
-        className="icons-container sidebar-icon"
-        onClick={() => openSidebar()}
-      >
+      '',
+      'sub4',
+      <div className="icons-container sidebar-icon" onClick={() => openSidebar()}>
         <img src="/images/attendance.svg" alt="attendance" />
-      </div>
+      </div>,
     ),
   ];
 
   return (
     <div className="sidebar">
       {smallSidebar ? (
-        <div className="small-logo-container" onClick={() => navigate("/")}>
+        <div className="small-logo-container" onClick={() => navigate('/')}>
           <img src="/images/small-logo.svg" alt="Virtuosway Logo" />
         </div>
       ) : (
-        <div className="logo-container" onClick={() => navigate("/")}>
+        <div className="logo-container" onClick={() => navigate('/')}>
           <img src="/images/virtuos-logo.svg" alt="virtuos logo" />
         </div>
       )}
@@ -271,9 +220,7 @@ const SideBarTab = () => {
         <Menu
           mode="inline"
           items={smallSidebar ? itemss : items}
-          className={
-            smallSidebar ? "sidebar-menus sidebar-menu-small" : "sidebar-menus"
-          }
+          className={smallSidebar ? 'sidebar-menus sidebar-menu-small' : 'sidebar-menus'}
         />
       </div>
     </div>

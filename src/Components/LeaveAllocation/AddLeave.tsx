@@ -1,17 +1,18 @@
-import { faPen, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Table, message } from "antd";
-import React, { useEffect, useState } from "react";
-import type { ColumnsType } from "antd/es/table";
-import ModalComponent from "../Ui/Modal/Modal";
-import AddLeaveForm from "./AddLeaveForm";
-import { useAppSelector } from "../../hooks/useTypedSelector";
-import { useDispatch } from "react-redux";
-import { getLeave } from "../../redux/features/leaveSlice";
-import { Link } from "react-router-dom";
-import AssignLeaveForm from "./AssignLeaveForm";
-import DeleteModal from "../Ui/DeleteModal/DeleteModal";
-import { apis } from "../apis/constants/ApisService";
+import { faPen, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Table, message } from 'antd';
+import React, { useEffect, useState } from 'react';
+import type { ColumnsType } from 'antd/es/table';
+import ModalComponent from '../Ui/Modal/Modal';
+import AddLeaveForm from './AddLeaveForm';
+import { useAppSelector } from '../../hooks/useTypedSelector';
+import { useDispatch } from 'react-redux';
+import { getLeave } from '../../redux/features/leaveSlice';
+import { Link, useNavigate } from 'react-router-dom';
+import AssignLeaveForm from './AssignLeaveForm';
+import DeleteModal from '../Ui/DeleteModal/DeleteModal';
+import { apis } from '../apis/constants/ApisService';
+import { useTokenData } from '../../hooks/userTokenData';
 
 export interface DataType {
   leaveName?: string;
@@ -24,68 +25,68 @@ export interface DataType {
 }
 
 const AddLeave = () => {
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [leaveArray, setLeaveArray] = useState<DataType[]>([]);
   const [isAssignOpen, setIsAssignOpen] = useState<boolean>(false);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
-  const [deleteLeaveId, setDeleteLeaveId] = useState<string>("");
-  const [shiftId, setShiftId] = useState<string>("");
+  const [deleteLeaveId, setDeleteLeaveId] = useState<string>('');
+  const [shiftId, setShiftId] = useState<string>('');
   const [updateModalIsOpen, setUpdateModalIsModal] = useState<boolean>(false);
   const [isAssignShiftModalOpen, setIsAssignShiftModalOpen] = useState(false);
+  const { isAdminTemp } = useTokenData();
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    if (isAdminTemp) {
+      navigate('/leave');
+    } else {
+      navigate('/request-leave');
+    }
+  }, [isAdminTemp, navigate]);
   const columns: ColumnsType<DataType> = [
     {
-      title: "LEAVE NAME",
-      dataIndex: "leaveName",
-      key: "leaveName",
+      title: 'LEAVE NAME',
+      dataIndex: 'leaveName',
+      key: 'leaveName',
     },
     {
-      title: "UNIT",
-      dataIndex: "unit",
-      key: "unit",
+      title: 'UNIT',
+      dataIndex: 'unit',
+      key: 'unit',
     },
     {
-      title: "MAXIMUM UNIT",
-      dataIndex: "maximumUnit",
-      key: "maximumUnit",
+      title: 'MAXIMUM UNIT',
+      dataIndex: 'maximumUnit',
+      key: 'maximumUnit',
     },
     {
-      title: "LEAVE DETAILS",
-      dataIndex: "leaveDetails",
-      key: "leaveDetails",
+      title: 'LEAVE DETAILS',
+      dataIndex: 'leaveDetails',
+      key: 'leaveDetails',
     },
     {
-      title: "ACCUMULATED",
-      dataIndex: "accumulated",
-      key: "accumulated",
-      render: (record) => <>{record ? "Checked" : "-"}</>,
+      title: 'ACCUMULATED',
+      dataIndex: 'accumulated',
+      key: 'accumulated',
+      render: (record) => <>{record ? 'Checked' : '-'}</>,
     },
     {
-      title: "ACTION",
-      dataIndex: "action",
-      key: "action",
+      title: 'ACTION',
+      dataIndex: 'action',
+      key: 'action',
       render: (record) => (
         <div className="d-flex action-btn-container">
-          <FontAwesomeIcon
-            icon={faPen}
-            color="#35639F"
-            onClick={() => openUpdateModal(record)}
-          />{" "}
-          <FontAwesomeIcon
-            icon={faTrash}
-            color="#35639F"
-            onClick={() => openDeleteModal(record)}
-          />
+          <FontAwesomeIcon icon={faPen} color="#35639F" onClick={() => openUpdateModal(record)} />{' '}
+          <FontAwesomeIcon icon={faTrash} color="#35639F" onClick={() => openDeleteModal(record)} />
         </div>
       ),
     },
     {
-      title: "",
-      dataIndex: "view",
-      key: "view",
+      title: '',
+      dataIndex: 'view',
+      key: 'view',
       render: (record) => (
         <Link className="viewMoreBtn" to={`/leave/${record}`}>
           View
@@ -133,7 +134,7 @@ const AddLeave = () => {
         dispatch(getLeave() as any);
       }
     } catch {
-      message.error("Something went wrong");
+      message.error('Something went wrong');
     } finally {
       setDeleteModal(false);
     }
@@ -158,10 +159,7 @@ const AddLeave = () => {
           onChange={(e) => setSearchText(e.target.value.toLowerCase())}
         />
         <div className="d-flex align-items-center button-container">
-          <button
-            className="assign-shift-btn"
-            onClick={() => setIsAssignOpen(true)}
-          >
+          <button className="assign-shift-btn" onClick={() => setIsAssignOpen(true)}>
             Assign Leave
           </button>
           <button className="primary-btn" onClick={showModal}>
@@ -169,24 +167,12 @@ const AddLeave = () => {
           </button>
         </div>
       </div>
-      <Table
-        columns={columns}
-        className="shifts-table"
-        dataSource={leaveArray}
-      />
-      <ModalComponent
-        openModal={isModalOpen}
-        classNames="add-leave-modal"
-        closeModal={setIsModalOpen}
-      >
+      <Table columns={columns} className="shifts-table" dataSource={leaveArray} />
+      <ModalComponent openModal={isModalOpen} classNames="add-leave-modal" closeModal={setIsModalOpen}>
         <h3 className="modal-title">ADD LEAVE</h3>
         <AddLeaveForm setIsModalOpen={setIsModalOpen} />
       </ModalComponent>
-      <ModalComponent
-        openModal={isAssignOpen}
-        closeModal={setIsAssignOpen}
-        classNames="add-leave-modal"
-      >
+      <ModalComponent openModal={isAssignOpen} closeModal={setIsAssignOpen} classNames="add-leave-modal">
         <h3 className="modal-title">ASSIGN LEAVE</h3>
         <AssignLeaveForm setIsAssignOpen={setIsAssignOpen} />
       </ModalComponent>
@@ -205,11 +191,7 @@ const AddLeave = () => {
           shiftId={shiftId}
         />
       </ModalComponent>
-      <DeleteModal
-        openModal={deleteModal}
-        setOpenModal={setDeleteModal}
-        deleteItem={deletLeave}
-      />
+      <DeleteModal openModal={deleteModal} setOpenModal={setDeleteModal} deleteItem={deletLeave} />
     </div>
   );
 };

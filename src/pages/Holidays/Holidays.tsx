@@ -34,7 +34,7 @@ const Holidays = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [holidaysArray, setHolidayArray] = useState<any[]>([]);
   const dispatch = useDispatch();
-  const {isAdmin}  = useTokenData()
+  const {isAdmin,isAdminTemp}  = useTokenData()
 
   const onStartDateChange = ({ bsDate }: any) => {
     setStartDate(bsDate);
@@ -127,7 +127,7 @@ const Holidays = () => {
               <CalendarOutlined className='calendar-icon' />
             </div>
           </div>
-          {isAdmin && (
+          {isAdminTemp && (
             <button className='primary-btn' onClick={showModal}>
               <FontAwesomeIcon icon={faPlus} /> Add Holidays
             </button>
