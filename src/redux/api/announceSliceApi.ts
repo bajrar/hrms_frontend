@@ -5,6 +5,7 @@ export const announceSliceApi = createApi({
   reducerPath: 'announceSliceApi',
   baseQuery: fetchBaseQuery({
     baseUrl: API_URL,
+    
     prepareHeaders: (headers, { getState }) => {
       const token = localStorage.getItem('token');
       if (token) {
@@ -17,6 +18,7 @@ export const announceSliceApi = createApi({
   endpoints: (builder) => ({
     getAnnouncement: builder.query({
       query: ({ userSn }) => `announcement/all/${userSn}`,
+     
     }),
   }),
 });

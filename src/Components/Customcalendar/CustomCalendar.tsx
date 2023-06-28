@@ -6,12 +6,7 @@ import { useAppSelector } from '../../hooks/useTypedSelector';
 import { EmployeeStats } from '../../pages/Attendance/Attendance';
 import { IYear } from '../../pages/Attendance/EmployeeAttendance';
 import { getEmployeeData } from '../../redux/features/SingleAttendanceSlice';
-import {
-  daysOfWeek,
-  monthNames,
-  NepaliMonthDays,
-  nepaliMonthDays
-} from '../../utils/Constants';
+import { daysOfWeek, monthNames, NepaliMonthDays, nepaliMonthDays } from '../../utils/Constants';
 
 import './Customcalendar.css';
 import { todayInBs } from './GetTodaysDate';
@@ -26,12 +21,12 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
   const { employeeId } = useParams();
 
   const [startOfDate, setStartOfDate] = useState(
-    `${year.year}/${monthInString}/01`
+    `${year.year}/${monthInString}/01`,
     // `${year.year}/${month + 1}/01`
   );
 
   const [endOfDate, setEndofDate] = useState<any>(
-    `${year.year}/${monthInString}/${nepaliMonthDays[yearNumber][month]}`
+    `${year.year}/${monthInString}/${nepaliMonthDays[yearNumber][month]}`,
   );
   console.log({ year });
 
@@ -63,8 +58,7 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
     } else {
       setEndofDate(`${year.year}/${month + 1}/${nepaliMonthDays[yearNumber][month]}`);
     }
-    const localMonth =
-      todayInBs.getMonth() + 1 < 10 ? `0${todayInBs.getMonth() + 1}` : todayInBs.getMonth() + 1;
+    const localMonth = todayInBs.getMonth() + 1 < 10 ? `0${todayInBs.getMonth() + 1}` : todayInBs.getMonth() + 1;
     if (year.year === todayInBs.getYear() && month === todayInBs.getMonth()) {
       setStartOfDate(`${todayInBs.getYear()}/${localMonth}/01`);
     } else {
@@ -75,8 +69,8 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
       getEmployeeData({
         userSn: employeeId,
         startDate: startOfDate,
-        endDate: endOfDate
-      }) as any
+        endDate: endOfDate,
+      }) as any,
     );
   }, [dispatch, employeeId, endOfDate, month, year, startOfDate, todayInBs]);
   // Create an array of weeks in the month
@@ -106,19 +100,14 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
   const { employee } = useAppSelector((state: any) => state.SingleAttendanceSlice);
 
   const checkStatus = (morningStatus: string, eveningStatus: string) => {
-    morningStatus === 'early-in' && eveningStatus === 'late-out'
-      ? setEarlyIn(true)
-      : setEarlyIn(false);
+    morningStatus === 'early-in' && eveningStatus === 'late-out' ? setEarlyIn(true) : setEarlyIn(false);
     return earlyIn;
   };
 
   // Filter employee attendance data for the current month
   const filteredAttendance = employee?.result?.filter((item: any) => {
-    const attendanceDate = new Date(item.attendanceByDate.date);
-    return (
-      attendanceDate.getFullYear() === year.year &&
-      attendanceDate.getMonth() === month
-    );
+    const attendanceDate = new Date(item?.attendanceByDate?.date);
+    return attendanceDate.getFullYear() === year.year && attendanceDate.getMonth() === month;
   });
 
   // Render the calendar
@@ -145,11 +134,9 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
                 <td key={`${i}-${j}`} className="table-data-container">
                   {day}
                   {filteredAttendance?.map((item: any, index: number) => {
-                    const dayDate = new Date(
-                      item.attendanceByDate.date
-                    ).getDate();
+                    const dayDate = new Date(item.attendanceByDate.date).getDate();
                     if (dayDate === day) {
-                      // console.log(item?.attendanceByDate, "HAHA");
+                      // console.log(item?.attendanceByDate, 'HAHA');
                       return item?.attendanceByDate?.holiday ? (
                         <div className="status-container">
                           <EmployeeStats
@@ -172,20 +159,16 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
                         <div className="status-container">
                           <EmployeeStats
                             backgroundColor={
-                              item?.attendanceByDate?.morningStatus?.toLowerCase() ===
-                              'timely in'
+                              item?.attendanceByDate?.morningStatus?.toLowerCase() === 'timely in'
                                 ? '#F4FBF5'
-                                : item?.attendanceByDate?.morningStatus?.toLowerCase() ===
-                                  'late in'
+                                : item?.attendanceByDate?.morningStatus?.toLowerCase() === 'late in'
                                 ? '#FBF4F4'
                                 : ''
                             }
                             color={
-                              item?.attendanceByDate?.morningStatus?.toLowerCase() ===
-                              'timely in'
+                              item?.attendanceByDate?.morningStatus?.toLowerCase() === 'timely in'
                                 ? '#22BB33'
-                                : item?.attendanceByDate?.morningStatus?.toLowerCase() ===
-                                  'late in'
+                                : item?.attendanceByDate?.morningStatus?.toLowerCase() === 'late in'
                                 ? '#BB2124'
                                 : ''
                             }
@@ -195,20 +178,16 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
                           -{' '}
                           <EmployeeStats
                             backgroundColor={
-                              item?.attendanceByDate?.eveningStatus?.toLowerCase() ===
-                              'timely out'
+                              item?.attendanceByDate?.eveningStatus?.toLowerCase() === 'timely out'
                                 ? '#F4FBF5'
-                                : item?.attendanceByDate?.eveningStatus?.toLowerCase() ===
-                                  'early out'
+                                : item?.attendanceByDate?.eveningStatus?.toLowerCase() === 'early out'
                                 ? '#FEFBF6'
                                 : ''
                             }
                             color={
-                              item?.attendanceByDate?.eveningStatus?.toLowerCase() ===
-                              'timely out'
+                              item?.attendanceByDate?.eveningStatus?.toLowerCase() === 'timely out'
                                 ? '#22BB33'
-                                : item?.attendanceByDate?.eveningStatus?.toLowerCase() ===
-                                  'early out'
+                                : item?.attendanceByDate?.eveningStatus?.toLowerCase() === 'early out'
                                 ? '#F0AD4E'
                                 : ''
                             }
