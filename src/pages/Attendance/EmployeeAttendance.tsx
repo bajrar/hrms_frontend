@@ -104,6 +104,7 @@ const EmployeeAttendance = () => {
     year: currentYear,
     startDay: +startDay[currentYear]
   });
+  console.log(todayInBs.getYear(), '<----------------- today year');
   const [month, setMonth] = useState<any>(todayInBs.getMonth());
   const [openYearList, setOpenYearList] = useState<boolean>(false);
   const [openMonthList, setOpenMonthList] = useState<boolean>(false);
@@ -198,7 +199,7 @@ const EmployeeAttendance = () => {
           location2={`${employee.employeeName}`}
         />
         <hr />
-        <div className="d-flex employee-stats-container flex-wrap  ">
+        <div className="d-flex employee-stats-container flex-wrap">
           {AttendanceReport.map((item: IEmployeeStats) => {
             return (
               <EmployeeStats
