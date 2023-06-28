@@ -6,8 +6,8 @@ export const profileSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
   endpoints: (builder) => ({
     getUserProfile: builder.query({
-      query: () => `employee`,
-      // query: (userSn) => `employee/${userSn}`,
+      // query: () => `employee`,
+      query: (body) => `${body}`,
     }),
     requestProfileUpdate: builder.mutation({
       query: ({ userSn, ...rest }) => ({
