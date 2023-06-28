@@ -112,9 +112,7 @@ const AssignLeaveForm = ({ setIsAssignOpen, setUpdateModalIsModal }: any) => {
     const employeeArray: any = [];
     form.setFieldValue('leaveName', value);
     const leaveId = form.getFieldValue('leaveName');
-    const selectedLeave = leaves?.leave?.find(
-      (each: any) => each._id === leaveId
-    );
+    const selectedLeave = leaves?.leave?.find((each: any) => each._id === leaveId);
     employee?.employee?.map((each: any) => {
       employeeArray.push({
         label: each.employeeName,
@@ -129,58 +127,57 @@ const AssignLeaveForm = ({ setIsAssignOpen, setUpdateModalIsModal }: any) => {
   };
 
   return (
-    <Form layout='vertical' onFinish={onFinish}>
+    <Form layout="vertical" onFinish={onFinish}>
       <Form.Item
-        className='form-input col'
-        name='leaveName'
-        label='Leave Name *'
+        className="form-input col"
+        name="leaveName"
+        label="Leave Name *"
         rules={[{ required: true, message: 'Leave Name is Required' }]}
       >
         <Select
-          placeholder='Select the type of leave'
-          className='selects form-input-wrapper'
+          showSearch
+          placeholder="Select the type of leave"
+          className="selects form-input-wrapper"
           suffixIcon={<FontAwesomeIcon icon={faAngleDown} />}
           options={leaveNameSelect}
           onSelect={onLeaveName}
+          filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
         />
       </Form.Item>
       <Form.Item
-        className='form-input col'
-        name='assignTo'
-        label='Assign To *'
+        className="form-input col"
+        name="assignTo"
+        label="Assign To *"
         rules={[{ required: true, message: 'Employee(s) Name is Required' }]}
       >
         <Select
-          mode='multiple'
+          mode="multiple"
           allowClear
           style={{ width: '100%' }}
-          placeholder='Type the name of an employee to search and select'
-          className='selects form-input-wrapper'
+          placeholder="Type the name of an employee to search and select"
+          className="selects form-input-wrapper"
           suffixIcon={<FontAwesomeIcon icon={faAngleDown} />}
           options={employeeNameSelect}
           onChange={handleChange}
+          filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
           // onSelect={onEmployeeName}
         />
       </Form.Item>
 
-      <Form.Item
-        className='form-input col'
-        name='leaveNotes'
-        label='Leave notes *'
-      >
+      <Form.Item className="form-input col" name="leaveNotes" label="Leave notes *">
         <TextArea
           style={{ height: 96, resize: 'none' }}
           // onChange={onChange}
-          placeholder='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
-      '
+          placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
+      "
         />
       </Form.Item>
 
-      <div className='form-btn-container' style={{ marginTop: 15 }}>
-        <Button type='default' onClick={() => setIsAssignOpen(false)}>
+      <div className="form-btn-container" style={{ marginTop: 15 }}>
+        <Button type="default" onClick={() => setIsAssignOpen(false)}>
           Cancel
         </Button>
-        <Button type='primary' htmlType='submit'>
+        <Button type="primary" htmlType="submit">
           Assign
         </Button>
       </div>
