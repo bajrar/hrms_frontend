@@ -15,6 +15,7 @@ import {
 } from "../../redux/api/leaveSlice";
 import { useGetUserProfileQuery } from "../../redux/features/profileSlice";
 import Selects from "../Ui/Selects/Selects";
+import { useTokenData } from "../../hooks/userTokenData";
 const { Option } = Select;
 
 const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
@@ -28,6 +29,7 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
   const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
   const userRole = tokenData?.role ? tokenData?.role : userData?.role;
   const { data: employeeData } = useGetUserProfileQuery(tokenData.userSn || "");
+  const {isAdmin} = useTokenData()
   console.log(employeeData, "mero data");
   const { data, isLoading } = useGetLeavesQuery("leave");
 
@@ -217,7 +219,7 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
             />
           </Form.Item>
         </div>
-        {userRole === "admin" && (
+        {isAdmin && (
           <div className="form-second-row align-items-start ">
             <Form.Item
               className="form-input col unit-input"

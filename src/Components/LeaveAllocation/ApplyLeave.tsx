@@ -127,12 +127,7 @@ const ApplyLeave = () => {
   //   (leave: any) => leave.leaveTakenOn
   // );
   const allLeaveTaken = leaveData?.leave;
-  console.log(
-    '🚀 ~ file: ApplyLeave.tsx:122 ~ ApplyLeave ~ allLeaveTaken:',
-    allLeaveTaken
-  );
-
-  const onLeaveChange = (value: string) => {
+    const onLeaveChange = (value: string) => {
     setSearchByLeave(value.toLowerCase());
   };
 
