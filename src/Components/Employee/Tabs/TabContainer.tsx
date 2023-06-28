@@ -2,7 +2,7 @@ import { Form, Tabs, message } from 'antd';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useAddEmployeeMutation } from '../../../redux/api/employee';
+import { useAddEmployeeMutation } from '../../../redux/api/employeeApiSlice';
 import BasicInfoForm from '../Fragments/BasicInfoForm';
 import ContactDetails from '../Fragments/ContactDetails';
 import OfficeDetails from '../Fragments/OfficeDetails';

@@ -9,7 +9,7 @@ import Spinner from '../Spinner/Spinner';
 import EmployeeForm from './EmployeeForm';
 import ModalComponent from '../Ui/Modal/Modal';
 import BreadCrumbs from '../Ui/BreadCrumbs/BreadCrumbs';
-import { useGetProfileQuery } from '../../redux/api/employee';
+import { useGetProfileQuery } from '../../redux/api/employeeApiSlice';
 
 /* ASSETS */
 import './employeeDetails.css';
@@ -100,20 +100,20 @@ const EmpDetails = () => {
           <Navbar />
           <div style={{ margin: 40 }}>
             <BreadCrumbs
-              imagesrc='/images/attendance.svg'
-              location='Employee Management'
-              location1='employee'
+              imagesrc="/images/attendance.svg"
+              location="Employee Management"
+              location1="employee"
               location2={data?.employee?.employeeName}
             />
             <hr />
-            <div className='employee-intro'>
+            <div className="employee-intro">
               <h4>
                 {data?.employee?.employeeName}{' '}
                 <span style={{ padding: '0 0.75rem' }}>
                   <FontAwesomeIcon
                     icon={faPen}
-                    color='#35639F'
-                    size='xs'
+                    color="#35639F"
+                    size="xs"
                     onClick={() => {
                       /* open modal */
                       setActiveEmployee(data?.employee);
@@ -122,42 +122,32 @@ const EmpDetails = () => {
                 </span>
               </h4>
               <Button
-                className='btn'
-                type='primary'
-                onClick={() =>
-                  navigate(`/attendance/${data?.employee?.employeeNumber}`)
-                }
+                className="btn"
+                type="primary"
+                onClick={() => navigate(`/attendance/${data?.employee?.employeeNumber}`)}
               >
                 Go to attendance
                 <FontAwesomeIcon icon={faArrowRight} />
               </Button>
             </div>
-            <div className='employee-details-container'>
-              <div className='employee-details'>
+            <div className="employee-details-container">
+              <div className="employee-details">
                 {employeeData?.primary.map((item: any) => (
-                  <div className='employee-details__meta'>
-                    <h6 className='employee-details__meta-title'>
-                      {item.key.toUpperCase()}
-                    </h6>
-                    <p className='employee-details__meta-content'>
-                      {item.value}
-                    </p>
+                  <div className="employee-details__meta">
+                    <h6 className="employee-details__meta-title">{item.key.toUpperCase()}</h6>
+                    <p className="employee-details__meta-content">{item.value}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className='employee-details-container'>
+            <div className="employee-details-container">
               <h4>IN CASE OF EMERGENCY</h4>
-              <div className='employee-details'>
+              <div className="employee-details">
                 {employeeData?.secondary.map((item: any) => (
-                  <div className='employee-details__meta'>
-                    <h6 className='employee-details__meta-title'>
-                      {item.key.toUpperCase()}
-                    </h6>
-                    <p className='employee-details__meta-content'>
-                      {item.value}
-                    </p>
+                  <div className="employee-details__meta">
+                    <h6 className="employee-details__meta-title">{item.key.toUpperCase()}</h6>
+                    <p className="employee-details__meta-content">{item.value}</p>
                   </div>
                 ))}
               </div>
@@ -169,7 +159,7 @@ const EmpDetails = () => {
       {/* MODAL CMP */}
       <ModalComponent
         openModal={!!activeEmployee}
-        classNames='holidays-modal'
+        classNames="holidays-modal"
         closeModal={() => setActiveEmployee(undefined)}
       >
         {!!activeEmployee && (

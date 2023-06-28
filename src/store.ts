@@ -27,7 +27,7 @@ import { attendanceByDateApi } from './redux/api/attendanceByDateSlice';
 import { employeeWorkhourSliceApi } from './redux/api/employeeWorkhour';
 import sidebarSlice from './redux/features/sidebarSlice';
 import { projectTeamSlice } from './redux/features/projectTeam.slice';
-import { employeeApi } from './redux/api/employee';
+import { employeeApi } from './redux/api/employeeApiSlice';
 import { tokenSliceApi } from './redux/api/tokenSlice';
 import { applicantApiSlice } from './redux/api/applicantApiSlice';
 import userRoleSlice from './redux/features/role/userRoleSlice';
@@ -70,6 +70,7 @@ export const store = configureStore({
     [applicantApiSlice.reducerPath]: applicantApiSlice.reducer,
     [announceSliceApi.reducerPath]: announceSliceApi.reducer,
     [holidayApiSlice.reducerPath]: holidayApiSlice.reducer,
+    [eventSliceApi.reducerPath]: eventSliceApi.reducer,
     [eventSliceApi.reducerPath]: eventSliceApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
