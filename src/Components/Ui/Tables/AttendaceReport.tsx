@@ -6,10 +6,7 @@ import type { ColumnsType } from 'antd/es/table';
 
 import './attendanceReport.css';
 import { getUsers } from '../../../redux/features/attendanceSlice';
-import {
-  useAppDispatch,
-  useAppSelector,
-} from '../../../hooks/useTypedSelector';
+import { useAppDispatch, useAppSelector } from '../../../hooks/useTypedSelector';
 import { formatTime } from './SingleEmployee';
 import { EmployeeStats } from '../../../pages/Attendance/Attendance';
 import { RootState } from '../../../store';
@@ -78,7 +75,14 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
       key: 'status',
       render: (item) => {
         return (
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              width: '75%',
+            }}
+          >
             {item.split('-').map((ite: any, i: number) => {
               return (
                 <EmployeeStats
@@ -127,7 +131,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
       key: 'workHours',
       render: (item) => {
         return (
-          <div className='workhours'>
+          <div className="workhours">
             <p>
               {item} {item === '-' ? '' : 'Hours'}{' '}
             </p>
@@ -142,8 +146,8 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
       key: 'view',
       render: (item) => {
         return (
-          <div className='workhours'>
-            <Link className='viewMoreBtn' to={`/attendance/${item}`}>
+          <div className="workhours">
+            <Link className="viewMoreBtn" to={`/attendance/${item}`}>
               View
             </Link>
           </div>
@@ -160,7 +164,6 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
     }
     attendanceUser?.map((userData, sn) => {
       userData?.attendanceRecords?.map((attendance: any) => {
-        
         if (userData.employeeName.toLowerCase().includes(searchText)) {
           const tableData = {
             sn: sn + 1,
@@ -179,8 +182,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
                 : `${attendance?.attendanceByDate?.morningStatus} - ${attendance?.attendanceByDate?.eveningStatus}`,
 
             designation: userData?.designation,
-            clockIn:  
-            attendance?.attendanceByDate?.absent
+            clockIn: attendance?.attendanceByDate?.absent
               ? 'Absent'
               : attendance?.attendanceByDate?.holiday
               ? 'Holiday'
@@ -210,22 +212,19 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
   }, [user, searchText]);
 
   return (
-    <ConfigProvider renderEmpty={() => <Empty image="/images/NoData.png" imageStyle={{height: '300px',}} description="" />}>
-    <Table
-      rowClassName={(record) =>
-        record.clockIn === 'Absent'
-          ? 'absent-class'
-          : record.clockIn === 'Holiday'
-          ? 'holiday-class'
-          : ''
-      }
-      
-      columns={columns}
-      dataSource={attendanceData}
-      loading={loading}
+    <ConfigProvider
+      renderEmpty={() => <Empty image="/images/NoData.png" imageStyle={{ height: '300px' }} description="" />}
+    >
+      <Table
+        rowClassName={(record) =>
+          record.clockIn === 'Absent' ? 'absent-class' : record.clockIn === 'Holiday' ? 'holiday-class' : ''
+        }
+        columns={columns}
+        dataSource={attendanceData}
+        loading={loading}
 
-      // pagination={tableParams.pagination}
-    />
+        // pagination={tableParams.pagination}
+      />
     </ConfigProvider>
   );
 };

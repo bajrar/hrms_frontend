@@ -11,10 +11,7 @@ import { getAttedanceStatus } from '../../redux/features/attendanceStatusSlice';
 import Selects from '../../Components/Ui/Selects/Selects';
 import Layout from '../../Components/Layout';
 import Navbar from '../../Components/Ui/Navbar';
-import {
-  today,
-  todayInBsFormat
-} from '../../Components/Customcalendar/GetTodaysDate';
+import { today, todayInBsFormat } from '../../Components/Customcalendar/GetTodaysDate';
 import { CalendarOutlined } from '@ant-design/icons';
 import NepaliDate from 'nepali-date-converter';
 
@@ -25,27 +22,16 @@ export interface IEmployeeStats {
   color?: string;
   classNames?: string;
 }
-export const EmployeeStats = ({
-  backgroundColor,
-  color,
-  status,
-  numberOfEmployee,
-  classNames
-}: IEmployeeStats) => {
+export const EmployeeStats = ({ backgroundColor, color, status, numberOfEmployee, classNames }: IEmployeeStats) => {
   return (
     <div
       style={{
         backgroundColor: backgroundColor,
-        borderLeft: `4px solid ${color}`
+        borderLeft: `4px solid ${color}`,
       }}
       className={`employee-stats ${classNames}`}
     >
-      {status}{' '}
-      {numberOfEmployee === 0 || numberOfEmployee ? (
-        <> &#40; {numberOfEmployee} &#41; </>
-      ) : (
-        ''
-      )}
+      {status} {numberOfEmployee === 0 || numberOfEmployee ? <> &#40; {numberOfEmployee} &#41; </> : ''}
     </div>
   );
 };
@@ -75,34 +61,32 @@ const Attendance = () => {
     dispatch(getAttedanceStatus() as any);
   }, [dispatch]);
 
-  const { attendanceStatus } = useAppSelector(
-    (state) => state.attendanceStatusSlice
-  );
+  const { attendanceStatus } = useAppSelector((state) => state.attendanceStatusSlice);
 
   const AttendanceStatusArray = [
     {
       backgroundColor: 'rgba(0, 185, 241, 0.05)',
       color: '#023C87',
       status: 'Total Employee',
-      numberOfEmployee: attendanceStatus.totalEmployee
+      numberOfEmployee: attendanceStatus.totalEmployee,
     },
     {
       backgroundColor: 'rgba(0, 185, 241, 0.05)',
       color: '#00B9F1',
       status: 'Present',
-      numberOfEmployee: attendanceStatus.presentUser
+      numberOfEmployee: attendanceStatus.presentUser,
     },
     {
       backgroundColor: 'rgba(187, 33, 36, 0.05)',
       color: '#BB2124',
       status: 'Absent',
-      numberOfEmployee: attendanceStatus.absentUser
+      numberOfEmployee: attendanceStatus.absentUser,
     },
     {
       backgroundColor: 'rgba(187, 33, 36, 0.05)',
       color: '#BB2124',
       status: 'On Leave',
-      numberOfEmployee: attendanceStatus?.absentUser
+      numberOfEmployee: attendanceStatus?.absentUser,
     },
     // {
     //   backgroundColor: '#F2F5F9',
@@ -114,19 +98,19 @@ const Attendance = () => {
       backgroundColor: 'rgba(34, 187, 51, 0.05)',
       color: '#22BB33',
       status: 'Working From Home',
-      numberOfEmployee: '4'
+      numberOfEmployee: '4',
     },
     {
       backgroundColor: 'rgba(34, 187, 51, 0.05)',
       color: '#22BB33',
       status: 'Timely In',
-      numberOfEmployee: attendanceStatus?.timleyIn
+      numberOfEmployee: attendanceStatus?.timleyIn,
     },
     {
       backgroundColor: 'rgba(34, 187, 51, 0.05)',
       color: '#22BB33',
       status: 'Timely Out',
-      numberOfEmployee: attendanceStatus?.timleyOut
+      numberOfEmployee: attendanceStatus?.timleyOut,
     },
     // {
     //   backgroundColor: 'rgba(34, 187, 51, 0.05)',
@@ -138,21 +122,21 @@ const Attendance = () => {
       backgroundColor: 'rgba(187, 33, 36, 0.05)',
       color: '#BB2124',
       status: 'Late In',
-      numberOfEmployee: attendanceStatus?.lateIn
+      numberOfEmployee: attendanceStatus?.lateIn,
     },
     {
       backgroundColor: 'rgba(240, 173, 78, 0.05)',
       color: '#F0AD4E',
       status: 'Early Out',
-      numberOfEmployee: attendanceStatus?.earlyOut
+      numberOfEmployee: attendanceStatus?.earlyOut,
     },
 
     {
       backgroundColor: 'rgba(187, 33, 36, 0.05)',
       color: '#BB2124',
       status: 'Late out',
-      numberOfEmployee: attendanceStatus?.lateOut
-    }
+      numberOfEmployee: attendanceStatus?.lateOut,
+    },
   ];
 
   return (
@@ -217,11 +201,7 @@ const Attendance = () => {
         </div>
 
         <div className="row table-container">
-          <AttendaceReport
-            defaultDate={defaultDate}
-            searchText={searchText}
-            status={status}
-          />
+          <AttendaceReport defaultDate={defaultDate} searchText={searchText} status={status} />
         </div>
       </div>
     </Layout>

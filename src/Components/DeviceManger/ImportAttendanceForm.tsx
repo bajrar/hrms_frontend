@@ -28,18 +28,19 @@ const ImportAttendanceForm = () => {
   return (
     <div>
       <Dragger {...props}>
-        <p className='ant-upload-hint'>
-          <div className='upload-icon'>
-            <img src='/images/uploadfile.svg' alt='' />
+        <div className="d-flex flex-column gap-4 justify-content-center align-align-items-center">
+          <div className="align-self-center ">
+            <img src="/images/uploadfile.svg" className="upload-icon" alt="" />
           </div>
-          Drag & Drop or <span color='#3333F1'>Choose file</span> to upload .dat
-        </p>
+          <p className="fs-5">
+            Drag & Drop or <span style={{ color: '#3333F1' }}>Choose file</span> to upload .dat
+          </p>
+        </div>
       </Dragger>
-
-      <div className='form-btn-container import-form-btn'>
-        <Button type='default'>Cancel</Button>
-        <Button type='primary' htmlType='submit'>
-          Add
+      <div className="import-form-btn d-flex gap-3 justify-content-end ">
+        <Button type="default">Cancel</Button>
+        <Button type="primary" htmlType="submit">
+          Import
         </Button>
       </div>
     </div>
