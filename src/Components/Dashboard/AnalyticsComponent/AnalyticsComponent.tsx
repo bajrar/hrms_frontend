@@ -27,7 +27,10 @@ const AnalyticsComponent = () => {
   }, [isLoading, data]);
   const [count, setCount] = useState(0);
   useEffect(() => {
-    if (count < 30) {
+    if (count < 9) {
+      if (count === 8) {
+        setCount(2);
+      }
       setTimeout(() => {
         setCount(count + 1);
       }, 100);
