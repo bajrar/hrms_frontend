@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react";
-import Calendar from "@sbmdkl/nepali-datepicker-reactjs";
-import { Table } from "antd";
-import type { ColumnsType } from "antd/es/table";
+import { useEffect, useState } from 'react';
+import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
+import { Table } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
 
-import Selects from "../Ui/Selects/Selects";
-import DownloadBtn from "../Ui/DownloadBtn/DownloadBtn";
-import { useDispatch } from "react-redux";
-import { getMonthlyLeave } from "../../redux/features/monthlySlice";
-import { useAppSelector } from "../../hooks/useTypedSelector";
-import { CalendarOutlined } from "@ant-design/icons";
+import Selects from '../Ui/Selects/Selects';
+import DownloadBtn from '../Ui/DownloadBtn/DownloadBtn';
+import { useDispatch } from 'react-redux';
+import { getMonthlyLeave } from '../../redux/features/monthlySlice';
+import { useAppSelector } from '../../hooks/useTypedSelector';
+import { CalendarOutlined } from '@ant-design/icons';
+import { useGetMonthlyReportQuery } from '../../redux/api/report/reportApiSlice';
 
 export interface DataType {
   id?: string;
@@ -24,7 +25,7 @@ export interface DataType {
 const MonthlyReports = () => {
   const [startDate, setStartDate] = useState<any>();
   const [endDate, setEndDate] = useState<any>();
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
   const [monthlyReportData, setMonthlyReportData] = useState<any>([]);
 
   const dispatch = useDispatch();
@@ -37,103 +38,102 @@ const MonthlyReports = () => {
   };
   const columns: ColumnsType<DataType> = [
     {
-      title: "EID",
-      dataIndex: "id",
-      key: "id",
+      title: 'EID',
+      dataIndex: 'id',
+      key: 'id',
     },
     {
-      title: "NAME",
-      dataIndex: "name",
-      key: "name",
+      title: 'NAME',
+      dataIndex: 'name',
+      key: 'name',
     },
     {
-      title: "PAYROLL",
-      dataIndex: "payroll",
-      key: "payroll",
+      title: 'PAYROLL',
+      dataIndex: 'payroll',
+      key: 'payroll',
     },
     {
-      title: "WEEKEND",
-      dataIndex: "weekend",
-      key: "weekend",
+      title: 'WEEKEND',
+      dataIndex: 'weekend',
+      key: 'weekend',
     },
     {
-      title: "HOLIDAY",
-      dataIndex: "holiday",
-      key: "holiday",
+      title: 'HOLIDAY',
+      dataIndex: 'holiday',
+      key: 'holiday',
     },
     {
-      title: "DUTY",
-      dataIndex: "duty",
-      key: "duty",
+      title: 'DUTY',
+      dataIndex: 'duty',
+      key: 'duty',
     },
     {
-      title: "PRESENT",
-      dataIndex: "present",
-      key: "present",
+      title: 'PRESENT',
+      dataIndex: 'present',
+      key: 'present',
     },
     {
-      title: "ABSENT",
-      dataIndex: "absent",
-      key: "absent",
+      title: 'ABSENT',
+      dataIndex: 'absent',
+      key: 'absent',
     },
     {
-      title: "LEAVE",
-      dataIndex: "leave",
-      key: "leave",
+      title: 'LEAVE',
+      dataIndex: 'leave',
+      key: 'leave',
       children: [
         {
-          title: "ANNUAL",
-          dataIndex: "annual",
-          key: "annual",
+          title: 'ANNUAL',
+          dataIndex: 'annual',
+          key: 'annual',
         },
         {
-          title: "SICK",
-          dataIndex: "sick",
-          key: "sick",
+          title: 'SICK',
+          dataIndex: 'sick',
+          key: 'sick',
         },
         {
-          title: "SUBSTITUTE",
-          dataIndex: "substitute",
-          key: "substitute",
+          title: 'SUBSTITUTE',
+          dataIndex: 'substitute',
+          key: 'substitute',
         },
         {
-          title: "WITHOUT PAY",
-          dataIndex: "withoutPay",
-          key: "withoutPay",
+          title: 'WITHOUT PAY',
+          dataIndex: 'withoutPay',
+          key: 'withoutPay',
         },
       ],
     },
     {
-      title: "OT",
-      dataIndex: "ot",
-      key: "ot",
+      title: 'OT',
+      dataIndex: 'ot',
+      key: 'ot',
     },
     {
-      title: "TOTAL",
-      dataIndex: "total",
-      key: "total",
+      title: 'TOTAL',
+      dataIndex: 'total',
+      key: 'total',
     },
     {
-      title: "REMARKS",
-      dataIndex: "remarks",
-      key: "remarks",
+      title: 'REMARKS',
+      dataIndex: 'remarks',
+      key: 'remarks',
     },
   ];
 
-  useEffect(() => {
-    dispatch(
-      getMonthlyLeave({ startDate: startDate, endDate: endDate }) as any
-    );
-  }, [dispatch, startDate, endDate]);
+  // useEffect(() => {
+  //   dispatch(getMonthlyLeave({ startDate: startDate, endDate: endDate }) as any);
+  // }, [dispatch, startDate, endDate]);
 
-  const { reports, loading } = useAppSelector((state) => state.monthlyReport);
-
+  // const { reports, loading } = useAppSelector((state) => state.monthlyReport);
+  const { data: reports, isLoading: loading } = useGetMonthlyReportQuery({
+    startDate,
+    endDate,
+  });
   useEffect(() => {
     const data: DataType[] = [];
     reports?.monthlyReport?.map((monthReport: any) => {
-   
-      if(monthReport.employeeName.toLowerCase().includes(searchText)) {
-
+      if (monthReport.employeeName.toLowerCase().includes(searchText)) {
         const tableData = {
           id: monthReport?.userSn,
           name: monthReport?.employeeName,
@@ -151,12 +151,11 @@ const MonthlyReports = () => {
         };
         data.push(tableData);
       }
-      
     });
     setMonthlyReportData(data);
   }, [reports, startDate, endDate, searchText]);
 
-  const disableDate = startDate?.split("/").join("-");
+  const disableDate = startDate?.split('/').join('-');
 
   return (
     <div>
