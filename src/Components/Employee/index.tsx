@@ -1,37 +1,27 @@
-import { useEffect, useState } from "react";
-import {
-  Button,
-  Form,
-  Input,
-  Radio,
-  RadioChangeEvent,
-  DatePicker,
-  Select,
-  Table,
-  Modal,
-} from "antd";
-import { toast } from "react-toastify";
+import { useEffect, useState } from 'react';
+import { Button, Form, Input, Radio, RadioChangeEvent, DatePicker, Select, Table, Modal } from 'antd';
+import { toast } from 'react-toastify';
 
-import { apis } from "../apis/constants/ApisService";
-import "./add-employee-form.css";
-import BreadCrumbs from "../Ui/BreadCrumbs/BreadCrumbs";
-import Layout from "../Layout";
-import Navbar from "../Ui/Navbar";
-import Selects from "../Ui/Selects/Selects";
-import { WorkingCondition } from "../../utils/Constants";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faPlus } from "@fortawesome/free-solid-svg-icons";
-import ModalComponent from "../Ui/Modal/Modal";
-import ViewAllEmployee from "../Ui/Tables/ViewAllEmployee";
-import { isErrored } from "stream";
-import { EmployeeForm } from "./EmployeeForm";
-import { Link, useNavigate } from "react-router-dom";
-import { CompareFunction } from "../Ui/Tables/AttendaceReport";
-import { ColumnsType } from "antd/es/table";
-import { useAppDispatch, useAppSelector } from "../../hooks/useTypedSelector";
-import { getEmployee } from "../../redux/features/employeeSlice";
-import { EmployeeStats } from "../../pages/Attendance/Attendance";
-import TabContainer from "./Tabs/TabContainer";
+import { apis } from '../apis/constants/ApisService';
+import './add-employee-form.css';
+import BreadCrumbs from '../Ui/BreadCrumbs/BreadCrumbs';
+import Layout from '../Layout';
+import Navbar from '../Ui/Navbar';
+import Selects from '../Ui/Selects/Selects';
+import { WorkingCondition } from '../../utils/Constants';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen, faPlus } from '@fortawesome/free-solid-svg-icons';
+import ModalComponent from '../Ui/Modal/Modal';
+import ViewAllEmployee from '../Ui/Tables/ViewAllEmployee';
+import { isErrored } from 'stream';
+import { EmployeeForm } from './EmployeeForm';
+import { Link, useNavigate } from 'react-router-dom';
+import { CompareFunction } from '../Ui/Tables/AttendaceReport';
+import { ColumnsType } from 'antd/es/table';
+import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
+import { EmployeeStats } from '../../pages/Attendance/Attendance';
+import TabContainer from './Tabs/TabContainer';
+import { useGetEmployeeQuery } from '../../redux/api/employeeApiSlice';
 
 export interface DataType {
   id?: string;
@@ -43,9 +33,9 @@ export interface DataType {
 }
 
 export const Employee = () => {
-  const [gender, setGender] = useState("");
-  const [searchText, setSearchText] = useState("");
-  const [status, setStatus] = useState("");
+  const [gender, setGender] = useState('');
+  const [searchText, setSearchText] = useState('');
+  const [status, setStatus] = useState('');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isMaskClosable, setIsMaskClosable] = useState<boolean>(true);
   // const [UpdateisModalOpen, setUpdateIsModalOpen] = useState<boolean>(false);
@@ -55,13 +45,7 @@ export const Employee = () => {
   const [attendanceData, setAttendanceData] = useState<any>([]);
   const [filterData, setFilterData] = useState<any>([]);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // dispatch(getUsers({ status: status, date: defaultDate }) as any);
-    dispatch(getEmployee() as any);
-  }, [dispatch]);
-
-  const { employee, loading } = useAppSelector((state) => state.employeeSlice);
+  const { data: employee, isLoading: loading } = useGetEmployeeQuery('employee');
   const [form] = Form.useForm();
   const onSelect = (e: any) => {
     setStatus(e);
@@ -98,52 +82,52 @@ export const Employee = () => {
   // };
 
   const columns: ColumnsType<DataType> = [
-    // {
-    //   title: 'SN',
-    //   dataIndex: 'sn',
-    //   key: 'sn',
-    // },
     {
-      title: "EID",
-      dataIndex: "id",
-      key: "id",
+      title: 'SN',
+      dataIndex: 'sn',
+      key: 'sn',
     },
     {
-      title: "EMPLOYEE NAME",
-      dataIndex: "name",
-      key: "name",
+      title: 'EID',
+      dataIndex: 'id',
+      key: 'id',
     },
     {
-      title: "DATE OF JOINING",
-      dataIndex: "date",
-      key: "date",
+      title: 'EMPLOYEE NAME',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'DATE OF JOINING',
+      dataIndex: 'date',
+      key: 'date',
     },
 
     {
-      title: "DESIGNATION",
-      dataIndex: "designation",
-      key: "designation",
+      title: 'DESIGNATION',
+      dataIndex: 'designation',
+      key: 'designation',
     },
     {
-      title: "STATUS",
-      dataIndex: "status",
-      key: "status",
+      title: 'STATUS',
+      dataIndex: 'status',
+      key: 'status',
       render: (item) => {
         return (
-          <div style={{ display: "flex", alignItems: "center" }}>
-            {item.split("-").map((ite: any, i: number) => {
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            {item.split('-').map((ite: any, i: number) => {
               return (
                 <EmployeeStats
                   key={i}
                   status={ite}
                   color={
-                    CompareFunction(ite) === "working"
-                      ? "#22BB33"
-                      : CompareFunction(ite) === "pending"
-                      ? "#F0AD4E"
-                      : CompareFunction(ite) === "resigned"
-                      ? "#BB2124"
-                      : "transparent"
+                    CompareFunction(ite) === 'working'
+                      ? '#22BB33'
+                      : CompareFunction(ite) === 'pending'
+                      ? '#F0AD4E'
+                      : CompareFunction(ite) === 'resigned'
+                      ? '#BB2124'
+                      : 'transparent'
                   }
                 />
               );
@@ -153,18 +137,18 @@ export const Employee = () => {
       },
     },
     {
-      title: "ACTION",
-      dataIndex: "view",
-      key: "view",
+      title: 'ACTION',
+      dataIndex: 'view',
+      key: 'view',
       render: (item) => {
         // console.log(item);
         return (
           <div
             style={{
-              display: "flex",
+              display: 'flex',
               gap: 20,
-              justifyContent: "center",
-              alignItems: "center",
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
           >
             <FontAwesomeIcon
@@ -201,20 +185,20 @@ export const Employee = () => {
 
   const WorkingCondition = [
     {
-      label: "All Status",
-      value: "",
+      label: 'All Status',
+      value: '',
     },
     {
-      label: "Working",
-      value: "working",
+      label: 'Working',
+      value: 'working',
     },
     {
-      label: "Pending",
-      value: "pending",
+      label: 'Pending',
+      value: 'pending',
     },
     {
-      label: "Resigned",
-      value: "resigned",
+      label: 'Resigned',
+      value: 'resigned',
     },
   ];
 
@@ -223,7 +207,7 @@ export const Employee = () => {
     employee?.employee?.map((userData: any, sn: any) => {
       if (userData.employeeName.toLowerCase().includes(searchText)) {
         const dateObject = new Date(userData?.dateOfJoining);
-        const formattedDate = dateObject?.toISOString()?.split("T")[0];
+        const formattedDate = dateObject?.toISOString()?.split('T')[0];
         const tableData = {
           id: userData?.employeeNumber,
           key: userData?.employeeNumber,
@@ -233,7 +217,7 @@ export const Employee = () => {
           designation: userData?.designation,
           dob: userData?.dob,
           view: userData,
-          sn: sn + 1,
+          // sn: sn + 1,
         };
         data1.push(tableData);
       }
@@ -243,29 +227,24 @@ export const Employee = () => {
   }, [employee, searchText]);
 
   useEffect(() => {
-    const sortedData = [...attendanceData].sort((a, b) =>
-      a.name.localeCompare(b.name)
-    );
-    const data = status
-      ? sortedData.filter((each: any) => each.status === status)
-      : sortedData;
+    const sortedData = [...attendanceData].sort((a, b) => a.name.localeCompare(b.name));
+    const data = status ? sortedData.filter((each: any) => each.status === status) : sortedData;
+    for (let i = 0; i < data.length; i++) {
+      data[i]['sn'] = i + 1;
+    }
     setFilterData(data);
   }, [attendanceData, status]);
-
+  console.log({ filterData });
   return (
     <>
       <Layout>
         <Navbar />
         <div style={{ margin: 40 }}>
-          <BreadCrumbs
-            imagesrc="/images/attendance.svg"
-            location="Employee Management"
-            location1="View Employee"
-          />
+          <BreadCrumbs imagesrc="/images/attendance.svg" location="Employee Management" location1="View Employee" />
           <hr />
           <div
             className="attendance-filters-bottom d-flex "
-            style={{ display: "flex", justifyContent: "space-between" }}
+            style={{ display: 'flex', justifyContent: 'space-between' }}
           >
             <input
               type="text"
@@ -274,7 +253,7 @@ export const Employee = () => {
               value={searchText}
               onChange={(e) => setSearchText(e.target.value.toLowerCase())}
             />
-            <div className="div" style={{ display: "flex", gap: 10 }}>
+            <div className="div" style={{ display: 'flex', gap: 10 }}>
               <Selects
                 defaultValue="allStatus"
                 onSelect={onSelect}
@@ -283,10 +262,7 @@ export const Employee = () => {
                 placeHolder="Search"
               />
 
-              <button
-                className="primary-btn"
-                onClick={() => setIsModalOpen(true)}
-              >
+              <button className="primary-btn" onClick={() => setIsModalOpen(true)}>
                 <FontAwesomeIcon icon={faPlus} /> Add Employee
               </button>
             </div>
@@ -297,14 +273,11 @@ export const Employee = () => {
           <div className="row table-container">
             <Table
               rowClassName={(record) =>
-                record.status === "resigned"
-                  ? "absent-class"
-                  : record.status === "pending"
-                  ? "holiday-class"
-                  : ""
+                record.status === 'resigned' ? 'absent-class' : record.status === 'pending' ? 'holiday-class' : ''
               }
               columns={columns}
               dataSource={filterData}
+              loading={loading}
             />
           </div>
         </div>
@@ -570,7 +543,7 @@ export const Employee = () => {
         {!!activeEmployee && (
           <EmployeeForm
             update
-            setIsModalOpen={() => setActiveEmployee("")}
+            setIsModalOpen={() => setActiveEmployee('')}
             employeeId={activeEmployee}
             defaultValue={activeEmployee}
           />

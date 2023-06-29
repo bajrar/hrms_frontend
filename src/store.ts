@@ -27,13 +27,14 @@ import { attendanceByDateApi } from './redux/api/attendanceByDateSlice';
 import { employeeWorkhourSliceApi } from './redux/api/employeeWorkhour';
 import sidebarSlice from './redux/features/sidebarSlice';
 import { projectTeamSlice } from './redux/features/projectTeam.slice';
-import { employeeApi } from './redux/api/employee';
+import { employeeApi } from './redux/api/employeeApiSlice';
 import { tokenSliceApi } from './redux/api/tokenSlice';
 import { applicantApiSlice } from './redux/api/applicantApiSlice';
 import userRoleSlice from './redux/features/role/userRoleSlice';
 import { announceSliceApi } from './redux/api/announceSliceApi';
 import { holidayApiSlice } from './redux/api/holidays/holidayApiSlice';
 import { eventSliceApi } from './redux/api/eventSliceApi';
+import { dashboardSliceApi } from './redux/api/dashboard/dashboardSliceApi';
 
 export const store = configureStore({
   reducer: {
@@ -71,6 +72,7 @@ export const store = configureStore({
     [announceSliceApi.reducerPath]: announceSliceApi.reducer,
     [holidayApiSlice.reducerPath]: holidayApiSlice.reducer,
     [eventSliceApi.reducerPath]: eventSliceApi.reducer,
+    [dashboardSliceApi.reducerPath]: dashboardSliceApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     // getDefaultMiddleware().concat(attendanceRequestSlice.middleware).concat(profileSlice.middleware),
@@ -86,7 +88,8 @@ export const store = configureStore({
       applicantApiSlice.middleware,
       announceSliceApi.middleware,
       holidayApiSlice.middleware,
-      eventSliceApi.middleware
+      eventSliceApi.middleware,
+      dashboardSliceApi.middleware
     ]),
 });
 setupListeners(store.dispatch);

@@ -1,24 +1,24 @@
-import { Button, Form, Input, Select, message } from "antd";
-import Calendar from "@sbmdkl/nepali-datepicker-reactjs";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch } from "react-redux";
-import { CalendarOutlined } from "@ant-design/icons";
+import { Button, Form, Input, Select, message } from 'antd';
+import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch } from 'react-redux';
+import { CalendarOutlined } from '@ant-design/icons';
 
-import "@sbmdkl/nepali-datepicker-reactjs/dist/index.css";
-import { IForm } from "../Shifts/AddShiftForm";
-import { apis } from "../apis/constants/ApisService";
-import { applicableTo, statusArray } from "../../utils/Constants";
-import { getHolidays } from "../../redux/features/holidaysSlice";
-import { useAddEmployeeMutation } from "../../redux/api/employee";
-import { useAddHolidayMutation } from "../../redux/api/holidays/holidayApiSlice";
-import { useEffect } from "react";
+import '@sbmdkl/nepali-datepicker-reactjs/dist/index.css';
+import { IForm } from '../Shifts/AddShiftForm';
+import { apis } from '../apis/constants/ApisService';
+import { applicableTo, statusArray } from '../../utils/Constants';
+import { getHolidays } from '../../redux/features/holidaysSlice';
+import { useAddEmployeeMutation } from '../../redux/api/employeeApiSlice';
+import { useAddHolidayMutation } from '../../redux/api/holidays/holidayApiSlice';
+import { useEffect } from 'react';
 
 const AddHolidaysForm = ({ setIsModalOpen }: IForm) => {
   const [form] = Form.useForm();
   const { TextArea } = Input;
   const dispatch = useDispatch();
-  const [addHolidays,{data,isSuccess}] = useAddHolidayMutation()
+  const [addHolidays, { data, isSuccess }] = useAddHolidayMutation();
 
   const onFinish = async (values: any) => {
     try {
@@ -35,17 +35,17 @@ const AddHolidaysForm = ({ setIsModalOpen }: IForm) => {
       //   );
       // }
     } catch {
-      message.error("Something Went Wrong");
+      message.error('Something Went Wrong');
     } finally {
       setIsModalOpen(false);
     }
   };
 
-  useEffect(()=>{
-if(isSuccess && data){
-  message.success("holiday Created")
-}
-  },[isSuccess,data])
+  useEffect(() => {
+    if (isSuccess && data) {
+      message.success('holiday Created');
+    }
+  }, [isSuccess, data]);
 
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -53,44 +53,32 @@ if(isSuccess && data){
   };
 
   const onStartChange = ({ bsDate }: any) => {
-    form.setFieldValue("startDate", bsDate);
+    form.setFieldValue('startDate', bsDate);
   };
   const onEndChange = ({ bsDate }: any) => {
-    form.setFieldValue("endDate", bsDate);
+    form.setFieldValue('endDate', bsDate);
   };
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    form.setFieldValue("notes", e.target.value);
+    form.setFieldValue('notes', e.target.value);
   };
 
   return (
     <div>
-      <Form
-        layout="vertical"
-        onFinish={onFinish}
-        autoComplete="off"
-        className="shift-assign-form"
-        form={form}
-      >
+      <Form layout="vertical" onFinish={onFinish} autoComplete="off" className="shift-assign-form" form={form}>
         <div className="form-second-row align-items-start">
           <Form.Item
             className="form-input col"
             name="holidayName"
             label="Holiday Name *"
-            rules={[{ required: true, message: "Holiday Name is Required" }]}
+            rules={[{ required: true, message: 'Holiday Name is Required' }]}
           >
-            <Input
-              placeholder="Enter the name of the new holiday"
-              className="form-input-wrapper"
-              type="text"
-            />
+            <Input placeholder="Enter the name of the new holiday" className="form-input-wrapper" type="text" />
           </Form.Item>
           <Form.Item
             className="form-input col working-day"
             name="applicableTo"
             label="Applicable To *"
-            rules={[
-              { required: true, message: "Name of employee(s) is Required" },
-            ]}
+            rules={[{ required: true, message: 'Name of employee(s) is Required' }]}
           >
             <Select
               placeholder="Select who this rule/policy is applicable to"
@@ -111,16 +99,11 @@ if(isSuccess && data){
             rules={[
               {
                 required: true,
-                message: "Start date is Required",
+                message: 'Start date is Required',
               },
             ]}
           >
-            <Calendar
-              onChange={onStartChange}
-              className="date-picker  "
-              dateFormat="YYYY/MM/DD"
-              language="en"
-            />
+            <Calendar onChange={onStartChange} className="date-picker  " dateFormat="YYYY/MM/DD" language="en" />
             <CalendarOutlined className="calendar-icon" />
           </Form.Item>
           <div className="dash">-</div>
@@ -131,7 +114,7 @@ if(isSuccess && data){
             rules={[
               {
                 required: true,
-                message: "End date is Required",
+                message: 'End date is Required',
               },
             ]}
           >
@@ -140,7 +123,7 @@ if(isSuccess && data){
               className="date-picker "
               dateFormat="YYYY/MM/DD"
               language="en"
-              minDate={form.getFieldValue("startDate")}
+              minDate={form.getFieldValue('startDate')}
             />
             <CalendarOutlined className="calendar-icon" />
           </Form.Item>
@@ -150,7 +133,7 @@ if(isSuccess && data){
           className="form-input col "
           name="status"
           label="Status *"
-          rules={[{ required: true, message: "Status is Required" }]}
+          rules={[{ required: true, message: 'Status is Required' }]}
         >
           <Select
             placeholder="Select the status of this day (e.g. repeat pattern)"
@@ -165,10 +148,10 @@ if(isSuccess && data){
           className="form-input col"
           name="notes"
           label="Notes *"
-          rules={[{ required: true, message: "Notes is required" }]}
+          rules={[{ required: true, message: 'Notes is required' }]}
         >
           <TextArea
-            style={{ height: 96, resize: "none" }}
+            style={{ height: 96, resize: 'none' }}
             onChange={onChange}
             placeholder="Enter any additional notes or comments related to this holiday"
           />

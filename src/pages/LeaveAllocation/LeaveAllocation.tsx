@@ -1,36 +1,40 @@
-import { Tabs, TabsProps } from "antd";
-import AddLeave from "../../Components/LeaveAllocation/AddLeave";
-import BreadCrumbs from "../../Components/Ui/BreadCrumbs/BreadCrumbs";
-import "./leaveAllocation.css";
-import Layout from "../../Components/Layout";
-import Navbar from "../../Components/Ui/Navbar";
-import { useState } from "react";
-import ApplyLeave from "../../Components/LeaveAllocation/ApplyLeave";
+import { Tabs, TabsProps } from 'antd';
+import AddLeave from '../../Components/LeaveAllocation/AddLeave';
+import BreadCrumbs from '../../Components/Ui/BreadCrumbs/BreadCrumbs';
+import './leaveAllocation.css';
+import Layout from '../../Components/Layout';
+import Navbar from '../../Components/Ui/Navbar';
+import { useEffect, useState } from 'react';
+import ApplyLeave from '../../Components/LeaveAllocation/ApplyLeave';
+import { useTokenData } from '../../hooks/userTokenData';
+import { useNavigate } from 'react-router-dom';
 
 const LeaveAllocation = () => {
-  const [activeTab, setActiveTab] = useState("1");
+  const [activeTab, setActiveTab] = useState('1');
+  const navigate = useNavigate();
+  const { isAdminTemp } = useTokenData();
 
   const handleTabChange = (key: string) => {
     setActiveTab(key);
   };
 
   const getBreadcrumbsLocation2 = () => {
-    if (activeTab === "1") {
-      return "Add Leave";
-    } else if (activeTab === "2") {
-      return "Apply Leave";
+    if (activeTab === '1') {
+      return 'Add Leave';
+    } else if (activeTab === '2') {
+      return 'Apply Leave';
     }
-    return "";
+    return '';
   };
 
-  const items: TabsProps["items"] = [
+  const items: TabsProps['items'] = [
     {
-      key: "1",
+      key: '1',
       label: `Add Leave`,
       children: <AddLeave />,
     },
     {
-      key: "2",
+      key: '2',
       label: `Apply Leave`,
       children: <ApplyLeave />,
     },

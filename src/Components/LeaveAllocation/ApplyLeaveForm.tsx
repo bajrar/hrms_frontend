@@ -1,51 +1,42 @@
-import { Button, Form, Input, Select, message } from "antd";
-import { CalendarOutlined } from "@ant-design/icons";
-import Calendar from "@sbmdkl/nepali-datepicker-reactjs";
-import "@sbmdkl/nepali-datepicker-reactjs/dist/index.css";
-import { IForm } from "../Shifts/AddShiftForm";
-import { useAppSelector } from "../../hooks/useTypedSelector";
-import "./addLeaveForm.css";
-import { useEffect, useState } from "react";
-import { reduceByKeys } from "../../hooks/HelperFunctions";
-import { apis } from "../apis/constants/ApisService";
-import { RootState } from "../../store";
-import {
-  useApplyLeaveMutation,
-  useGetLeavesQuery,
-} from "../../redux/api/leaveSlice";
-import { useGetUserProfileQuery } from "../../redux/features/profileSlice";
-import Selects from "../Ui/Selects/Selects";
-import { useTokenData } from "../../hooks/userTokenData";
+import { Button, Form, Input, Select, message } from 'antd';
+import { CalendarOutlined } from '@ant-design/icons';
+import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
+import '@sbmdkl/nepali-datepicker-reactjs/dist/index.css';
+import { IForm } from '../Shifts/AddShiftForm';
+import { useAppSelector } from '../../hooks/useTypedSelector';
+import './addLeaveForm.css';
+import { useEffect, useState } from 'react';
+import { reduceByKeys } from '../../hooks/HelperFunctions';
+import { apis } from '../apis/constants/ApisService';
+import { RootState } from '../../store';
+import { useApplyLeaveMutation, useGetLeavesQuery } from '../../redux/api/leaveSlice';
+import { useGetUserProfileQuery } from '../../redux/features/profileSlice';
+import Selects from '../Ui/Selects/Selects';
+import { useTokenData } from '../../hooks/userTokenData';
+import { useGetProfileQuery } from '../../redux/api/employeeApiSlice';
 const { Option } = Select;
 
 const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
   const [leaveNameArray, setLeaveNameArray] = useState<any[]>([]);
   const [leaveNameSelect, setLeaveNameSelect] = useState<any[]>([]);
-  const [leaveOption, setLeaveOption] = useState("");
+  const [leaveOption, setLeaveOption] = useState('');
   const [form] = Form.useForm();
 
   const userData = useAppSelector((state: RootState) => state.userSlice.value);
-  const { leaves } = useAppSelector((state) => state.leaveSlice);
-  const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
-  const userRole = tokenData?.role ? tokenData?.role : userData?.role;
-  const { data: employeeData } = useGetUserProfileQuery(tokenData.userSn || "");
-  const {isAdmin} = useTokenData()
-  console.log(employeeData, "mero data");
-  const { data, isLoading } = useGetLeavesQuery("leave");
-
-  const [
-    applyLeave,
-    {
-      data: leaveResponse,
-      error: leaveError,
-      isSuccess: isLeaveSuccess,
-      isError: isLeaveError,
-    },
-  ] = useApplyLeaveMutation();
+  const { isAdmin, userSn, isAdminTemp } = useTokenData();
+  const { data: employeeData } = useGetUserProfileQuery(isAdminTemp ? '/employee' : `/employee/${userSn}`);
+  const { data: leaves, isLoading } = useGetLeavesQuery('leave');
+  const [applyLeave, { data: leaveResponse, isSuccess: isLeaveSuccess, isError: isLeaveError }] =
+    useApplyLeaveMutation();
   useEffect(() => {
-    const shiftNameArray = reduceByKeys(leaves?.leave, "_id", "leaveName");
+    const assignedLeave = employeeData?.employee?.leave;
+    const filteredLeave = leaves?.leave?.filter((each: any) =>
+      assignedLeave?.some((assigned: any) => assigned.leaveName === each.leaveName),
+    );
+    const finalLeaveArray = isAdminTemp ? leaves?.leave : filteredLeave;
+    const shiftNameArray = reduceByKeys(finalLeaveArray, '_id', 'leaveName');
     setLeaveNameArray(shiftNameArray);
-  }, [leaves?.leave]);
+  }, [leaves?.leave, employeeData, isAdmin, isAdminTemp, isLoading]);
 
   // console.log(leaveNameArray, "select name");
   useEffect(() => {
@@ -84,7 +75,7 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
   const onLeaveName = (value: string) => {
     // const employeeArray: any = [];
     setLeaveOption(value);
-    form.setFieldValue("leaveName", value);
+    form.setFieldValue('leaveName', value);
   };
 
   const onCancel = () => {
@@ -104,24 +95,23 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
       //   id: values.leaveName,
       //   ...rest,
       // });
-      console.log(values.leaveName, "lllll");
       const res = await apis.applyLeave(
         {
           from: startDate,
           to: endTime.bsDate,
-          employeeId: employeeData?.employee?.employeeNumber,
+          employeeId: userSn,
           employeeName: employeeData?.employee?.employeeName,
           ...rest,
         },
-        values.leaveName
+        values.leaveName,
       );
       if (res.status === 200) {
-        message.success("Leave Applied");
+        message.success('Leave Applied');
         form.resetFields();
       }
       setIsModalOpen(false);
     } catch {
-      message.error("Something Went Wrong");
+      message.error('Something Went Wrong');
     } finally {
       // setIsModalOpen(false);
     }
@@ -131,19 +121,17 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
       message.success(leaveResponse?.message);
       form.resetFields();
     } else if (isLeaveError) {
-      message.error("");
+      message.error('');
     }
   }, [leaveResponse, isLeaveSuccess, isLeaveError]);
 
   const [selectedId, setSelectedId] = useState<number | undefined>(undefined);
-  const [selectedName, setSelectedName] = useState<string | undefined>(
-    undefined
-  );
+  const [selectedName, setSelectedName] = useState<string | undefined>(undefined);
 
   const handleIdChange = (value: string) => {
     // setSelectedId(value);
     const selectedUser = employeeData?.employee?.find((employee: any) =>
-      employee.employeeNumber.toString().includes(value.toString())
+      employee.employeeNumber.toString().includes(value.toString()),
     );
     // console.log(selectedUser?.employeeName, "setSelectedName");
     if (selectedUser) {
@@ -161,7 +149,7 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
   const handleNameChange = (value: string) => {
     setSelectedName(value);
     const selectedUser = employeeData?.employee?.find((employee: any) =>
-      employee.employeeName.toLowerCase().includes(value.toLowerCase())
+      employee.employeeName.toLowerCase().includes(value.toLowerCase()),
     );
     if (selectedUser) {
       setSelectedId(selectedUser?.employeeNumber);
@@ -177,10 +165,10 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
   };
 
   const onStartChange = ({ bsDate }: any) => {
-    form.setFieldValue("startDate", bsDate);
+    form.setFieldValue('startDate', bsDate);
   };
   const onEndChange = ({ bsDate }: any) => {
-    form.setFieldValue("endDate", bsDate);
+    form.setFieldValue('endDate', bsDate);
   };
 
   return (
@@ -191,7 +179,7 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
             className="form-input col"
             name="leaveName"
             label="Select Leave *"
-            rules={[{ required: true, message: "Leave Name is Required" }]}
+            rules={[{ required: true, message: 'Leave Name is Required' }]}
           >
             <Select
               placeholder="Select the type of leave"
@@ -208,7 +196,7 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
             rules={[
               {
                 required: true,
-                message: "Start time is Required",
+                message: 'Start time is Required',
               },
             ]}
           >
@@ -219,13 +207,13 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
             />
           </Form.Item>
         </div>
-        {isAdmin && (
+        {isAdminTemp && (
           <div className="form-second-row align-items-start ">
             <Form.Item
               className="form-input col unit-input"
               name="employeeId"
               label="Employee ID *"
-              rules={[{ required: true, message: "ID is Required" }]}
+              rules={[{ required: true, message: 'ID is Required' }]}
             >
               {/* <Input
                 placeholder="Type the employee ID to search and select"
@@ -251,7 +239,7 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
               className="form-input col"
               name="employeeName"
               label="Employee Name *"
-              rules={[{ required: true, message: "Name is Required" }]}
+              rules={[{ required: true, message: 'Name is Required' }]}
             >
               {/* <Input
                 placeholder="Enter the maximum unit allowed (e.g. 100 days)"
@@ -283,16 +271,11 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
             rules={[
               {
                 required: true,
-                message: "Start time is Required",
+                message: 'Start time is Required',
               },
             ]}
           >
-            <Calendar
-              onChange={onStartChange}
-              className=" date-picker  "
-              dateFormat="YYYY/MM/DD"
-              language="en"
-            />
+            <Calendar onChange={onStartChange} className=" date-picker  " dateFormat="YYYY/MM/DD" language="en" />
             <CalendarOutlined className="calendar-icon" />
           </Form.Item>
 
@@ -303,26 +286,17 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
             rules={[
               {
                 required: true,
-                message: "End time is Required",
+                message: 'End time is Required',
               },
             ]}
           >
-            <Calendar
-              onChange={onEndChange}
-              className="date-picker "
-              dateFormat="YYYY/MM/DD"
-              language="en"
-            />
+            <Calendar onChange={onEndChange} className="date-picker " dateFormat="YYYY/MM/DD" language="en" />
           </Form.Item>
         </div>
 
-        <Form.Item
-          className="form-input col mt-2"
-          name="reason"
-          label="Reason for leave *"
-        >
+        <Form.Item className="form-input col mt-2" name="reason" label="Reason for leave *">
           <TextArea
-            style={{ height: 96, resize: "none" }}
+            style={{ height: 96, resize: 'none' }}
             // onChange={onChange}
             placeholder="Enter the reason for your leave"
           />

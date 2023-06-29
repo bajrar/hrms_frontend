@@ -16,6 +16,7 @@ import { reduceByKeys } from '../../hooks/HelperFunctions';
 import { useGetLeavesQuery } from '../../redux/api/leaveSlice';
 import { useGetTokenDataQuery } from '../../redux/api/tokenSlice';
 import { useTokenData } from '../../hooks/userTokenData';
+import { useNavigate } from 'react-router-dom';
 
 export interface DataType {
   eid?: string;
@@ -37,6 +38,7 @@ const ApplyLeave = () => {
   const userDetails = localStorage.getItem('userDetails');
   const employeeDetails = JSON.parse(userDetails || '');
   const [form] = Form.useForm();
+  const navigate = useNavigate();
   const { Option } = Select;
 
   const onStartDateChange = ({ bsDate }: any) => {
@@ -45,16 +47,22 @@ const ApplyLeave = () => {
   const onEndDateChange = ({ bsDate }: any) => {
     setEndDate(bsDate);
   };
-  const { isAdmin, userSn } = useTokenData();
-  console.log({ userSn, isAdmin });
+  const { isAdmin, userSn, isAdminTemp } = useTokenData();
+  useEffect(() => {
+    if (isAdminTemp) {
+      navigate('/leave');
+    } else {
+      navigate('/request-leave');
+    }
+  }, [isAdminTemp, navigate]);
   let leaveEndpont;
-  if (isAdmin) {
+  if (isAdminTemp) {
     leaveEndpont = 'leave/employee/appliedLeave';
   } else {
     leaveEndpont = `leave/employee/appliedLeave?userSn=${userSn}`;
   }
-  const { leaves } = useAppSelector((state: any) => state.leaveSlice);
-  const { data: leaveData, isLoading } = useGetLeavesQuery(leaveEndpont);
+  // const { leaves } = useAppSelector((state: any) => state.leaveSlice);
+  const { data: leaves, isLoading } = useGetLeavesQuery(leaveEndpont);
   const columns: ColumnsType<DataType> = [
     {
       title: 'EID',
@@ -106,7 +114,7 @@ const ApplyLeave = () => {
   useEffect(() => {
     const shiftNameArray = reduceByKeys(leaves?.leave, '_id', 'leaveName');
     setLeaveNameArray(shiftNameArray);
-  }, [leaves?.leave]);
+  }, [leaves?.leave, isLoading, leaves]);
 
   console.log(leaveNameArray, '2scond');
   useEffect(() => {
@@ -126,7 +134,7 @@ const ApplyLeave = () => {
   // const allLeaveTaken = employeeDetails?.leave.flatMap(
   //   (leave: any) => leave.leaveTakenOn
   // );
-  const allLeaveTaken = leaveData?.leave;
+  const allLeaveTaken = leaves?.leave;
   const onLeaveChange = (value: string) => {
     setSearchByLeave(value.toLowerCase());
   };
@@ -137,7 +145,7 @@ const ApplyLeave = () => {
       ? allLeaveTaken.filter((leave: any) => leave.leaveType.toLowerCase() === searchByLeave)
       : allLeaveTaken;
     setFilterLeaveData(filterLeaveData);
-  }, [searchByLeave, allLeaveTaken]);
+  }, [searchByLeave, allLeaveTaken, leaves]);
 
   return (
     <div className="assign-leave">

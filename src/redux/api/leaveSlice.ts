@@ -12,6 +12,7 @@ export const leaveSliceApi = createApi({
 
     getLeaves: builder.query({
       query: (leave) => `${leave}`,
+      providesTags:['leaves']
     }),
 
     applyLeave: builder.mutation({
