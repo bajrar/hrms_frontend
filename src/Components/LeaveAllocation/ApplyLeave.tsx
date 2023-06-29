@@ -152,12 +152,22 @@ const ApplyLeave = () => {
       <div className="d-flex justify-content-between align-items-center daily-report-search">
         <div className="attendance-filters">
           <div className="calendar-wrapper">
-            <Calendar onChange={onStartDateChange} className="date-picker" dateFormat="YYYY/MM/DD" language="en" />
+            <Calendar
+              onChange={onStartDateChange}
+              className="date-picker calender-container-picker"
+              dateFormat="YYYY/MM/DD"
+              language="en"
+            />
             <CalendarOutlined className="calendar-icon" />
           </div>
           To
           <div className="calendar-wrapper">
-            <Calendar onChange={onEndDateChange} className="date-picker" dateFormat="YYYY/MM/DD" language="en" />
+            <Calendar
+              onChange={onEndDateChange}
+              className="date-picker calender-container-picker"
+              dateFormat="YYYY/MM/DD"
+              language="en"
+            />
 
             <CalendarOutlined className="calendar-icon" />
           </div>

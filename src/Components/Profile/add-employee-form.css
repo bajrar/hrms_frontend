@@ -121,7 +121,8 @@ input[type='number'] {
 .calender-container-picker {
   border: 1px solid rgba(2, 60, 135, 0.4);
   border-radius: 4px;
-  width: 316px;
+  width: 100% !important;
+  max-width: 18rem;
   height: 40px;
   padding-left: 10px;
 }

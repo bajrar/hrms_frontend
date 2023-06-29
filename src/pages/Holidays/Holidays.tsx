@@ -71,7 +71,10 @@ const Holidays = () => {
     },
   ];
 
-  const {data:holidays,isLoading} = useGetHolidayQuery({startDate:startDate===endDate?'':startDate,endData:endDate===startDate?'':endDate})
+  const { data: holidays, isLoading } = useGetHolidayQuery({
+    startDate: startDate === endDate ? '' : startDate,
+    endData: endDate === startDate ? '' : endDate,
+  });
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -96,35 +99,31 @@ const Holidays = () => {
   return (
     <Layout>
       <Navbar />
-      <div className='holiday-page padding'>
+      <div className="holiday-page padding">
         <hr />
-        <BreadCrumbs
-          imagesrc='/images/leave.svg'
-          location='Leave Management'
-          location1='Holidays'
-        />
+        <BreadCrumbs imagesrc="/images/leave.svg" location="Leave Management" location1="Holidays" />
         <hr />
 
-        <div className='d-flex attendance-filters-container justify-content-between'>
-          <div className='holiday-filters'>
-            <div className='calendar-wrapper'>
+        <div className="d-flex attendance-filters-container justify-content-between">
+          <div className="d-flex gap-4">
+            <div className="calendar-wrapper">
               <Calendar
                 onChange={onStartDateChange}
-                className='date-picker calender-container-picker'
-                dateFormat='YYYY/MM/DD'
-                language='en'
+                className="date-picker calender-container-picker"
+                dateFormat="YYYY/MM/DD"
+                language="en"
               />
-              <CalendarOutlined className='calendar-icon' />
+              <CalendarOutlined className="calendar-icon" />
             </div>
-            <div className='calendar-wrapper'>
+            <div className="calendar-wrapper">
               <Calendar
                 onChange={onEndDateChange}
-                className='date-picker calender-container-picker'
-                dateFormat='YYYY/MM/DD'
-                language='en'
+                className="date-picker calender-container-picker"
+                dateFormat="YYYY/MM/DD"
+                language="en"
                 minDate={disableDate}
               />
-              <CalendarOutlined className='calendar-icon' />
+              <CalendarOutlined className="calendar-icon" />
             </div>
           </div>
           {isAdminTemp && (
@@ -133,18 +132,9 @@ const Holidays = () => {
             </button>
           )}
         </div>
-        <Table
-          columns={columns}
-          className='holidays-table'
-          dataSource={holidaysArray}
-          loading={isLoading}
-        />
-        <ModalComponent
-          openModal={isModalOpen}
-          classNames='holidays-modal'
-          closeModal={setIsModalOpen}
-        >
-          <h3 className='modal-title'>ADD HOLIDAYS</h3>
+        <Table columns={columns} className="holidays-table" dataSource={holidaysArray} loading={isLoading} />
+        <ModalComponent openModal={isModalOpen} classNames="holidays-modal" closeModal={setIsModalOpen}>
+          <h3 className="modal-title">ADD HOLIDAYS</h3>
           <AddHolidaysForm setIsModalOpen={setIsModalOpen} />
         </ModalComponent>
       </div>

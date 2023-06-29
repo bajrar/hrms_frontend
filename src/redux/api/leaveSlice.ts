@@ -8,10 +8,12 @@ export const leaveSliceApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
   tagTypes:['leaves'],
   endpoints: (builder) => ({
+
     getLeaves: builder.query({
       query: (leave) => `${leave}`,
       providesTags:['leaves']
     }),
+
     applyLeave: builder.mutation({
       query: (payload) => ({
         url: `leave/apply/${payload.id}`,
@@ -20,6 +22,15 @@ export const leaveSliceApi = createApi({
       }),
       invalidatesTags:['leaves']
     }),
+
+    // deleteLeave: builder.mutation({
+    //   query: (id) => ({
+    //     url: `leave/${id}`,
+    //     method: 'DELETE',
+    //   }),
+    //   invalidatesTags: ['leaves']
+    // })
+
   }),
 });
 

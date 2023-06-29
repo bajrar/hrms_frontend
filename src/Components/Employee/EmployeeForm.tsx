@@ -1,13 +1,5 @@
 import { useEffect, useState, memo, useMemo } from 'react';
-import {
-  Button,
-  Form,
-  Input,
-  Radio,
-  RadioChangeEvent,
-  DatePicker,
-  Select,
-} from 'antd';
+import { Button, Form, Input, Radio, RadioChangeEvent, DatePicker, Select } from 'antd';
 import { toast } from 'react-toastify';
 
 import { apis, axiosApiInstance } from '../apis/constants/ApisService';
@@ -31,8 +23,7 @@ import dayjs from 'dayjs';
 import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
 import NepaliDate from 'nepali-date-converter';
 
-export const selectedEmployee = (state: any, id: string) =>
-  state?.find((item: any) => item?.employeeNumber === id);
+export const selectedEmployee = (state: any, id: string) => state?.find((item: any) => item?.employeeNumber === id);
 
 export const EmployeeForm = ({
   setIsModalOpen,
@@ -50,9 +41,7 @@ export const EmployeeForm = ({
   const [getDateOfJoining, setDateOfJoining] = useState();
   const [getDob, setDob] = useState();
   const defaultDob = employeeData?.dob?.split('/').join('-');
-  const defaultdateOfJoining = employeeData?.dateOfJoining
-    ?.split('/')
-    .join('-');
+  const defaultdateOfJoining = employeeData?.dateOfJoining?.split('/').join('-');
   console.log(defaultDob, defaultdateOfJoining);
   // useEffect(()=>{
   //   dispatch(getSingleEmployee())
@@ -151,7 +140,7 @@ export const EmployeeForm = ({
     try {
       const res = await apis.updateEmployee(
         { ...rest, dob: getDob, dateOfJoining: getDateOfJoining },
-        employeeData._id
+        employeeData._id,
       );
       if (res.status === 201) {
         form.resetFields();
@@ -274,29 +263,25 @@ export const EmployeeForm = ({
   const dateFormat = 'YYYY/MM/DD';
   return (
     <>
-      <h3 className='modal-title'>
-        {update ? 'UPDATE EMPLOYEE' : 'ADD EMPLOYEE'}
-      </h3>
-      <div className='mb-4'>
+      <h3 className="modal-title">{update ? 'UPDATE EMPLOYEE' : 'ADD EMPLOYEE'}</h3>
+      <div className="mb-4">
         <div style={{ paddingInline: 5 }}>
           <Form
-            layout='vertical'
+            layout="vertical"
             onFinish={update ? onUpdateEmployee : onFinish}
-            autoComplete='off'
+            autoComplete="off"
             form={form}
             initialValues={{ name: employeeData?.employeeName }}
             disabled={isDisable}
           >
-            <div className='row p-0'>
-              <h3 className='add-employee__section-header'>
-                Basic Information
-              </h3>
+            <div className="row p-0">
+              <h3 className="add-employee__section-header">Basic Information</h3>
               <hr />
-              <div className='add-employee__section p-0'>
+              <div className="add-employee__section p-0">
                 {firstRow.map((item, index) => {
                   return (
                     <Form.Item
-                      className='form-input col'
+                      className="form-input col"
                       name={item.name}
                       label={item.label}
                       rules={[{ required: true, message: item.message }]}
@@ -306,7 +291,7 @@ export const EmployeeForm = ({
                       <Input
                         name={item.name}
                         placeholder={item.placeHolder}
-                        className='form-input-wrapper'
+                        className="form-input-wrapper"
                         type={item.type}
                       />
                     </Form.Item>
@@ -314,11 +299,11 @@ export const EmployeeForm = ({
                 })}
               </div>
             </div>
-            <div className='row add-employee__section'>
+            <div className="row add-employee__section">
               <Form.Item
-                label='Date of Birth'
-                className='form-input  form-input-container'
-                name='dob'
+                label="Date of Birth"
+                className="form-input  form-input-container"
+                name="dob"
                 // initialValue={employeeData.dob}
                 initialValue={moment(employeeData?.dob)}
               >
@@ -334,18 +319,18 @@ export const EmployeeForm = ({
                 /> */}
                 <Calendar
                   onChange={onDobChange}
-                  className=' date-picker calender-container-picker '
-                  dateFormat='YYYY/MM/DD'
-                  language='en'
+                  className=" date-picker calender-container-picker "
+                  dateFormat="YYYY/MM/DD"
+                  language="en"
                   defaultDate={defaultDob}
                   maxDate={currentDate}
                 />
               </Form.Item>
 
               <Form.Item
-                label='Gender'
-                className='form-input  form-input-container'
-                name='gender'
+                label="Gender"
+                className="form-input  form-input-container"
+                name="gender"
                 // initialValue={update?.employee.gender:''}
               >
                 <Radio.Group onChange={onChangeRadio} value={gender}>
@@ -355,13 +340,13 @@ export const EmployeeForm = ({
                 </Radio.Group>
               </Form.Item>
             </div>
-            <div className='row p-0'>
-              <h3 className='add-employee__section-header'> Office Details</h3>
+            <div className="row p-0">
+              <h3 className="add-employee__section-header"> Office Details</h3>
               <hr />
-              <div className='add-employee__section p-0'>
+              <div className="add-employee__section p-0">
                 {thirdRow.map((item, index) => (
                   <Form.Item
-                    className='form-input col'
+                    className="form-input col"
                     name={item.name}
                     label={item.label}
                     rules={[{ required: true, message: item.message }]}
@@ -371,15 +356,15 @@ export const EmployeeForm = ({
                     <Input
                       name={item.name}
                       placeholder={item.placeHolder}
-                      className='form-input-wrapper'
+                      className="form-input-wrapper"
                       type={item.type}
                     />
                   </Form.Item>
                 ))}
                 <Form.Item
-                  label='Date of Joining'
-                  className='form-input col'
-                  name='dateOfJoining'
+                  label="Date of Joining"
+                  className="form-input col"
+                  name="dateOfJoining"
                   // initialValue={moment(employeeData?.dateOfJoining)}
                 >
                   {/* <DatePicker
@@ -395,53 +380,45 @@ export const EmployeeForm = ({
                   <Calendar
                     onChange={onStartDateChange}
                     defaultDate={defaultdateOfJoining}
-                    className=' date-picker calender-container-picker '
-                    dateFormat='YYYY/MM/DD'
+                    className=" date-picker calender-container-picker "
+                    dateFormat="YYYY/MM/DD"
                     maxDate={currentDate}
-                    language='en'
+                    language="en"
                     // hideDefaultValue
                   />
                 </Form.Item>
               </div>
             </div>
-            <div className='row add-employee__section p-0'>
+            <div className="row add-employee__section p-0">
               {fourthRow.map((item, index) => (
                 <Form.Item
-                  className='form-input form-input-container-fourth'
+                  className="form-input form-input-container-fourth"
                   name={item.name}
                   label={item.label}
                   rules={[{ required: true, message: item.message }]}
                   // initialValue={update?item.initialValue:''}
                   id={index + item?.name}
                 >
-                  <Input
-                    name={item.name}
-                    className='form-input-wrapper form-input-wrapper'
-                    type={item.type}
-                  />
+                  <Input name={item.name} className="form-input-wrapper form-input-wrapper" type={item.type} />
                 </Form.Item>
               ))}
               <Form.Item
-                label='Status'
-                className='form-input  form-input-container-fourth'
-                name='status'
+                label="Status"
+                className="form-input  form-input-container-fourth"
+                name="status"
                 initialValue={employeeData?.status}
               >
                 <Select
                   showSearch
-                  placeholder='Search to Status'
+                  placeholder="Search to Status"
                   style={{
                     marginTop: '20px',
                     gap: '30px',
                   }}
-                  optionFilterProp='children'
-                  filterOption={(input, option) =>
-                    (option?.label ?? '').includes(input)
-                  }
+                  optionFilterProp="children"
+                  filterOption={(input, option) => (option?.label ?? '').includes(input)}
                   filterSort={(optionA, optionB) =>
-                    (optionA?.label ?? '')
-                      .toLowerCase()
-                      .localeCompare((optionB?.label ?? '').toLowerCase())
+                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                   }
                   options={[
                     {
@@ -464,42 +441,30 @@ export const EmployeeForm = ({
                 />
               </Form.Item>
               <Form.Item
-                label='Designation'
-                className='form-input  form-input-container-fourth'
-                name='designation'
+                label="Designation"
+                className="form-input  form-input-container-fourth"
+                name="designation"
                 initialValue={update ? employeeData.designation : ''}
               >
-                <Input
-                  name='designation'
-                  placeholder='Designation'
-                  className='form-input-wrapper'
-                  type='text'
-                />
+                <Input name="designation" placeholder="Designation" className="form-input-wrapper" type="text" />
               </Form.Item>
               <Form.Item
-                label='Project Team'
-                className='form-input  form-input-container-fourth'
-                name='projectTeam'
+                label="Project Team"
+                className="form-input  form-input-container-fourth"
+                name="projectTeam"
                 initialValue={update ? employeeData.projectTeam : ''}
               >
-                <Input
-                  name='projectTeam'
-                  placeholder='Project Team'
-                  className='form-input-wrapper'
-                  type='text'
-                />
+                <Input name="projectTeam" placeholder="Project Team" className="form-input-wrapper" type="text" />
               </Form.Item>
             </div>
 
-            <div className='row p-0'>
-              <h3 className='add-employee__section-header'>
-                Emergency Contact Details
-              </h3>
+            <div className="row p-0">
+              <h3 className="add-employee__section-header">Emergency Contact Details</h3>
               <hr />
               {emergencyContact.map((item) => (
-                <div className='col-4'>
+                <div className="col-4">
                   <Form.Item
-                    className='form-input col'
+                    className="form-input col"
                     name={item.name}
                     label={item.label}
                     rules={[{ required: false }]}
@@ -508,7 +473,7 @@ export const EmployeeForm = ({
                     <Input
                       name={item.name}
                       placeholder={item.placeHolder}
-                      className='form-input-wrapper'
+                      className="form-input-wrapper"
                       type={item.type}
                     />
                   </Form.Item>
@@ -516,11 +481,11 @@ export const EmployeeForm = ({
               ))}
             </div>
 
-            <div className='form-footer' style={{ display: 'flex', gap: 10 }}>
-              <Button type='primary' htmlType='submit'>
+            <div className="form-footer" style={{ display: 'flex', gap: 10 }}>
+              <Button type="primary" htmlType="submit">
                 {update ? 'Update' : 'Add'}
               </Button>
-              <Button type='primary' onClick={() => closeModal()} danger>
+              <Button type="primary" onClick={() => closeModal()} danger>
                 Cancel
               </Button>
             </div>

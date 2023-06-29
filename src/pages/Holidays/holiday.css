@@ -20,3 +20,8 @@
   align-items: center;
   gap: 20px;
 }
+
+.calender-container-picker {
+  height: 40px;
+  min-width: 18rem !important;
+}
