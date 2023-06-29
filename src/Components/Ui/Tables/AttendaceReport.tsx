@@ -80,7 +80,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              width: '75%',
+              width: '90%',
             }}
           >
             {item.split('-').map((ite: any, i: number) => {
