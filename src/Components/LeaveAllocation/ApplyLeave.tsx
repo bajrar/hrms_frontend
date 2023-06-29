@@ -127,55 +127,51 @@ const ApplyLeave = () => {
   //   (leave: any) => leave.leaveTakenOn
   // );
   const allLeaveTaken = leaveData?.leave;
-    const onLeaveChange = (value: string) => {
+  const onLeaveChange = (value: string) => {
     setSearchByLeave(value.toLowerCase());
   };
 
   console.log(searchByLeave, 'selected');
   useEffect(() => {
     const filterLeaveData = searchByLeave
-      ? allLeaveTaken.filter(
-          (leave: any) => leave.leaveType.toLowerCase() === searchByLeave
-        )
+      ? allLeaveTaken.filter((leave: any) => leave.leaveType.toLowerCase() === searchByLeave)
       : allLeaveTaken;
     setFilterLeaveData(filterLeaveData);
   }, [searchByLeave, allLeaveTaken]);
 
   return (
-    <div className='assign-leave'>
-      <div className='d-flex justify-content-between align-items-center daily-report-search'>
-        <div className='attendance-filters'>
-          <div className='calendar-wrapper'>
+    <div className="assign-leave">
+      <div className="d-flex justify-content-between align-items-center daily-report-search">
+        <div className="attendance-filters">
+          <div className="calendar-wrapper">
             <Calendar
               onChange={onStartDateChange}
-              className='date-picker'
-              dateFormat='YYYY/MM/DD'
-              language='en'
+              className="date-picker calender-container-picker"
+              dateFormat="YYYY/MM/DD"
+              language="en"
             />
-            <CalendarOutlined className='calendar-icon' />
+            <CalendarOutlined className="calendar-icon" />
           </div>
           To
-          <div className='calendar-wrapper'>
+          <div className="calendar-wrapper">
             <Calendar
               onChange={onEndDateChange}
-              className='date-picker'
-              dateFormat='YYYY/MM/DD'
-              language='en'
+              className="date-picker calender-container-picker"
+              dateFormat="YYYY/MM/DD"
+              language="en"
             />
 
-            <CalendarOutlined className='calendar-icon' />
+            <CalendarOutlined className="calendar-icon" />
           </div>
         </div>
-        <div className='d-flex gap-5 daily-report-saerch-right'>
-          <div className='d-flex flex-grow-1'>
+        <div className="d-flex gap-5 daily-report-saerch-right">
+          <div className="d-flex flex-grow-1">
             <Select
               showSearch
               onChange={onLeaveChange}
-              placeholder='Search leave name'
-              className='selects form-input-wrapper w-100'
-              filterOption={(input, option: any) =>
-                option?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }
+              placeholder="Search leave name"
+              className="selects form-input-wrapper w-100"
+              filterOption={(input, option: any) => option?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
             >
               {leaveNameSelect.map((option) => (
                 <Option key={option.value} value={option.value}>
@@ -185,24 +181,16 @@ const ApplyLeave = () => {
             </Select>
           </div>
           {/* <Selects placeHolder='Search leave name' className='leave-inputs' /> */}
-          <button className='primary-btn' onClick={showModal}>
+          <button className="primary-btn" onClick={showModal}>
             <FontAwesomeIcon icon={faPlus} /> Apply Leave
           </button>
         </div>
       </div>
-      <div className='daily-report-table-container'>
-        <Table
-          columns={columns}
-          dataSource={filterLeaveData}
-          loading={isLoading}
-        />
+      <div className="daily-report-table-container">
+        <Table columns={columns} dataSource={filterLeaveData} loading={isLoading} />
       </div>
-      <ModalComponent
-        openModal={isModalOpen}
-        classNames='assign-leave-modal'
-        closeModal={setIsModalOpen}
-      >
-        <h3 className='modal-title'>APPLY LEAVE</h3>
+      <ModalComponent openModal={isModalOpen} classNames="assign-leave-modal" closeModal={setIsModalOpen}>
+        <h3 className="modal-title">APPLY LEAVE</h3>
         <ApplyLeaveForm setIsModalOpen={setIsModalOpen} />
       </ModalComponent>
     </div>

@@ -42,7 +42,7 @@ const UpcomingEvents = ({ isSmall = false, isAdmin = true }: PropsType) => {
     console.log(values, 'value');
     try {
       if (isEditing && selectedEvent) {
-        await updateEvent({ id: selectedEvent, body: { eventName, date: date.bs, notes } });
+        await updateEvent({ id: selectedEvent, body: { eventName, date: date.bsDate, notes } });
         message.success('Event Updated Successfully!');
         setIsEditing(false);
       } else {

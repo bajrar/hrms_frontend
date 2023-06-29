@@ -105,7 +105,7 @@ const Holidays = () => {
         <hr />
 
         <div className="d-flex attendance-filters-container justify-content-between">
-          <div className="holiday-filters">
+          <div className="d-flex gap-4">
             <div className="calendar-wrapper">
               <Calendar
                 onChange={onStartDateChange}
