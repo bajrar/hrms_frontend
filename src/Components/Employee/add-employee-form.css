@@ -29,13 +29,14 @@ input[type='number'] {
   width: fit-content;
 }
 .add-employee__section-header {
-  font-weight: 400;
-  font-size: 16px;
+  font-weight: 500;
+  font-size: 20px;
   line-height: 24px;
   color: #023c87;
   border-bottom: 2px solid #023c87;
   width: fit-content;
   margin: 0;
+  padding: 0;
 }
 .add-employee__section {
   /* padding: 0 !important; */
@@ -49,6 +50,7 @@ input[type='number'] {
 }
 .form-input {
   padding: 0 !important;
+  font-size: 16px !important;
 }
 .form-input-wrapper {
   height: 48px;
@@ -111,14 +113,19 @@ input[type='number'] {
   padding-left: 10px;
   width: 100%;
 }
-.calender-container-picker {
+/* .calender-container-picker {
   border: 1px solid rgba(2, 60, 135, 0.4);
   border-radius: 4px;
   width: 100% !important;
   max-width: 18rem;
   height: 45px;
   padding-left: 10px;
+} */
+.calender-container-picker-custom {
+  height: 48px !important;
+  min-width: 24rem !important;
 }
+
 .calendar-wrapper {
   position: relative;
   margin-block: 0;

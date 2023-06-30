@@ -24,3 +24,8 @@
   right: 10px; /* Adjust the right position as needed */
   transform: translateY(-50%);
 }
+
+.calender-container-picker {
+  height: 40px;
+  min-width: 18rem !important;
+}
