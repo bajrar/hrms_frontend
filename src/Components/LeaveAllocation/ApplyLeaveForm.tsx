@@ -215,11 +215,6 @@ const ApplyLeaveForm = ({ setIsModalOpen }: IForm) => {
               label="Employee ID *"
               rules={[{ required: true, message: 'ID is Required' }]}
             >
-              {/* <Input
-                placeholder="Type the employee ID to search and select"
-                className="form-input-wrapper days-input"
-                type="text"
-              /> */}
               <Select
                 showSearch
                 filterOption={true}
