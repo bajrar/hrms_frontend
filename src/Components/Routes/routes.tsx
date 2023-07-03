@@ -37,7 +37,7 @@ export const MainRoutes = ({}: MainRoutesProps) => {
 
         <Route path="*" element={<PageNotFound />} />
         <Route path="/" element={<Dashboard />} />
-        <Route path="/" element={<LoginPage />} />
+        {/* <Route path="/" element={<LoginPage />} /> */}
         <Route path="/holidays" element={<Holidays />} />
         <Route path="/leave" element={<LeaveAllocation />} />
         <Route path="/request-leave" element={<RequestLeave />} />
