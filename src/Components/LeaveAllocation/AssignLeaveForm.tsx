@@ -20,6 +20,7 @@ const AssignLeaveForm = ({ setIsAssignOpen, setUpdateModalIsModal }: any) => {
 
   const dispatch = useDispatch();
   const { leaves } = useAppSelector((state) => state.leaveSlice);
+  console.log({ leaves });
   const { user } = useAppSelector((state) => state.attendanceSlice);
   const { employee } = useAppSelector((state) => state.employeeSlice);
   useEffect(() => {
@@ -50,7 +51,7 @@ const AssignLeaveForm = ({ setIsAssignOpen, setUpdateModalIsModal }: any) => {
     employee?.employee?.map((each: any) => {
       employeeList.push({
         label: each.employeeName,
-        value: each.employeeName,
+        value: each.employeeNumber,
       });
       setEmployeeNameArray(employeeList);
     });
@@ -125,6 +126,8 @@ const AssignLeaveForm = ({ setIsAssignOpen, setUpdateModalIsModal }: any) => {
   const handleChange = (value: string[]) => {
     form.setFieldValue('assignTo', value);
   };
+
+  console.log(employeeNameSelect, 'OPtion');
 
   return (
     <Form layout="vertical" onFinish={onFinish}>

@@ -1,11 +1,11 @@
-import { Form, Select, Table } from 'antd';
+import { Button, Form, Select, Table, message } from 'antd';
 import { useEffect, useState } from 'react';
 import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
 import '@sbmdkl/nepali-datepicker-reactjs/dist/index.css';
 import type { ColumnsType } from 'antd/es/table';
 import Selects from '../Ui/Selects/Selects';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faPlus } from '@fortawesome/free-solid-svg-icons';
 import './addLeaveForm.css';
 import ModalComponent from '../Ui/Modal/Modal';
 import ApplyLeaveForm from './ApplyLeaveForm';
@@ -13,10 +13,12 @@ import { useAppSelector } from '../../hooks/useTypedSelector';
 import { RootState } from '../../store';
 import { CalendarOutlined } from '@ant-design/icons';
 import { reduceByKeys } from '../../hooks/HelperFunctions';
-import { useGetLeavesQuery } from '../../redux/api/leaveSlice';
+import { useGetLeavesQuery, useUpdateStatusMutation } from '../../redux/api/leaveSlice';
 import { useGetTokenDataQuery } from '../../redux/api/tokenSlice';
 import { useTokenData } from '../../hooks/userTokenData';
 import { useNavigate } from 'react-router-dom';
+import { getLeave } from '../../redux/features/leaveSlice';
+import { useDispatch } from 'react-redux';
 
 export interface DataType {
   eid?: string;
@@ -37,9 +39,13 @@ const ApplyLeave = () => {
   const [searchByLeave, setSearchByLeave] = useState('');
   const userDetails = localStorage.getItem('userDetails');
   const employeeDetails = JSON.parse(userDetails || '');
+  const [updateStatus, setUpdateStatus] = useState<boolean>(false);
+  const [leaveRow, setLeaveRow] = useState<any>();
+
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const { Option } = Select;
+  const [messageApi, contextHolder] = message.useMessage();
 
   const onStartDateChange = ({ bsDate }: any) => {
     setStartDate(bsDate);
@@ -48,6 +54,7 @@ const ApplyLeave = () => {
     setEndDate(bsDate);
   };
   const { isAdmin, userSn, isAdminTemp } = useTokenData();
+  const dispatch = useDispatch();
   useEffect(() => {
     if (isAdminTemp) {
       navigate('/leave');
@@ -61,8 +68,13 @@ const ApplyLeave = () => {
   } else {
     leaveEndpont = `leave/employee/appliedLeave?userSn=${userSn}`;
   }
-  // const { leaves } = useAppSelector((state: any) => state.leaveSlice);
+  useEffect(() => {
+    dispatch(getLeave() as any);
+  }, [dispatch]);
+  const { leaves: EmployeeLeave } = useAppSelector((state) => state.leaveSlice);
   const { data: leaves, isLoading } = useGetLeavesQuery(leaveEndpont);
+  console.log({ EmployeeLeave }, '<_--------- this is leave');
+  const [handleUpdateLeaveStatus] = useUpdateStatusMutation();
   const columns: ColumnsType<DataType> = [
     {
       title: 'EID',
@@ -105,6 +117,27 @@ const ApplyLeave = () => {
       dataIndex: 'approvedBy',
       key: 'approvedBy',
     },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+    },
+    {
+      title: 'ACTION',
+      dataIndex: 'action',
+      key: 'action',
+      render: (_, record) => (
+        <div className="d-flex action-btn-container">
+          <FontAwesomeIcon
+            style={{ cursor: 'pointer' }}
+            icon={faPen}
+            color="#35639F"
+            onClick={() => openUdateModal(record)}
+          />
+          <span className="viewMoreBtn">View</span>
+        </div>
+      ),
+    },
   ];
 
   const showModal = () => {
@@ -112,7 +145,7 @@ const ApplyLeave = () => {
   };
 
   useEffect(() => {
-    const shiftNameArray = reduceByKeys(leaves?.leave, '_id', 'leaveName');
+    const shiftNameArray = reduceByKeys(EmployeeLeave?.leave, '_id', 'leaveName');
     setLeaveNameArray(shiftNameArray);
   }, [leaves?.leave, isLoading, leaves]);
 
@@ -130,7 +163,7 @@ const ApplyLeave = () => {
     }
   }, [leaveNameArray]);
 
-  console.log(leaveNameSelect, 'JAI');
+  console.log(leaves, 'leavesJAI');
   // const allLeaveTaken = employeeDetails?.leave.flatMap(
   //   (leave: any) => leave.leaveTakenOn
   // );
@@ -144,8 +177,41 @@ const ApplyLeave = () => {
     const filterLeaveData = searchByLeave
       ? allLeaveTaken.filter((leave: any) => leave.leaveType.toLowerCase() === searchByLeave)
       : allLeaveTaken;
+
     setFilterLeaveData(filterLeaveData);
   }, [searchByLeave, allLeaveTaken, leaves]);
+
+  const openUdateModal = (leaveID: any) => {
+    setUpdateStatus(true);
+    setLeaveRow(leaveID);
+  };
+
+  const UpdateLeaveStatus = async (values: any) => {
+    const { value: leaveTypeId } = leaveNameArray.find((leaveName) => leaveName.label === leaveRow.leaveType);
+    const { employeeId, to } = leaveRow;
+    try {
+      await handleUpdateLeaveStatus({ id: leaveTypeId, employeeId, date: to, status: values.status });
+      messageApi.open({
+        type: 'success',
+        content: 'Leave status updated successfully',
+      });
+    } catch (error) {
+      console.log(error);
+      messageApi.open({
+        type: 'error',
+        content: 'Error occurred',
+      });
+    } finally {
+      setUpdateStatus(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setUpdateStatus(false);
+    form.resetFields();
+  };
+
+  // console.log(leaveNameArray, '<--- NEWStatus4u');
 
   return (
     <div className="assign-leave">
@@ -200,6 +266,36 @@ const ApplyLeave = () => {
       <ModalComponent openModal={isModalOpen} classNames="assign-leave-modal" closeModal={setIsModalOpen}>
         <h3 className="modal-title">APPLY LEAVE</h3>
         <ApplyLeaveForm setIsModalOpen={setIsModalOpen} />
+      </ModalComponent>
+
+      <ModalComponent openModal={updateStatus} closeModal={setUpdateStatus}>
+        <Form form={form} onFinish={UpdateLeaveStatus} autoComplete="off" className="p-2">
+          <Form.Item
+            className="form-input col "
+            name="status"
+            label="Leave Status"
+            rules={[{ required: true, message: 'Status is Required' }]}
+          >
+            <Select
+              options={[
+                { value: 'selected', label: 'Selected' },
+                { value: 'accepted', label: 'Confirmed' },
+                { value: 'rejected', label: 'Rejected' },
+                { value: 'pending', label: 'Pending' },
+              ]}
+              className="selects status-selects"
+              placeholder="Update status"
+            ></Select>
+          </Form.Item>
+          <div className="form-btn-container mt-4">
+            <Button type="default" onClick={handleCancel}>
+              Cancel
+            </Button>
+            <Button type="primary" htmlType="submit">
+              Add
+            </Button>
+          </div>
+        </Form>
       </ModalComponent>
     </div>
   );
