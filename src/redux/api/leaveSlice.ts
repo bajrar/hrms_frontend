@@ -6,8 +6,7 @@ import { API_URL } from '../../Components/apis/constants/constant';
 export const leaveSliceApi = createApi({
   reducerPath: 'leaveSliceApi',
   baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
-  tagTypes: ['leaves'],
-
+  tagTypes:['leaves'],
   endpoints: (builder) => ({
 
     getLeaves: builder.query({
@@ -21,7 +20,7 @@ export const leaveSliceApi = createApi({
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['leaves']
+      invalidatesTags:['leaves']
     }),
 
     // deleteLeave: builder.mutation({

@@ -123,6 +123,7 @@ const AddLeave = () => {
   }, [leaves.leave, searchText]);
 
   const openDeleteModal = (id: string) => {
+    console.log(id);
     setDeleteModal(true);
     setDeleteLeaveId(id);
   };
@@ -140,6 +141,7 @@ const AddLeave = () => {
     }
   };
   const openUpdateModal = (shiftId: any) => {
+    console.log(shiftId);
     setShiftId(shiftId);
     setUpdateModalIsModal(true);
   };
