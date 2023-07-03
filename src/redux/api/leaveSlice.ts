@@ -23,6 +23,15 @@ export const leaveSliceApi = createApi({
       invalidatesTags:['leaves']
     }),
 
+    updateStatus: builder.mutation({
+      query: ({id, ...rest}) => ({
+        url: `leave/changeAppliedLeaveStatus/${id}`,
+        method: 'POST',
+        body: rest
+      }),
+      invalidatesTags: ['leaves']
+    })
+
     // deleteLeave: builder.mutation({
     //   query: (id) => ({
     //     url: `leave/${id}`,
@@ -36,4 +45,4 @@ export const leaveSliceApi = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetLeavesQuery, useApplyLeaveMutation } = leaveSliceApi;
+export const { useGetLeavesQuery, useApplyLeaveMutation, useUpdateStatusMutation } = leaveSliceApi;
