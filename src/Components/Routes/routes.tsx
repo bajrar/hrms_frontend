@@ -23,6 +23,9 @@ import RequestLeave from '../Leave/RequestLeave';
 import { LoginPage } from '../LoginPage/login';
 import { PageNotFound } from '../PageNotFound/PageNotFound';
 import { AdminProtectedRoute } from './adminProtected';
+import { ProtectedOtpRoute } from './protectedOtp';
+import { OtpSection } from '../LoginPage/OtpSection';
+import { ChangePassword } from '../LoginPage/ChangePassword';
 
 type MainRoutesProps = {};
 
@@ -58,6 +61,10 @@ export const MainRoutes = ({}: MainRoutesProps) => {
         </Route>
         <Route path="/profile" element={<Profile />} />
         {/* </Route> */}
+        <Route element={<ProtectedOtpRoute />}>
+          <Route path="/verifyOtp" element={<OtpSection />} />
+          <Route path="/ChangePassword" element={<ChangePassword />} />
+        </Route>
       </Routes>
     </React.Fragment>
   );

@@ -4,17 +4,6 @@ import { toast } from 'react-toastify';
 
 import { apis, axiosApiInstance } from '../apis/constants/ApisService';
 import './add-employee-form.css';
-import BreadCrumbs from '../Ui/BreadCrumbs/BreadCrumbs';
-import Layout from '../Layout';
-import Navbar from '../Ui/Navbar';
-import Selects from '../Ui/Selects/Selects';
-import { WorkingCondition } from '../../utils/Constants';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import ModalComponent from '../Ui/Modal/Modal';
-import ViewAllEmployee from '../Ui/Tables/ViewAllEmployee';
-import { isErrored } from 'stream';
-import { useAppSelector } from '../../hooks/useTypedSelector';
 import { useDispatch } from 'react-redux';
 import { getSingleEmployee } from '../../redux/features/singleEmployeeSlice';
 import moment from 'moment';
@@ -22,6 +11,7 @@ import { getEmployee } from '../../redux/features/employeeSlice';
 import dayjs from 'dayjs';
 import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
 import NepaliDate from 'nepali-date-converter';
+import { CalendarOutlined } from '@ant-design/icons';
 
 export const selectedEmployee = (state: any, id: string) => state?.find((item: any) => item?.employeeNumber === id);
 
@@ -68,6 +58,13 @@ export const EmployeeForm = ({
   };
   const onDobChange = ({ bsDate }: any) => {
     setDob(bsDate);
+  };
+
+  const onSearch = (value: string) => {
+    setSearchText(value);
+  };
+  const onChange = (value: string) => {
+    setSearchText(value);
   };
 
   const [form] = Form.useForm();
@@ -117,6 +114,7 @@ export const EmployeeForm = ({
       employeeName,
       dob,
       projectTeam,
+      emergency,
     } = employeeData;
 
     form.setFieldsValue({
@@ -129,6 +127,7 @@ export const EmployeeForm = ({
       reportingManager,
       projectTeam,
       dob: dayjs(dob, 'YYYY/MM/DD'),
+      emergency,
     });
   }, [employeeData]);
   if (!setIsModalOpen) {
@@ -145,6 +144,7 @@ export const EmployeeForm = ({
       if (res.status === 201) {
         form.resetFields();
         getEmployee();
+        setIsModalOpen(false);
       }
     } catch {
     } finally {
@@ -169,7 +169,7 @@ export const EmployeeForm = ({
       initialValue: employeeData?.employeeName,
     },
   ];
-  const thirdRow = [
+  const OfficeDetails1stRow = [
     {
       name: 'email',
       label: 'Email',
@@ -187,21 +187,6 @@ export const EmployeeForm = ({
       initialValue: employeeData?.mobileNumber,
     },
   ];
-  const fourthRow = [
-    {
-      name: 'reportingManager',
-      label: 'Reporting Manager',
-      message: 'Reporting Manager Required',
-      type: 'text',
-      initialValue: employeeData?.reportingManager,
-    },
-    // {
-    //   name: 'status',
-    //   label: 'Status',
-    //   message: 'Status Required',
-    //   type: 'text',
-    // },
-  ];
   const emergencyContact = [
     {
       name: 'emergencyName',
@@ -209,7 +194,7 @@ export const EmployeeForm = ({
       message: 'Emergency Contact Name Required',
       placeHolder: 'EX: John Doe',
       type: 'text',
-      initialValue: employeeData?.emergencyName,
+      initialValue: employeeData?.emergency?.name,
     },
     {
       name: 'emergencyContact',
@@ -217,23 +202,18 @@ export const EmployeeForm = ({
       message: 'Emergency Contact Number Required',
       placeHolder: 'EX: 2541210',
       type: 'number',
-      initialValue: employeeData?.emergencyContact,
+      initialValue: employeeData?.emergency?.contact,
     },
+  ];
+
+  const emergencyLast = [
     {
-      name: 'parentName',
-      label: "Father's/Mother's Name",
-      message: "Father's/ Mother's Name Required",
-      placeHolder: 'John Doe',
+      name: 'relationToEmoloyee',
+      label: 'Relation to Emoloyee',
+      message: 'Required',
+      placeHolder: 'Enter relationship of contact person (e.g. parents)',
       type: 'text',
-      initialValue: employeeData?.parentName,
-    },
-    {
-      name: 'spouseName',
-      label: 'Spouse Name',
-      message: 'Spouse Name Required',
-      placeHolder: 'John Doe',
-      type: 'text',
-      initialValue: employeeData?.spouseName,
+      initialValue: employeeData?.emergency?.relation,
     },
   ];
 
@@ -261,9 +241,13 @@ export const EmployeeForm = ({
   };
 
   const dateFormat = 'YYYY/MM/DD';
+  console.log(employeeData?.emergency, '<----------- employe data');
   return (
     <>
-      <h3 className="modal-title">{update ? 'UPDATE EMPLOYEE' : 'ADD EMPLOYEE'}</h3>
+      <h2 className="fs-4 fw-bold p-0" style={{ color: 'var(--primary-color-100-brand-color, #023C87)' }}>
+        UPDATE EMPLOYEE
+      </h2>
+      <br />
       <div className="mb-4">
         <div style={{ paddingInline: 5 }}>
           <Form
@@ -274,8 +258,8 @@ export const EmployeeForm = ({
             initialValues={{ name: employeeData?.employeeName }}
             disabled={isDisable}
           >
-            <div className="row p-0">
-              <h3 className="add-employee__section-header">Basic Information</h3>
+            <div className="row p-0 mb-1">
+              <h2 className="add-employee__section-header fs-5">Basic Information</h2>
               <hr />
               <div className="add-employee__section p-0">
                 {firstRow.map((item, index) => {
@@ -283,7 +267,8 @@ export const EmployeeForm = ({
                     <Form.Item
                       className="form-input col"
                       name={item.name}
-                      label={item.label}
+                      label={<span style={{ fontSize: '16px', fontWeight: 'bold' }}>{item.label}</span>}
+                      // label={item.label}
                       rules={[{ required: true, message: item.message }]}
                       initialValue={item.initialValue}
                       key={index + item?.name}
@@ -301,35 +286,27 @@ export const EmployeeForm = ({
             </div>
             <div className="row add-employee__section">
               <Form.Item
-                label="Date of Birth"
-                className="form-input  form-input-container"
+                label={<span style={{ fontSize: '16px', fontWeight: 'bold' }}>Date of Birth</span>}
+                className="form-input col"
                 name="dob"
-                // initialValue={employeeData.dob}
                 initialValue={moment(employeeData?.dob)}
               >
-                {/* <DatePicker
-                  placeholder='yyyy/mm/dd'
-                  format={dateFormat}
-                  className='form-input-contain'
-                  suffixIcon={
-                    <div className='calendar-container'>
-                      <img src='./images/calendar.svg' alt='calendar' />
-                    </div>
-                  }
-                /> */}
-                <Calendar
-                  onChange={onDobChange}
-                  className=" date-picker calender-container-picker "
-                  dateFormat="YYYY/MM/DD"
-                  language="en"
-                  defaultDate={defaultDob}
-                  maxDate={currentDate}
-                />
+                <div className="calendar-wrapper">
+                  <Calendar
+                    onChange={onDobChange}
+                    className="date-picker calender-container-picker-custom"
+                    dateFormat="YYYY/MM/DD"
+                    language="en"
+                    defaultDate={defaultDob}
+                    maxDate={currentDate}
+                  />
+                  <CalendarOutlined className="calendar-icon" />
+                </div>
               </Form.Item>
 
               <Form.Item
-                label="Gender"
-                className="form-input  form-input-container"
+                label={<span style={{ fontSize: '16px', fontWeight: 'bold' }}>Gender</span>}
+                className="form-input col form-input-container"
                 name="gender"
                 // initialValue={update?.employee.gender:''}
               >
@@ -340,86 +317,84 @@ export const EmployeeForm = ({
                 </Radio.Group>
               </Form.Item>
             </div>
-            <div className="row p-0">
-              <h3 className="add-employee__section-header"> Office Details</h3>
+            <div className="row p-0 mt-4 mb-1">
+              <h3 className="add-employee__section-header fs-5"> Office Details</h3>
               <hr />
-              <div className="add-employee__section p-0">
-                {thirdRow.map((item, index) => (
-                  <Form.Item
-                    className="form-input col"
-                    name={item.name}
-                    label={item.label}
-                    rules={[{ required: true, message: item.message }]}
-                    initialValue={item.initialValue}
-                    id={index + item?.name}
-                  >
-                    <Input
+              <div className="add-employee__section p-0 mb-1">
+                {OfficeDetails1stRow.map((item, index) => {
+                  return (
+                    <Form.Item
+                      className="form-input col"
                       name={item.name}
-                      placeholder={item.placeHolder}
-                      className="form-input-wrapper"
-                      type={item.type}
-                    />
-                  </Form.Item>
-                ))}
-                <Form.Item
-                  label="Date of Joining"
-                  className="form-input col"
-                  name="dateOfJoining"
-                  // initialValue={moment(employeeData?.dateOfJoining)}
-                >
-                  {/* <DatePicker
-                    placeholder='yyyy/mm/dd'
-                    className='form-input-contain'
-                    suffixIcon={
-                      <div className='calendar-container'>
-                        <img src='./images/calendar.svg' />
-                      </div>
-                    }
-                    value={employeeData?.dateOfJoining}
-                  /> */}
+                      label={<span style={{ fontSize: '16px', fontWeight: 'bold' }}>{item.label}</span>}
+                      rules={[{ required: true, message: item.message }]}
+                      initialValue={item.initialValue}
+                      id={index + item?.name}
+                    >
+                      <Input
+                        name={item.name}
+                        placeholder={item.placeHolder}
+                        className="form-input-wrapper"
+                        type={item.type}
+                      />
+                    </Form.Item>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="row add-employee_section p-0 mb-1">
+              <Form.Item
+                label={<span style={{ fontSize: '16px', fontWeight: 'bold' }}>Date of Joining</span>}
+                className="form-input col form-input-container-fourth"
+                name="dateOfJoining"
+                // initialValue={moment(employeeData?.dateOfJoining)}
+              >
+                <div className="calendar-wrapper">
                   <Calendar
                     onChange={onStartDateChange}
                     defaultDate={defaultdateOfJoining}
-                    className=" date-picker calender-container-picker "
+                    className=" date-picker calender-container-picker-custom"
                     dateFormat="YYYY/MM/DD"
                     maxDate={currentDate}
                     language="en"
                     // hideDefaultValue
                   />
-                </Form.Item>
-              </div>
-            </div>
-            <div className="row add-employee__section p-0">
-              {fourthRow.map((item, index) => (
-                <Form.Item
-                  className="form-input form-input-container-fourth"
-                  name={item.name}
-                  label={item.label}
-                  rules={[{ required: true, message: item.message }]}
-                  // initialValue={update?item.initialValue:''}
-                  id={index + item?.name}
-                >
-                  <Input name={item.name} className="form-input-wrapper form-input-wrapper" type={item.type} />
-                </Form.Item>
-              ))}
+                  <CalendarOutlined className="calendar-icon" />
+                </div>
+              </Form.Item>
+
               <Form.Item
-                label="Status"
-                className="form-input  form-input-container-fourth"
+                label={<span style={{ fontSize: '16px', fontWeight: 'bold' }}>Reporting Manager</span>}
+                className="form-input col form-input-container-fourth"
+                name="reportingManager"
+                rules={[{ required: true, message: 'required' }]}
+                initialValue={employeeData?.reportingManager}
+                style={{ maxWidth: '24rem' }}
+              >
+                <Input
+                  name="reportingManager"
+                  placeholder="Reporting Manager"
+                  className="form-input-wrapper"
+                  type="text"
+                />
+              </Form.Item>
+            </div>
+
+            <div className="row add-employee__section p-0 mb-1">
+              <Form.Item
+                label={<span style={{ fontSize: '16px', fontWeight: 'bold' }}>Status</span>}
+                className="form-input col form-input-container-fourth"
                 name="status"
                 initialValue={employeeData?.status}
               >
                 <Select
                   showSearch
                   placeholder="Search to Status"
-                  style={{
-                    marginTop: '20px',
-                    gap: '30px',
-                  }}
+                  className="form-input-wrapper selects"
                   optionFilterProp="children"
-                  filterOption={(input, option) => (option?.label ?? '').includes(input)}
-                  filterSort={(optionA, optionB) =>
-                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-                  }
+                  onChange={onChange}
+                  onSearch={onSearch}
+                  filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
                   options={[
                     {
                       value: 'working',
@@ -441,34 +416,59 @@ export const EmployeeForm = ({
                 />
               </Form.Item>
               <Form.Item
-                label="Designation"
-                className="form-input  form-input-container-fourth"
+                label={<span style={{ fontSize: '16px', fontWeight: 'bold' }}>Designation</span>}
+                className="form-input col form-input-container-fourth"
                 name="designation"
                 initialValue={update ? employeeData.designation : ''}
               >
                 <Input name="designation" placeholder="Designation" className="form-input-wrapper" type="text" />
               </Form.Item>
-              <Form.Item
-                label="Project Team"
+              {/* <Form.Item
+                label={<span style={{ fontSize: '16px', fontWeight: 'bold' }}>Project Team</span>}
                 className="form-input  form-input-container-fourth"
                 name="projectTeam"
                 initialValue={update ? employeeData.projectTeam : ''}
               >
                 <Input name="projectTeam" placeholder="Project Team" className="form-input-wrapper" type="text" />
-              </Form.Item>
+              </Form.Item> */}
             </div>
 
-            <div className="row p-0">
-              <h3 className="add-employee__section-header">Emergency Contact Details</h3>
+            <div className="row p-0 my-4">
+              <h3 className="add-employee__section-header fs-5">Emergency Contact Details</h3>
               <hr />
-              {emergencyContact.map((item) => (
-                <div className="col-4">
+              <div className="add-employee__section p-0">
+                {emergencyContact.map((item, index) => {
+                  return (
+                    <Form.Item
+                      className="form-input col"
+                      name={item.name}
+                      label={<span style={{ fontSize: '16px', fontWeight: 'bold' }}>{item.label}</span>}
+                      rules={[{ required: false }]}
+                      initialValue={item.initialValue}
+                      key={index + item?.name}
+                    >
+                      <Input
+                        name={item.name}
+                        placeholder={item.placeHolder}
+                        className="form-input-wrapper"
+                        type={item.type}
+                      />
+                    </Form.Item>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="row add-employee__section">
+              {emergencyLast.map((item, index) => {
+                return (
                   <Form.Item
                     className="form-input col"
                     name={item.name}
-                    label={item.label}
+                    label={<span style={{ fontSize: '16px', fontWeight: 'bold' }}>{item.label}</span>}
                     rules={[{ required: false }]}
                     initialValue={item.initialValue}
+                    key={index + item?.name}
                   >
                     <Input
                       name={item.name}
@@ -477,11 +477,11 @@ export const EmployeeForm = ({
                       type={item.type}
                     />
                   </Form.Item>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
-            <div className="form-footer" style={{ display: 'flex', gap: 10 }}>
+            <div className="form-footer mt-4" style={{ display: 'flex', gap: 10 }}>
               <Button type="primary" htmlType="submit">
                 {update ? 'Update' : 'Add'}
               </Button>

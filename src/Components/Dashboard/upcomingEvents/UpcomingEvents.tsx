@@ -142,6 +142,7 @@ const UpcomingEvents = ({ isSmall = false, isAdmin = true }: PropsType) => {
   const nepaliDate = new NepaliDate(new Date());
   const todayMonth: any = (nepaliDate.getMonth() + 1).toString().padStart(2, '0');
   const todayDay: any = nepaliDate.getDate().toString().padStart(2, '0');
+  const todayNepaliDate = new NepaliDate(new Date()).format('YYYY/MM/DD');
 
   const hasEventToday = upcomingEvents?.events?.filter((event: any) => {
     const eventDateParts = event.date.split('/');
@@ -329,13 +330,20 @@ const UpcomingEvents = ({ isSmall = false, isAdmin = true }: PropsType) => {
                 </div>
               ))}
 
-              {upcomingEvents?.dob?.map((dob: any, index: any) => (
-                <div className={`upcoming-event-upcoming-dobs-items  ${isSmall && 'smallWidth'} `} key={index}>
-                  <p id="formatted-eventdate-dob">{formatDate(dob.dob)}</p>
-                  <h5>Birthday</h5>
-                  <p>{dob.employeeName}</p>
-                </div>
-              ))}
+              {upcomingEvents?.dob?.map((dob: any, index: any) => {
+                const dobMonthDay = dob?.dob.substring(5);
+
+                if (dobMonthDay >= todayNepaliDate.substring(5)) {
+                  return (
+                    <div className={`upcoming-event-upcoming-dobs-items  ${isSmall && 'smallWidth'} `} key={index}>
+                      <p id="formatted-eventdate-dob">{formatDate(dob.dob)}</p>
+                      <h5>Birthday</h5>
+                      <p>{dob.employeeName}</p>
+                    </div>
+                  );
+                }
+                return null;
+              })}
 
               {upcomingEvents?.holidays?.map((holiday: any, index: any) => (
                 <div className={`upcoming-event-upcoming-holidays-items  ${isSmall && 'smallWidth'} `} key={index}>

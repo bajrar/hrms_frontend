@@ -15,6 +15,8 @@ import { RootState } from '../../store';
 import { getUserData, getUserDetails } from '../../redux/features/userSlice';
 import { verifyTokenStatus } from '../../redux/features/verifyTokenSlice';
 import Spinner from '../Spinner/Spinner';
+import { API_URL } from '../apis/constants/constant';
+import axios from 'axios';
 type LoginPageProps = {};
 
 export const LoginPage = ({}: LoginPageProps) => {
@@ -60,12 +62,23 @@ export const LoginPage = ({}: LoginPageProps) => {
       dispatch(getUserDetails(res.data.userDetails));
       setLoginData(res.data.user);
       if (res.status === 200) {
-        localStorage.setItem(
-          'userDetails',
-          JSON.stringify(res.data?.userDetails)
-        );
+        localStorage.setItem('userDetails', JSON.stringify(res.data?.userDetails));
         localStorage.setItem('token', res.data.token);
-        navigate('/');
+        localStorage.setItem('email', res.data.user.email);
+
+        if (res.data.user.isFirsttimeLogin) {
+          try {
+            const apiUrl = `${API_URL}/users/forgotPassword`;
+            const response = await axios.post(apiUrl, { email: res.data.user.email });
+            if (response.status === 200) {
+              navigate('/verifyOtp');
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        } else {
+          navigate('/');
+        }
         dispatch(login());
         window.location.reload();
       }
@@ -85,9 +98,9 @@ export const LoginPage = ({}: LoginPageProps) => {
       {auth ? (
         <Spinner />
       ) : (
-        <main className='loginpage_main'>
+        <main className="loginpage_main">
           <ToastContainer
-            position='top-center'
+            position="top-center"
             autoClose={5000}
             hideProgressBar={false}
             newestOnTop={false}
@@ -96,61 +109,57 @@ export const LoginPage = ({}: LoginPageProps) => {
             pauseOnFocusLoss
             draggable
             pauseOnHover
-            theme='light'
+            theme="light"
           />
-          <div className='main_container container virtuosway-hr-login-page'>
+          <div className="main_container container virtuosway-hr-login-page">
             <form onSubmit={handleSubmit}>
-              <div className='main-logo-container d-flex align-items-center justify-content-center'>
-                <div className='logo '>
-                  <img src='/images/virtuos-logo.svg' alt='logo' />
+              <div className="main-logo-container d-flex align-items-center justify-content-center">
+                <div className="logo ">
+                  <img src="/images/virtuos-logo.svg" alt="logo" />
                 </div>
               </div>
-              <h2 className='sign-up-header'>Sign in </h2>
-              <p className='sign-up-text'>Enter your sign in credentials.</p>
-              <div className='form_container'>
-                <div className='labels'>
-                  <label htmlFor=''>Email:</label>
+              <h2 className="sign-up-header">Sign in </h2>
+              <p className="sign-up-text">Enter your sign in credentials.</p>
+              <div className="form_container">
+                <div className="labels">
+                  <label htmlFor="">Email:</label>
                 </div>
                 <input
-                  type='email'
-                  name='email'
-                  id='email'
-                  placeholder='Enter your work email'
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="Enter your work email"
                   onChange={handleChange}
                 />
-                <p className='note-message'>
-                  Note: example@eeposit.com / example@virtuosway.com
-                </p>
+                <p className="note-message">Note: example@eeposit.com / example@virtuosway.com</p>
               </div>
-              <div className='form_container'>
-                <div className='labels'>
-                  <label htmlFor=''>Password:</label>
+              <div className="form_container">
+                <div className="labels">
+                  <label htmlFor="">Password:</label>
                 </div>
-                <div className='password-input-container'>
+                <div className="password-input-container">
                   <input
                     type={passwordVisible ? 'text' : 'password'}
-                    name='password'
-                    id='password'
-                    placeholder='Enter password'
+                    name="password"
+                    id="password"
+                    placeholder="Enter password"
                     onChange={handleChange}
                   />
                   <button
-                    type='button' // Change the button type to "button" instead of "submit"
-                    className='toggle-password-visibility'
+                    type="button" // Change the button type to "button" instead of "submit"
+                    className="toggle-password-visibility"
                     onClick={togglePasswordVisibility}
                   >
-                    <FontAwesomeIcon
-                      icon={passwordVisible ? faEyeSlash : faEye}
-                    />
+                    <FontAwesomeIcon icon={passwordVisible ? faEyeSlash : faEye} />
                   </button>
                 </div>
               </div>
-              <Link to='/forgotPassword' className='forgot-password'>
+              <Link to="/forgotPassword" className="forgot-password">
                 Forgot password?
               </Link>
               <button
-                type='submit'
-                className='login-button'
+                type="submit"
+                className="login-button"
                 disabled={isLoading}
                 style={{
                   backgroundColor: isLoading ? '#DBDFEA' : '',
