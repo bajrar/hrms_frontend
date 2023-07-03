@@ -14,9 +14,9 @@ function App() {
   return (
     <>
       {isLogined || auth ? (
-        <div className='App'>
-          <div className='dashboard-page'>
-            <div className='dash-container'>
+        <div className="App">
+          <div className="dashboard-page">
+            <div className="dash-container">
               <MainRoutes />
             </div>
           </div>
@@ -25,10 +25,10 @@ function App() {
         <>
           <Routes>
             <Route element={<ProtectedOtpRoute />}>
-              <Route path='/verifyOtp' element={<OtpSection />} />
-              <Route path='/ChangePassword' element={<ChangePassword />} />
+              <Route path="/verifyOtp" element={<OtpSection />} />
+              <Route path="/ChangePassword" element={<ChangePassword />} />
             </Route>
-            <Route path='/forgotPassword' element={<ForgetPassword />} />
+            <Route path="/forgotPassword" element={<ForgetPassword />} />
           </Routes>
           <LoginPage />
         </>
