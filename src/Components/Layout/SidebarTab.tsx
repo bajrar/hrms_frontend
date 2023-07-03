@@ -79,6 +79,12 @@ const SideBarTab = () => {
           </div>,
           '1',
         ),
+        getItem(
+          <div className="sidenav-link" onClick={() => closeSidebar('onboarding')}>
+            Onboarding
+          </div>,
+          '1',
+        ),
       ],
     ),
 

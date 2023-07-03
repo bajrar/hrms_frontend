@@ -300,7 +300,7 @@ const UpcomingEvents = ({ isSmall = false, isAdmin = true }: PropsType) => {
           </>
         )}
       </div>
-      <div className="upcoming-event-upcoming">
+      <div className="upcoming-event-upcoming container-fluid vh-100 overflow-scroll">
         <h4>Upcoming</h4>
         {loading ? (
           <Skeleton active />

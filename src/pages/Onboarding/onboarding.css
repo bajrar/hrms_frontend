@@ -1,0 +1,22 @@
+.onboarding-table {
+  margin-top: 32px;
+}
+
+.calendar-wrapper {
+  position: relative;
+  margin-block: 0;
+  width: max-content;
+}
+
+.calendar-icon {
+  position: absolute;
+  top: 50%;
+  right: 14px; /* Adjust the right position as needed */
+  transform: translateY(-50%);
+}
+
+.onboarding-filters {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
