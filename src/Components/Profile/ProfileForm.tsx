@@ -1,28 +1,17 @@
-import { useEffect, useState, memo, useMemo } from "react";
-import { useDispatch } from "react-redux";
-import {
-  Button,
-  Form,
-  Input,
-  Radio,
-  RadioChangeEvent,
-  DatePicker,
-  Select,
-  Row,
-  Col,
-} from "antd";
-import moment from "moment";
-import dayjs from "dayjs";
-import Calendar from "@sbmdkl/nepali-datepicker-reactjs";
-import NepaliDate from "nepali-date-converter";
-import "./add-employee-form.css";
-import Projects from "./Projects/Projects";
-import { useRequestProfileUpdateMutation } from "../../redux/features/profileSlice";
-import { ToastContainer, toast } from "react-toastify";
+import { useEffect, useState, memo, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
+import { Button, Form, Input, Radio, RadioChangeEvent, DatePicker, Select, Row, Col } from 'antd';
+import moment from 'moment';
+import dayjs from 'dayjs';
+import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
+import NepaliDate from 'nepali-date-converter';
+import './add-employee-form.css';
+import Projects from './Projects/Projects';
+import { useRequestProfileUpdateMutation } from '../../redux/features/profileSlice';
+import { ToastContainer, toast } from 'react-toastify';
 const { Option } = Select;
 
-export const selectedEmployee = (state: any, id: string) =>
-  state?.find((item: any) => item?.employeeNumber === id);
+export const selectedEmployee = (state: any, id: string) => state?.find((item: any) => item?.employeeNumber === id);
 
 type PropTypes = {
   employeeId: string;
@@ -43,22 +32,15 @@ type PropTypes = {
   };
 };
 
-export const ProfileForm = ({
-  employeeId = "",
-  isDisable = false,
-  defaultValue: employeeData,
-}: PropTypes) => {
-  const [gender, setGender] = useState("");
-  const [status, setStatus] = useState("");
-  const currentDate = new NepaliDate(new Date()).format("YYYY-MM-DD");
+export const ProfileForm = ({ employeeId = '', isDisable = false, defaultValue: employeeData }: PropTypes) => {
+  const [gender, setGender] = useState('');
+  const [status, setStatus] = useState('');
+  const currentDate = new NepaliDate(new Date()).format('YYYY-MM-DD');
   const [getDateOfJoining, setDateOfJoining] = useState();
   const [getDob, setDob] = useState();
-  const defaultDob = employeeData?.dob?.split("/").join("-");
-  const defaultdateOfJoining = employeeData?.dateOfJoining
-    ?.split("/")
-    .join("-");
-  const [requestProfileUpdate, { error, isLoading, data }] =
-    useRequestProfileUpdateMutation();
+  const defaultDob = employeeData?.dob?.split('/').join('-');
+  const defaultdateOfJoining = employeeData?.dateOfJoining?.split('/').join('-');
+  const [requestProfileUpdate, { error, isLoading, data }] = useRequestProfileUpdateMutation();
 
   const [days, setDays] = useState<string | undefined>(undefined);
   const [month, setMonth] = useState<string | undefined>(undefined);
@@ -88,13 +70,13 @@ export const ProfileForm = ({
         dob: getDob,
         dateOfJoining: getDateOfJoining,
       }).unwrap();
-      toast.success("Request sent successfully", {
-        position: "top-center",
+      toast.success('Request sent successfully', {
+        position: 'top-center',
         autoClose: 5000,
       });
     } catch {
-      toast.error("Something Went Wrong", {
-        position: "top-center",
+      toast.error('Something Went Wrong', {
+        position: 'top-center',
         autoClose: 5000,
       });
     }
@@ -131,62 +113,62 @@ export const ProfileForm = ({
       reportingManager,
       count,
       probationPeriod,
-      dob: dayjs(dob, "YYYY/MM/DD"),
+      dob: dayjs(dob, 'YYYY/MM/DD'),
     });
   }, [employeeData]);
 
   const firstRow = [
     {
-      name: "employeeId",
-      label: "Employee Id",
-      message: "Employee Id is Required",
-      placeHolder: "001",
-      type: "number",
+      name: 'employeeId',
+      label: 'Employee Id',
+      message: 'Employee Id is Required',
+      placeHolder: '001',
+      type: 'number',
       initialValue: employeeId,
     },
     {
-      name: "employeeName",
-      label: "Employee Name",
-      message: "Employee Name is Required",
-      placeHolder: "John Doe",
-      type: "text",
+      name: 'employeeName',
+      label: 'Employee Name',
+      message: 'Employee Name is Required',
+      placeHolder: 'John Doe',
+      type: 'text',
       initialValue: employeeData?.employeeName,
     },
   ];
   const thirdRow = [
     {
-      name: "email",
-      label: "Email",
-      message: "Email Required",
-      placeHolder: "johndoe@gmail.com",
-      type: "email",
+      name: 'email',
+      label: 'Email',
+      message: 'Email Required',
+      placeHolder: 'johndoe@gmail.com',
+      type: 'email',
       initialValue: employeeData?.email,
     },
     {
-      name: "mobileNumber",
-      label: "Mobile Number",
-      message: "Mobile Number is Required",
-      placeHolder: "EX: 6854654163",
-      type: "number",
+      name: 'mobileNumber',
+      label: 'Mobile Number',
+      message: 'Mobile Number is Required',
+      placeHolder: 'EX: 6854654163',
+      type: 'number',
       initialValue: employeeData?.mobileNumber,
     },
   ];
 
   const fourthRow = [
     {
-      name: "designation",
-      label: "Designation",
-      message: "Designation required",
-      placeHolder: "Associate Project Manager",
-      type: "text",
+      name: 'designation',
+      label: 'Designation',
+      message: 'Designation required',
+      placeHolder: 'Associate Project Manager',
+      type: 'text',
       initialValue: employeeData?.designation,
     },
     {
-      name: "reportingManager",
-      label: "Reporting Manager",
-      message: "Reporting Manager Required",
-      placeHolder: "John Doe",
-      type: "text",
+      name: 'reportingManager',
+      label: 'Reporting Manager',
+      message: 'Reporting Manager Required',
+      placeHolder: 'John Doe',
+      type: 'text',
       initialValue: employeeData?.reportingManager,
     },
   ];
@@ -194,18 +176,18 @@ export const ProfileForm = ({
   const monthAndDays = [
     {
       id: 1,
-      month: "1 month",
-      days: "30",
+      month: '1 month',
+      days: '30',
     },
     {
       id: 3,
-      month: "3 months",
-      days: "90",
+      month: '3 months',
+      days: '90',
     },
     {
       id: 6,
-      month: "6 months",
-      days: "180",
+      month: '6 months',
+      days: '180',
     },
   ];
 
@@ -256,9 +238,7 @@ export const ProfileForm = ({
             disabled={isDisable}
           >
             <div className="row p-0">
-              <h3 className="add-employee__section-header">
-                Basic Information
-              </h3>
+              <h3 className="add-employee__section-header">Basic Information</h3>
               <hr />
               <div className="add-employee__section p-0">
                 {firstRow.map((item, index) => {
@@ -316,17 +296,13 @@ export const ProfileForm = ({
                   label="Gender"
                   className="form-input col"
                   name="gender"
-                  rules={[{ required: true, message: "Gender required" }]}
+                  rules={[{ required: true, message: 'Gender required' }]}
                   initialValue={employeeData?.gender}
                 >
-                  <Radio.Group
-                    className="radio-container"
-                    onChange={onChangeRadio}
-                    value={gender}
-                  >
-                    <Radio value={"male"}>Male</Radio>
-                    <Radio value={"female"}>Female</Radio>
-                    <Radio value={"other"}>Other</Radio>
+                  <Radio.Group className="radio-container" onChange={onChangeRadio} value={gender}>
+                    <Radio value={'male'}>Male</Radio>
+                    <Radio value={'female'}>Female</Radio>
+                    <Radio value={'other'}>Other</Radio>
                   </Radio.Group>
                 </Form.Item>
               </div>
@@ -416,7 +392,7 @@ export const ProfileForm = ({
                       rules={[
                         {
                           required: true,
-                          message: "Probation period required",
+                          message: 'Probation period required',
                         },
                       ]}
                       initialValue={employeeData?.probationPeriod}
@@ -452,9 +428,7 @@ export const ProfileForm = ({
                       // className="form-input col-8 mx-3"
                       name="days"
                       className="form-input col-3 form-input-wrapper"
-                      rules={[
-                        { required: true, message: "Days count required" },
-                      ]}
+                      rules={[{ required: true, message: 'Days count required' }]}
                       initialValue={employeeData?.count}
                     >
                       {/* <Input
@@ -507,7 +481,7 @@ export const ProfileForm = ({
               ))}
             </div>
  */}
-            <div className="form-footer mt-4" style={{ display: "flex" }}>
+            <div className="form-footer mt-4" style={{ display: 'flex' }}>
               <Button type="primary" htmlType="submit">
                 Request Edit
               </Button>
