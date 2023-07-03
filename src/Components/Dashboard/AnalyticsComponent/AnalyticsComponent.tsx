@@ -33,7 +33,7 @@ const AnalyticsComponent = () => {
       }
       setTimeout(() => {
         setCount(count + 1);
-      }, 100);
+      }, 111);
     }
   }, [count]);
   const AnalyticsArray = [
