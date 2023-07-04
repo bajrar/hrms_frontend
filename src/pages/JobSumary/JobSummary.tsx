@@ -116,6 +116,11 @@ const JobSummary = () => {
       },
     },
     {
+      title: 'JOB VIEWS',
+      dataIndex: 'jobView',
+      key: 'jobView',
+    },
+    {
       title: 'ACTION',
       dataIndex: 'action',
       key: 'action',
@@ -140,6 +145,7 @@ const JobSummary = () => {
           jobsStatus: job?.status,
           action: job?._id,
           view: job?._id,
+          jobView:job?.jobView
         };
         shifts.push(tableData);
       }
