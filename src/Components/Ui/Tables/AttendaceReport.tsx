@@ -105,7 +105,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
                       ? '#BB2124'
                       : ite === 'Working From Home'
                       ? '#9747FF'
-                      : 'transparent '
+                      : 'transparent'
                   }
                 />
               );
