@@ -1,39 +1,21 @@
-import { useEffect, useState } from "react";
-import {
-  Button,
-  Form,
-  Input,
-  Radio,
-  RadioChangeEvent,
-  DatePicker,
-  Select,
-  Table,
-  Modal,
-} from "antd";
+import { useEffect, useState } from 'react';
+import { Button, Form, Table } from 'antd';
 
-import "../add-employee-form.css";
+import '../add-employee-form.css';
 // import "../add-employee-form.css";
-import BreadCrumbs from "../../Ui/BreadCrumbs/BreadCrumbs";
-import Layout from "../../Layout";
-import Navbar from "../../Ui/Navbar";
-import { WorkingCondition } from "../../../utils/Constants";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
-import ModalComponent from "../../Ui/Modal/Modal";
-import ViewAllEmployee from "../../Ui/Tables/ViewAllEmployee";
-import { isErrored } from "stream";
-import { EmployeeForm } from "../EmployeeForm";
-import { Link, useNavigate } from "react-router-dom";
-import { CompareFunction } from "../../Ui/Tables/AttendaceReport";
-import { ColumnsType } from "antd/es/table";
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "../../../hooks/useTypedSelector";
-import { getEmployee } from "../../../redux/features/employeeSlice";
-import { EmployeeStats } from "../../../pages/Attendance/Attendance";
-import AddProjectForm from "./AddProjectForm";
-import AssignProjectForm from "./AssignProjectForm";
+import BreadCrumbs from '../../Ui/BreadCrumbs/BreadCrumbs';
+import Layout from '../../Layout';
+import Navbar from '../../Ui/Navbar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import ModalComponent from '../../Ui/Modal/Modal';
+import { useNavigate } from 'react-router-dom';
+import { ColumnsType } from 'antd/es/table';
+import { useAppDispatch, useAppSelector } from '../../../hooks/useTypedSelector';
+import { getEmployee } from '../../../redux/features/employeeSlice';
+import AddProjectForm from './AddProjectForm';
+import AssignProjectForm from './AssignProjectForm';
+import { useGetEmployeeQuery } from '../../../redux/api/employeeApiSlice';
 
 export interface DataType {
   id?: string;
@@ -45,9 +27,9 @@ export interface DataType {
 }
 
 export const ManageProjects = () => {
-  const [gender, setGender] = useState("");
-  const [searchText, setSearchText] = useState("");
-  const [status, setStatus] = useState("");
+  const [gender, setGender] = useState('');
+  const [searchText, setSearchText] = useState('');
+  const [status, setStatus] = useState('');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isViewOpen, setIsViewOpen] = useState<boolean>(false);
   // const [UpdateisModalOpen, setUpdateIsModalOpen] = useState<boolean>(false);
@@ -63,7 +45,8 @@ export const ManageProjects = () => {
     dispatch(getEmployee() as any);
   }, [dispatch]);
 
-  const { employee, loading } = useAppSelector((state) => state.employeeSlice);
+  // const { employee, loading } = useAppSelector((state) => state.employeeSlice);
+  const { data: employee, isLoading: loading } = useGetEmployeeQuery('employee');
   const [form] = Form.useForm();
 
   const showModal = () => {
@@ -78,31 +61,29 @@ export const ManageProjects = () => {
 
   const columns: ColumnsType<DataType> = [
     {
-      title: "PROJECT NAME",
-      dataIndex: "employeeNumber",
-      key: "employeeNumber",
+      title: 'PROJECT NAME',
+      dataIndex: 'employeeNumber',
+      key: 'employeeNumber',
     },
     {
-      title: "DEPARTMENT/SECTION",
-      dataIndex: "employeeName",
-      key: "employeeName",
+      title: 'DEPARTMENT/SECTION',
+      dataIndex: 'employeeName',
+      key: 'employeeName',
       filteredValue: [searchText],
       onFilter: (value: any, record: any) => {
         // console.log(record);
-        return String(record.employeeName)
-          .toLowerCase()
-          .includes(value.toLowerCase());
+        return String(record.employeeName).toLowerCase().includes(value.toLowerCase());
       },
     },
     {
-      title: "ADDED DATE",
-      dataIndex: "dateOfJoining",
-      key: "dateOfJoining",
+      title: 'ADDED DATE',
+      dataIndex: 'dateOfJoining',
+      key: 'dateOfJoining',
     },
     {
-      title: "ACTION",
-      dataIndex: "view",
-      key: "view",
+      title: 'ACTION',
+      dataIndex: 'view',
+      key: 'view',
       render: (item) => {
         // console.log(item);
         return (
@@ -114,16 +95,12 @@ export const ManageProjects = () => {
               onClick={() => {
                 setActiveEmployee({ ...item });
               }}
-            />{" "}
-            <FontAwesomeIcon
-              icon={faTrash}
-              color="#35639F"
-              onClick={() => setActiveEmployee({ ...item })}
-            />
+            />{' '}
+            <FontAwesomeIcon icon={faTrash} color="#35639F" onClick={() => setActiveEmployee({ ...item })} />
             <Button
               className=""
               style={{
-                color: "#3333F1",
+                color: '#3333F1',
               }}
               onClick={() => {
                 navigate(`/manageProjects/${item?.employeeNumber}`);
@@ -143,15 +120,11 @@ export const ManageProjects = () => {
       <Layout>
         <Navbar />
         <div style={{ margin: 40 }}>
-          <BreadCrumbs
-            imagesrc="/images/attendance.svg"
-            location="Employee Management"
-            location1="Manage Projects"
-          />
+          <BreadCrumbs imagesrc="/images/attendance.svg" location="Employee Management" location1="Manage Projects" />
           <hr />
           <div
             className="attendance-filters-bottom d-flex "
-            style={{ display: "flex", justifyContent: "space-between" }}
+            style={{ display: 'flex', justifyContent: 'space-between' }}
           >
             <input
               type="text"
@@ -159,26 +132,23 @@ export const ManageProjects = () => {
               className="search-field"
               onChange={(e) => setSearchText(e.target.value)}
             />
-            <div className="div" style={{ display: "flex", gap: 10 }}>
+            <div className="div" style={{ display: 'flex', gap: 10 }}>
               <button
                 type="button"
                 className="btn"
                 style={{
-                  height: "40px",
-                  color: "#007bff",
-                  backgroundColor: "transparent",
-                  backgroundImage: "none",
-                  borderColor: "#007bff",
+                  height: '40px',
+                  color: '#007bff',
+                  backgroundColor: 'transparent',
+                  backgroundImage: 'none',
+                  borderColor: '#007bff',
                 }}
                 onClick={() => setIsViewOpen(true)}
               >
                 Assign Project
               </button>
 
-              <button
-                className="primary-btn"
-                onClick={() => setIsModalOpen(true)}
-              >
+              <button className="primary-btn" onClick={() => setIsModalOpen(true)}>
                 <FontAwesomeIcon icon={faPlus} /> Add Projects
               </button>
             </div>
@@ -189,11 +159,7 @@ export const ManageProjects = () => {
           <div className="row table-container">
             <Table
               rowClassName={(record) =>
-                record.status === "resigned"
-                  ? "absent-class"
-                  : record.status === "pending"
-                  ? "holiday-class"
-                  : ""
+                record.status === 'resigned' ? 'absent-class' : record.status === 'pending' ? 'holiday-class' : ''
               }
               columns={columns}
               dataSource={employee?.employee}
@@ -209,21 +175,11 @@ export const ManageProjects = () => {
         classNames="add-employee-modal holidays-modal"
         closeModal={setIsModalOpen}
       >
-        <AddProjectForm
-          setIsModalOpen={setIsModalOpen}
-          employeeId={activeEmployee}
-        />
+        <AddProjectForm setIsModalOpen={setIsModalOpen} employeeId={activeEmployee} />
       </ModalComponent>
 
-      <ModalComponent
-        openModal={isViewOpen}
-        classNames="add-employee-modal holidays-modal"
-        closeModal={setIsViewOpen}
-      >
-        <AssignProjectForm
-          setIsViewOpen={setIsViewOpen}
-          employeeId={activeEmployee}
-        />
+      <ModalComponent openModal={isViewOpen} classNames="add-employee-modal holidays-modal" closeModal={setIsViewOpen}>
+        <AssignProjectForm setIsViewOpen={setIsViewOpen} employeeId={activeEmployee} />
       </ModalComponent>
 
       {/* <ModalComponent

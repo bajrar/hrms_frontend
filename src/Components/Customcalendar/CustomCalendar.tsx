@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { useAppSelector } from '../../hooks/useTypedSelector';
 import { EmployeeStats } from '../../pages/Attendance/Attendance';
 import { IYear } from '../../pages/Attendance/EmployeeAttendance';
 import { getEmployeeData } from '../../redux/features/SingleAttendanceSlice';
