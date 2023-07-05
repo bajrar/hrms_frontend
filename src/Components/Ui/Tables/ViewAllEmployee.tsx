@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ConfigProvider, Empty, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import './attendanceReport.css';
-import { useAppDispatch, useAppSelector } from '../../../hooks/useTypedSelector';
+import { useAppDispatch } from '../../../hooks/useTypedSelector';
 import { EmployeeStats } from '../../../pages/Attendance/Attendance';
 import { getEmployee } from '../../../redux/features/employeeSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

@@ -11,7 +11,7 @@ import { faPen, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import ModalComponent from '../../Ui/Modal/Modal';
 import { useNavigate } from 'react-router-dom';
 import { ColumnsType } from 'antd/es/table';
-import { useAppDispatch, useAppSelector } from '../../../hooks/useTypedSelector';
+import { useAppDispatch } from '../../../hooks/useTypedSelector';
 import { getEmployee } from '../../../redux/features/employeeSlice';
 import AddProjectForm from './AddProjectForm';
 import AssignProjectForm from './AssignProjectForm';

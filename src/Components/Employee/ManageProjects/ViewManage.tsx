@@ -1,24 +1,17 @@
 import { useEffect, useState } from 'react';
-import { Button, Form, Input, Radio, RadioChangeEvent, DatePicker, Select, Table, Modal } from 'antd';
+import { Form, Select, Table } from 'antd';
 
 import '../add-employee-form.css';
 // import "../add-employee-form.css";
 import BreadCrumbs from '../../Ui/BreadCrumbs/BreadCrumbs';
 import Layout from '../../Layout';
 import Navbar from '../../Ui/Navbar';
-import { WorkingCondition } from '../../../utils/Constants';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import ModalComponent from '../../Ui/Modal/Modal';
-import ViewAllEmployee from '../../Ui/Tables/ViewAllEmployee';
-import { isErrored } from 'stream';
-import { EmployeeForm } from '../EmployeeForm';
-import { Link, useNavigate } from 'react-router-dom';
-import { CompareFunction } from '../../Ui/Tables/AttendaceReport';
 import { ColumnsType } from 'antd/es/table';
-import { useAppDispatch, useAppSelector } from '../../../hooks/useTypedSelector';
+import { useAppDispatch } from '../../../hooks/useTypedSelector';
 import { getEmployee } from '../../../redux/features/employeeSlice';
-import { EmployeeStats } from '../../../pages/Attendance/Attendance';
 import AddProjectForm from './AddProjectForm';
 import AssignProjectForm from './AssignProjectForm';
 import { useGetEmployeeQuery } from '../../../redux/api/employeeApiSlice';

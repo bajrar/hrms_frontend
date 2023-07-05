@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import './DashboardEmployeeStatus.css';
-import { useAppDispatch, useAppSelector } from '../../../../hooks/useTypedSelector';
+import { useAppDispatch } from '../../../../hooks/useTypedSelector';
 import { getEmployee } from '../../../../redux/features/employeeSlice';
 import Selects from '../../../../Components/Ui/Selects/Selects';
 import { useGetEmployeeQuery } from '../../../../redux/api/employeeApiSlice';
