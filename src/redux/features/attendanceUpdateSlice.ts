@@ -8,8 +8,8 @@ export const attendanceRequestSlice = createApi({
   tagTypes: ['patch'],
   endpoints: (builder) => ({
     EmployeeRecordWithAttendance: builder.query({
-      query: () => '/attendanceStatus',
-      providesTags: ['patch'],
+      query: ({status,date}) => `getEmployeeRecordWithAttendance?status=${status}&date=${date}`,
+      // providesTags: ['patch'],
     }),
     getAttendanceStatus: builder.query({
       query: () => '/attendanceStatus',

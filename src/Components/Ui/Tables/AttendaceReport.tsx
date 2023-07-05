@@ -5,11 +5,10 @@ import { ConfigProvider, Empty, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 
 import './attendanceReport.css';
-import { getUsers } from '../../../redux/features/attendanceSlice';
-import { useAppDispatch, useAppSelector } from '../../../hooks/useTypedSelector';
 import { formatTime } from './SingleEmployee';
 import { EmployeeStats } from '../../../pages/Attendance/Attendance';
-import { RootState } from '../../../store';
+import { useEmployeeRecordWithAttendanceQuery } from '../../../redux/features/attendanceUpdateSlice';
+import { useTokenData } from '../../../hooks/userTokenData';
 
 export interface DataType {
   id?: string;
@@ -29,19 +28,10 @@ export const CompareFunction = (compareList: any) => {
 };
 
 const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
-  const dispatch = useAppDispatch();
   const [attendanceData, setAttendanceData] = useState<any>([]);
-  const userData = useAppSelector((state: RootState) => state.userSlice.value);
-  const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
-
-  const role = tokenData?.role ? tokenData?.role : userData?.role;
-  const email = tokenData?.email ? tokenData?.email : userData?.email;
-  useEffect(() => {
-    dispatch(getUsers({ status: status, date: defaultDate }) as any);
-  }, [dispatch, status, defaultDate]);
-
-  const { user, loading } = useAppSelector((state) => state.attendanceSlice);
-
+  const { isAdminTemp, userSn } = useTokenData();
+  const { data: user, isLoading: loading } = useEmployeeRecordWithAttendanceQuery({ status, date: defaultDate });
+  console.log({ user });
   const columns: ColumnsType<DataType> = [
     {
       title: 'SN',
@@ -159,10 +149,10 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
   useEffect(() => {
     const data1: DataType[] = [];
     let attendanceUser = user;
-    if (role === 'user') {
-      attendanceUser = user?.filter((each) => each.email === email);
+    if (!isAdminTemp) {
+      attendanceUser = user?.filter((each: any) => each.employeeNumber === userSn);
     }
-    attendanceUser?.map((userData, sn) => {
+    attendanceUser?.map((userData: any, sn: number) => {
       userData?.attendanceRecords?.map((attendance: any) => {
         if (userData.employeeName.toLowerCase().includes(searchText)) {
           const tableData = {
@@ -209,7 +199,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
     });
 
     setAttendanceData(data1);
-  }, [user, searchText]);
+  }, [user, searchText,isAdminTemp,userSn]);
 
   return (
     <ConfigProvider
