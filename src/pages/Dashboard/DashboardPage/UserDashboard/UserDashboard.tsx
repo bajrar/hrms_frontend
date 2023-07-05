@@ -3,7 +3,6 @@ import UpcomingEvents from '../../../../Components/Dashboard/upcomingEvents/Upco
 import UserDashboardAttendance from '../../../../Components/Ui/Tables/UserDashboardAttendance';
 import AttendanceTrack from './AttendanceTrack';
 import './UserDashboard.css';
-
 const UserDashboard = () => {
   return (
     <>
@@ -11,6 +10,7 @@ const UserDashboard = () => {
         <div className="col-9 user-dashboard__daily-attendance ">
           <div className="p-4">
             <AttendanceTrack />
+            
           </div>
           <hr />
           <div className="row  user-dashboard_daily_attendance-status p-2">

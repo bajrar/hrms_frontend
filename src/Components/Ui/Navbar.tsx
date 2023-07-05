@@ -1,62 +1,48 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBell,
-  faChevronDown,
-  faMagnifyingGlass,
-} from "@fortawesome/free-solid-svg-icons";
-import "./navbar.css";
-import { logoutUser } from "../apis/constants/Api";
-import {
-  DownOutlined,
-  LogoutOutlined,
-  UserOutlined,
-  SwapOutlined,
-} from "@ant-design/icons";
-import type { MenuProps } from "antd";
-import { Button, Dropdown, message, Space, Tooltip } from "antd";
-import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/useTypedSelector";
-import { RootState } from "../../store";
-import { getRole, toggelRole } from "../../redux/features/role/userRoleSlice";
-import { useTokenData } from "../../hooks/userTokenData";
-import { login, logout } from "../../features/authSlice";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBell, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import './navbar.css';
+import { logoutUser } from '../apis/constants/Api';
+import { DownOutlined, LogoutOutlined, UserOutlined, SwapOutlined } from '@ant-design/icons';
+import type { MenuProps } from 'antd';
+import { Button, Dropdown, Space } from 'antd';
+import { useState } from 'react';
+import { useAppDispatch } from '../../hooks/useTypedSelector';
+import { toggelRole } from '../../redux/features/role/userRoleSlice';
+import { useTokenData } from '../../hooks/userTokenData';
 
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const userRoleData = useAppSelector(
-    (state: RootState) => state.userRoleSlice
-  );
   const { isAdminTemp, isAdmin } = useTokenData();
-  console.log({ isAdminTemp }, "YOYO");
-  const currentRole = isAdminTemp ? "user" : "admin";
+  console.log({ isAdminTemp }, 'YOYO');
+  const currentRole = isAdminTemp ? 'user' : 'admin';
   // const currentRole = userRoleData.role === 'admin' ? 'user' : 'admin';
   const logOut = () => {
     // localStorage.clear();
     // login();
     logoutUser();
   };
-  const handleMenuClick: MenuProps["onClick"] = (e) => {
-    if (e.key === "1") {
-      navigate("/profile");
-    } else if (e.key === "2") {
+  const handleMenuClick: MenuProps['onClick'] = (e) => {
+    if (e.key === '1') {
+      navigate('/profile');
+    } else if (e.key === '2') {
       logOut();
-    } else if (e.key === "3") {
+    } else if (e.key === '3') {
       dispatch(toggelRole());
     }
   };
 
-  const items: MenuProps["items"] = [
+  const items: MenuProps['items'] = [
     {
-      label: "Profile",
-      key: "1",
+      label: 'Profile',
+      key: '1',
       icon: <UserOutlined onClick={() => logoutUser()} />,
     },
     {
-      label: "Logout",
-      key: "2",
+      label: 'Logout',
+      key: '2',
       icon: <LogoutOutlined />,
     },
   ];
@@ -64,7 +50,7 @@ const Navbar = () => {
   if (isAdmin) {
     items.push({
       label: `View as ${currentRole}`,
-      key: "3",
+      key: '3',
       icon: <SwapOutlined />,
     });
   }
@@ -75,7 +61,7 @@ const Navbar = () => {
   };
 
   const [openDropdown, setOpenDropdown] = useState(true);
-  const userDetails: any = localStorage.getItem("userDetails");
+  const userDetails: any = localStorage.getItem('userDetails');
   const employeeDetails = JSON.parse(userDetails);
   const userName = employeeDetails?.employeeName;
 

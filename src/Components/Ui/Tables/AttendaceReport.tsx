@@ -198,7 +198,7 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
     });
 
     setAttendanceData(data1);
-  }, [user, searchText,isAdminTemp,userSn]);
+  }, [user, searchText, isAdminTemp, userSn]);
 
   return (
     <ConfigProvider
