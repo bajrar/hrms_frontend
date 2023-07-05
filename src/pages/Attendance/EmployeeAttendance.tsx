@@ -4,9 +4,7 @@ import { useDispatch } from 'react-redux';
 import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
 import '@sbmdkl/nepali-datepicker-reactjs/dist/index.css';
 import BreadCrumbs from '../../Components/Ui/BreadCrumbs/BreadCrumbs';
-import SingleEmployee, {
-  formatTime
-} from '../../Components/Ui/Tables/SingleEmployee';
+import SingleEmployee, { formatTime } from '../../Components/Ui/Tables/SingleEmployee';
 import { EmployeeStats } from './Attendance';
 import { useAppSelector } from '../../hooks/useTypedSelector';
 import { getEmployeeData } from '../../redux/features/SingleAttendanceSlice';
@@ -23,44 +21,45 @@ import { Modal } from 'antd';
 import ModalComponent from '../../Components/Ui/Modal/Modal';
 import AttendanceRequest from './AttendanceRequest';
 import { IEmployeeStats } from '../../interface/attendance/attendance';
+import { useGetSingleAttendanceQuery } from '../../redux/features/attendanceUpdateSlice';
 
 export const AttendanceReport = [
   {
     backgroundColor: 'rgba(151, 71, 255, 0.1)',
     color: '#9747FF',
     status: 'Total Working days',
-    numberOfEmployee: '35'
+    numberOfEmployee: '35',
   },
   {
     backgroundColor: '#F2F5F9',
     color: '#023C87',
     status: 'Total Working hours',
-    numberOfEmployee: '4'
+    numberOfEmployee: '4',
   },
   {
     backgroundColor: 'rgba(0, 185, 241, 0.05)',
     color: '#00B9F1',
     status: 'Present Days',
-    numberOfEmployee: '4'
+    numberOfEmployee: '4',
   },
   {
     backgroundColor: 'rgba(34, 187, 51, 0.05)',
     color: '#22BB33',
     status: 'Holidays',
-    numberOfEmployee: '4'
+    numberOfEmployee: '4',
   },
   {
     backgroundColor: 'rgba(240, 173, 78, 0.1)',
     color: '#F0AD4E',
     status: 'Weekend',
-    numberOfEmployee: '2'
+    numberOfEmployee: '2',
   },
   {
     backgroundColor: 'rgba(187, 33, 36, 0.05',
     color: ' #BB2124',
     status: 'Absent',
-    numberOfEmployee: '4'
-  }
+    numberOfEmployee: '4',
+  },
 ];
 
 export interface DataType {
@@ -81,8 +80,8 @@ export interface IYear {
 }
 
 const EmployeeAttendance = () => {
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [changeTab, setChangeTab] = useState<boolean>(true);
   const [attendanceReport, setAttendanceReport] = useState<any>([]);
 
@@ -103,9 +102,8 @@ const EmployeeAttendance = () => {
 
   const [year, setYear] = useState<IYear>({
     year: currentYear,
-    startDay: +startDay[currentYear]
+    startDay: +startDay[currentYear],
   });
-  console.log(todayInBs.getYear(), '<----------------- today year');
   const [month, setMonth] = useState<any>(todayInBs.getMonth());
   const [openYearList, setOpenYearList] = useState<boolean>(false);
   const [openMonthList, setOpenMonthList] = useState<boolean>(false);
@@ -132,21 +130,25 @@ const EmployeeAttendance = () => {
     }
   }, [employeeId]);
 
-  useEffect(() => {
-    if (startDate && endDate) {
-      dispatch(
-        getEmployeeData({
-          userSn: employeeId,
-          startDate: startDate,
-          endDate: endDate
-        }) as any
-      );
-    }
-  }, [dispatch, startDate, endDate, employeeId]);
+  // useEffect(() => {
+  //   if (startDate && endDate) {
+  //     dispatch(
+  //       getEmployeeData({
+  //         userSn: employeeId,
+  //         startDate: startDate,
+  //         endDate: endDate,
+  //       }) as any,
+  //     );
+  //   }
+  // }, [dispatch, startDate, endDate, employeeId]);
 
-  const { employee, loading } = useAppSelector(
-    (state: any) => state.SingleAttendanceSlice
-  );
+  // const { employee, loading } = useAppSelector((state: any) => state.SingleAttendanceSlice);
+  const { data: employee, isLoading } = useGetSingleAttendanceQuery({
+    userSn: employeeId,
+    startDate: startDate,
+    endDate: endDate,
+  });
+  console.log('🚀 ~ file: EmployeeAttendance.tsx:151 ~ EmployeeAttendance ~ employee:', employee);
   useEffect(() => {
     const data1: DataType[] = [];
 
@@ -174,7 +176,7 @@ const EmployeeAttendance = () => {
           ? '-'
           : userData?.attendanceByDate?.holiday
           ? '-'
-          : userData?.attendanceByDate?.workHour
+          : userData?.attendanceByDate?.workHour,
       };
 
       data1.push(tableData);
@@ -197,7 +199,7 @@ const EmployeeAttendance = () => {
           imagesrc="/images/attendance.svg"
           location="Attendance / Shift Management"
           location1="Attendance"
-          location2={`${employee.employeeName}`}
+          location2={`${employee?.employeeName}`}
         />
         <hr />
         <div className="d-flex employee-stats-container flex-wrap">
@@ -246,21 +248,10 @@ const EmployeeAttendance = () => {
           ) : (
             <div className="d-flex button-container">
               <div className="year-list-container">
-                <button
-                  onClick={() => setOpenYearList(!openYearList)}
-                  className="date-selector"
-                >
-                  Year{' '}
-                  <FontAwesomeIcon
-                    icon={faChevronDown}
-                    style={{ color: '#000000' }}
-                  />
+                <button onClick={() => setOpenYearList(!openYearList)} className="date-selector">
+                  Year <FontAwesomeIcon icon={faChevronDown} style={{ color: '#000000' }} />
                 </button>
-                <ul
-                  className={
-                    openYearList ? `year-list year-list-active` : `year-list`
-                  }
-                >
+                <ul className={openYearList ? `year-list year-list-active` : `year-list`}>
                   {Object.keys(startDay).map((year, i) => {
                     return (
                       <li
@@ -268,7 +259,7 @@ const EmployeeAttendance = () => {
                         onClick={() => {
                           setYear({
                             year: Number(year),
-                            startDay: Number(Object.values(startDay)[i])
+                            startDay: Number(Object.values(startDay)[i]),
                           });
                           setOpenYearList(!openYearList);
                         }}
@@ -281,23 +272,10 @@ const EmployeeAttendance = () => {
                 </ul>
               </div>
               <div className="month-list-container">
-                <button
-                  onClick={() => setOpenMonthList(!openMonthList)}
-                  className="date-selector"
-                >
-                  Month{' '}
-                  <FontAwesomeIcon
-                    icon={faChevronDown}
-                    style={{ color: '#000000' }}
-                  />
+                <button onClick={() => setOpenMonthList(!openMonthList)} className="date-selector">
+                  Month <FontAwesomeIcon icon={faChevronDown} style={{ color: '#000000' }} />
                 </button>
-                <ul
-                  className={
-                    openMonthList
-                      ? `month-list month-list-active`
-                      : `month-list`
-                  }
-                >
+                <ul className={openMonthList ? `month-list month-list-active` : `month-list`}>
                   {monthNames.map((month, i) => {
                     return (
                       <li
@@ -330,11 +308,7 @@ const EmployeeAttendance = () => {
                   </button>
                 )}
 
-                <ModalComponent
-                  openModal={isModalOpen}
-                  classNames="holidays-modal"
-                  closeModal={setIsModalOpen}
-                >
+                <ModalComponent openModal={isModalOpen} classNames="holidays-modal" closeModal={setIsModalOpen}>
                   <h3 className="modal-title">ADD HOLIDAYS</h3>
                   <AttendanceRequest setIsModalOpen={setIsModalOpen} />
                 </ModalComponent>
@@ -350,36 +324,18 @@ const EmployeeAttendance = () => {
             )}
             <div className="d-flex switches">
               <div
-                className={
-                  changeTab ? 'switch-container ' : 'switch-container border'
-                }
+                className={changeTab ? 'switch-container ' : 'switch-container border'}
                 onClick={(prev) => setChangeTab(!prev)}
               >
-                <img
-                  src={
-                    changeTab
-                      ? '/images/calendar-inactive.svg'
-                      : '/images/calendar-active.svg'
-                  }
-                  alt=""
-                />
+                <img src={changeTab ? '/images/calendar-inactive.svg' : '/images/calendar-active.svg'} alt="" />
               </div>
               <div
-                className={
-                  changeTab ? 'switch-container border' : 'switch-container'
-                }
+                className={changeTab ? 'switch-container border' : 'switch-container'}
                 onClick={(prev) => {
                   setChangeTab(true);
                 }}
               >
-                <img
-                  src={
-                    changeTab
-                      ? '/images/list-active.png'
-                      : '/images/list-inactive.svg'
-                  }
-                  alt=""
-                />
+                <img src={changeTab ? '/images/list-active.png' : '/images/list-inactive.svg'} alt="" />
               </div>
             </div>
           </div>

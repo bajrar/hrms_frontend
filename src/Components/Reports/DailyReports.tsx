@@ -1,19 +1,20 @@
-import { useEffect, useState } from "react";
-import Calendar from "@sbmdkl/nepali-datepicker-reactjs";
-import { Table } from "antd";
-import { CalendarOutlined } from "@ant-design/icons";
-import type { ColumnsType } from "antd/es/table";
-import DownloadBtn from "../Ui/DownloadBtn/DownloadBtn";
-import "./dailyReport.css";
-import NepaliDate from "nepali-date-converter";
-import { useAppDispatch, useAppSelector } from "../../hooks/useTypedSelector";
-import { RootState } from "../../store";
-import { useDispatch } from "react-redux";
-import { getUsers } from "../../redux/features/attendanceSlice";
-import { todayInBsFormat } from "../Customcalendar/GetTodaysDate";
-import { formatTime } from "../Ui/Tables/SingleEmployee";
-import { ProjectTeamOptions } from "../../utils/Constants";
-import Selects from "../Ui/Selects/Selects";
+import { useEffect, useState } from 'react';
+import Calendar from '@sbmdkl/nepali-datepicker-reactjs';
+import { Table } from 'antd';
+import { CalendarOutlined } from '@ant-design/icons';
+import type { ColumnsType } from 'antd/es/table';
+import DownloadBtn from '../Ui/DownloadBtn/DownloadBtn';
+import './dailyReport.css';
+import NepaliDate from 'nepali-date-converter';
+import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
+import { RootState } from '../../store';
+import { useDispatch } from 'react-redux';
+import { getUsers } from '../../redux/features/attendanceSlice';
+import { todayInBsFormat } from '../Customcalendar/GetTodaysDate';
+import { formatTime } from '../Ui/Tables/SingleEmployee';
+import { ProjectTeamOptions } from '../../utils/Constants';
+import Selects from '../Ui/Selects/Selects';
+import { useEmployeeRecordWithAttendanceQuery } from '../../redux/features/attendanceUpdateSlice';
 
 export interface DataType {
   id?: string;
@@ -29,9 +30,9 @@ export interface DataType {
 
 const DailyReports = () => {
   const [attendanceData, setAttendanceData] = useState<any>([]);
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
   const [defaultDate, setDefaultDate] = useState(todayInBsFormat);
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState('');
   const dispatch = useAppDispatch();
   const userData = useAppSelector((state: RootState) => state.userSlice.value);
   const { tokenData } = useAppSelector((state) => state.verifyTokenSlice);
@@ -54,55 +55,60 @@ const DailyReports = () => {
     dispatch(getUsers({ status: status, date: defaultDate }));
   }, [dispatch, status, defaultDate]);
 
-  const { user, loading } = useAppSelector((state) => state.attendanceSlice);
-  console.log("looking for status: ", status);
+  // const { user, loading } = useAppSelector((state) => state.attendanceSlice);
+  const { data: user, isLoading: loading } = useEmployeeRecordWithAttendanceQuery({
+    status: status,
+    date: defaultDate,
+  });
+
+  console.log('looking for status: ', status);
 
   const columns: ColumnsType<DataType> = [
     {
-      title: "EID",
-      dataIndex: "id",
-      key: "id",
+      title: 'EID',
+      dataIndex: 'id',
+      key: 'id',
     },
     {
-      title: "DATE",
-      dataIndex: "date",
-      key: "date",
+      title: 'DATE',
+      dataIndex: 'date',
+      key: 'date',
     },
 
     {
-      title: "NAME",
-      dataIndex: "name",
-      key: "name",
+      title: 'NAME',
+      dataIndex: 'name',
+      key: 'name',
     },
     {
-      title: "DESIGNATION",
-      dataIndex: "designation",
-      key: "designation",
+      title: 'DESIGNATION',
+      dataIndex: 'designation',
+      key: 'designation',
     },
     {
-      title: "PROJECT TEAM",
-      dataIndex: "designation",
-      key: "designation",
+      title: 'PROJECT TEAM',
+      dataIndex: 'designation',
+      key: 'designation',
     },
     {
-      title: "ARRIVAL TIME",
-      dataIndex: "clockIn",
-      key: "clockIn",
+      title: 'ARRIVAL TIME',
+      dataIndex: 'clockIn',
+      key: 'clockIn',
     },
     {
-      title: "DEPARTURE TIME",
-      dataIndex: "clockOut",
-      key: "clockOut",
+      title: 'DEPARTURE TIME',
+      dataIndex: 'clockOut',
+      key: 'clockOut',
     },
     {
-      title: "WORK HOURS",
-      dataIndex: "workHours",
-      key: "workHours",
+      title: 'WORK HOURS',
+      dataIndex: 'workHours',
+      key: 'workHours',
       render: (item) => {
         return (
           <div className="workhours">
             <p>
-              {item} {item === "-" ? "" : "Hours"}{" "}
+              {item} {item === '-' ? '' : 'Hours'}{' '}
             </p>
           </div>
         );
@@ -112,15 +118,15 @@ const DailyReports = () => {
 
   const today: any = new NepaliDate();
   today.setDate(today.getDate() + 1);
-  const disable2morrowDate = today.format("YYYY-MM-DD");
+  const disable2morrowDate = today.format('YYYY-MM-DD');
 
   useEffect(() => {
     const data1: DataType[] = [];
     let attendanceUser = user;
-    if (role === "user") {
-      attendanceUser = user?.filter((each) => each.email === email);
+    if (role === 'user') {
+      attendanceUser = user?.filter((each: any) => each.email === email);
     }
-    attendanceUser?.map((userData, sn) => {
+    attendanceUser?.map((userData: any, sn: any) => {
       userData?.attendanceRecords?.map((attendance: any) => {
         if (userData.employeeName.toLowerCase().includes(searchText)) {
           const tableData = {
@@ -131,31 +137,31 @@ const DailyReports = () => {
             name: userData?.employeeName,
 
             status:
-              attendance?.attendanceByDate?.status === "WFH"
-                ? "Working From Home"
+              attendance?.attendanceByDate?.status === 'WFH'
+                ? 'Working From Home'
                 : attendance?.attendanceByDate?.holiday
-                ? "Holiday"
+                ? 'Holiday'
                 : attendance.attendanceByDate?.absent
-                ? "Absent"
+                ? 'Absent'
                 : `${attendance?.attendanceByDate?.morningStatus} - ${attendance?.attendanceByDate?.eveningStatus}`,
 
             designation: userData?.designation,
             clockIn: attendance?.attendanceByDate?.absent
-              ? "Absent"
+              ? 'Absent'
               : attendance?.attendanceByDate?.holiday
-              ? "Holiday"
+              ? 'Holiday'
               : `${formatTime(attendance?.attendanceByDate?.entryTime)}`,
             clockOut: attendance?.attendanceByDate?.absent
-              ? "Absent"
+              ? 'Absent'
               : attendance?.attendanceByDate?.holiday
-              ? "Absent"
-              : attendance?.attendanceByDate?.exitTime === "-"
+              ? 'Absent'
+              : attendance?.attendanceByDate?.exitTime === '-'
               ? attendance?.attendanceByDate?.exitTime
               : `${formatTime(attendance?.attendanceByDate?.exitTime)}`,
             workHours: attendance?.attendanceByDate?.absent
-              ? "0.00"
+              ? '0.00'
               : attendance?.attendanceByDate?.holiday
-              ? "0.00"
+              ? '0.00'
               : attendance?.attendanceByDate?.workHour,
             view: userData?.employeeNumber,
           };
@@ -169,9 +175,7 @@ const DailyReports = () => {
     setAttendanceData(data1);
   }, [user, searchText]);
 
-  const filterData = status
-    ? attendanceData.filter((each: any) => each.designation === status)
-    : attendanceData;
+  const filterData = status ? attendanceData.filter((each: any) => each.designation === status) : attendanceData;
 
   return (
     <div>
@@ -201,7 +205,7 @@ const DailyReports = () => {
             }
           }}
         />
-        <div style={{ display: "flex", gap: 10 }}>
+        <div style={{ display: 'flex', gap: 10 }}>
           <Selects
             placeHolder="Search project name"
             onSelect={onSelect}
@@ -216,11 +220,7 @@ const DailyReports = () => {
       <div className="daily-report-table-container">
         <Table
           rowClassName={(record) =>
-            record.clockIn === "Absent"
-              ? "absent-class"
-              : record.clockIn === "Holiday"
-              ? "holiday-class"
-              : ""
+            record.clockIn === 'Absent' ? 'absent-class' : record.clockIn === 'Holiday' ? 'holiday-class' : ''
           }
           columns={columns}
           dataSource={filterData}

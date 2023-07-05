@@ -31,7 +31,6 @@ const AttendaceReport = ({ defaultDate, searchText, status }: any) => {
   const [attendanceData, setAttendanceData] = useState<any>([]);
   const { isAdminTemp, userSn } = useTokenData();
   const { data: user, isLoading: loading } = useEmployeeRecordWithAttendanceQuery({ status, date: defaultDate });
-  console.log({ user });
   const columns: ColumnsType<DataType> = [
     {
       title: 'SN',

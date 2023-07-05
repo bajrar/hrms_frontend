@@ -9,6 +9,7 @@ import { reduceByKeys } from '../../hooks/HelperFunctions';
 import { useAppSelector } from '../../hooks/useTypedSelector';
 import { getUsers } from '../../redux/features/attendanceSlice';
 import { getEmployee } from '../../redux/features/employeeSlice';
+import { useEmployeeRecordWithAttendanceQuery } from '../../redux/features/attendanceUpdateSlice';
 
 const AssignLeaveForm = ({ setIsAssignOpen, setUpdateModalIsModal }: any) => {
   const [leaveNameArray, setLeaveNameArray] = useState<any[]>([]);
@@ -21,7 +22,8 @@ const AssignLeaveForm = ({ setIsAssignOpen, setUpdateModalIsModal }: any) => {
   const dispatch = useDispatch();
   const { leaves } = useAppSelector((state) => state.leaveSlice);
   console.log({ leaves });
-  const { user } = useAppSelector((state) => state.attendanceSlice);
+  // const { user } = useAppSelector((state) => state.attendanceSlice);
+  // const { data: user } = useEmployeeRecordWithAttendanceQuery({ date: '', status: '' });
   const { employee } = useAppSelector((state) => state.employeeSlice);
   useEffect(() => {
     const shiftNameArray = reduceByKeys(leaves?.leave, '_id', 'leaveName');

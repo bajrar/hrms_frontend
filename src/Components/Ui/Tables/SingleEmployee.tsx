@@ -5,6 +5,7 @@ import type { ColumnsType } from 'antd/es/table';
 import { useAppSelector } from '../../../hooks/useTypedSelector';
 import { EmployeeStats } from '../../../pages/Attendance/Attendance';
 import { CompareFunction } from './AttendaceReport';
+import { useGetSingleAttendanceQuery } from '../../../redux/features/attendanceUpdateSlice';
 
 interface DataType {
   id?: string;
@@ -30,7 +31,12 @@ const SingleEmployee = ({ startDate, endDate }: { startDate: any; endDate: any }
 
   let { employeeId } = useParams();
 
-  const { employee } = useAppSelector((state: any) => state.SingleAttendanceSlice);
+  // const { employee } = useAppSelector((state: any) => state.SingleAttendanceSlice);
+  const { data: employee, isLoading } = useGetSingleAttendanceQuery({
+    userSn: employeeId,
+    startDate: startDate,
+    endDate: endDate,
+  });
   console.log(employee);
   const columns: ColumnsType<DataType> = [
     {

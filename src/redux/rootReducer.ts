@@ -35,13 +35,14 @@ import verifyTokenSlice from "./features/verifyTokenSlice";
 import getSingleJobSlice from './features/singleJobSlice'
 import upcomingEventSlice from './features/upcomingEvents'
 import monthlyReportSlice from './features/monthlySlice'
+import { shiftApiSlice } from "./api/shift/shiftApiSlice";
 export const rootReducer = combineReducers({
     authSlice: authSlice,
-    attendanceSlice: attendanceSlice,
-    SingleAttendanceSlice: SingleAttendanceSlice,
+    // attendanceSlice: attendanceSlice,
+    // SingleAttendanceSlice: SingleAttendanceSlice,
     // attendanceStatusSlice: attendanceStatusSlice,
-    shiftSlice: shiftSlice,
-    singleShiftSlice: singleShiftSlice,
+    // shiftSlice: shiftSlice,
+    // singleShiftSlice: singleShiftSlice,
     deviceSlice: addedDeviceSlice,
     jobsSlice: getJobsSlice,
     singleJobSlice: getSingleJobSlice,
@@ -72,4 +73,5 @@ export const rootReducer = combineReducers({
     [eventSliceApi.reducerPath]: eventSliceApi.reducer,
     [dashboardSliceApi.reducerPath]: dashboardSliceApi.reducer,
     [reportApiSlice.reducerPath]: reportApiSlice.reducer,
+    [shiftApiSlice.reducerPath]: shiftApiSlice.reducer,
   })

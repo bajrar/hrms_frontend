@@ -8,6 +8,7 @@ import { eventSliceApi } from "./api/eventSliceApi";
 import { holidayApiSlice } from "./api/holidays/holidayApiSlice";
 import { leaveSliceApi } from "./api/leaveSlice";
 import { reportApiSlice } from "./api/report/reportApiSlice";
+import { shiftApiSlice } from "./api/shift/shiftApiSlice";
 import { tokenSliceApi } from "./api/tokenSlice";
 import { attendanceRequestSlice } from "./features/attendanceUpdateSlice";
 import { profileSlice } from "./features/profileSlice";
@@ -27,5 +28,6 @@ export const apiMiddleware = [
     holidayApiSlice.middleware,
     eventSliceApi.middleware,
     dashboardSliceApi.middleware,
-    reportApiSlice.middleware
+    reportApiSlice.middleware,
+    shiftApiSlice.middleware,
   ]

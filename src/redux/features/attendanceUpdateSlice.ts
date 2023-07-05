@@ -11,6 +11,11 @@ export const attendanceRequestSlice = createApi({
       query: ({status,date}) => `getEmployeeRecordWithAttendance?status=${status}&date=${date}`,
       // providesTags: ['patch'],
     }),
+    getSingleAttendance: builder.query({
+      query: ({userSn,startDate,endDate}) => `getAttendanceByDateRange?userSn=${userSn}&&startDate=${startDate}&&endDate=${endDate}`,
+      // providesTags: ['patch'],
+    }),
+
     getAttendanceStatus: builder.query({
       query: () => '/attendanceStatus',
       providesTags: ['patch'],
@@ -28,4 +33,4 @@ export const attendanceRequestSlice = createApi({
     }),
   }),
 });
-export const { useGetAttendanceStatusQuery, useRequestAttendanceMutation,useEmployeeRecordWithAttendanceQuery } = attendanceRequestSlice;
+export const { useGetAttendanceStatusQuery, useRequestAttendanceMutation,useEmployeeRecordWithAttendanceQuery,useGetSingleAttendanceQuery } = attendanceRequestSlice;

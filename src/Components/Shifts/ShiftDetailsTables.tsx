@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/useTypedSelector';
 import { getSingleShift } from '../../redux/features/singleShiftSlice';
+import { useGetShiftByIdQuery } from '../../redux/api/shift/shiftApiSlice';
 
 const ShiftDetailsTable = () => {
   const { shiftId } = useParams();
@@ -18,7 +19,9 @@ const ShiftDetailsTable = () => {
     }
   }, [dispatch]);
 
-  const { data } = useAppSelector((state) => state.singleShiftSlice);
+  // const { data } = useAppSelector((state) => state.singleShiftSlice);
+  const { data, isLoading: loading } = useGetShiftByIdQuery({ shiftId });
+
   return (
     <table className='shift-details-table'>
       <tbody>

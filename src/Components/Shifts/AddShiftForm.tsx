@@ -1,25 +1,18 @@
-import {
-  Button,
-  Form,
-  Input,
-  message,
-  Checkbox,
-  TimePicker,
-  Select,
-} from "antd";
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
-import { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import type { CheckboxValueType } from "antd/es/checkbox/Group";
+import { Button, Form, Input, message, Checkbox, TimePicker, Select } from 'antd';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDown, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 
-import { apis } from "../apis/constants/ApisService";
-import { daysOfWeek, workingDay } from "../../utils/Constants";
-import { useDispatch } from "react-redux";
-import { getShift } from "../../redux/features/shiftSlice";
-import { useAppSelector } from "../../hooks/useTypedSelector";
-import { getSingleShift } from "../../redux/features/singleShiftSlice";
+import { apis } from '../apis/constants/ApisService';
+import { daysOfWeek, workingDay } from '../../utils/Constants';
+import { useDispatch } from 'react-redux';
+import { getShift } from '../../redux/features/shiftSlice';
+import { useAppSelector } from '../../hooks/useTypedSelector';
+import { getSingleShift } from '../../redux/features/singleShiftSlice';
+import { useGetShiftByIdQuery } from '../../redux/api/shift/shiftApiSlice';
 
 dayjs.extend(customParseFormat);
 const CheckboxGroup = Checkbox.Group;
@@ -32,12 +25,7 @@ export interface IForm {
   shiftId?: string;
 }
 
-const AddShiftForm = ({
-  setIsModalOpen,
-  fromUpdate,
-  setUpdateModalIsModal,
-  shiftId,
-}: IForm) => {
+const AddShiftForm = ({ setIsModalOpen, fromUpdate, setUpdateModalIsModal, shiftId }: IForm) => {
   const [startTime, setStartTime] = useState<any>();
   const [endTime, setEndTime] = useState<any>();
   const [customDay, setCustomDay] = useState<boolean>(false);
@@ -46,7 +34,7 @@ const AddShiftForm = ({
 
   const onChange = (list: CheckboxValueType[]) => {
     setCheckedList(list);
-    form.setFieldValue("workingDay", list);
+    form.setFieldValue('workingDay', list);
   };
 
   const [form] = Form.useForm();
@@ -57,13 +45,13 @@ const AddShiftForm = ({
       const res = await apis.addShifts(values);
 
       if (res.status === 201) {
-        message.success("Shift Created");
+        message.success('Shift Created');
         dispatch(getShift() as any);
         setIsModalOpen(false);
         form.resetFields();
       }
     } catch {
-      message.error("Something Went Wrong");
+      message.error('Something Went Wrong');
     } finally {
       setIsModalOpen(false);
     }
@@ -74,13 +62,13 @@ const AddShiftForm = ({
       const res = await apis.updateShifts(values, shiftId);
 
       if (res.status === 201) {
-        message.success("Shift updated");
+        message.success('Shift updated');
         dispatch(getShift() as any);
         setUpdateModalIsModal(false);
         form.resetFields();
       }
     } catch {
-      message.error("Something Went Wrong");
+      message.error('Something Went Wrong');
     } finally {
       setUpdateModalIsModal(false);
     }
@@ -94,19 +82,19 @@ const AddShiftForm = ({
   };
 
   const onWorkingDaySelection = (value: string) => {
-    form.setFieldValue("workingDay", value);
+    form.setFieldValue('workingDay', value);
   };
 
   useEffect(() => {
     const endTimeFormat = dayjs(endTime);
     const startTimeFormat = dayjs(startTime);
     if (endTime && startTime) {
-      const workingHour = endTimeFormat.diff(startTimeFormat, "hour", true);
+      const workingHour = endTimeFormat.diff(startTimeFormat, 'hour', true);
 
       if (workingHour < 1) {
-        message.error("End time must be greater then start time");
+        message.error('End time must be greater then start time');
       } else {
-        form.setFieldValue("shiftSchedule", workingHour);
+        form.setFieldValue('shiftSchedule', workingHour);
       }
     }
   }, [endTime, startTime]);
@@ -124,31 +112,22 @@ const AddShiftForm = ({
       dispatch(
         getSingleShift({
           shiftId,
-        }) as any
+        }) as any,
       );
     }
   }, [dispatch]);
 
-  const { data, loading } = useAppSelector((state) => state.singleShiftSlice);
+  // const { data, loading } = useAppSelector((state) => state.singleShiftSlice);
+  const { data, isLoading: loading } = useGetShiftByIdQuery({ shiftId });
 
   const CustomDayArray = () => {
     return (
       <div>
-        <span
-          onClick={() => setCustomDay(false)}
-          className="back-text d-flex align-items-center"
-        >
-          <FontAwesomeIcon icon={faArrowLeft} className="back-arrow" />{" "}
-          <span className="text-center d-flex align-items-center justify-content-center">
-            Custom working day
-          </span>
+        <span onClick={() => setCustomDay(false)} className="back-text d-flex align-items-center">
+          <FontAwesomeIcon icon={faArrowLeft} className="back-arrow" />{' '}
+          <span className="text-center d-flex align-items-center justify-content-center">Custom working day</span>
         </span>
-        <CheckboxGroup
-          options={daysOfWeek}
-          value={checkedList}
-          onChange={onChange}
-          className="check-box-container"
-        />
+        <CheckboxGroup options={daysOfWeek} value={checkedList} onChange={onChange} className="check-box-container" />
       </div>
     );
   };
@@ -168,8 +147,8 @@ const AddShiftForm = ({
           className="form-input col"
           name="shiftName"
           label="Shift Name *"
-          rules={[{ required: true, message: "Shift Name is Required" }]}
-          initialValue={fromUpdate ? data?.shiftName : ""}
+          rules={[{ required: true, message: 'Shift Name is Required' }]}
+          initialValue={fromUpdate ? data?.shiftName : ''}
         >
           <Input
             name="shiftName"
@@ -183,7 +162,7 @@ const AddShiftForm = ({
             className="form-input col working-day"
             name="workingDay"
             label="Working day *"
-            rules={[{ required: true, message: "Working day is Required" }]}
+            rules={[{ required: true, message: 'Working day is Required' }]}
           >
             <Select
               placeholder="Select"
@@ -198,12 +177,9 @@ const AddShiftForm = ({
                 <>
                   {customDay ? <CustomDayArray /> : menu}
                   {customDay ? (
-                    ""
+                    ''
                   ) : (
-                    <p
-                      className="custom-text"
-                      onClick={() => setCustomDay(true)}
-                    >
+                    <p className="custom-text" onClick={() => setCustomDay(true)}>
                       Custom
                     </p>
                   )}
@@ -219,7 +195,7 @@ const AddShiftForm = ({
               rules={[
                 {
                   required: true,
-                  message: "Start time is Required",
+                  message: 'Start time is Required',
                 },
               ]}
               // initialValue={fromUpdate ? data?.startDate : null}
@@ -229,10 +205,10 @@ const AddShiftForm = ({
                 onSelect={onStartChange}
                 use12Hours
                 format="HH:mm a"
-                defaultOpenValue={dayjs("00:00", "HH:mm")}
+                defaultOpenValue={dayjs('00:00', 'HH:mm')}
                 placeholder="Start Time"
                 className="start-time"
-                value={dayjs(startTime, "HH:mm")}
+                value={dayjs(startTime, 'HH:mm')}
               />
             </Form.Item>
             <div className="dash mx-2">to</div>
@@ -243,7 +219,7 @@ const AddShiftForm = ({
               rules={[
                 {
                   required: true,
-                  message: "End time is Required",
+                  message: 'End time is Required',
                 },
               ]}
               // initialValue={fromUpdate ? data?.endTime : null}
@@ -253,10 +229,10 @@ const AddShiftForm = ({
                 onSelect={onEndChange}
                 use12Hours
                 format="HH:mm a"
-                defaultOpenValue={dayjs("00:00", "HH:mm")}
+                defaultOpenValue={dayjs('00:00', 'HH:mm')}
                 placeholder="End Time"
                 className="end-time"
-                value={dayjs(endTime, "HH:mm")}
+                value={dayjs(endTime, 'HH:mm')}
               />
             </Form.Item>
           </div>
@@ -269,37 +245,24 @@ const AddShiftForm = ({
             rules={[{ required: false }]}
             initialValue={fromUpdate ? data?.shiftSchedule : null}
           >
-            <Input
-              name="shiftScheduling"
-              placeholder="Working hour"
-              className="form-input-wrapper"
-              type="text"
-            />
+            <Input name="shiftScheduling" placeholder="Working hour" className="form-input-wrapper" type="text" />
           </Form.Item>
           <Form.Item
             className="form-input col"
             name="device"
             label="Device *"
-            rules={[{ required: true, message: "Device name is required" }]}
+            rules={[{ required: true, message: 'Device name is required' }]}
             initialValue={fromUpdate ? data?.device : null}
           >
-            <Input
-              name="device"
-              placeholder="Device Name"
-              className="form-input-wrapper"
-              type="text"
-            />
+            <Input name="device" placeholder="Device Name" className="form-input-wrapper" type="text" />
           </Form.Item>
         </div>
         <div className="form-btn-container mt-4">
-          <Button
-            type="default"
-            onClick={fromUpdate ? handleUpdateCancel : handleCancel}
-          >
+          <Button type="default" onClick={fromUpdate ? handleUpdateCancel : handleCancel}>
             Cancel
           </Button>
           <Button type="primary" htmlType="submit">
-            {fromUpdate ? "Save" : "Add"}
+            {fromUpdate ? 'Save' : 'Add'}
           </Button>
         </div>
       </Form>

@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/useTypedSelector';
 import { getSingleShift } from '../../redux/features/singleShiftSlice';
 import { apis } from '../apis/constants/ApisService';
+import { useGetShiftByIdQuery } from '../../redux/api/shift/shiftApiSlice';
 
 export interface DataType {
   id?: string;
@@ -41,13 +42,9 @@ const EmployeeShiftTable = () => {
       dataIndex: 'action',
       key: 'action',
       render: (record) => (
-        <div className='d-flex action-btn-container'>
+        <div className="d-flex action-btn-container">
           {/* <FontAwesomeIcon icon={faPen} color='#35639F' /> */}
-          <FontAwesomeIcon
-            icon={faTrash}
-            color='#35639F'
-            onClick={() => deleteEmployee(record)}
-          />
+          <FontAwesomeIcon icon={faTrash} color="#35639F" onClick={() => deleteEmployee(record)} />
         </div>
       ),
     },
@@ -55,7 +52,8 @@ const EmployeeShiftTable = () => {
 
   const dispatch = useDispatch();
 
-  const { data } = useAppSelector((state) => state.singleShiftSlice);
+  // const { data } = useAppSelector((state) => state.singleShiftSlice);
+  const { data, isLoading: loading } = useGetShiftByIdQuery({ shiftId });
 
   useEffect(() => {
     const shifts: DataType[] = [];
@@ -81,7 +79,7 @@ const EmployeeShiftTable = () => {
           dispatch(
             getSingleShift({
               shiftId,
-            }) as any
+            }) as any,
           );
         }
       }
@@ -93,7 +91,7 @@ const EmployeeShiftTable = () => {
   return (
     <Table
       columns={columns}
-      className='shift-employee-table'
+      className="shift-employee-table"
       dataSource={shiftArray}
       // pagination={tableParams.pagination}
     />

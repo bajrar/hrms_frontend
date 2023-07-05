@@ -9,6 +9,8 @@ import { getShift } from '../../redux/features/shiftSlice';
 import { apis } from '../apis/constants/ApisService';
 import Selects from '../Ui/Selects/Selects';
 import { IForm } from './AddShiftForm';
+import { useEmployeeRecordWithAttendanceQuery } from '../../redux/features/attendanceUpdateSlice';
+import { useGetShiftQuery } from '../../redux/api/shift/shiftApiSlice';
 
 const AssignShiftForm = ({ setIsModalOpen }: IForm) => {
   const [shiftNameArrays, setShiftNameArrays] = useState<any[]>([]);
@@ -49,8 +51,14 @@ const AssignShiftForm = ({ setIsModalOpen }: IForm) => {
     dispatch(getUsers({ status: '', date: '' }) as any);
   }, [dispatch]);
 
-  const { data } = useAppSelector((state) => state.shiftSlice);
-  const { user } = useAppSelector((state) => state.attendanceSlice);
+  // const { data } = useAppSelector((state) => state.shiftSlice);
+  const { data } = useGetShiftQuery('shift');
+
+  // const { user } = useAppSelector((state) => state.attendanceSlice);
+  const { data: user, isLoading: loading } = useEmployeeRecordWithAttendanceQuery({
+    status: '',
+    date: '',
+  });
 
   useEffect(() => {
     const shiftNameArray = reduceByKeys(data?.shift, '_id', 'shiftName');
@@ -70,11 +78,7 @@ const AssignShiftForm = ({ setIsModalOpen }: IForm) => {
   }, [shiftNameArrays]);
 
   useEffect(() => {
-    const employeeNameArray = reduceByKeys(
-      user,
-      'employeeNumber',
-      'employeeName'
-    );
+    const employeeNameArray = reduceByKeys(user, 'employeeNumber', 'employeeName');
     setEmployeeNameArrays(employeeNameArray);
   }, [user]);
 
@@ -98,57 +102,46 @@ const AssignShiftForm = ({ setIsModalOpen }: IForm) => {
   };
 
   return (
-    <div className='assign-shift-form'>
-      <Form
-        layout='vertical'
-        onFinish={onFinish}
-        autoComplete='off'
-        className='shift-assign-form'
-        form={form}
-      >
+    <div className="assign-shift-form">
+      <Form layout="vertical" onFinish={onFinish} autoComplete="off" className="shift-assign-form" form={form}>
         <Form.Item
-          className='form-input col'
-          name='shiftName'
-          label='Shift Name *'
+          className="form-input col"
+          name="shiftName"
+          label="Shift Name *"
           rules={[{ required: true, message: 'Shift Name is Required' }]}
         >
           <Selects
-            placeHolder='Select the shift name'
-            className='form-input-wrapper'
+            placeHolder="Select the shift name"
+            className="form-input-wrapper"
             options={shiftNameSelect}
             onSelect={onShiftName}
           />
         </Form.Item>
-        <Form.Item
-          className='form-input col'
-          name='assignTo'
-          label='Assign To *'
-          rules={[{ required: false }]}
-        >
+        <Form.Item className="form-input col" name="assignTo" label="Assign To *" rules={[{ required: false }]}>
           <Selects
-            placeHolder='Type the name of an employee to search and select'
-            mode='multiple'
+            placeHolder="Type the name of an employee to search and select"
+            mode="multiple"
             options={employeeNameSelect}
             onSelect={onEmployeeName}
           />
         </Form.Item>
         <Form.Item
-          className='form-input col'
-          name='shiftNote'
-          label='Shift Notes *'
+          className="form-input col"
+          name="shiftNote"
+          label="Shift Notes *"
           rules={[{ required: true, message: 'Device name is required' }]}
         >
           <TextArea
             style={{ height: 96, resize: 'none' }}
             onChange={onChange}
-            placeholder='Enter any notes or comments related to the shift'
+            placeholder="Enter any notes or comments related to the shift"
           />
         </Form.Item>
-        <div className='form-btn-container'>
-          <Button type='default' onClick={handleCancel}>
+        <div className="form-btn-container">
+          <Button type="default" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button type='primary' htmlType='submit'>
+          <Button type="primary" htmlType="submit">
             Assign
           </Button>
         </div>
