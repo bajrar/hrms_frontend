@@ -19,6 +19,7 @@ import Navbar from '../../Components/Ui/Navbar';
 import { Link } from 'react-router-dom';
 import { BsLinkedin } from 'react-icons/bs';
 import { useGetSingleApplicantQuery, useGetApplicantsQuery } from '../../redux/api/applicantApiSlice';
+import NepaliDate from 'nepali-date-converter';
 
 export interface DataType {
   position?: string;
@@ -97,6 +98,11 @@ const Applicants = () => {
       key: 'city',
     },
     {
+      title: 'DATE APPLIED',
+      dataIndex: 'dateApplied',
+      key: 'dateApplied',
+    },
+    {
       title: 'STATUS',
       dataIndex: 'status',
       key: 'status',
@@ -139,6 +145,7 @@ const Applicants = () => {
         city: item?.city,
         status: item?.status,
         action: item?._id,
+        dateApplied: new NepaliDate(new Date(item?.createdAt)).format('YYYY-MM-DD'),
       };
       applicantsData.push(tableData);
     });
