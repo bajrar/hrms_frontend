@@ -11,30 +11,17 @@ import { CalendarOutlined } from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 import ModalComponent from '../../Components/Ui/Modal/Modal';
 import AddHolidaysForm from '../../Components/Holidays/AddHolidaysForm';
-import { useDispatch } from 'react-redux';
-import { getHolidays } from '../../redux/features/holidaysSlice';
-import { useAppSelector } from '../../hooks/useTypedSelector';
 import Layout from '../../Components/Layout';
 import Navbar from '../../Components/Ui/Navbar';
-import { verifyTokenStatus } from '../../redux/features/verifyTokenSlice';
-import { RootState } from '../../store';
 import { useTokenData } from '../../hooks/userTokenData';
 import { useGetHolidayQuery } from '../../redux/api/holidays/holidayApiSlice';
-export interface DataType {
-  holidayName?: string;
-  date?: string;
-  applicableTo: string;
-  notes?: string;
-  status: string;
-}
-
+import { IHoliday } from '../../interface/Holiday/Holiday';
 const Holidays = () => {
   const [startDate, setStartDate] = useState<any>('');
   const [endDate, setEndDate] = useState<any>('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [holidaysArray, setHolidayArray] = useState<any[]>([]);
-  const dispatch = useDispatch();
-  const {isAdmin,isAdminTemp}  = useTokenData()
+  const { isAdmin, isAdminTemp } = useTokenData();
 
   const onStartDateChange = ({ bsDate }: any) => {
     setStartDate(bsDate);
@@ -43,7 +30,7 @@ const Holidays = () => {
     setEndDate(bsDate);
   };
 
-  const columns: ColumnsType<DataType> = [
+  const columns: ColumnsType<IHoliday> = [
     {
       title: 'HOLIDAY NAME',
       dataIndex: 'holidayName',
@@ -80,7 +67,7 @@ const Holidays = () => {
   };
 
   useEffect(() => {
-    const holidayData: DataType[] = [];
+    const holidayData: IHoliday[] = [];
     holidays?.map((holiData: any) => {
       const tableData = {
         holidayName: holiData?.holidayName,
@@ -127,7 +114,7 @@ const Holidays = () => {
             </div>
           </div>
           {isAdminTemp && (
-            <button className='primary-btn' onClick={showModal}>
+            <button className="primary-btn" onClick={showModal}>
               <FontAwesomeIcon icon={faPlus} /> Add Holidays
             </button>
           )}
