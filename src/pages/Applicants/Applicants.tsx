@@ -126,9 +126,7 @@ const Applicants = () => {
   }, [dispatch, page]);
 
   const { isLoading, data: applicants } = useGetApplicantsQuery({ page });
-  // const { data: applicant } = useGetSingleApplicantQuery({ applicantId });
   const { applicant } = useAppSelector((state) => state.singleApplicantSlice);
-  console.log({ applicant, applicants });
   useEffect(() => {
     const applicantsData: DataType[] = [];
     applicants?.applicants?.map((item: any) => {
