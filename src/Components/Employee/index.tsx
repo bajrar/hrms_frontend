@@ -149,6 +149,7 @@ export const Employee = () => {
               gap: 20,
               justifyContent: 'center',
               alignItems: 'center',
+              cursor: 'pointer',
             }}
           >
             <FontAwesomeIcon
