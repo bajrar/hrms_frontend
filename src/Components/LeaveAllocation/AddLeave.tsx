@@ -78,8 +78,18 @@ const AddLeave = () => {
       key: 'action',
       render: (record) => (
         <div className="d-flex action-btn-container">
-          <FontAwesomeIcon icon={faPen} color="#35639F" onClick={() => openUpdateModal(record)} />{' '}
-          <FontAwesomeIcon icon={faTrash} color="#35639F" onClick={() => openDeleteModal(record)} />
+          <FontAwesomeIcon
+            icon={faPen}
+            color="#35639F"
+            onClick={() => openUpdateModal(record)}
+            style={{ cursor: 'pointer' }}
+          />{' '}
+          <FontAwesomeIcon
+            icon={faTrash}
+            color="#35639F"
+            onClick={() => openDeleteModal(record)}
+            style={{ cursor: 'pointer' }}
+          />
         </div>
       ),
     },

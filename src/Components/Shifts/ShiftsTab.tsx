@@ -74,16 +74,18 @@ const ShiftsTab = () => {
       dataIndex: 'action',
       key: 'action',
       render: (record) => (
-        <div className='d-flex action-btn-container'>
+        <div className="d-flex action-btn-container">
           <FontAwesomeIcon
             icon={faPen}
-            color='#35639F'
+            color="#35639F"
             onClick={() => openUpdateModal(record)}
+            style={{ cursor: 'pointer' }}
           />
           <FontAwesomeIcon
             icon={faTrash}
-            color='#35639F'
+            color="#35639F"
             onClick={() => openDeleteModal(record)}
+            style={{ cursor: 'pointer' }}
           />
         </div>
       ),
@@ -93,7 +95,7 @@ const ShiftsTab = () => {
       dataIndex: 'view',
       key: 'view',
       render: (record) => (
-        <Link className='viewMoreBtn' to={`/shift/${record}`}>
+        <Link className="viewMoreBtn" to={`/shift/${record}`}>
           View
         </Link>
       ),
@@ -173,12 +175,12 @@ const ShiftsTab = () => {
 
   return (
     <div>
-      <div className='d-flex align-items-center justify-content-between'>
-        <form action=''>
+      <div className="d-flex align-items-center justify-content-between">
+        <form action="">
           <input
-            type='text'
-            placeholder='Search shifts'
-            className='search-field search-shift'
+            type="text"
+            placeholder="Search shifts"
+            className="search-field search-shift"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value.toLowerCase())}
           />
@@ -186,71 +188,50 @@ const ShiftsTab = () => {
         {userData?.role ? (
           userData.role
         ) : tokenData?.role === 'admin' ? (
-          <div className='d-flex align-items-center button-container '>
-            <button className='assign-shift-btn' onClick={showAssignShiftModal}>
+          <div className="d-flex align-items-center button-container ">
+            <button className="assign-shift-btn" onClick={showAssignShiftModal}>
               Assign shifts
             </button>
-            <button
-              className='primary-btn add-shift-btn'
-              onClick={showAddShiftModal}
-            >
+            <button className="primary-btn add-shift-btn" onClick={showAddShiftModal}>
               <FontAwesomeIcon icon={faPlus} />
               Add Shifts
             </button>
           </div>
         ) : null}
       </div>
-      <Table
-        columns={columns}
-        dataSource={shiftArray}
-        className='shifts-table'
-      />
+      <Table columns={columns} dataSource={shiftArray} className="shifts-table" />
       <ModalComponent
         openModal={isAddShiftModalOpen}
         handleOk={handleAddShiftOk}
         closeModal={setIsAddShiftModalOpen}
-        classNames='assign-shift-modal'
-        okText='Add'
+        classNames="assign-shift-modal"
+        okText="Add"
       >
-        <h3 className='modal-title'>ADD SHIFT</h3>
-        <AddShiftForm
-          isModalOpen={isAddShiftModalOpen}
-          setIsModalOpen={setIsAddShiftModalOpen}
-        />
+        <h3 className="modal-title">ADD SHIFT</h3>
+        <AddShiftForm isModalOpen={isAddShiftModalOpen} setIsModalOpen={setIsAddShiftModalOpen} />
       </ModalComponent>
       <ModalComponent
         openModal={isAssignShiftModalOpen}
         handleOk={handleAssignShiftOk}
         closeModal={setIsAssignShiftModalOpen}
-        classNames='assign-shift-modal'
-        okText='Assign'
+        classNames="assign-shift-modal"
+        okText="Assign"
       >
-        <h3 className='modal-title'>ASSIGN SHIFT</h3>
-        <AssignShiftForm
-          isModalOpen={isAssignShiftModalOpen}
-          setIsModalOpen={setIsAssignShiftModalOpen}
-        />
+        <h3 className="modal-title">ASSIGN SHIFT</h3>
+        <AssignShiftForm isModalOpen={isAssignShiftModalOpen} setIsModalOpen={setIsAssignShiftModalOpen} />
       </ModalComponent>
       <ModalComponent
         openModal={updateModalIsOpen}
         handleOk={handleAssignShiftOk}
         closeModal={setUpdateModalIsModal}
-        classNames='assign-shift-modal'
-        okText='Save'
+        classNames="assign-shift-modal"
+        okText="Save"
       >
-        <h3 className='modal-title'>UPDATE SHIFT</h3>
-        <AddShiftForm
-          setUpdateModalIsModal={setUpdateModalIsModal}
-          fromUpdate
-          shiftId={shiftId}
-        />
+        <h3 className="modal-title">UPDATE SHIFT</h3>
+        <AddShiftForm setUpdateModalIsModal={setUpdateModalIsModal} fromUpdate shiftId={shiftId} />
       </ModalComponent>
 
-      <DeleteModal
-        openModal={deleteModal}
-        setOpenModal={setDeleteModal}
-        deleteItem={deleteShift}
-      />
+      <DeleteModal openModal={deleteModal} setOpenModal={setDeleteModal} deleteItem={deleteShift} />
     </div>
   );
 };
