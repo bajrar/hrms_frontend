@@ -14,6 +14,7 @@ import { getDevices } from '../../redux/features/addedDeviceSlice';
 import { apis } from '../../Components/apis/constants/ApisService';
 import Layout from '../../Components/Layout';
 import Navbar from '../../Components/Ui/Navbar';
+import { useGetDevivceQuery } from '../../redux/api/device/deviceApiSlice';
 
 export interface DataType {
   deviceName?: string;
@@ -45,17 +46,9 @@ const DeviceManager = () => {
       dataIndex: 'action',
       key: 'action',
       render: (record) => (
-        <div className='d-flex action-btn-container'>
-          <FontAwesomeIcon
-            icon={faPen}
-            color='#35639F'
-            onClick={() => openUpdateModals(record)}
-          />
-          <FontAwesomeIcon
-            icon={faTrash}
-            color='#35639F'
-            onClick={() => deleteDevice(record)}
-          />
+        <div className="d-flex action-btn-container">
+          <FontAwesomeIcon icon={faPen} color="#35639F" onClick={() => openUpdateModals(record)} />
+          <FontAwesomeIcon icon={faTrash} color="#35639F" onClick={() => deleteDevice(record)} />
         </div>
       ),
     },
@@ -65,8 +58,9 @@ const DeviceManager = () => {
     dispatch(getDevices() as any);
   }, [dispatch]);
 
-  const { devices } = useAppSelector((state) => state.deviceSlice);
-
+  // const { devices } = useAppSelector((state) => state.deviceSlice);
+  const { data, isLoading } = useGetDevivceQuery('device');
+  const devices = data?.device;
   useEffect(() => {
     const deviceArray: DataType[] = [];
     devices?.map((deviceData: any) => {
@@ -99,70 +93,56 @@ const DeviceManager = () => {
   return (
     <Layout>
       <Navbar />
-      <div className='device-manager-page padding'>
+      <div className="device-manager-page padding">
         <hr />
         <BreadCrumbs
-          imagesrc='/images/attendance.svg'
-          location='Attendance / Shift Management'
-          location1='Device Manager'
+          imagesrc="/images/attendance.svg"
+          location="Attendance / Shift Management"
+          location1="Device Manager"
         />
         <hr />
-        <div className='device-manager-header d-flex align-items-center justify-content-between'>
-          <input type='text' className='search-field' placeholder='Search' />
-          <div className='button-container'>
-            <button
-              className='secondary-btn d-flex align-items-center'
-              onClick={() => setIsImportModalOpen(true)}
-            >
-              <div className='icon-container'>
-                <img src='/images/uploads.svg' alt='' />
+        <div className="device-manager-header d-flex align-items-center justify-content-between">
+          <input type="text" className="search-field" placeholder="Search" />
+          <div className="button-container">
+            <button className="secondary-btn d-flex align-items-center" onClick={() => setIsImportModalOpen(true)}>
+              <div className="icon-container">
+                <img src="/images/uploads.svg" alt="" />
               </div>{' '}
               Import Attendance
             </button>
-            <button
-              className='primary-btn'
-              onClick={() => setIsModalOpen(true)}
-            >
+            <button className="primary-btn" onClick={() => setIsModalOpen(true)}>
               <FontAwesomeIcon icon={faPlus} /> Add Device
             </button>
           </div>
         </div>
-        <Table
-          columns={columns}
-          className='table-container'
-          dataSource={deviceArray}
-        />
+        <Table columns={columns} className="table-container" dataSource={deviceArray} />
         <ModalComponent
           openModal={isModalOpen}
           // handleCancel={handleCancel}
-          classNames='add-device-modal'
+          classNames="add-device-modal"
           closeModal={setIsModalOpen}
         >
-          <h3 className='modal-title'>ADD DEVICE</h3>
+          <h3 className="modal-title">ADD DEVICE</h3>
           <AddDeviceForm setIsModalOpen={setIsModalOpen} />
         </ModalComponent>
         <ModalComponent
           openModal={isImportModalOpen}
           // handleCancel={handelImportCancel}
           closeModal={setIsImportModalOpen}
-          classNames=''
+          classNames=""
         >
-          <h3 className='modal-title'>IMPORT FILE</h3>
+          <h3 className="modal-title">IMPORT FILE</h3>
           <ImportAttendanceForm />
         </ModalComponent>
 
         <ModalComponent
           openModal={openUpdateModal}
           // handleCancel={handleCancel}
-          classNames='add-device-modal'
+          classNames="add-device-modal"
           closeModal={setOpenUpdateModal}
         >
-          <h3 className='modal-title'>Update DEVICE</h3>
-          <AddDeviceForm
-            setIsModalOpen={setOpenUpdateModal}
-            fromUpdate
-            deviceId={deviceId}
-          />
+          <h3 className="modal-title">Update DEVICE</h3>
+          <AddDeviceForm setIsModalOpen={setOpenUpdateModal} fromUpdate deviceId={deviceId} />
         </ModalComponent>
       </div>
     </Layout>

@@ -20,7 +20,6 @@ import EmpDetails from '../Employee/EmployeeDetails';
 import ManageProjects from '../Employee/ManageProjects/ManageProjects';
 import ViewManage from '../Employee/ManageProjects/ViewManage';
 import RequestLeave from '../Leave/RequestLeave';
-import { LoginPage } from '../LoginPage/login';
 import { PageNotFound } from '../PageNotFound/PageNotFound';
 import { AdminProtectedRoute } from './adminProtected';
 import { ProtectedOtpRoute } from './protectedOtp';

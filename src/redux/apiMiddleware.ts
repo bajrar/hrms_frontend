@@ -2,6 +2,7 @@ import { announceSliceApi } from "./api/announceSliceApi";
 import { applicantApiSlice } from "./api/applicantApiSlice";
 import { attendanceByDateApi } from "./api/attendanceByDateSlice";
 import { dashboardSliceApi } from "./api/dashboard/dashboardSliceApi";
+import { deviceApiSlice } from "./api/device/deviceApiSlice";
 import { employeeApi } from "./api/employeeApiSlice";
 import { employeeWorkhourSliceApi } from "./api/employeeWorkhour";
 import { eventSliceApi } from "./api/eventSliceApi";
@@ -30,4 +31,5 @@ export const apiMiddleware = [
     dashboardSliceApi.middleware,
     reportApiSlice.middleware,
     shiftApiSlice.middleware,
+    deviceApiSlice.middleware
   ]
