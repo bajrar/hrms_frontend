@@ -31,25 +31,21 @@ const Shift = () => {
       label: `Shifts Mapping`,
       children: <ShiftsMappingTab />,
     },
-  ].filter((item) =>
-    userData?.role
-      ? userData?.role
-      : tokenData.role === 'admin' || item.key === '1'
-  );
+  ].filter((item) => (userData?.role ? userData?.role : tokenData.role === 'admin' || item.key === '1'));
   return (
     <Layout>
       <Navbar />
-      <div className='padding'>
+      <div className="padding">
         <hr />
         <BreadCrumbs
-          classNames='padding'
-          imagesrc='/images/attendance.svg'
-          location='Attendance / Shift Management'
-          location1='Shift schedule'
-          location2='Shifts'
+          classNames="padding"
+          imagesrc="/images/attendance.svg"
+          location="Attendance / Shift Management"
+          location1="Shift schedule"
+          location2="Shifts"
         />
         <hr />
-        <Tabs defaultActiveKey='1' items={items} />
+        <Tabs defaultActiveKey="1" items={items} />
       </div>
     </Layout>
   );

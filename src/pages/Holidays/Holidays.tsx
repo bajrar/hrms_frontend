@@ -16,6 +16,7 @@ import Navbar from '../../Components/Ui/Navbar';
 import { useTokenData } from '../../hooks/userTokenData';
 import { useGetHolidayQuery } from '../../redux/api/holidays/holidayApiSlice';
 import { IHoliday } from '../../interface/Holiday/Holiday';
+import { holidayColumns } from './HolodayTable';
 const Holidays = () => {
   const [startDate, setStartDate] = useState<any>('');
   const [endDate, setEndDate] = useState<any>('');
@@ -29,35 +30,6 @@ const Holidays = () => {
   const onEndDateChange = ({ bsDate }: any) => {
     setEndDate(bsDate);
   };
-
-  const columns: ColumnsType<IHoliday> = [
-    {
-      title: 'HOLIDAY NAME',
-      dataIndex: 'holidayName',
-      key: 'holidayName',
-    },
-    {
-      title: 'DATE',
-      dataIndex: 'date',
-      key: 'date',
-    },
-    {
-      title: 'APPLICABLE TO',
-      dataIndex: 'applicableTo',
-      key: 'applicableTo',
-    },
-    {
-      title: 'NOTES',
-      dataIndex: 'notes',
-      key: 'notes',
-    },
-    {
-      title: 'STATUS',
-      dataIndex: 'status',
-      key: 'status',
-    },
-  ];
-
   const { data: holidays, isLoading } = useGetHolidayQuery({
     startDate: startDate === endDate ? '' : startDate,
     endData: endDate === startDate ? '' : endDate,
@@ -119,7 +91,7 @@ const Holidays = () => {
             </button>
           )}
         </div>
-        <Table columns={columns} className="holidays-table" dataSource={holidaysArray} loading={isLoading} />
+        <Table columns={holidayColumns} className="holidays-table" dataSource={holidaysArray} loading={isLoading} />
         <ModalComponent openModal={isModalOpen} classNames="holidays-modal" closeModal={setIsModalOpen}>
           <h3 className="modal-title">ADD HOLIDAYS</h3>
           <AddHolidaysForm setIsModalOpen={setIsModalOpen} />
