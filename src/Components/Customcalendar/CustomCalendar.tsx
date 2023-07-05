@@ -10,6 +10,7 @@ import { daysOfWeek, monthNames, NepaliMonthDays, nepaliMonthDays } from '../../
 
 import './Customcalendar.css';
 import { todayInBs } from './GetTodaysDate';
+import { useGetSingleAttendanceQuery } from '../../redux/features/attendanceUpdateSlice';
 
 function Calendar({ month, year }: { month: number; year: IYear }) {
   let yearNumber: keyof NepaliMonthDays = year.year.toString();
@@ -97,7 +98,12 @@ function Calendar({ month, year }: { month: number; year: IYear }) {
     setWeeks(weeksArr);
   }, [month, year, startindDayData]);
 
-  const { employee } = useAppSelector((state: any) => state.SingleAttendanceSlice);
+  // const { employee } = useAppSelector((state: any) => state.SingleAttendanceSlice);
+  const { data: employee, isLoading } = useGetSingleAttendanceQuery({
+    userSn: employeeId,
+    startDate: startOfDate,
+    endDate: endOfDate,
+  });
 
   const checkStatus = (morningStatus: string, eveningStatus: string) => {
     morningStatus === 'early-in' && eveningStatus === 'late-out' ? setEarlyIn(true) : setEarlyIn(false);
