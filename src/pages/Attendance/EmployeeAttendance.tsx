@@ -7,7 +7,7 @@ import BreadCrumbs from '../../Components/Ui/BreadCrumbs/BreadCrumbs';
 import SingleEmployee, {
   formatTime
 } from '../../Components/Ui/Tables/SingleEmployee';
-import { IEmployeeStats, EmployeeStats } from './Attendance';
+import { EmployeeStats } from './Attendance';
 import { useAppSelector } from '../../hooks/useTypedSelector';
 import { getEmployeeData } from '../../redux/features/SingleAttendanceSlice';
 import CustomCalendar from '../../Components/Customcalendar/CustomCalendar';
@@ -22,6 +22,7 @@ import { RootState } from '../../store';
 import { Modal } from 'antd';
 import ModalComponent from '../../Components/Ui/Modal/Modal';
 import AttendanceRequest from './AttendanceRequest';
+import { IEmployeeStats } from '../../interface/attendance/attendance';
 
 export const AttendanceReport = [
   {

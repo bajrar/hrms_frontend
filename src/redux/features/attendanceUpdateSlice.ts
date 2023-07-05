@@ -7,8 +7,8 @@ export const attendanceRequestSlice = createApi({
   }),
   tagTypes: ['patch'],
   endpoints: (builder) => ({
-    getPosts: builder.query({
-      query: () => '/attendance/updateAttendance',
+    getAttendanceStatus: builder.query({
+      query: () => '/attendanceStatus',
       providesTags: ['patch'],
     }),
     requestAttendance: builder.mutation({
@@ -24,4 +24,4 @@ export const attendanceRequestSlice = createApi({
     }),
   }),
 });
-export const { useGetPostsQuery, useRequestAttendanceMutation } = attendanceRequestSlice;
+export const { useGetAttendanceStatusQuery, useRequestAttendanceMutation } = attendanceRequestSlice;

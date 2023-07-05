@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authSlice from './features/authSlice';
 import attendanceSlice from './redux/features/attendanceSlice';
-import attendanceStatusSlice from './redux/features/attendanceStatusSlice';
+// import attendanceStatusSlice from './redux/features/attendanceStatusSlice';
 import shiftSlice from './redux/features/shiftSlice';
 import singleShiftSlice from './redux/features/singleShiftSlice';
 import SingleAttendanceSlice from './redux/features/SingleAttendanceSlice';
@@ -42,7 +42,7 @@ export const store = configureStore({
     authSlice: authSlice,
     attendanceSlice: attendanceSlice,
     SingleAttendanceSlice: SingleAttendanceSlice,
-    attendanceStatusSlice: attendanceStatusSlice,
+    // attendanceStatusSlice: attendanceStatusSlice,
     shiftSlice: shiftSlice,
     singleShiftSlice: singleShiftSlice,
     deviceSlice: addedDeviceSlice,

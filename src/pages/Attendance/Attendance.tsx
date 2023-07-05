@@ -6,22 +6,15 @@ import '../../Components/Employee/add-employee-form.css';
 import AttendaceReport from '../../Components/Ui/Tables/AttendaceReport';
 import '@sbmdkl/nepali-datepicker-reactjs/dist/index.css';
 import { WorkingCondition } from '../../utils/Constants';
-import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
-import { getAttedanceStatus } from '../../redux/features/attendanceStatusSlice';
 import Selects from '../../Components/Ui/Selects/Selects';
 import Layout from '../../Components/Layout';
 import Navbar from '../../Components/Ui/Navbar';
-import { today, todayInBsFormat } from '../../Components/Customcalendar/GetTodaysDate';
+import { todayInBsFormat } from '../../Components/Customcalendar/GetTodaysDate';
 import { CalendarOutlined } from '@ant-design/icons';
 import NepaliDate from 'nepali-date-converter';
+import { IEmployeeStats } from '../../interface/attendance/attendance';
+import { useGetAttendanceStatusQuery } from '../../redux/features/attendanceUpdateSlice';
 
-export interface IEmployeeStats {
-  status: string;
-  backgroundColor?: string;
-  numberOfEmployee?: any;
-  color?: string;
-  classNames?: string;
-}
 export const EmployeeStats = ({ backgroundColor, color, status, numberOfEmployee, classNames }: IEmployeeStats) => {
   return (
     <div
@@ -41,8 +34,6 @@ const Attendance = () => {
   const [searchText, setSearchText] = useState('');
   const [status, setStatus] = useState('');
 
-  const dispatch = useAppDispatch();
-
   const onSelect = (e: any) => {
     setStatus(e);
   };
@@ -57,30 +48,25 @@ const Attendance = () => {
 
   const disableDate = tommorrowDate?.split('/').join('-');
 
-  useEffect(() => {
-    dispatch(getAttedanceStatus() as any);
-  }, [dispatch]);
-
-  const { attendanceStatus } = useAppSelector((state) => state.attendanceStatusSlice);
-
+  const { data: attendanceStatus } = useGetAttendanceStatusQuery('attendanceStatus');
   const AttendanceStatusArray = [
     {
       backgroundColor: 'rgba(0, 185, 241, 0.05)',
       color: '#023C87',
       status: 'Total Employee',
-      numberOfEmployee: attendanceStatus.totalEmployee,
+      numberOfEmployee: attendanceStatus?.totalEmployee,
     },
     {
       backgroundColor: 'rgba(0, 185, 241, 0.05)',
       color: '#00B9F1',
       status: 'Present',
-      numberOfEmployee: attendanceStatus.presentUser,
+      numberOfEmployee: attendanceStatus?.presentUser,
     },
     {
       backgroundColor: 'rgba(187, 33, 36, 0.05)',
       color: '#BB2124',
       status: 'Absent',
-      numberOfEmployee: attendanceStatus.absentUser,
+      numberOfEmployee: attendanceStatus?.absentUser,
     },
     {
       backgroundColor: 'rgba(187, 33, 36, 0.05)',
@@ -88,12 +74,6 @@ const Attendance = () => {
       status: 'On Leave',
       numberOfEmployee: attendanceStatus?.absentUser,
     },
-    // {
-    //   backgroundColor: '#F2F5F9',
-    //   color: ' #023C87',
-    //   status: 'Office Presence',
-    //   numberOfEmployee: '4',
-    // },
     {
       backgroundColor: 'rgba(34, 187, 51, 0.05)',
       color: '#22BB33',
