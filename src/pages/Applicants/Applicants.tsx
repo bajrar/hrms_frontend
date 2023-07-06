@@ -115,9 +115,9 @@ const Applicants = () => {
         <div className="d-flex action-btn-container">
           <FontAwesomeIcon
             icon={faPen}
-            style={{ cursor: 'pointer' }}
             color="#35639F"
             onClick={() => openUdateModal(record)}
+            style={{ cursor: 'pointer' }}
           />
           <span className="viewMoreBtn" onClick={() => viewSingleApplicant(record)}>
             View

@@ -47,8 +47,18 @@ const DeviceManager = () => {
       key: 'action',
       render: (record) => (
         <div className="d-flex action-btn-container">
-          <FontAwesomeIcon icon={faPen} color="#35639F" onClick={() => openUpdateModals(record)} />
-          <FontAwesomeIcon icon={faTrash} color="#35639F" onClick={() => deleteDevice(record)} />
+          <FontAwesomeIcon
+            icon={faPen}
+            color="#35639F"
+            onClick={() => openUpdateModals(record)}
+            style={{ cursor: 'pointer' }}
+          />
+          <FontAwesomeIcon
+            icon={faTrash}
+            color="#35639F"
+            onClick={() => deleteDevice(record)}
+            style={{ cursor: 'pointer' }}
+          />
         </div>
       ),
     },

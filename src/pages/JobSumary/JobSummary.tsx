@@ -126,8 +126,18 @@ const JobSummary = () => {
       key: 'action',
       render: (record) => (
         <div className="d-flex action-btn-container">
-          <FontAwesomeIcon icon={faPen} color="#35639F" onClick={() => updateJobModal(record)} />
-          <FontAwesomeIcon icon={faTrash} color="#35639F" onClick={() => openDeleteJobs(record)} />
+          <FontAwesomeIcon
+            icon={faPen}
+            color="#35639F"
+            onClick={() => updateJobModal(record)}
+            style={{ cursor: 'pointer' }}
+          />
+          <FontAwesomeIcon
+            icon={faTrash}
+            color="#35639F"
+            onClick={() => openDeleteJobs(record)}
+            style={{ cursor: 'pointer' }}
+          />
           <span className="viewMoreBtn" onClick={() => viewSingleJob(record)}>
             View
           </span>
@@ -145,7 +155,7 @@ const JobSummary = () => {
           jobsStatus: job?.status,
           action: job?._id,
           view: job?._id,
-          jobView:job?.jobView
+          jobView: job?.jobView,
         };
         shifts.push(tableData);
       }
