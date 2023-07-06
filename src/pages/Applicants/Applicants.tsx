@@ -63,9 +63,9 @@ const Applicants = () => {
   ];
 
   const viewSingleApplicant = (applicantId: any) => {
-    console.log({ applicantId });
     dispatch(getSingleApplicant({ applicantId }) as any);
     setApplicantModal(true);
+    setApplicantId(applicantId);
   };
   const onSelect = (e: any) => {
     setFilterByType(e);
@@ -133,7 +133,7 @@ const Applicants = () => {
 
   const { isLoading, data: applicants } = useGetApplicantsQuery({ page });
   // const { applicant } = useAppSelector((state) => state.singleApplicantSlice);
-  const { data: applicant } = useGetSingleApplicantQuery('singleApplicant');
+  const { data: applicant } = useGetSingleApplicantQuery({ applicantId });
   useEffect(() => {
     const applicantsData: DataType[] = [];
     applicants?.applicants?.map((item: any) => {
@@ -157,7 +157,7 @@ const Applicants = () => {
     setUpdateStatus(true);
     setApplicantId(applicantIds);
   };
-
+  console.log({ applicantId }, 'why this i sempty');
   const handleUpdateStatus = async (values: any) => {
     try {
       const res = await apis.updateApplicantStatus(values, applicantId);
@@ -207,7 +207,6 @@ const Applicants = () => {
   const handlePaginationChange = (page: any) => {
     setPage(page);
   };
-  console.log(filterApplicantArary, '<--- Status4u');
   return (
     <Layout>
       <Navbar />
