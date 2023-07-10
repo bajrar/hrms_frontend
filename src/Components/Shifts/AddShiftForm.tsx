@@ -23,6 +23,7 @@ export interface IForm {
   fromUpdate?: boolean;
   setUpdateModalIsModal?: any;
   shiftId?: string;
+  setUpdateStatus?: boolean;
 }
 
 const AddShiftForm = ({ setIsModalOpen, fromUpdate, setUpdateModalIsModal, shiftId }: IForm) => {
