@@ -8,8 +8,7 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 * {
   padding: 0;
@@ -24,6 +23,11 @@ code {
   --primary: #023c87;
   --workfh: #22bb33;
   --onbreak: #f0ad4e;
+  --bg-black: #000;
+  --bg-white: #fff;
+  --text-color-100: #000;
+  --border-light: #d8d8d8;
+  --bg-gray-400: #f3f3f3;
 }
 .primary-btn {
   background-color: var(--primary);
