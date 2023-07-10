@@ -85,18 +85,6 @@ const SideBarTab = () => {
           </div>,
           '1',
         ),
-        getItem(
-          <div className="sidenav-link" onClick={() => closeSidebar('office')}>
-            Office
-          </div>,
-          '1',
-        ),
-        getItem(
-          <div className="sidenav-link" onClick={() => closeSidebar('performance')}>
-            Performnace
-          </div>,
-          '1',
-        ),
       ],
     ),
 
