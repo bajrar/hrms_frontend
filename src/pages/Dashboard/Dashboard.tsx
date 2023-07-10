@@ -14,12 +14,9 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className='dashboard-page'>
-      <div className='dash-container'>
-        <Layout>
-          <Navbar />
-          <SubMenu />
-        </Layout>
+    <div className="dashboard-page">
+      <div className="dash-container">
+        <SubMenu />
       </div>
     </div>
   );

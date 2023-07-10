@@ -101,61 +101,58 @@ const DeviceManager = () => {
   };
 
   return (
-    <Layout>
-      <Navbar />
-      <div className="device-manager-page padding">
-        <hr />
-        <BreadCrumbs
-          imagesrc="/images/attendance.svg"
-          location="Attendance / Shift Management"
-          location1="Device Manager"
-        />
-        <hr />
-        <div className="device-manager-header d-flex align-items-center justify-content-between">
-          <input type="text" className="search-field" placeholder="Search" />
-          <div className="button-container">
-            <button className="secondary-btn d-flex align-items-center" onClick={() => setIsImportModalOpen(true)}>
-              <div className="icon-container">
-                <img src="/images/uploads.svg" alt="" />
-              </div>{' '}
-              Import Attendance
-            </button>
-            <button className="primary-btn" onClick={() => setIsModalOpen(true)}>
-              <FontAwesomeIcon icon={faPlus} /> Add Device
-            </button>
-          </div>
+    <div className="device-manager-page padding">
+      <hr />
+      <BreadCrumbs
+        imagesrc="/images/attendance.svg"
+        location="Attendance / Shift Management"
+        location1="Device Manager"
+      />
+      <hr />
+      <div className="device-manager-header d-flex align-items-center justify-content-between">
+        <input type="text" className="search-field" placeholder="Search" />
+        <div className="button-container">
+          <button className="secondary-btn d-flex align-items-center" onClick={() => setIsImportModalOpen(true)}>
+            <div className="icon-container">
+              <img src="/images/uploads.svg" alt="" />
+            </div>{' '}
+            Import Attendance
+          </button>
+          <button className="primary-btn" onClick={() => setIsModalOpen(true)}>
+            <FontAwesomeIcon icon={faPlus} /> Add Device
+          </button>
         </div>
-        <Table columns={columns} className="table-container" dataSource={deviceArray} />
-        <ModalComponent
-          openModal={isModalOpen}
-          // handleCancel={handleCancel}
-          classNames="add-device-modal"
-          closeModal={setIsModalOpen}
-        >
-          <h3 className="modal-title">ADD DEVICE</h3>
-          <AddDeviceForm setIsModalOpen={setIsModalOpen} />
-        </ModalComponent>
-        <ModalComponent
-          openModal={isImportModalOpen}
-          // handleCancel={handelImportCancel}
-          closeModal={setIsImportModalOpen}
-          classNames=""
-        >
-          <h3 className="modal-title">IMPORT FILE</h3>
-          <ImportAttendanceForm />
-        </ModalComponent>
-
-        <ModalComponent
-          openModal={openUpdateModal}
-          // handleCancel={handleCancel}
-          classNames="add-device-modal"
-          closeModal={setOpenUpdateModal}
-        >
-          <h3 className="modal-title">Update DEVICE</h3>
-          <AddDeviceForm setIsModalOpen={setOpenUpdateModal} fromUpdate deviceId={deviceId} />
-        </ModalComponent>
       </div>
-    </Layout>
+      <Table columns={columns} className="table-container" dataSource={deviceArray} />
+      <ModalComponent
+        openModal={isModalOpen}
+        // handleCancel={handleCancel}
+        classNames="add-device-modal"
+        closeModal={setIsModalOpen}
+      >
+        <h3 className="modal-title">ADD DEVICE</h3>
+        <AddDeviceForm setIsModalOpen={setIsModalOpen} />
+      </ModalComponent>
+      <ModalComponent
+        openModal={isImportModalOpen}
+        // handleCancel={handelImportCancel}
+        closeModal={setIsImportModalOpen}
+        classNames=""
+      >
+        <h3 className="modal-title">IMPORT FILE</h3>
+        <ImportAttendanceForm />
+      </ModalComponent>
+
+      <ModalComponent
+        openModal={openUpdateModal}
+        // handleCancel={handleCancel}
+        classNames="add-device-modal"
+        closeModal={setOpenUpdateModal}
+      >
+        <h3 className="modal-title">Update DEVICE</h3>
+        <AddDeviceForm setIsModalOpen={setOpenUpdateModal} fromUpdate deviceId={deviceId} />
+      </ModalComponent>
+    </div>
   );
 };
 

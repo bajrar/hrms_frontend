@@ -1,9 +1,11 @@
-import { useAppDispatch } from "../../hooks/useTypedSelector";
-import { setClose, setOpen } from "../../redux/features/sidebarSlice";
-import SideBarTab from "./SidebarTab";
-import "./layout.css";
+import { Outlet } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks/useTypedSelector';
+import { setClose, setOpen } from '../../redux/features/sidebarSlice';
+import SideBarTab from './SidebarTab';
+import './layout.css';
+import Navbar from '../Ui/Navbar';
 
-const Index = ({ children }: any) => {
+const Index = () => {
   const dispatch = useAppDispatch();
   return (
     <div className="layout">
@@ -14,7 +16,8 @@ const Index = ({ children }: any) => {
           dispatch(setOpen());
         }}
       >
-        {children}
+        <Navbar />
+        <Outlet />
       </main>
     </div>
   );

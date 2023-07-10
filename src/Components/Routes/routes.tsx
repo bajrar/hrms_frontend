@@ -25,6 +25,7 @@ import { AdminProtectedRoute } from './adminProtected';
 import { ProtectedOtpRoute } from './protectedOtp';
 import { OtpSection } from '../LoginPage/OtpSection';
 import { ChangePassword } from '../LoginPage/ChangePassword';
+import Index from '../Layout';
 
 type MainRoutesProps = {};
 
@@ -33,32 +34,32 @@ export const MainRoutes = ({}: MainRoutesProps) => {
     <React.Fragment>
       <Routes>
         {/* <Route element={<ProtectedRoute />}> */}
+        <Route element={<Index />}>
+          <Route path="/" element={<Dashboard />} />
+          {/* <Route path="/" element={<LoginPage />} /> */}
+          <Route path="/holidays" element={<Holidays />} />
+          <Route path="/leave" element={<LeaveAllocation />} />
+          <Route path="/request-leave" element={<RequestLeave />} />
+          <Route path="/attendance/:employeeId" element={<EmployeeAttendance />} />
+          <Route path="/shift" element={<Shift />} />
+          <Route path="/profile" element={<Profile />} />
 
-        <Route path="*" element={<PageNotFound />} />
-        <Route path="/" element={<Dashboard />} />
-        {/* <Route path="/" element={<LoginPage />} /> */}
-        <Route path="/holidays" element={<Holidays />} />
-        <Route path="/leave" element={<LeaveAllocation />} />
-        <Route path="/request-leave" element={<RequestLeave />} />
-        <Route path="/attendance/:employeeId" element={<EmployeeAttendance />} />
-        <Route path="/shift" element={<Shift />} />
-        <Route element={<AdminProtectedRoute />}>
-          <Route path="/shift/:shiftId" element={<ShiftDetails />} />
-          <Route path="/leave/:leaveId" element={<LeaveDetails />} />
-          <Route path="/attendance" element={<Attendance />} />
-          <Route path="/device-manager" element={<DeviceManager />} />
-          <Route path="/reports" element={<Reports />} />
-          <Route path="/employee" element={<Employee />} />
-          <Route path="/manageProjects" element={<ManageProjects />} />
-          <Route path="/employee/:empId" element={<EmpDetails />} />
-          <Route path="/manageProjects/:empId" element={<ViewManage />} />
-          <Route path="/job-summary" element={<JobSummary />} />
-          <Route path="/applicants" element={<Applicants />} />
-          <Route path="/employee" element={<Employee />} />
-          <Route path="/reports" element={<Reports />} />
-          <Route path="/onboarding" element={<Onboarding />} />
+          <Route element={<AdminProtectedRoute />}>
+            <Route path="/shift/:shiftId" element={<ShiftDetails />} />
+            <Route path="/leave/:leaveId" element={<LeaveDetails />} />
+            <Route path="/attendance" element={<Attendance />} />
+            <Route path="/device-manager" element={<DeviceManager />} />
+            <Route path="/reports" element={<Reports />} />
+            <Route path="/employee" element={<Employee />} />
+            <Route path="/manageProjects" element={<ManageProjects />} />
+            <Route path="/employee/:empId" element={<EmpDetails />} />
+            <Route path="/manageProjects/:empId" element={<ViewManage />} />
+            <Route path="/job-summary" element={<JobSummary />} />
+            <Route path="/applicants" element={<Applicants />} />
+            <Route path="/onboarding" element={<Onboarding />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Route>
         </Route>
-        <Route path="/profile" element={<Profile />} />
         {/* </Route> */}
         <Route element={<ProtectedOtpRoute />}>
           <Route path="/verifyOtp" element={<OtpSection />} />

@@ -56,48 +56,45 @@ const Holidays = () => {
   const disableDate = startDate?.split('/').join('-');
 
   return (
-    <Layout>
-      <Navbar />
-      <div className="holiday-page padding">
-        <hr />
-        <BreadCrumbs imagesrc="/images/leave.svg" location="Leave Management" location1="Holidays" />
-        <hr />
+    <div className="holiday-page padding">
+      <hr />
+      <BreadCrumbs imagesrc="/images/leave.svg" location="Leave Management" location1="Holidays" />
+      <hr />
 
-        <div className="d-flex attendance-filters-container justify-content-between">
-          <div className="d-flex gap-4">
-            <div className="calendar-wrapper">
-              <Calendar
-                onChange={onStartDateChange}
-                className="date-picker calender-container-picker"
-                dateFormat="YYYY/MM/DD"
-                language="en"
-              />
-              <CalendarOutlined className="calendar-icon" />
-            </div>
-            <div className="calendar-wrapper">
-              <Calendar
-                onChange={onEndDateChange}
-                className="date-picker calender-container-picker"
-                dateFormat="YYYY/MM/DD"
-                language="en"
-                minDate={disableDate}
-              />
-              <CalendarOutlined className="calendar-icon" />
-            </div>
+      <div className="d-flex attendance-filters-container justify-content-between">
+        <div className="d-flex gap-4">
+          <div className="calendar-wrapper">
+            <Calendar
+              onChange={onStartDateChange}
+              className="date-picker calender-container-picker"
+              dateFormat="YYYY/MM/DD"
+              language="en"
+            />
+            <CalendarOutlined className="calendar-icon" />
           </div>
-          {isAdminTemp && (
-            <button className="primary-btn" onClick={showModal}>
-              <FontAwesomeIcon icon={faPlus} /> Add Holidays
-            </button>
-          )}
+          <div className="calendar-wrapper">
+            <Calendar
+              onChange={onEndDateChange}
+              className="date-picker calender-container-picker"
+              dateFormat="YYYY/MM/DD"
+              language="en"
+              minDate={disableDate}
+            />
+            <CalendarOutlined className="calendar-icon" />
+          </div>
         </div>
-        <Table columns={holidayColumns} className="holidays-table" dataSource={holidaysArray} loading={isLoading} />
-        <ModalComponent openModal={isModalOpen} classNames="holidays-modal" closeModal={setIsModalOpen}>
-          <h3 className="modal-title">ADD HOLIDAYS</h3>
-          <AddHolidaysForm setIsModalOpen={setIsModalOpen} />
-        </ModalComponent>
+        {isAdminTemp && (
+          <button className="primary-btn" onClick={showModal}>
+            <FontAwesomeIcon icon={faPlus} /> Add Holidays
+          </button>
+        )}
       </div>
-    </Layout>
+      <Table columns={holidayColumns} className="holidays-table" dataSource={holidaysArray} loading={isLoading} />
+      <ModalComponent openModal={isModalOpen} classNames="holidays-modal" closeModal={setIsModalOpen}>
+        <h3 className="modal-title">ADD HOLIDAYS</h3>
+        <AddHolidaysForm setIsModalOpen={setIsModalOpen} />
+      </ModalComponent>
+    </div>
   );
 };
 

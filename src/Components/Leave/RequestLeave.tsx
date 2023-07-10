@@ -7,10 +7,10 @@ import Layout from '../../Components/Layout';
 import Navbar from '../../Components/Ui/Navbar';
 
 const RequestLeave = () => {
-    const userDetails = localStorage.getItem('userDetails')
-    const employeeDetails = JSON.parse(userDetails || '')
-    console.log("🚀 ~ file: RequestLeave.tsx:12 ~ RequestLeave ~ employeeDetails:", employeeDetails?.leave)
-    
+  const userDetails = localStorage.getItem('userDetails');
+  const employeeDetails = JSON.parse(userDetails || '');
+  console.log('🚀 ~ file: RequestLeave.tsx:12 ~ RequestLeave ~ employeeDetails:', employeeDetails?.leave);
+
   const items: TabsProps['items'] = [
     {
       key: '1',
@@ -19,20 +19,17 @@ const RequestLeave = () => {
     },
   ];
   return (
-    <Layout>
-      <Navbar />
-      <div className='leave-allocation padding'>
-        <hr />
-        <BreadCrumbs
-          imagesrc='/images/leave.svg'
-          location='Leave Management'
-          location1='Leave Allocation'
-          location2='Add Leave'
-        />
-        <hr />
-        <Tabs defaultActiveKey='1' items={items} />
-      </div>
-    </Layout>
+    <div className="leave-allocation padding">
+      <hr />
+      <BreadCrumbs
+        imagesrc="/images/leave.svg"
+        location="Leave Management"
+        location1="Leave Allocation"
+        location2="Add Leave"
+      />
+      <hr />
+      <Tabs defaultActiveKey="1" items={items} />
+    </div>
   );
 };
 

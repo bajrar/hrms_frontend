@@ -125,8 +125,7 @@ const Onboarding = () => {
   };
 
   return (
-    <Layout>
-      <Navbar />
+    <>
       <ToastContainer />
       <div className="holiday-page padding">
         <hr />
@@ -161,7 +160,7 @@ const Onboarding = () => {
 
         <DeleteModal openModal={deleteModal} setOpenModal={setDeleteModal} deleteItem={deleteOnboarding} />
       </div>
-    </Layout>
+    </>
   );
 };
 
