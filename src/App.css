@@ -13,11 +13,8 @@
   line-height: 33px;
 }
 body {
-  ::-webkit-scrollbar {
-    width: 0; /* Remove scrollbar space */
-    background: transparent;     /* Optional: just make scrollbar invisible */
-    /* background: var(--linear-gradient, linear-gradient(270deg, #00B9F1 0%, #023C87 100%)); */
-  }
+overflow-x: hidden;
+  
 }
 /* 
 *{
