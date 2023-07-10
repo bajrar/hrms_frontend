@@ -177,6 +177,42 @@ const SideBarTab = () => {
           : null,
       ],
     ),
+    getItem(
+      'Company Details',
+      'sub5',
+      <div className="icons-container" onClick={() => openSidebar()}>
+        <img src="/images/office.svg" alt="company" />
+      </div>,
+      [
+        getItem(
+          <div className="sidenav-link" onClick={() => closeSidebar('perks')}>
+            Perks
+          </div>,
+          '12',
+        ),
+        getItem(
+          <div className="sidenav-link" onClick={() => closeSidebar('handbook')}>
+            Handbook and policy
+          </div>,
+          '13',
+        ),
+      ],
+    ),
+    getItem(
+      'Performance Manangement',
+      'sub6',
+      <div className="icons-container" onClick={() => openSidebar()}>
+        <img src="/images/performance.svg" alt="company" />
+      </div>,
+      [
+        getItem(
+          <div className="sidenav-link" onClick={() => closeSidebar('manage-review')}>
+            Manage Review
+          </div>,
+          '15',
+        ),
+      ],
+    ),
   ];
   const itemss: MenuProps['items'] = [
     getItem(
