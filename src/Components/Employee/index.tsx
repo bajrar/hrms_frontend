@@ -238,52 +238,46 @@ export const Employee = () => {
   console.log({ filterData });
   return (
     <>
-      <Layout>
-        <Navbar />
-        <div style={{ margin: 40 }}>
-          <BreadCrumbs imagesrc="/images/attendance.svg" location="Employee Management" location1="View Employee" />
-          <hr />
-          <div
-            className="attendance-filters-bottom d-flex "
-            style={{ display: 'flex', justifyContent: 'space-between' }}
-          >
-            <input
-              type="text"
-              placeholder="Search names"
-              className="search-field"
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value.toLowerCase())}
+      <div style={{ margin: 40 }}>
+        <BreadCrumbs imagesrc="/images/attendance.svg" location="Employee Management" location1="View Employee" />
+        <hr />
+        <div className="attendance-filters-bottom d-flex " style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <input
+            type="text"
+            placeholder="Search names"
+            className="search-field"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value.toLowerCase())}
+          />
+          <div className="div" style={{ display: 'flex', gap: 10 }}>
+            <Selects
+              defaultValue="allStatus"
+              onSelect={onSelect}
+              value={status}
+              options={WorkingCondition}
+              placeHolder="Search"
             />
-            <div className="div" style={{ display: 'flex', gap: 10 }}>
-              <Selects
-                defaultValue="allStatus"
-                onSelect={onSelect}
-                value={status}
-                options={WorkingCondition}
-                placeHolder="Search"
-              />
 
-              <button className="primary-btn" onClick={() => setIsModalOpen(true)}>
-                <FontAwesomeIcon icon={faPlus} /> Add Employee
-              </button>
-            </div>
+            <button className="primary-btn" onClick={() => setIsModalOpen(true)}>
+              <FontAwesomeIcon icon={faPlus} /> Add Employee
+            </button>
           </div>
         </div>
+      </div>
 
-        <div className="attendace-page">
-          <div className="row table-container">
-            <Table
-              rowClassName={(record) =>
-                record.status === 'resigned' ? 'absent-class' : record.status === 'pending' ? 'holiday-class' : ''
-              }
-              columns={columns}
-              dataSource={filterData}
-              loading={loading}
-            />
-          </div>
+      <div className="attendace-page">
+        <div className="row table-container">
+          <Table
+            rowClassName={(record) =>
+              record.status === 'resigned' ? 'absent-class' : record.status === 'pending' ? 'holiday-class' : ''
+            }
+            columns={columns}
+            dataSource={filterData}
+            loading={loading}
+          />
         </div>
-        {/* <EmployeeForm/> */}
-      </Layout>
+      </div>
+      {/* <EmployeeForm/> */}
 
       <ModalComponent
         openModal={isModalOpen}

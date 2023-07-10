@@ -96,64 +96,61 @@ const EmpDetails = () => {
       {isLoading ? (
         <Spinner />
       ) : (
-        <Layout>
-          <Navbar />
-          <div style={{ margin: 40 }}>
-            <BreadCrumbs
-              imagesrc="/images/attendance.svg"
-              location="Employee Management"
-              location1="employee"
-              location2={data?.employee?.employeeName}
-            />
-            <hr />
-            <div className="employee-intro">
-              <h4>
-                {data?.employee?.employeeName}{' '}
-                <span style={{ padding: '0 0.75rem' }}>
-                  <FontAwesomeIcon
-                    icon={faPen}
-                    color="#35639F"
-                    size="xs"
-                    onClick={() => {
-                      /* open modal */
-                      setActiveEmployee(data?.employee);
-                    }}
-                  />
-                </span>
-              </h4>
-              <Button
-                className="btn"
-                type="primary"
-                onClick={() => navigate(`/attendance/${data?.employee?.employeeNumber}`)}
-              >
-                Go to attendance
-                <FontAwesomeIcon icon={faArrowRight} />
-              </Button>
-            </div>
-            <div className="employee-details-container">
-              <div className="employee-details">
-                {employeeData?.primary.map((item: any) => (
-                  <div className="employee-details__meta">
-                    <h6 className="employee-details__meta-title">{item.key.toUpperCase()}</h6>
-                    <p className="employee-details__meta-content">{item.value}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="employee-details-container">
-              <h4>IN CASE OF EMERGENCY</h4>
-              <div className="employee-details">
-                {employeeData?.secondary.map((item: any) => (
-                  <div className="employee-details__meta">
-                    <h6 className="employee-details__meta-title">{item.key.toUpperCase()}</h6>
-                    <p className="employee-details__meta-content">{item.value}</p>
-                  </div>
-                ))}
-              </div>
+        <div style={{ margin: 40 }}>
+          <BreadCrumbs
+            imagesrc="/images/attendance.svg"
+            location="Employee Management"
+            location1="employee"
+            location2={data?.employee?.employeeName}
+          />
+          <hr />
+          <div className="employee-intro">
+            <h4>
+              {data?.employee?.employeeName}{' '}
+              <span style={{ padding: '0 0.75rem' }}>
+                <FontAwesomeIcon
+                  icon={faPen}
+                  color="#35639F"
+                  size="xs"
+                  onClick={() => {
+                    /* open modal */
+                    setActiveEmployee(data?.employee);
+                  }}
+                />
+              </span>
+            </h4>
+            <Button
+              className="btn"
+              type="primary"
+              onClick={() => navigate(`/attendance/${data?.employee?.employeeNumber}`)}
+            >
+              Go to attendance
+              <FontAwesomeIcon icon={faArrowRight} />
+            </Button>
+          </div>
+          <div className="employee-details-container">
+            <div className="employee-details">
+              {employeeData?.primary.map((item: any) => (
+                <div className="employee-details__meta">
+                  <h6 className="employee-details__meta-title">{item.key.toUpperCase()}</h6>
+                  <p className="employee-details__meta-content">{item.value}</p>
+                </div>
+              ))}
             </div>
           </div>
-        </Layout>
+
+          <div className="employee-details-container">
+            <h4>IN CASE OF EMERGENCY</h4>
+            <div className="employee-details">
+              {employeeData?.secondary.map((item: any) => (
+                <div className="employee-details__meta">
+                  <h6 className="employee-details__meta-title">{item.key.toUpperCase()}</h6>
+                  <p className="employee-details__meta-content">{item.value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       )}
 
       {/* MODAL CMP */}

@@ -6,14 +6,11 @@ import './profile.css';
 
 const Profile = () => {
   return (
-    <div className='profile-page'>
-      <div className='profile-container'>
-        <Layout>
-          <Navbar />
-          <div className='profile-container__info'>
-            <ProfileInfo />
-          </div>
-        </Layout>
+    <div className="profile-page">
+      <div className="profile-container">
+        <div className="profile-container__info">
+          <ProfileInfo />
+        </div>
       </div>
     </div>
   );

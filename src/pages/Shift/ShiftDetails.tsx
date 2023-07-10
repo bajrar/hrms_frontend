@@ -18,31 +18,28 @@ const ShiftDetails = () => {
       dispatch(
         getSingleShift({
           shiftId,
-        }) as any
+        }) as any,
       );
     }
   }, [dispatch, shiftId]);
 
   return (
-    <Layout>
-      <Navbar />
-      <div className='padding'>
-        <hr />
-        <BreadCrumbs
-          imagesrc='/images/employee.svg'
-          location='Attendance /Shift Management'
-          location1='Shift Schedule'
-          location2='Shift'
-          location3='Assign Shifts'
-        />
-        <hr />
-        <Selects placeHolder='Shift name' />
-        <div className='d-flex justify-content-between align-items-end'>
-          <ShiftDetailsTable />
-        </div>
-        <EmployeeShiftTable />
+    <div className="padding">
+      <hr />
+      <BreadCrumbs
+        imagesrc="/images/employee.svg"
+        location="Attendance /Shift Management"
+        location1="Shift Schedule"
+        location2="Shift"
+        location3="Assign Shifts"
+      />
+      <hr />
+      <Selects placeHolder="Shift name" />
+      <div className="d-flex justify-content-between align-items-end">
+        <ShiftDetailsTable />
       </div>
-    </Layout>
+      <EmployeeShiftTable />
+    </div>
   );
 };
 

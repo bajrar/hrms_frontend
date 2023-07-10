@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { LoginPage } from './Components/LoginPage/login';
 import { MainRoutes } from './Components/Routes/routes';
@@ -30,6 +30,7 @@ function App() {
               <Route path="/ChangePassword" element={<ChangePassword />} />
             </Route>
             <Route path="/forgotPassword" element={<ForgetPassword />} />
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </>
       )}

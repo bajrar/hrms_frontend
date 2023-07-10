@@ -24,22 +24,15 @@ const Reports = () => {
   ];
 
   return (
-    <Layout>
-      <Navbar />
-      <div className='attendace-page'>
-        <BreadCrumbs
-          imagesrc='/images/attendance.svg'
-          location='Attendance / Shift Management'
-          location1='Report'
-        />
-        <hr />
+    <div className="attendace-page">
+      <BreadCrumbs imagesrc="/images/attendance.svg" location="Attendance / Shift Management" location1="Report" />
+      <hr />
 
-        <div className='row report-table-container'>
-          {/* <AttendaceReport /> */}
-          <Tabs defaultActiveKey='1' items={items} />
-        </div>
+      <div className="row report-table-container">
+        {/* <AttendaceReport /> */}
+        <Tabs defaultActiveKey="1" items={items} />
       </div>
-    </Layout>
+    </div>
   );
 };
 

@@ -26,8 +26,10 @@ const SideBarTab = () => {
   const authData = useAppSelector((state: RootState) => state.userSlice.value);
   console.log({ userSn });
   const navigate = useNavigate();
-  const userAccess = ['Vacancy Management', 'Employee Management', 'v'];
+
+  const userAccess = ['Vacancy Management', 'Employee Management', 'v', 'Performance Manangement'];
   function getItem(label?: any, key?: React.Key, icon?: React.ReactNode, children?: MenuItem[], type?: 'group'): any {
+    /* IF NOT ADMIN, CHECK USER ACCESS ON MENU ITEMS */
     if (isAdmin || !userAccess.includes(label))
       return {
         key,
@@ -59,6 +61,7 @@ const SideBarTab = () => {
       navigate(`/${routeTo}`);
     }
   };
+
   const items: MenuProps['items'] = [
     getItem(
       'Employee Management',
@@ -177,7 +180,44 @@ const SideBarTab = () => {
           : null,
       ],
     ),
+    getItem(
+      'Company Details',
+      'sub5',
+      <div className="icons-container" onClick={() => openSidebar()}>
+        <img src="/images/office.svg" alt="company" />
+      </div>,
+      [
+        getItem(
+          <div className="sidenav-link" onClick={() => closeSidebar('perks')}>
+            Perks
+          </div>,
+          '12',
+        ),
+        getItem(
+          <div className="sidenav-link" onClick={() => closeSidebar('handbook')}>
+            Handbook and policy
+          </div>,
+          '13',
+        ),
+      ],
+    ),
+    getItem(
+      'Performance Manangement',
+      'sub6',
+      <div className="icons-container" onClick={() => openSidebar()}>
+        <img src="/images/performance.svg" alt="company" />
+      </div>,
+      [
+        getItem(
+          <div className="sidenav-link" onClick={() => closeSidebar('manage-review')}>
+            Manage Review
+          </div>,
+          '15',
+        ),
+      ],
+    ),
   ];
+
   const itemss: MenuProps['items'] = [
     getItem(
       'v',
@@ -207,6 +247,20 @@ const SideBarTab = () => {
       'sub4',
       <div className="icons-container sidebar-icon" onClick={() => openSidebar()}>
         <img src="/images/attendance.svg" alt="attendance" />
+      </div>,
+    ),
+    getItem(
+      '',
+      'sub5',
+      <div className="icons-container sidebar-icon" onClick={() => openSidebar()}>
+        <img src="/images/office.svg" alt="office" />
+      </div>,
+    ),
+    getItem(
+      '',
+      'sub6',
+      <div className="icons-container sidebar-icon" onClick={() => openSidebar()}>
+        <img src="/images/performance.svg" alt="performance" />
       </div>,
     ),
   ];

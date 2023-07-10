@@ -208,146 +208,143 @@ const Applicants = () => {
     setPage(page);
   };
   return (
-    <Layout>
-      <Navbar />
-      <div className="applicants-page padding">
-        <hr />
-        <BreadCrumbs imagesrc="/images/vacancy.svg" location="Vacancy Management" location1="Applicants" />
-        <hr />
+    <div className="applicants-page padding">
+      <hr />
+      <BreadCrumbs imagesrc="/images/vacancy.svg" location="Vacancy Management" location1="Applicants" />
+      <hr />
 
-        <div className="d-flex align-items-start applicants-header">
-          <Selects
-            className="applicants-select"
-            placeHolder="Filter by type"
-            options={filterByType}
-            onSelect={onSelect}
-          />
-          <input
-            type="text"
-            placeholder="Search"
-            className="search-field"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value.toLowerCase())}
-          />
-        </div>
-        <Table
-          columns={columns}
-          className="table-container"
-          dataSource={filterApplicantArary}
-          pagination={{
-            current: page,
-            onChange: handlePaginationChange,
-            total: applicants?.totalCount,
-          }}
-          loading={isLoading}
+      <div className="d-flex align-items-start applicants-header">
+        <Selects
+          className="applicants-select"
+          placeHolder="Filter by type"
+          options={filterByType}
+          onSelect={onSelect}
         />
-        <ModalComponent
-          openModal={applicantModal}
-          //  handleCancel={handleCancel}
-          closeModal={setApplicantModal}
-        >
-          <h3 className="modal-title">APPLICANTS DETAILS</h3>
-          <table className="application-table">
-            <tbody>
+        <input
+          type="text"
+          placeholder="Search"
+          className="search-field"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value.toLowerCase())}
+        />
+      </div>
+      <Table
+        columns={columns}
+        className="table-container"
+        dataSource={filterApplicantArary}
+        pagination={{
+          current: page,
+          onChange: handlePaginationChange,
+          total: applicants?.totalCount,
+        }}
+        loading={isLoading}
+      />
+      <ModalComponent
+        openModal={applicantModal}
+        //  handleCancel={handleCancel}
+        closeModal={setApplicantModal}
+      >
+        <h3 className="modal-title">APPLICANTS DETAILS</h3>
+        <table className="application-table">
+          <tbody>
+            <tr className="application-table-row">
+              <th className="application-table-head">POSITION</th>
+              <td className="application-table-body">{applicant?.applicant?.position}</td>
+            </tr>
+            <tr className="application-table-row">
+              <th className="application-table-head">APPLICANT NAME</th>
+              <td className="application-table-body">{`${applicant?.applicant?.fullName} `}</td>
+            </tr>
+            <tr className="application-table-row">
+              <th className="application-table-head">EMAIL</th>
+              <td className="application-table-body">{applicant?.applicant?.email}</td>
+            </tr>
+            <tr className="application-table-row">
+              <th className="application-table-head">PHONE</th>
+              <td className="application-table-body">{applicant?.applicant?.phone}</td>
+            </tr>
+            <tr>
+              <th className="application-table-head">ADDRESS</th>
+              <td className="application-table-body">{applicant?.applicant?.address}</td>
+            </tr>
+            <tr className="application-table-row">
+              <th className="application-table-head">CITY</th>
+              <td className="application-table-body">{applicant?.applicant?.city}</td>
+            </tr>
+            <tr className="application-table-row">
+              <th className="application-table-head">LINKEDIN</th>
+              <td className="application-table-body">
+                <Link
+                  to={applicant?.applicant?.linkedIn}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link-button"
+                >
+                  {/* {applicant?.applicant?.linkedIn} */}
+                  {/* View LinkedIn */}
+                  <BsLinkedin fontSize={'18px'} />
+                </Link>
+              </td>
+            </tr>
+            <tr className="application-table-row">
+              <th className="application-table-head">RESUME</th>
+              <td className="application-table-body ">
+                <Link
+                  to={`${API_URL1}public/resume/${applicant?.applicant?.resume}`}
+                  target="_blank"
+                  className="link-button"
+                >
+                  View Resume
+                </Link>
+              </td>
+            </tr>
+            {applicant?.applicant?.coverletter ? (
               <tr className="application-table-row">
-                <th className="application-table-head">POSITION</th>
-                <td className="application-table-body">{applicant?.applicant?.position}</td>
-              </tr>
-              <tr className="application-table-row">
-                <th className="application-table-head">APPLICANT NAME</th>
-                <td className="application-table-body">{`${applicant?.applicant?.fullName} `}</td>
-              </tr>
-              <tr className="application-table-row">
-                <th className="application-table-head">EMAIL</th>
-                <td className="application-table-body">{applicant?.applicant?.email}</td>
-              </tr>
-              <tr className="application-table-row">
-                <th className="application-table-head">PHONE</th>
-                <td className="application-table-body">{applicant?.applicant?.phone}</td>
-              </tr>
-              <tr>
-                <th className="application-table-head">ADDRESS</th>
-                <td className="application-table-body">{applicant?.applicant?.address}</td>
-              </tr>
-              <tr className="application-table-row">
-                <th className="application-table-head">CITY</th>
-                <td className="application-table-body">{applicant?.applicant?.city}</td>
-              </tr>
-              <tr className="application-table-row">
-                <th className="application-table-head">LINKEDIN</th>
-                <td className="application-table-body">
-                  <Link
-                    to={applicant?.applicant?.linkedIn}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="link-button"
-                  >
-                    {/* {applicant?.applicant?.linkedIn} */}
-                    {/* View LinkedIn */}
-                    <BsLinkedin fontSize={'18px'} />
-                  </Link>
-                </td>
-              </tr>
-              <tr className="application-table-row">
-                <th className="application-table-head">RESUME</th>
+                <th className="application-table-head">COVERLETTER</th>
                 <td className="application-table-body ">
                   <Link
-                    to={`${API_URL1}public/resume/${applicant?.applicant?.resume}`}
+                    to={`${API_URL1}public/coverletter/${applicant?.applicant?.coverletter}`}
                     target="_blank"
                     className="link-button"
                   >
-                    View Resume
+                    View CoverLetter
                   </Link>
                 </td>
               </tr>
-              {applicant?.applicant?.coverletter ? (
-                <tr className="application-table-row">
-                  <th className="application-table-head">COVERLETTER</th>
-                  <td className="application-table-body ">
-                    <Link
-                      to={`${API_URL1}public/coverletter/${applicant?.applicant?.coverletter}`}
-                      target="_blank"
-                      className="link-button"
-                    >
-                      View CoverLetter
-                    </Link>
-                  </td>
-                </tr>
-              ) : null}
-            </tbody>
-          </table>
-        </ModalComponent>
-        <ModalComponent openModal={updateStatus} closeModal={setUpdateStatus}>
-          <Form onFinish={handleUpdateStatus} form={form} autoComplete="off" className="p-2">
-            <Form.Item
-              className="form-input col "
-              name="status"
-              label="Status *"
-              rules={[{ required: true, message: 'Status is Required' }]}
-            >
-              <Select
-                options={[
-                  { value: 'selected', label: 'Selected' },
-                  { value: 'confirmed', label: 'Confirmed' },
-                  { value: 'rejected', label: 'Rejected' },
-                  { value: 'pending', label: 'Pending' },
-                ]}
-                className="selects status-selects"
-                placeholder="Update status"
-              ></Select>
-            </Form.Item>
-            <div className="form-btn-container mt-4">
-              <Button type="default" onClick={handleCancel}>
-                Cancel
-              </Button>
-              <Button type="primary" htmlType="submit">
-                Add
-              </Button>
-            </div>
-          </Form>
-        </ModalComponent>
-      </div>
-    </Layout>
+            ) : null}
+          </tbody>
+        </table>
+      </ModalComponent>
+      <ModalComponent openModal={updateStatus} closeModal={setUpdateStatus}>
+        <Form onFinish={handleUpdateStatus} form={form} autoComplete="off" className="p-2">
+          <Form.Item
+            className="form-input col "
+            name="status"
+            label="Status *"
+            rules={[{ required: true, message: 'Status is Required' }]}
+          >
+            <Select
+              options={[
+                { value: 'selected', label: 'Selected' },
+                { value: 'confirmed', label: 'Confirmed' },
+                { value: 'rejected', label: 'Rejected' },
+                { value: 'pending', label: 'Pending' },
+              ]}
+              className="selects status-selects"
+              placeholder="Update status"
+            ></Select>
+          </Form.Item>
+          <div className="form-btn-container mt-4">
+            <Button type="default" onClick={handleCancel}>
+              Cancel
+            </Button>
+            <Button type="primary" htmlType="submit">
+              Add
+            </Button>
+          </div>
+        </Form>
+      </ModalComponent>
+    </div>
   );
 };
 
