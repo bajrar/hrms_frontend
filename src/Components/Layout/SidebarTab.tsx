@@ -85,6 +85,18 @@ const SideBarTab = () => {
           </div>,
           '1',
         ),
+        getItem(
+          <div className="sidenav-link" onClick={() => closeSidebar('office')}>
+            Office
+          </div>,
+          '1',
+        ),
+        getItem(
+          <div className="sidenav-link" onClick={() => closeSidebar('performance')}>
+            Performnace
+          </div>,
+          '1',
+        ),
       ],
     ),
 
@@ -243,6 +255,20 @@ const SideBarTab = () => {
       'sub4',
       <div className="icons-container sidebar-icon" onClick={() => openSidebar()}>
         <img src="/images/attendance.svg" alt="attendance" />
+      </div>,
+    ),
+    getItem(
+      '',
+      'sub5',
+      <div className="icons-container sidebar-icon" onClick={() => openSidebar()}>
+        <img src="/images/office.svg" alt="office" />
+      </div>,
+    ),
+    getItem(
+      '',
+      'sub6',
+      <div className="icons-container sidebar-icon" onClick={() => openSidebar()}>
+        <img src="/images/performance.svg" alt="performance" />
       </div>,
     ),
   ];
