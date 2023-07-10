@@ -68,9 +68,6 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 32px;
-  width: 479px;
-  height: 474px;
-  overflow-y: scroll;
 }
 
 .navbar__notification-title {
