@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-
+import { BsPersonCircle } from 'react-icons/bs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { logoutUser } from '../apis/constants/Api';
@@ -10,10 +10,13 @@ import { useState } from 'react';
 import { useAppDispatch } from '../../hooks/useTypedSelector';
 import { toggelRole } from '../../redux/features/role/userRoleSlice';
 import { useTokenData } from '../../hooks/userTokenData';
+import type { RcFile, UploadProps } from 'antd/es/upload';
+import type { UploadFile } from 'antd/es/upload/interface';
 
 /* ASSETS */
 import './navbar.css';
 import FlexBetween from './FlexBetween';
+import { getBase64 } from '../../utils/file';
 
 type NotificationItemProps = {
   title: string;
@@ -121,7 +124,7 @@ const Navbar = () => {
     setIsNotification(true);
   };
 
-  const handleCancel = () => {
+  const handleModalCancel = () => {
     setIsNotification(false);
   };
 
@@ -162,6 +165,24 @@ const Navbar = () => {
   const userDetails: any = localStorage.getItem('userDetails');
   const employeeDetails = JSON.parse(userDetails);
   const userName = employeeDetails?.employeeName;
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState('');
+  const [previewTitle, setPreviewTitle] = useState('');
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+
+  const handleCancel = () => setPreviewOpen(false);
+
+  const handleImagePreview = async (file: UploadFile) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj as RcFile);
+    }
+
+    setPreviewImage(file.url || (file.preview as string));
+    setPreviewOpen(true);
+    setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
+  };
+
+  const handleImageChange: UploadProps['onChange'] = ({ fileList: newFileList }) => setFileList(newFileList);
 
   return (
     <>
@@ -208,7 +229,7 @@ const Navbar = () => {
           </Typography.Title>
         }
         open={isNotification}
-        onCancel={handleCancel}
+        onCancel={handleModalCancel}
         footer={null}
         className="navbar__notification-model"
       >

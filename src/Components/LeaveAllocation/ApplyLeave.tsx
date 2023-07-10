@@ -19,6 +19,7 @@ import { useTokenData } from '../../hooks/userTokenData';
 import { useNavigate } from 'react-router-dom';
 import { getLeave } from '../../redux/features/leaveSlice';
 import { useDispatch } from 'react-redux';
+import ApplyLeaveViewForm from './ApplyLeaveViewForm';
 
 export interface DataType {
   eid?: string;
@@ -134,7 +135,9 @@ const ApplyLeave = () => {
             color="#35639F"
             onClick={() => openUdateModal(record)}
           />
-          <span className="viewMoreBtn">View</span>
+          <span className="viewMoreBtn" onClick={() => openUdateModal(record)}>
+            View
+          </span>
         </div>
       ),
     },
@@ -182,11 +185,12 @@ const ApplyLeave = () => {
   }, [searchByLeave, allLeaveTaken, leaves]);
 
   const openUdateModal = (leaveID: any) => {
-    setUpdateStatus(true);
     setLeaveRow(leaveID);
+    setUpdateStatus(true);
   };
 
   const UpdateLeaveStatus = async (values: any) => {
+    console.log(values, 'tu meri');
     const { value: leaveTypeId } = leaveNameArray.find((leaveName) => leaveName.label === leaveRow.leaveType);
     const { employeeId, to } = leaveRow;
     try {
@@ -268,34 +272,8 @@ const ApplyLeave = () => {
         <ApplyLeaveForm setIsModalOpen={setIsModalOpen} />
       </ModalComponent>
 
-      <ModalComponent openModal={updateStatus} closeModal={setUpdateStatus}>
-        <Form form={form} onFinish={UpdateLeaveStatus} autoComplete="off" className="p-2">
-          <Form.Item
-            className="form-input col "
-            name="status"
-            label="Leave Status"
-            rules={[{ required: true, message: 'Status is Required' }]}
-          >
-            <Select
-              options={[
-                { value: 'selected', label: 'Selected' },
-                { value: 'accepted', label: 'Confirmed' },
-                { value: 'rejected', label: 'Rejected' },
-                { value: 'pending', label: 'Pending' },
-              ]}
-              className="selects status-selects"
-              placeholder="Update status"
-            ></Select>
-          </Form.Item>
-          <div className="form-btn-container mt-4">
-            <Button type="default" onClick={handleCancel}>
-              Cancel
-            </Button>
-            <Button type="primary" htmlType="submit">
-              Add
-            </Button>
-          </div>
-        </Form>
+      <ModalComponent openModal={updateStatus} closeModal={setUpdateStatus} classNames="w-50">
+        <ApplyLeaveViewForm leaveRow={leaveRow} UpdateLeaveStatus={UpdateLeaveStatus} />
       </ModalComponent>
     </div>
   );

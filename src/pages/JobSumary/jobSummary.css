@@ -35,3 +35,20 @@
 .open-row {
   border-left: 5px solid green; /* Adjust the color and width as desired */
 }
+
+.application-table {
+  border-collapse: separate;
+  border-spacing: 0 24px;
+}
+.application-table-body {
+  padding-left: 16px;
+}
+.application-table-body > ul {
+  padding-left: 0;
+}
+/* .application-table-row:not(:last-child) {
+  padding-bottom: 24px;
+} */
+.application-table-head {
+  margin-right: 40px;
+}
