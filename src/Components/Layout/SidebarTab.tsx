@@ -26,8 +26,10 @@ const SideBarTab = () => {
   const authData = useAppSelector((state: RootState) => state.userSlice.value);
   console.log({ userSn });
   const navigate = useNavigate();
-  const userAccess = ['Vacancy Management', 'Employee Management', 'v'];
+
+  const userAccess = ['Vacancy Management', 'Employee Management', 'v', 'Performance Manangement'];
   function getItem(label?: any, key?: React.Key, icon?: React.ReactNode, children?: MenuItem[], type?: 'group'): any {
+    /* IF NOT ADMIN, CHECK USER ACCESS ON MENU ITEMS */
     if (isAdmin || !userAccess.includes(label))
       return {
         key,
@@ -59,6 +61,7 @@ const SideBarTab = () => {
       navigate(`/${routeTo}`);
     }
   };
+
   const items: MenuProps['items'] = [
     getItem(
       'Employee Management',
@@ -214,6 +217,7 @@ const SideBarTab = () => {
       ],
     ),
   ];
+
   const itemss: MenuProps['items'] = [
     getItem(
       'v',
