@@ -233,7 +233,9 @@ const Navbar = () => {
         footer={null}
         className="navbar__notification-model"
       >
-        <Tabs defaultActiveKey="1" items={tabItems} onChange={onTabChange} />
+        <div style={{ width: '100%' }}>
+          <Tabs defaultActiveKey="1" items={tabItems} onChange={onTabChange} />
+        </div>
       </Modal>
     </>
   );
