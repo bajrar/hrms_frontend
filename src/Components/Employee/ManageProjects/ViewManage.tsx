@@ -123,64 +123,58 @@ export const ViewManage = () => {
 
   return (
     <>
-      <Layout>
-        <Navbar />
-        <div style={{ margin: 40 }}>
-          <BreadCrumbs
-            imagesrc="/images/attendance.svg"
-            location="Employee Management"
-            location1="Manage Projects"
-            location2="Apply Here"
-          />
-          <hr />
-          <div
-            className="attendance-filters-bottom d-flex "
-            style={{ display: 'flex', justifyContent: 'space-between' }}
-          >
-            <Select
-              value={selectedOption}
-              defaultValue="All"
-              onChange={handleSelectChange}
-              placeholder="Apply Here"
-              style={{ width: 200, marginBottom: 16 }}
-              options={[
-                { value: 'All', label: 'All' },
-                { value: 'React Native', label: 'React Native' },
-                { value: 'Executive Director', label: 'Executive Director' },
-                {
-                  value: 'Human Resources (HR)',
-                  label: 'Human Resources (HR)',
-                },
-                {
-                  value: 'React Native Developer',
-                  label: 'React Native Developer',
-                },
-                { value: 'QA', label: 'QA' },
-              ]}
-            ></Select>
-            {/* <input
+      <div style={{ margin: 40 }}>
+        <BreadCrumbs
+          imagesrc="/images/attendance.svg"
+          location="Employee Management"
+          location1="Manage Projects"
+          location2="Apply Here"
+        />
+        <hr />
+        <div className="attendance-filters-bottom d-flex " style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Select
+            value={selectedOption}
+            defaultValue="All"
+            onChange={handleSelectChange}
+            placeholder="Apply Here"
+            style={{ width: 200, marginBottom: 16 }}
+            options={[
+              { value: 'All', label: 'All' },
+              { value: 'React Native', label: 'React Native' },
+              { value: 'Executive Director', label: 'Executive Director' },
+              {
+                value: 'Human Resources (HR)',
+                label: 'Human Resources (HR)',
+              },
+              {
+                value: 'React Native Developer',
+                label: 'React Native Developer',
+              },
+              { value: 'QA', label: 'QA' },
+            ]}
+          ></Select>
+          {/* <input
               type="text"
               placeholder="Apply Here"
               className="search-field"
               onChange={(e) => setSearchText(e.target.value)}
             /> */}
-          </div>
         </div>
+      </div>
 
-        <div className="attendace-page">
-          <div className="row table-container">
-            <Table
-              rowClassName={(record) =>
-                record.status === 'resigned' ? 'absent-class' : record.status === 'pending' ? 'holiday-class' : ''
-              }
-              columns={columns}
-              dataSource={filteredData}
-              loading={loading}
-            />
-          </div>
+      <div className="attendace-page">
+        <div className="row table-container">
+          <Table
+            rowClassName={(record) =>
+              record.status === 'resigned' ? 'absent-class' : record.status === 'pending' ? 'holiday-class' : ''
+            }
+            columns={columns}
+            dataSource={filteredData}
+            loading={loading}
+          />
         </div>
-        {/* <EmployeeForm/> */}
-      </Layout>
+      </div>
+      {/* <EmployeeForm/> */}
 
       <ModalComponent
         openModal={isModalOpen}

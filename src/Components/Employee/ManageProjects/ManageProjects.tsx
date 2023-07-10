@@ -117,58 +117,52 @@ export const ManageProjects = () => {
 
   return (
     <>
-      <Layout>
-        <Navbar />
-        <div style={{ margin: 40 }}>
-          <BreadCrumbs imagesrc="/images/attendance.svg" location="Employee Management" location1="Manage Projects" />
-          <hr />
-          <div
-            className="attendance-filters-bottom d-flex "
-            style={{ display: 'flex', justifyContent: 'space-between' }}
-          >
-            <input
-              type="text"
-              placeholder="Search"
-              className="search-field"
-              onChange={(e) => setSearchText(e.target.value)}
-            />
-            <div className="div" style={{ display: 'flex', gap: 10 }}>
-              <button
-                type="button"
-                className="btn"
-                style={{
-                  height: '40px',
-                  color: '#007bff',
-                  backgroundColor: 'transparent',
-                  backgroundImage: 'none',
-                  borderColor: '#007bff',
-                }}
-                onClick={() => setIsViewOpen(true)}
-              >
-                Assign Project
-              </button>
+      <div style={{ margin: 40 }}>
+        <BreadCrumbs imagesrc="/images/attendance.svg" location="Employee Management" location1="Manage Projects" />
+        <hr />
+        <div className="attendance-filters-bottom d-flex " style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <input
+            type="text"
+            placeholder="Search"
+            className="search-field"
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+          <div className="div" style={{ display: 'flex', gap: 10 }}>
+            <button
+              type="button"
+              className="btn"
+              style={{
+                height: '40px',
+                color: '#007bff',
+                backgroundColor: 'transparent',
+                backgroundImage: 'none',
+                borderColor: '#007bff',
+              }}
+              onClick={() => setIsViewOpen(true)}
+            >
+              Assign Project
+            </button>
 
-              <button className="primary-btn" onClick={() => setIsModalOpen(true)}>
-                <FontAwesomeIcon icon={faPlus} /> Add Projects
-              </button>
-            </div>
+            <button className="primary-btn" onClick={() => setIsModalOpen(true)}>
+              <FontAwesomeIcon icon={faPlus} /> Add Projects
+            </button>
           </div>
         </div>
+      </div>
 
-        <div className="attendace-page">
-          <div className="row table-container">
-            <Table
-              rowClassName={(record) =>
-                record.status === 'resigned' ? 'absent-class' : record.status === 'pending' ? 'holiday-class' : ''
-              }
-              columns={columns}
-              dataSource={employee?.employee}
-              loading={loading}
-            />
-          </div>
+      <div className="attendace-page">
+        <div className="row table-container">
+          <Table
+            rowClassName={(record) =>
+              record.status === 'resigned' ? 'absent-class' : record.status === 'pending' ? 'holiday-class' : ''
+            }
+            columns={columns}
+            dataSource={employee?.employee}
+            loading={loading}
+          />
         </div>
-        {/* <EmployeeForm/> */}
-      </Layout>
+      </div>
+      {/* <EmployeeForm/> */}
 
       <ModalComponent
         openModal={isModalOpen}

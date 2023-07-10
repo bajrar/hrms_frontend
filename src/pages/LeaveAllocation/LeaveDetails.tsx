@@ -42,9 +42,9 @@ const LeaveDetails = () => {
       dataIndex: 'action',
       key: 'action',
       render: (record) => (
-        <div className='d-flex action-btn-container'>
-          <FontAwesomeIcon icon={faPen} color='#35639F' />
-          <FontAwesomeIcon icon={faTrash} color='#35639F' />
+        <div className="d-flex action-btn-container">
+          <FontAwesomeIcon icon={faPen} color="#35639F" />
+          <FontAwesomeIcon icon={faTrash} color="#35639F" />
         </div>
       ),
     },
@@ -57,7 +57,7 @@ const LeaveDetails = () => {
     dispatch(
       getSingleLeave({
         leaveId,
-      } as any) as any
+      } as any) as any,
     );
   }, [dispatch]);
 
@@ -79,22 +79,19 @@ const LeaveDetails = () => {
   // }, [data]);
 
   return (
-    <Layout>
-      <Navbar />
-      <div className='padding'>
-        <hr />
-        <BreadCrumbs
-          imagesrc='/images/leave.svg'
-          location='Leave Management &nbsp; &nbsp;Leave Allocation'
-          location1='Add leave'
-          location2='Annual Leave'
-        />
-        <hr />
-        <LeaveDetailTable />
+    <div className="padding">
+      <hr />
+      <BreadCrumbs
+        imagesrc="/images/leave.svg"
+        location="Leave Management &nbsp; &nbsp;Leave Allocation"
+        location1="Add leave"
+        location2="Annual Leave"
+      />
+      <hr />
+      <LeaveDetailTable />
 
-        <Table columns={columns} className='table-container' />
-      </div>
-    </Layout>
+      <Table columns={columns} className="table-container" />
+    </div>
   );
 };
 

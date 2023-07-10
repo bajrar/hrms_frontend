@@ -120,71 +120,64 @@ const Attendance = () => {
   ];
 
   return (
-    <Layout>
-      <Navbar />
-      <div className="attendace-page">
-        <BreadCrumbs
-          imagesrc="/images/attendance.svg"
-          location="Attendance / Shift Management"
-          location1="Attendance"
-        />
-        <hr />
-        <div className="d-flex employee-stats-container flex-wrap">
-          {AttendanceStatusArray.map((item: IEmployeeStats, key) => {
-            return (
-              <EmployeeStats
-                key={key}
-                backgroundColor={item.backgroundColor}
-                color={item.color}
-                status={item.status}
-                numberOfEmployee={item.numberOfEmployee}
-              />
-            );
-          })}
-        </div>
-        <hr />
-
-        {/* <div className="attendance-filters working-condition p-0 calendar-wrapper"> */}
-        <div className="attendance-filters p-0 calendar-wrapper">
-          <Calendar
-            onChange={onDateChange}
-            className="calender-container-picker"
-            language="en"
-            dateFormat="YYYY/MM/DD"
-            maxDate={disableDate}
-          />
-          <CalendarOutlined className="calendar-icon" />
-        </div>
-        <div className="attendance-filters-bottom d-flex">
-          <Selects
-            // defaultValue='All'
-            onSelect={onSelect}
-            value={status}
-            options={WorkingCondition}
-            placeHolder="Search"
-          />
-
-          <input
-            type="text"
-            placeholder="Search by Name"
-            className="search-field"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value.toLowerCase())}
-            onKeyDown={(e) => {
-              const key = e.key;
-              const regex = /^[A-Za-z\s]+$/;
-              if (!regex.test(key)) {
-                e.preventDefault();
-              }
-            }}
-          />
-        </div>
-
-        <div className="row table-container">
-          <AttendaceReport defaultDate={defaultDate} searchText={searchText} status={status} />
-        </div>
+    <div className="attendace-page">
+      <BreadCrumbs imagesrc="/images/attendance.svg" location="Attendance / Shift Management" location1="Attendance" />
+      <hr />
+      <div className="d-flex employee-stats-container flex-wrap">
+        {AttendanceStatusArray.map((item: IEmployeeStats, key) => {
+          return (
+            <EmployeeStats
+              key={key}
+              backgroundColor={item.backgroundColor}
+              color={item.color}
+              status={item.status}
+              numberOfEmployee={item.numberOfEmployee}
+            />
+          );
+        })}
       </div>
-    </Layout>
+      <hr />
+
+      {/* <div className="attendance-filters working-condition p-0 calendar-wrapper"> */}
+      <div className="attendance-filters p-0 calendar-wrapper">
+        <Calendar
+          onChange={onDateChange}
+          className="calender-container-picker"
+          language="en"
+          dateFormat="YYYY/MM/DD"
+          maxDate={disableDate}
+        />
+        <CalendarOutlined className="calendar-icon" />
+      </div>
+      <div className="attendance-filters-bottom d-flex">
+        <Selects
+          // defaultValue='All'
+          onSelect={onSelect}
+          value={status}
+          options={WorkingCondition}
+          placeHolder="Search"
+        />
+
+        <input
+          type="text"
+          placeholder="Search by Name"
+          className="search-field"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value.toLowerCase())}
+          onKeyDown={(e) => {
+            const key = e.key;
+            const regex = /^[A-Za-z\s]+$/;
+            if (!regex.test(key)) {
+              e.preventDefault();
+            }
+          }}
+        />
+      </div>
+
+      <div className="row table-container">
+        <AttendaceReport defaultDate={defaultDate} searchText={searchText} status={status} />
+      </div>
+    </div>
   );
 };
 

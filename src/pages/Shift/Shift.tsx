@@ -33,21 +33,18 @@ const Shift = () => {
     },
   ].filter((item) => (userData?.role ? userData?.role : tokenData.role === 'admin' || item.key === '1'));
   return (
-    <Layout>
-      <Navbar />
-      <div className="padding">
-        <hr />
-        <BreadCrumbs
-          classNames="padding"
-          imagesrc="/images/attendance.svg"
-          location="Attendance / Shift Management"
-          location1="Shift schedule"
-          location2="Shifts"
-        />
-        <hr />
-        <Tabs defaultActiveKey="1" items={items} />
-      </div>
-    </Layout>
+    <div className="padding">
+      <hr />
+      <BreadCrumbs
+        classNames="padding"
+        imagesrc="/images/attendance.svg"
+        location="Attendance / Shift Management"
+        location1="Shift schedule"
+        location2="Shifts"
+      />
+      <hr />
+      <Tabs defaultActiveKey="1" items={items} />
+    </div>
   );
 };
 

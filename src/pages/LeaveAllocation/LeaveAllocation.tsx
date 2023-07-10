@@ -41,20 +41,17 @@ const LeaveAllocation = () => {
   ];
 
   return (
-    <Layout>
-      <Navbar />
-      <div className="leave-allocation padding">
-        <hr />
-        <BreadCrumbs
-          imagesrc="/images/leave.svg"
-          location="Leave Management"
-          location1="Leave Allocation"
-          location2={getBreadcrumbsLocation2()}
-        />
-        <hr />
-        <Tabs defaultActiveKey="1" items={items} onChange={handleTabChange} />
-      </div>
-    </Layout>
+    <div className="leave-allocation padding">
+      <hr />
+      <BreadCrumbs
+        imagesrc="/images/leave.svg"
+        location="Leave Management"
+        location1="Leave Allocation"
+        location2={getBreadcrumbsLocation2()}
+      />
+      <hr />
+      <Tabs defaultActiveKey="1" items={items} onChange={handleTabChange} />
+    </div>
   );
 };
 
