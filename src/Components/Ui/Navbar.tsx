@@ -60,7 +60,7 @@ const NotificationItem = ({ title, image, content, date, time }: NotificationIte
 
 const TabLabel = ({ label, count }: TabLabelProps) => {
   return (
-    <Space>
+    <Space style={{ margin: '0 0.4rem' }}>
       <Typography.Text style={{ position: 'relative' }}>{label}</Typography.Text>
       <Badge count={count} style={{ position: 'absolute', top: '-1.5rem', left: '-0.25rem' }} />
     </Space>

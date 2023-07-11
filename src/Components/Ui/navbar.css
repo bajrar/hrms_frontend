@@ -62,13 +62,12 @@
 
 .navbar__notification-model {
   position: absolute;
-  top: 1.5rem;
-  right: 0;
+  top: 10%;
+  right: 5%;
 }
 .navbar__notification-model > .ant-modal-content {
   height: 483px;
   width: 493px;
-  padding: 0.25rem 2rem;
 }
 
 .navbar__notification-title {
