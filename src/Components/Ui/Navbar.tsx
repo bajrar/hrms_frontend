@@ -1,22 +1,18 @@
 import { useNavigate } from 'react-router-dom';
-import { BsPersonCircle } from 'react-icons/bs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { logoutUser } from '../apis/constants/Api';
 import { DownOutlined, LogoutOutlined, UserOutlined, SwapOutlined } from '@ant-design/icons';
 import type { MenuProps, TabsProps } from 'antd';
 import { Badge, Button, Dropdown, Image, Modal, Space, Tabs, Typography } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch } from '../../hooks/useTypedSelector';
 import { toggelRole } from '../../redux/features/role/userRoleSlice';
 import { useTokenData } from '../../hooks/userTokenData';
-import type { RcFile, UploadProps } from 'antd/es/upload';
-import type { UploadFile } from 'antd/es/upload/interface';
 
 /* ASSETS */
 import './navbar.css';
 import FlexBetween from './FlexBetween';
-import { getBase64 } from '../../utils/file';
 
 type NotificationItemProps = {
   title: string;
@@ -33,8 +29,8 @@ type TabLabelProps = {
 
 const NotificationItem = ({ title, image, content, date, time }: NotificationItemProps) => {
   return (
-    <FlexBetween style={{ flexDirection: 'column', gap: '1.2rem' }}>
-      <Space size="middle">
+    <FlexBetween style={{ flexDirection: 'column', gap: '1.2rem', width: '100%' }}>
+      <Space size="large">
         <Image
           height="40px"
           width="40px"
@@ -60,7 +56,7 @@ const NotificationItem = ({ title, image, content, date, time }: NotificationIte
 
 const TabLabel = ({ label, count }: TabLabelProps) => {
   return (
-    <Space style={{ margin: '0 0.4rem' }}>
+    <Space>
       <Typography.Text style={{ position: 'relative' }}>{label}</Typography.Text>
       <Badge count={count} style={{ position: 'absolute', top: '-1.5rem', left: '-0.25rem' }} />
     </Space>
@@ -194,18 +190,7 @@ const Navbar = () => {
       {/* NOTIFICATOIN MODEL */}
       <Modal
         title={
-          <Typography.Title
-            level={5}
-            style={{
-              color: 'var(--text-color-100, #000)',
-              fontFamily: 'Helvetica',
-              fontSize: '20px',
-              fontStyle: 'normal',
-              fontWeight: '700',
-              lineHeight: 'normal',
-              textTransform: 'uppercase',
-            }}
-          >
+          <Typography.Title level={5} className="navbar__notification-title">
             Notifications
           </Typography.Title>
         }

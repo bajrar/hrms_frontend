@@ -56,8 +56,7 @@
   background: transparent;
   border: 0;
   color: var(--bg-black);
-  font-size: 1.5rem;
-  padding: 1.25rem 0.85rem;
+  font-size: 1.25rem;
 }
 
 .navbar__notification-model {
@@ -67,15 +66,22 @@
 }
 .navbar__notification-model > .ant-modal-content {
   height: 483px;
-  width: 493px;
+  width: 520px;
 }
 
-.navbar__notification-title {
+.navbar__notification-model .ant-tabs-nav-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar__notification-model .navbar__notification-title {
   color: var(--text-color-100, #000);
   font-family: Helvetica;
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-  text-transform: capitalize;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
 }
