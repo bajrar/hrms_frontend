@@ -67,50 +67,6 @@ const TabLabel = ({ label, count }: TabLabelProps) => {
   );
 };
 
-const tabItems: TabsProps['items'] = [
-  {
-    key: '1',
-    label: <TabLabel label="All" count={2} />,
-    children: (
-      <NotificationItem
-        title="HR Virtuosway"
-        content="Please be informed that WORK FROM OFFICE will....."
-        image="/logo.png"
-        date="May 20, 2023"
-        time="Friday 2:20pm"
-      />
-    ),
-  },
-  {
-    key: '2',
-    label: <TabLabel label="Leave Alerts" count={2} />,
-    children: `Content of Tab Pane 2`,
-  },
-  {
-    key: '3',
-    label: <TabLabel label="Notification Events" count={2} />,
-    children: `Content of Tab Pane 3`,
-  },
-  {
-    key: '4',
-    label: <TabLabel label="Event Alerts" count={2} />,
-    children: `Content of Tab Pane 3`,
-  },
-];
-
-const items: MenuProps['items'] = [
-  {
-    label: 'Profile',
-    key: '1',
-    icon: <UserOutlined onClick={() => logoutUser()} />,
-  },
-  {
-    label: 'Logout',
-    key: '2',
-    icon: <LogoutOutlined />,
-  },
-];
-
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -119,6 +75,50 @@ const Navbar = () => {
   console.log({ isAdminTemp }, 'YOYO');
   const currentRole = isAdminTemp ? 'user' : 'admin';
   // const currentRole = userRoleData.role === 'admin' ? 'user' : 'admin';
+
+  const tabItems: TabsProps['items'] = [
+    {
+      key: '1',
+      label: <TabLabel label="All" count={2} />,
+      children: (
+        <NotificationItem
+          title="HR Virtuosway"
+          content="Please be informed that WORK FROM OFFICE will....."
+          image="/logo.png"
+          date="May 20, 2023"
+          time="Friday 2:20pm"
+        />
+      ),
+    },
+    {
+      key: '2',
+      label: <TabLabel label="Leave Alerts" count={2} />,
+      children: `Content of Tab Pane 2`,
+    },
+    {
+      key: '3',
+      label: <TabLabel label="Notification Events" count={2} />,
+      children: `Content of Tab Pane 3`,
+    },
+    {
+      key: '4',
+      label: <TabLabel label="Event Alerts" count={2} />,
+      children: `Content of Tab Pane 3`,
+    },
+  ];
+
+  const items: MenuProps['items'] = [
+    {
+      label: 'Profile',
+      key: '1',
+      icon: <UserOutlined onClick={() => logoutUser()} />,
+    },
+    {
+      label: 'Logout',
+      key: '2',
+      icon: <LogoutOutlined />,
+    },
+  ];
 
   const showModal = () => {
     setIsNotification(true);
@@ -161,28 +161,9 @@ const Navbar = () => {
     onClick: handleMenuClick,
   };
 
-  const [openDropdown, setOpenDropdown] = useState(true);
   const userDetails: any = localStorage.getItem('userDetails');
   const employeeDetails = JSON.parse(userDetails);
   const userName = employeeDetails?.employeeName;
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState('');
-  const [previewTitle, setPreviewTitle] = useState('');
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-
-  const handleCancel = () => setPreviewOpen(false);
-
-  const handleImagePreview = async (file: UploadFile) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj as RcFile);
-    }
-
-    setPreviewImage(file.url || (file.preview as string));
-    setPreviewOpen(true);
-    setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
-  };
-
-  const handleImageChange: UploadProps['onChange'] = ({ fileList: newFileList }) => setFileList(newFileList);
 
   return (
     <>
