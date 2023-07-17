@@ -1,26 +1,19 @@
 import { useEffect, useState } from 'react';
-import { Button, Form, Input, Radio, RadioChangeEvent, DatePicker, Select, Table, Modal } from 'antd';
-import { toast } from 'react-toastify';
+import { Button, Form, Table } from 'antd';
+import FormContainer from './forms/FormContainer';
 
-import { apis } from '../apis/constants/ApisService';
 import './add-employee-form.css';
 import BreadCrumbs from '../Ui/BreadCrumbs/BreadCrumbs';
-import Layout from '../Layout';
-import Navbar from '../Ui/Navbar';
 import Selects from '../Ui/Selects/Selects';
-import { WorkingCondition } from '../../utils/Constants';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faPlus } from '@fortawesome/free-solid-svg-icons';
 import ModalComponent from '../Ui/Modal/Modal';
-import ViewAllEmployee from '../Ui/Tables/ViewAllEmployee';
-import { isErrored } from 'stream';
 import { EmployeeForm } from './EmployeeForm';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { CompareFunction } from '../Ui/Tables/AttendaceReport';
 import { ColumnsType } from 'antd/es/table';
-import { useAppDispatch, useAppSelector } from '../../hooks/useTypedSelector';
+import { useAppDispatch } from '../../hooks/useTypedSelector';
 import { EmployeeStats } from '../../pages/Attendance/Attendance';
-import TabContainer from './Tabs/TabContainer';
 import { useGetEmployeeQuery } from '../../redux/api/employeeApiSlice';
 
 export interface DataType {
@@ -286,7 +279,7 @@ export const Employee = () => {
         closeModal={setIsModalOpen}
         maskClosable={isMaskClosable}
       >
-        <TabContainer closeModal={setIsModalOpen} setMaskClosable={setIsMaskClosable} />
+        <FormContainer closeModal={setIsModalOpen} setMaskClosable={setIsMaskClosable} />
 
         {/* <h3 className='modal-title'>ADD EMPLOYEE</h3> 
         <div className='mb-4'>

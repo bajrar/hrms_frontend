@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Button, Form, Input, message } from 'antd';
+import { Button, Form, FormInstance, Input, message } from 'antd';
 import { useDispatch } from 'react-redux';
+import '@sbmdkl/nepali-datepicker-reactjs/dist/index.css';
 import { toast } from 'react-toastify';
-import { useGetProfileQuery, useUpdateEmployeeOnboardingMutation } from '../../redux/api/employeeApiSlice';
-
-import { IForm } from '../Shifts/AddShiftForm';
 
 /* ASSETS */
-import '@sbmdkl/nepali-datepicker-reactjs/dist/index.css';
+import '../add-employee-form.css';
 
 const defaultValue = {
   employeeName: '',
@@ -22,68 +20,38 @@ const defaultValue = {
 const useConditionalFetch = (id: string) => {
   const shouldFetch = !!id; // Check if ID exists (truthy)
   // Use RTK Query hook conditionally based on whether the ID exists
-  return useGetProfileQuery(id, { skip: !shouldFetch });
 };
 
-const OnboardingForm = ({ setIsModalOpen, shiftId: empId = '' }: IForm) => {
+type OnboardingFormProps = {
+  closeModal: (state: boolean) => void;
+  form: FormInstance<any>;
+  isLoading: boolean;
+  onFinish: (values: any) => void;
+  disabledForm?: boolean;
+};
+
+const OnboardingForm = ({ closeModal, form, onFinish, isLoading, disabledForm }: OnboardingFormProps) => {
   const [initialValues, setInitialValues] = useState<typeof defaultValue>(defaultValue);
-  const [form] = Form.useForm();
 
-  const { error, isLoading, data: profileData } = useConditionalFetch(empId);
-  const [handleUpdateOnboarding, result] = useUpdateEmployeeOnboardingMutation();
+  // useEffect(() => {
+  //   if (!error && profileData) {
+  //     const { employeeName, email, payroll } = profileData.employee;
+  //     setInitialValues({
+  //       employeeName,
+  //       emailAddress: email,
+  //       bankName: payroll?.bankMeta?.name,
+  //       bankAccount: payroll?.bankMeta?.account,
+  //       branch: payroll?.bankMeta?.branch,
+  //       ssf: payroll?.ssf,
+  //       pan: payroll?.pan,
+  //     });
+  //   }
+  // }, [isLoading, profileData, error]);
 
-  useEffect(() => {
-    if (!error && profileData) {
-      const { employeeName, email, payroll } = profileData.employee;
-      setInitialValues({
-        employeeName,
-        emailAddress: email,
-        bankName: payroll?.bankMeta?.name,
-        bankAccount: payroll?.bankMeta?.account,
-        branch: payroll?.bankMeta?.branch,
-        ssf: payroll?.ssf,
-        pan: payroll?.pan,
-      });
-    }
-  }, [isLoading, profileData, error]);
-
-  useEffect(() => {
+  const handleModalClose = () => {
     form.resetFields();
-  }, [form, initialValues]);
-
-  const onFinish = async (values: any) => {
-    const { employeeName, emailAddress, bankName, bankAccount, branch, ssf, pan } = values;
-    console.log(values);
-    try {
-      await handleUpdateOnboarding({
-        employeeName: employeeName,
-        email: emailAddress,
-        payroll: {
-          bankMeta: {
-            name: bankName,
-            account: bankAccount,
-            branch: branch,
-          },
-          ssf: ssf,
-          pan: pan,
-        },
-      });
-      toast.success('Employee Submitted Sucesfully', {
-        position: 'top-center',
-        autoClose: 5000,
-      });
-    } catch {
-    } finally {
-      setIsModalOpen(false);
-    }
+    closeModal(false);
   };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-    form.resetFields();
-  };
-
-  console.log(initialValues);
 
   return (
     <div>
@@ -94,6 +62,7 @@ const OnboardingForm = ({ setIsModalOpen, shiftId: empId = '' }: IForm) => {
         autoComplete="off"
         className="shift-assign-form"
         form={form}
+        disabled={disabledForm}
       >
         <div className="form-second-row align-items-start mb-4">
           <Form.Item
@@ -107,7 +76,7 @@ const OnboardingForm = ({ setIsModalOpen, shiftId: empId = '' }: IForm) => {
 
           <Form.Item
             className="form-input col"
-            name="emailAddress"
+            name="email"
             label="Employee Email Address *"
             rules={[
               {
@@ -117,7 +86,7 @@ const OnboardingForm = ({ setIsModalOpen, shiftId: empId = '' }: IForm) => {
               },
             ]}
           >
-            <Input placeholder="Enter email (e.g. John@eeposit.com)" className="form-input-wrapper" type="text" />
+            <Input placeholder="Enter email (e.g. John@eeposit.com)" className="form-input-wrapper" type="email" />
           </Form.Item>
         </div>
 
@@ -157,11 +126,11 @@ const OnboardingForm = ({ setIsModalOpen, shiftId: empId = '' }: IForm) => {
           </Form.Item>
         </div>
 
-        <div className="form-btn-container" style={{ marginTop: 15 }}>
-          <Button type="default" onClick={handleCancel}>
+        <div className="form-footer" style={{ marginTop: 15, gap: 10 }}>
+          <Button type="default" onClick={handleModalClose} disabled={isLoading}>
             Cancel
           </Button>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" disabled={isLoading}>
             Add
           </Button>
         </div>

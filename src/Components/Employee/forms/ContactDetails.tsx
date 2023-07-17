@@ -1,7 +1,6 @@
 import { Button, Form, FormInstance, Input } from 'antd';
 import { ToastContainer } from 'react-toastify';
 
-
 /* Assets */
 import '../add-employee-form.css';
 import '../employeeDetails.css';
@@ -9,39 +8,21 @@ import '../employeeDetails.css';
 type BasicInfoFormProps = {
   closeModal: (state: boolean) => void;
   form: FormInstance<any>;
-  onFinish: (values: any) => void; 
-  isLoading: boolean; 
-  disabledForm?: boolean
-
+  handleTabChange: () => void;
+  disabledForm?: boolean;
 };
 
-const ContactDetail = ({
-  closeModal,
-  form, 
-  onFinish,
-   isLoading, 
-  disabledForm=false
-
-}: BasicInfoFormProps) => {
-  const closeModalHandler = () => {
+const ContactDetail = ({ closeModal, form, disabledForm = false, handleTabChange }: BasicInfoFormProps) => {
+  const handleModalClose = () => {
     form.resetFields();
     closeModal(false);
   };
-
-  
   return (
     <>
       <ToastContainer />
       <div className="mb-4">
         <div style={{ paddingInline: 5 }}>
-          <Form
-            layout="vertical"
-            onFinish={onFinish}
-            autoComplete="off"
-            form={form}
-            disabled={disabledForm}
-
-          >
+          <Form layout="vertical" autoComplete="off" form={form} disabled={disabledForm}>
             <div
               className="row add-employee__section__tab p-2 mt-4  
              "
@@ -53,13 +34,13 @@ const ContactDetail = ({
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your Contact Name !'
-                  }
+                    message: 'Please input your Contact Name !',
+                  },
                 ]}
               >
                 <Input
                   name="email"
-                  placeholder='Enter the name of contact person (e.g. Jane Doe) '
+                  placeholder="Enter the name of contact person (e.g. Jane Doe) "
                   className="form-input-wrapper"
                   type="text"
                 />
@@ -72,8 +53,8 @@ const ContactDetail = ({
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your Contact Number!'
-                  }
+                    message: 'Please input your Contact Number!',
+                  },
                 ]}
               >
                 <Input
@@ -90,9 +71,7 @@ const ContactDetail = ({
                 className="form-input col-6"
                 label="Relation to employee*"
                 name="relation"
-                rules={[
-                  { required: true, message: 'Please input your relation!' }
-                ]}
+                rules={[{ required: true, message: 'Please input your relation!' }]}
               >
                 <Input
                   name="email"
@@ -104,16 +83,11 @@ const ContactDetail = ({
             </div>
 
             <div className="form-footer" style={{ display: 'flex', gap: 10 }}>
-              <Button
-                type="primary"
-                onClick={() => closeModalHandler()}
-                danger
-                disabled={isLoading}
-              >
+              <Button type="default" onClick={handleModalClose}>
                 Cancel
               </Button>
-              <Button type="primary" htmlType="submit" disabled={isLoading}>
-                Add
+              <Button type="primary" htmlType="button" onClick={handleTabChange}>
+                Next
               </Button>
             </div>
           </Form>

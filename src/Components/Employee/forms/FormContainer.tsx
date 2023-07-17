@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAddEmployeeMutation } from '../../../redux/api/employeeApiSlice';
-import BasicInfoForm from '../Fragments/BasicInfoForm';
-import ContactDetails from '../Fragments/ContactDetails';
-import OfficeDetails from '../Fragments/OfficeDetails';
+import BasicInfoForm from '../forms/BasicInfoForm';
+import ContactDetails from '../forms/ContactDetails';
+import OfficeDetails from '../forms/OfficeDetails';
+import OnboardingForm from '../forms/OnboardingForm';
 
 type TabItems = {
   label: string;
@@ -48,6 +49,7 @@ const TabContainer = ({ closeModal, setMaskClosable }: TabContainerProps) => {
   const [disabledForm, setDisabledForm] = useState<boolean>(false);
   const [disabledTab, setDisabledTab] = useState<boolean>(true);
   const [disabledTab2, setDisabledTab2] = useState<boolean>(true);
+  const [disabledTab3, setDisabledTab3] = useState<boolean>(true);
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const [addEmployee, { isLoading }] = useAddEmployeeMutation();
@@ -73,6 +75,11 @@ const TabContainer = ({ closeModal, setMaskClosable }: TabContainerProps) => {
       relation,
       projectName,
       projectPermission,
+      bankName,
+      bankAccount,
+      branch,
+      ssf,
+      pan,
       ...rest
     } = inputs;
 
@@ -87,6 +94,15 @@ const TabContainer = ({ closeModal, setMaskClosable }: TabContainerProps) => {
       probation: { type: probationPeriod, count },
       emergency: { name: contactName, contact, relation },
       project: { name: projectName, permission: projectPermission },
+      payroll: {
+        bankMeta: {
+          name: bankName,
+          account: bankAccount,
+          branch: branch,
+        },
+        ssf: ssf,
+        pan: pan,
+      },
     };
     try {
       setMaskClosable(false);
@@ -114,6 +130,10 @@ const TabContainer = ({ closeModal, setMaskClosable }: TabContainerProps) => {
       case '2':
         setDisabledTab2(false);
         setActiveKey('3');
+        break;
+      case '3':
+        setDisabledTab3(false);
+        setActiveKey('4');
         break;
       default:
         break;
@@ -152,13 +172,26 @@ const TabContainer = ({ closeModal, setMaskClosable }: TabContainerProps) => {
       children: (
         <ContactDetails
           closeModal={closeModal}
-          isLoading={isLoading}
           form={form}
+          disabledForm={disabledForm}
+          handleTabChange={handleTabChange}
+        />
+      ),
+      disabled: disabledTab2,
+    },
+    {
+      label: 'Onboarding',
+      key: '4',
+      children: (
+        <OnboardingForm
+          closeModal={closeModal}
+          form={form}
+          isLoading={isLoading}
           disabledForm={disabledForm}
           onFinish={onFinish}
         />
       ),
-      disabled: disabledTab2,
+      disabled: disabledTab3,
     },
   ];
 
