@@ -52,7 +52,7 @@ export const employeeApi = createApi({
       query: ({ id, ...rest }) => {
         console.log({ id, rest });
         return {
-          url: `employee/onboarding/${id}`,
+          url: `employee/${id}`,
           method: 'PATCH',
           body: rest,
           headers: {
