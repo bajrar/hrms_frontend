@@ -1,12 +1,10 @@
 import BreadCrumbs from '../../Components/Ui/BreadCrumbs/BreadCrumbs';
 
-import { Table } from 'antd';
+import { Table, Typography } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { useEffect, useState } from 'react';
-import AddHolidaysForm from '../../Components/Holidays/AddHolidaysForm';
-import Layout from '../../Components/Layout';
 import ModalComponent from '../../Components/Ui/Modal/Modal';
-import Navbar from '../../Components/Ui/Navbar';
+import FormContainer from '../../Components/Employee/forms/FormContainer';
 
 /* ASSETS */
 import { faPen, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -25,6 +23,7 @@ const Onboarding = () => {
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const [metaIds, setMetaIds] = useState<{ id: string; empId: string }>({ id: '', empId: '' });
   const [updateModalIsOpen, setUpdateModalIsModal] = useState<boolean>(false);
+  const [isMaskClosable, setIsMaskClosable] = useState<boolean>(true);
 
   const { isLoading, error, data: onboardingData } = useEmployeeListingsQuery('');
 
@@ -148,13 +147,23 @@ const Onboarding = () => {
         </div>
 
         <Table columns={columns} className="onboarding-table" dataSource={mappedOnboarding} loading={isLoading} />
-        <ModalComponent openModal={isModalOpen} classNames="holidays-modal" closeModal={setIsModalOpen}>
-          <h3 className="modal-title">EMPLOYEE ONBOARDING</h3>
-          <OnboardingForm setIsModalOpen={setIsModalOpen} />
+        <ModalComponent
+          openModal={isModalOpen}
+          classNames="add-employee-modal holidays-modal"
+          destroyOnClose={true}
+          closeModal={setIsModalOpen}
+          maskClosable={isMaskClosable}
+        >
+          <Typography.Title level={5} style={{ letterSpacing: 1.2, marginBottom: '0.8rem' }}>
+            EMPLOYEE ONBOARDING
+          </Typography.Title>
+          <FormContainer closeModal={setIsModalOpen} setMaskClosable={setIsMaskClosable} />
         </ModalComponent>
 
         <ModalComponent openModal={updateModalIsOpen} classNames="holidays-modal" closeModal={setUpdateModalIsModal}>
-          <h3 className="modal-title">UPDATE EMPLOYEE ONBOARDING</h3>
+          <Typography.Title level={5} style={{ letterSpacing: 1.2, marginBottom: '0.8rem' }}>
+            UPDATE EMPLOYEE ONBOARDING
+          </Typography.Title>
           <OnboardingForm setIsModalOpen={setUpdateModalIsModal} shiftId={metaIds.empId} />
         </ModalComponent>
 

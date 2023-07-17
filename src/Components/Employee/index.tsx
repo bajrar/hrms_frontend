@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Form, Table } from 'antd';
+import { Button, Form, Table, Typography } from 'antd';
 import FormContainer from './forms/FormContainer';
 
 import './add-employee-form.css';
@@ -279,6 +279,9 @@ export const Employee = () => {
         closeModal={setIsModalOpen}
         maskClosable={isMaskClosable}
       >
+        <Typography.Title level={5} style={{ letterSpacing: 1.2, marginBottom: '0.8rem' }}>
+          EMPLOYEE ONBOARDING
+        </Typography.Title>
         <FormContainer closeModal={setIsModalOpen} setMaskClosable={setIsMaskClosable} />
 
         {/* <h3 className='modal-title'>ADD EMPLOYEE</h3> 
