@@ -49,7 +49,7 @@ const Onboarding = () => {
         branch: employee?.payroll?.bankMeta?.branch,
         ssf: employee?.payroll?.ssf,
         pan: employee?.payroll?.pan,
-        status: employee?.onboardingStatus,
+        status: employee?.status,
         action: employee._id,
       }));
     setMappedOnboarding(filtered);
@@ -92,7 +92,7 @@ const Onboarding = () => {
       key: 'ssf',
     },
     {
-      title: 'Status',
+      title: 'STATUS',
       dataIndex: 'status',
       key: 'status',
     },
@@ -132,7 +132,6 @@ const Onboarding = () => {
         id: metaIds.id,
         onboardingStatus: status,
       });
-      console.log(updateResp);
       toast.success('Employee Onboarding Updated Sucesfully', {
         position: 'top-center',
         autoClose: 5000,
@@ -142,6 +141,8 @@ const Onboarding = () => {
         position: 'top-center',
         autoClose: 5000,
       });
+    } finally {
+      setUpdateStatus(false);
     }
   };
 
