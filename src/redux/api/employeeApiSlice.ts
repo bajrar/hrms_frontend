@@ -49,19 +49,22 @@ export const employeeApi = createApi({
       invalidatesTags: ['employee'],
     }),
     updateEmployeeOnboarding: builder.mutation({
-      query: (payload) => ({
-        url: `employee/onboarding`,
-        method: 'PATCH',
-        body: payload,
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      }),
+      query: ({ id, ...rest }) => {
+        console.log({ id, rest });
+        return {
+          url: `employee/onboarding/${id}`,
+          method: 'PATCH',
+          body: rest,
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        };
+      },
       invalidatesTags: ['employee'],
     }),
-    employeeListings: builder.query({
-      query: () => ({
-        url: 'employee',
+    onboardingEmployeeListings: builder.query({
+      query: (status) => ({
+        url: `employee?onboardingStatus=${status}`,
       }),
       providesTags: ['employee'],
       transformResponse: (response: any, meta, arg) => {
@@ -72,16 +75,25 @@ export const employeeApi = createApi({
           email: emp.email,
           dateOfJoining: emp.dateOfJoining,
           payroll: emp.payroll,
+          status: emp.onboardingStatus,
         }));
       },
+    }),
+    removeEmployee: builder.mutation({
+      query: (id) => ({
+        url: `employee/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['employee'],
     }),
   }),
 });
 export const {
   useGetProfileQuery,
-  useRequestProfileUpdateMutation,
-  useAddEmployeeMutation,
-  useUpdateEmployeeOnboardingMutation,
-  useEmployeeListingsQuery,
   useGetEmployeeQuery,
+  useAddEmployeeMutation,
+  useRemoveEmployeeMutation,
+  useRequestProfileUpdateMutation,
+  useOnboardingEmployeeListingsQuery,
+  useUpdateEmployeeOnboardingMutation,
 } = employeeApi;

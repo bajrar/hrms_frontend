@@ -42,7 +42,6 @@ const Applicants = () => {
   const [filterType, setFilterByType] = useState('');
   const [page, setPage] = useState(1);
   const [form] = Form.useForm();
-
   const filterByType = [
     {
       value: 'applicantName',
