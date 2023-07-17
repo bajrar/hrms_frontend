@@ -22,7 +22,7 @@ export const employeeApi = createApi({
       providesTags: ['employee'],
     }),
     getEmployee: builder.query({
-      query: () => `employee?onboardingStatus="onboarded"`,
+      query: () => ({ url: `employee?onboardingStatus="onboarded"`, method: 'GET' }),
       providesTags: ['employee'],
     }),
 

@@ -38,7 +38,7 @@ export const Employee = () => {
   const [attendanceData, setAttendanceData] = useState<any>([]);
   const [filterData, setFilterData] = useState<any>([]);
   const navigate = useNavigate();
-  const { data: employee, isLoading: loading } = useGetEmployeeQuery();
+  const { data: employee, isLoading: loading } = useGetEmployeeQuery('');
   const [form] = Form.useForm();
   const onSelect = (e: any) => {
     setStatus(e);
