@@ -3,9 +3,6 @@ import { dailyReportsHeader, footer, monthlyReportsHeader } from '../../../utils
 import { columnWidths } from '../../../utils/sheets';
 
 const DownloadBtn = ({ report, date, type }: any) => {
-  console.log('🚀 ~ file: DownloadBtn.tsx:6 ~ DownloadBtn ~ type:', type);
-  console.log('🚀 ~ file: DownloadBtn.tsx:6 ~ DownloadBtn ~ date:', date);
-  console.log('🚀 ~ file: DownloadBtn.tsx:6 ~ DownloadBtn ~ report:', report);
   const addRowsToWorksheet = (rows: any[], worksheet: any) => {
     rows.forEach((row: any) => {
       XLSX.utils.sheet_add_aoa(worksheet, [row.data], row.opts);
