@@ -190,7 +190,7 @@ const MonthlyReports = () => {
         />
         <div className="d-flex daily-report-saerch-right">
           <Selects placeHolder="Search project name" />
-          <DownloadBtn report={monthlyReportData} />
+          <DownloadBtn report={monthlyReportData} date={endDate} type="Monthly Reports" />
         </div>
       </div>
       <div className="daily-report-table-container">

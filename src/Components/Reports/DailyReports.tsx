@@ -214,7 +214,7 @@ const DailyReports = () => {
             options={ProjectTeamOptions}
           />
 
-          <DownloadBtn report={attendanceData} />
+          <DownloadBtn report={attendanceData} date={defaultDate} type='Daily Reports' />
         </div>
       </div>
       <div className="daily-report-table-container">

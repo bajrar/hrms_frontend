@@ -237,3 +237,59 @@ export const leaveUnit = [
     label: 'Hours',
   },
 ];
+
+export const dailyReportsHeader = (year: any, month: any) => [
+  { data: ['Virtuosway Software Pvt.Ltd'], opts: { origin: 'E1' } },
+  { data: ['Old Baneshwor, Kathmandu'], opts: { origin: 'E2' } },
+  { data: [`Monthly Attendance Summary On ' ${year} - ${monthNames[month - 1]}`], opts: { origin: 'E3' } },
+  { data: ['Department: All/ Branch: All'], opts: { origin: 'E4' } },
+  {
+    data: [
+      'S.N',
+      'Employee ID',
+      'Date',
+      'Employee Name',
+      'Status',
+      'Designation',
+      'Arrival Time',
+      'Depart time',
+      'Work Hours',
+    ],
+    opts: { origin: 'A6' },
+  },
+];
+
+export const monthlyReportsHeader = (year: any, month: any) => [
+  { data: ['Virtuosway Software Pvt.Ltd'], opts: { origin: 'E1' } },
+  { data: ['Old Baneshwor, Kathmandu'], opts: { origin: 'E2' } },
+  { data: [`Monthly Attendance Summary On ' ${year} - ${monthNames[month - 1]}`], opts: { origin: 'E3' } },
+  { data: ['Department: All/ Branch: All'], opts: { origin: 'E4' } },
+  {
+    data: [
+      'S.N',
+      'Employee ID',
+      'Employee Name',
+      'Payroll Period',
+      'Weekend',
+      'Holiday',
+      'Duty',
+      'Present Days',
+      'Absent Days',
+      'Total Days',
+      'Annual Leave',
+      'Sick Leave',
+      'Leave Without Pay',
+      'Substitute Leave',
+    ],
+    opts: { origin: 'A6' },
+  },
+];
+
+export const footer = [
+  { data: ['Prepared By'], opts: { origin: 'B22' } },
+  { data: ['Checked By'], opts: { origin: 'E22' } },
+  { data: ['Approved By'], opts: { origin: 'H22' } },
+  { data: [''.padEnd(20, '.')], opts: { origin: 'B21' } },
+  { data: [''.padEnd(20, '.')], opts: { origin: 'E21' } },
+  { data: [''.padEnd(20, '.')], opts: { origin: 'H21' } },
+];
