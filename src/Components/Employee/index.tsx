@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Table, Typography } from 'antd';
+import { Button, Select, Table, Typography, Form } from 'antd';
 
 import './add-employee-form.css';
 import BreadCrumbs from '../Ui/BreadCrumbs/BreadCrumbs';
@@ -18,6 +18,7 @@ import {
 } from '../../redux/api/employeeApiSlice';
 import FormController, { EmployeeInitialValues } from './FormController';
 import useEmployee from '../../hooks/useEmployee';
+import { useForm } from 'antd/es/form/Form';
 
 export interface DataType {
   id?: string;
@@ -29,6 +30,7 @@ export interface DataType {
 }
 
 export const Employee = () => {
+  const [form] = useForm();
   const navigate = useNavigate();
   const { transformPayload } = useEmployee();
   const { data: employee, isLoading: loading } = useGetEmployeeQuery('onboarded');
@@ -210,10 +212,11 @@ export const Employee = () => {
     addEmployeeHandler(payload);
   };
 
-  const handleUpdateEmployee = async (values: EmployeeInitialValues) => {
+  const handleUpdateEmployee = async (values: any) => {
     setIsMaskClosable(false);
     const payload = transformPayload(values);
     updateEmployeeHandler({ ...payload, id: activeEmployee?._id });
+    setActiveEmployee(undefined);
   };
   return (
     <>
@@ -519,7 +522,6 @@ export const Employee = () => {
       </ModalComponent> */}
       <ModalComponent
         openModal={!!activeEmployee}
-        classNames="holidays-modal"
         closeModal={() => setActiveEmployee(undefined)}
         destroyOnClose={true}
         maskClosable={isMaskClosable}
@@ -536,14 +538,40 @@ export const Employee = () => {
         {!!activeEmployee && (
           <>
             <Typography.Title level={5} style={{ letterSpacing: 1.2, marginBottom: '0.8rem' }}>
-              UPDATE EMPLOYEE
+              UPDATE STATUS
             </Typography.Title>
-            <FormController
+            {/* <FormController
               closeModal={() => setActiveEmployee(undefined)}
               handleSubmit={handleUpdateEmployee}
               isLoading={isUpdating}
               initialValues={activeEmployee}
-            />
+            /> */}
+            <Form onFinish={handleUpdateEmployee} form={form} autoComplete="off">
+              <Form.Item
+                className="form-input col"
+                name="status"
+                label="Status *"
+                rules={[{ required: true, message: 'Status is Required' }]}
+              >
+                <Select
+                  options={[
+                    { value: 'pending', label: 'Pending' },
+                    { value: 'working', label: 'Working' },
+                    { value: 'resigned', label: 'Resigned' },
+                  ]}
+                  className="selects status-selects"
+                  placeholder="Update status"
+                ></Select>
+              </Form.Item>
+              <div className="form-btn-container mt-4">
+                <Button type="default" onClick={() => setActiveEmployee(undefined)}>
+                  Cancel
+                </Button>
+                <Button type="primary" htmlType="submit">
+                  Add
+                </Button>
+              </div>
+            </Form>
           </>
         )}
       </ModalComponent>
