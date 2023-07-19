@@ -541,7 +541,7 @@ export const Employee = () => {
             <FormController
               closeModal={() => setActiveEmployee(undefined)}
               handleSubmit={handleUpdateEmployee}
-              isLoading={isSubmitting}
+              isLoading={isUpdating}
               initialValues={activeEmployee}
             />
           </>

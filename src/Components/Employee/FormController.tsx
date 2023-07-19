@@ -51,7 +51,10 @@ const FormController = ({ initialValues, isLoading, closeModal, handleSubmit }: 
     try {
       setDisabled(true);
       await handleSubmit(values);
-      toast.success('Employee Submitted Sucesfully');
+      toast.success('Employee Submitted Sucesfully', {
+        position: 'top-center',
+        autoClose: 5000,
+      });
     } catch (err: any) {
       toast.error('Something Went Wrong', {
         position: 'top-center',

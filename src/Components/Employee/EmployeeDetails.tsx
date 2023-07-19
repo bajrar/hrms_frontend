@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Button, Typography } from 'antd';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,12 +9,15 @@ import Spinner from '../Spinner/Spinner';
 import EmployeeForm from './EmployeeForm';
 import ModalComponent from '../Ui/Modal/Modal';
 import BreadCrumbs from '../Ui/BreadCrumbs/BreadCrumbs';
-import { useGetProfileQuery } from '../../redux/api/employeeApiSlice';
+import { useGetProfileQuery, useUpdateEmployeeMutation } from '../../redux/api/employeeApiSlice';
 
 /* ASSETS */
 import './employeeDetails.css';
 import './add-employee-form.css';
 import { faPen, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import FormController, { EmployeeInitialValues } from './FormController';
+import useEmployee from '../../hooks/useEmployee';
+import { ToastContainer } from 'react-toastify';
 
 enum EMERGENCY {
   NAME = 'name',
@@ -50,8 +53,11 @@ enum empKeys {
 const EmpDetails = () => {
   const { empId } = useParams();
   const navigate = useNavigate();
+  const { transformPayload } = useEmployee();
+  const [updateEmployeeHandler, { isLoading: isUpdating }] = useUpdateEmployeeMutation();
+
   const [employeeData, setEmployeeData] = useState<any>(null);
-  console.log('🚀 ~ file: EmployeeDetails.tsx:54 ~ EmpDetails ~ employeeData:', employeeData);
+  const [isMaskClosable, setIsMaskClosable] = useState<boolean>(true);
   const [activeEmployee, setActiveEmployee] = useState<any>(undefined);
 
   const { isLoading, error, data } = useGetProfileQuery(empId);
@@ -138,8 +144,15 @@ const EmpDetails = () => {
     }
   }, [data]);
 
+  const handleUpdateEmployee = async (values: EmployeeInitialValues) => {
+    setIsMaskClosable(false);
+    const payload = transformPayload(values);
+    updateEmployeeHandler({ ...payload, id: activeEmployee?._id });
+  };
+
   return (
     <>
+      <ToastContainer />
       {isLoading ? (
         <Spinner />
       ) : (
@@ -245,15 +258,30 @@ const EmpDetails = () => {
         openModal={!!activeEmployee}
         classNames="holidays-modal"
         closeModal={() => setActiveEmployee(undefined)}
+        destroyOnClose={true}
+        maskClosable={isMaskClosable}
       >
         {!!activeEmployee && (
+          <>
+            <Typography.Title level={5} style={{ letterSpacing: 1.2, marginBottom: '0.8rem' }}>
+              UPDATE EMPLOYEE
+            </Typography.Title>
+            <FormController
+              closeModal={() => setActiveEmployee(undefined)}
+              handleSubmit={handleUpdateEmployee}
+              isLoading={isUpdating}
+              initialValues={activeEmployee}
+            />
+          </>
+        )}
+        {/* {!!activeEmployee && (
           <EmployeeForm
             update
             setIsModalOpen={() => setActiveEmployee('')}
             employeeId={activeEmployee}
             defaultValue={activeEmployee}
           />
-        )}
+        )} */}
       </ModalComponent>
     </>
   );
