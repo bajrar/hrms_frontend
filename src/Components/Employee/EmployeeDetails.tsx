@@ -16,6 +16,18 @@ import './employeeDetails.css';
 import './add-employee-form.css';
 import { faPen, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
+enum EMERGENCY {
+  NAME = 'name',
+  CONTACT = 'contact',
+  RELATION = 'relation',
+}
+
+enum PAYROLL {
+  BANK_META = 'bankMeta',
+  SSF = 'ssf',
+  PAN = 'pan',
+}
+
 enum empKeys {
   empId = 'employeeNumber',
   name = 'employeeName',
@@ -27,23 +39,26 @@ enum empKeys {
   status = 'status',
   dateofJoining = 'dateOfJoining',
   probation = '',
+  emergency = 'emergency',
   mobileNumber = 'mobileNumber',
   emergencyName = '',
   emergencyContact = 'emergencyContact',
   relation = '',
+  payroll = 'payroll',
 }
 
 const EmpDetails = () => {
   const { empId } = useParams();
   const navigate = useNavigate();
   const [employeeData, setEmployeeData] = useState<any>(null);
+  console.log('🚀 ~ file: EmployeeDetails.tsx:54 ~ EmpDetails ~ employeeData:', employeeData);
   const [activeEmployee, setActiveEmployee] = useState<any>(undefined);
 
   const { isLoading, error, data } = useGetProfileQuery(empId);
 
   useEffect(() => {
     if (data?.employee) {
-      const mapped = Object.keys(data.employee)
+      const info = Object.keys(data.employee)
         .map((key) => {
           switch (key) {
             case empKeys.empId:
@@ -71,7 +86,7 @@ const EmpDetails = () => {
         .filter((elem) => !!elem)
         .sort((a: any, b: any) => a.index - b.index);
 
-      const mappedSec = Object.keys(data.employee)
+      /*  const emergencyContact = Object.keys(data.employee)
         .map((key) => {
           switch (key) {
             case empKeys.emergencyName:
@@ -85,9 +100,41 @@ const EmpDetails = () => {
           }
         })
         .filter((elem) => !!elem)
+        .sort((a: any, b: any) => a.index - b.index); */
+      const emergencyContact = Object.keys(data?.employee)
+        .filter((key) => key === empKeys?.emergency)
+        .map((target) => {
+          return Object.keys(data.employee[target]).map((targetKey) => {
+            if (targetKey === EMERGENCY.NAME) {
+              return { index: 0, key: targetKey, value: data.employee[target][targetKey] };
+            } else if (targetKey === EMERGENCY.CONTACT) {
+              return { index: 1, key: targetKey, value: data.employee[target][targetKey] };
+            } else if (targetKey === EMERGENCY.RELATION) {
+              return { index: 2, key: targetKey, value: data.employee[target][targetKey] };
+            }
+          });
+        })
+        .flat()
+        .filter((item) => !!item)
         .sort((a: any, b: any) => a.index - b.index);
 
-      setEmployeeData({ primary: mapped, secondary: mappedSec });
+      const payroll = Object.keys(data?.employee)
+        .filter((key) => key === empKeys?.payroll)
+        .map((target) => {
+          return Object.keys(data.employee[target]).map((targetKey) => {
+            if (targetKey === PAYROLL.BANK_META) {
+              return { index: 0, key: targetKey, value: data.employee[target][targetKey] };
+            } else if (targetKey === PAYROLL.SSF) {
+              return { index: 1, key: targetKey, value: data.employee[target][targetKey] };
+            } else if (targetKey === PAYROLL.PAN) {
+              return { index: 2, key: targetKey, value: data.employee[target][targetKey] };
+            }
+          });
+        })
+        .flat()
+        .filter((elem) => !!elem)
+        .sort((a: any, b: any) => a.index - b.index);
+      setEmployeeData({ userInfo: info, emergencyContact, payroll });
     }
   }, [data]);
 
@@ -130,7 +177,7 @@ const EmpDetails = () => {
           </div>
           <div className="employee-details-container">
             <div className="employee-details">
-              {employeeData?.primary.map((item: any) => (
+              {employeeData?.userInfo?.map((item: any) => (
                 <div className="employee-details__meta">
                   <h6 className="employee-details__meta-title">{item.key.toUpperCase()}</h6>
                   <p className="employee-details__meta-content">{item.value}</p>
@@ -140,12 +187,52 @@ const EmpDetails = () => {
           </div>
 
           <div className="employee-details-container">
+            <h4>PAYROLL DETAILS</h4>
+            <div className="employee-details">
+              {employeeData?.payroll?.map((item: any) => (
+                <>
+                  {item?.key === 'bankMeta' ? (
+                    <div key={item.key} style={{ width: '100%' }}>
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          flexWrap: 'wrap',
+                          maxWidth: '952px',
+                        }}
+                      >
+                        <div className="employee-details__meta">
+                          <h6 className="employee-details__meta-title">Bank</h6>
+                          <p className="employee-details__meta-content">{item?.value?.name}</p>
+                        </div>
+                        <div className="employee-details__meta">
+                          <h6 className="employee-details__meta-title">A/C</h6>
+                          <p className="employee-details__meta-content">{item?.value?.account}</p>
+                        </div>
+                        <div className="employee-details__meta">
+                          <h6 className="employee-details__meta-title">Branch</h6>
+                          <p className="employee-details__meta-content">{item?.value?.branch}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div key={item.key} className="employee-details__meta">
+                      <h6 className="employee-details__meta-title">{item?.key.toUpperCase()}</h6>
+                      <p className="employee-details__meta-content">{item?.value}</p>
+                    </div>
+                  )}
+                </>
+              ))}
+            </div>
+          </div>
+
+          <div className="employee-details-container">
             <h4>IN CASE OF EMERGENCY</h4>
             <div className="employee-details">
-              {employeeData?.secondary.map((item: any) => (
+              {employeeData?.emergencyContact?.map((item: any) => (
                 <div className="employee-details__meta">
-                  <h6 className="employee-details__meta-title">{item.key.toUpperCase()}</h6>
-                  <p className="employee-details__meta-content">{item.value}</p>
+                  <h6 className="employee-details__meta-title">{item?.key.toUpperCase()}</h6>
+                  <p className="employee-details__meta-content">{item?.value}</p>
                 </div>
               ))}
             </div>

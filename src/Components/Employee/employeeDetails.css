@@ -53,8 +53,8 @@
 
 .employee-details__meta {
   /* Auto layout */
-  width: 287px;
-  height: 56px;
+  min-width: 287px;
+  min-height: 56px;
 }
 
 .employee-details__meta-title {
