@@ -51,7 +51,6 @@ const useEmployee = () => {
   };
 
   const transformInput = ({
-    _id,
     employeeNumber,
     employeeName,
     dob,
@@ -69,7 +68,6 @@ const useEmployee = () => {
     payroll,
   }: any) => {
     return {
-      id: _id,
       idType: 'manual',
       employeeId: employeeNumber,
       employeeName: employeeName,

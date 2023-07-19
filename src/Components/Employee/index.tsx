@@ -213,7 +213,7 @@ export const Employee = () => {
   const handleUpdateEmployee = async (values: EmployeeInitialValues) => {
     setIsMaskClosable(false);
     const payload = transformPayload(values);
-    updateEmployeeHandler(payload);
+    updateEmployeeHandler({ ...payload, id: activeEmployee?._id });
   };
   return (
     <>
