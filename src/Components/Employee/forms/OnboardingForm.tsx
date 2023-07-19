@@ -27,10 +27,10 @@ type OnboardingFormProps = {
   form: FormInstance<any>;
   isLoading: boolean;
   onFinish: (values: any) => void;
-  disabledForm?: boolean;
+  isFormDisabled?: boolean;
 };
 
-const OnboardingForm = ({ closeModal, form, onFinish, isLoading, disabledForm }: OnboardingFormProps) => {
+const OnboardingForm = ({ closeModal, form, onFinish, isLoading, isFormDisabled }: OnboardingFormProps) => {
   const [initialValues, setInitialValues] = useState<typeof defaultValue>(defaultValue);
 
   // useEffect(() => {
@@ -62,7 +62,7 @@ const OnboardingForm = ({ closeModal, form, onFinish, isLoading, disabledForm }:
         autoComplete="off"
         className="shift-assign-form"
         form={form}
-        disabled={disabledForm}
+        disabled={isFormDisabled}
       >
         <div className="form-second-row align-items-start mb-4">
           <Form.Item

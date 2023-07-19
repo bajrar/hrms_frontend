@@ -10,10 +10,10 @@ type BasicInfoFormProps = {
   closeModal: (state: boolean) => void;
   form: FormInstance<any>;
   handleTabChange: () => void;
-  disabledForm?: boolean;
+  isFormDisabled?: boolean;
 };
 
-const BasicInfoForm = ({ closeModal, form, handleTabChange, disabledForm = false }: BasicInfoFormProps) => {
+const BasicInfoForm = ({ closeModal, form, handleTabChange, isFormDisabled = false }: BasicInfoFormProps) => {
   useEffect(() => {
     /* on mount fetch data from redux store */
   }, []);
@@ -26,7 +26,7 @@ const BasicInfoForm = ({ closeModal, form, handleTabChange, disabledForm = false
   return (
     <div className="mb-4">
       <div style={{ paddingInline: 5 }}>
-        <Form layout="vertical" autoComplete="off" form={form} disabled={disabledForm}>
+        <Form layout="vertical" autoComplete="off" form={form} disabled={isFormDisabled}>
           <div className="row add-employee__section__tab p-2 mt-4">
             <Form.Item label="Employee ID series * " className="form-input col" name="idType" initialValue={{}}>
               <Select

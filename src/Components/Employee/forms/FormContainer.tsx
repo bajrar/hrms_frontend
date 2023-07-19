@@ -1,4 +1,4 @@
-import { Form, Tabs, message } from 'antd';
+import { Form, FormInstance, Tabs, message } from 'antd';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -7,6 +7,7 @@ import BasicInfoForm from '../forms/BasicInfoForm';
 import ContactDetails from '../forms/ContactDetails';
 import OfficeDetails from '../forms/OfficeDetails';
 import OnboardingForm from '../forms/OnboardingForm';
+import { EmployeeInitialValues } from '../FormController';
 
 type TabItems = {
   label: string;
@@ -15,8 +16,11 @@ type TabItems = {
 };
 
 type TabContainerProps = {
+  form: FormInstance<any>;
+  isFormDisabled: boolean;
+  isLoading: boolean;
   closeModal: (state: boolean) => void;
-  setMaskClosable: (state: boolean) => void;
+  handleSubmit: (values: EmployeeInitialValues) => void;
 };
 
 type CustomDate = {
@@ -44,80 +48,14 @@ export type Employee = {
   relation: string;
 };
 
-const TabContainer = ({ closeModal, setMaskClosable }: TabContainerProps) => {
+const TabContainer = ({ form, isFormDisabled, isLoading, handleSubmit, closeModal }: TabContainerProps) => {
   const [activeKey, setActiveKey] = useState('1');
-  const [disabledForm, setDisabledForm] = useState<boolean>(false);
   const [disabledTab, setDisabledTab] = useState<boolean>(true);
   const [disabledTab2, setDisabledTab2] = useState<boolean>(true);
   const [disabledTab3, setDisabledTab3] = useState<boolean>(true);
-  const [form] = Form.useForm();
-  const navigate = useNavigate();
-  const [addEmployee, { isLoading }] = useAddEmployeeMutation();
 
   const onKeyChange = (key: string) => {
     setActiveKey(key);
-  };
-
-  const onFinish = async (values: any) => {
-    const inputs = { ...values };
-    const {
-      idType,
-      employeeId,
-      dob,
-      mobile,
-      dateOfJoining,
-      confirmationDate,
-      designation,
-      probationPeriod,
-      count,
-      contactName,
-      contact,
-      relation,
-      projectName,
-      projectPermission,
-      bankName,
-      bankAccount,
-      branch,
-      ssf,
-      pan,
-      ...rest
-    } = inputs;
-
-    const payload = {
-      ...rest,
-      employeeNumber: employeeId,
-      dob: dob.bsDate,
-      mobileNumber: mobile,
-      dateOfJoining: dateOfJoining.bsDate,
-      confirmationDate: confirmationDate.bsDate,
-      designation,
-      probation: { type: probationPeriod, count },
-      emergency: { name: contactName, contact, relation },
-      project: { name: projectName, permission: projectPermission },
-      payroll: {
-        bankMeta: {
-          name: bankName,
-          account: bankAccount,
-          branch: branch,
-        },
-        ssf: ssf,
-        pan: pan,
-      },
-    };
-    try {
-      setMaskClosable(false);
-      setDisabledForm(true);
-      await addEmployee(payload);
-      message.success('Employee Submitted Sucesfully');
-      navigate('/employee');
-    } catch (err: any) {
-      toast.error('Something Went Wrong', {
-        position: 'top-center',
-        autoClose: 5000,
-      });
-    } finally {
-      closeModal(false);
-    }
   };
 
   const handleTabChange = () => {
@@ -148,7 +86,7 @@ const TabContainer = ({ closeModal, setMaskClosable }: TabContainerProps) => {
         <BasicInfoForm
           closeModal={closeModal}
           form={form}
-          disabledForm={disabledForm}
+          isFormDisabled={isFormDisabled}
           handleTabChange={handleTabChange}
         />
       ),
@@ -160,7 +98,7 @@ const TabContainer = ({ closeModal, setMaskClosable }: TabContainerProps) => {
         <OfficeDetails
           closeModal={closeModal}
           form={form}
-          disabledForm={disabledForm}
+          isFormDisabled={isFormDisabled}
           handleTabChange={handleTabChange}
         />
       ),
@@ -173,7 +111,7 @@ const TabContainer = ({ closeModal, setMaskClosable }: TabContainerProps) => {
         <ContactDetails
           closeModal={closeModal}
           form={form}
-          disabledForm={disabledForm}
+          isFormDisabled={isFormDisabled}
           handleTabChange={handleTabChange}
         />
       ),
@@ -187,8 +125,8 @@ const TabContainer = ({ closeModal, setMaskClosable }: TabContainerProps) => {
           closeModal={closeModal}
           form={form}
           isLoading={isLoading}
-          disabledForm={disabledForm}
-          onFinish={onFinish}
+          isFormDisabled={isFormDisabled}
+          onFinish={handleSubmit}
         />
       ),
       disabled: disabledTab3,

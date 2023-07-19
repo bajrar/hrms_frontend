@@ -1,53 +1,50 @@
-import React, { useEffect, useState } from "react";
-import "./SubMenu.css";
-import { Button, Skeleton, Tabs } from "antd";
-import { Graph } from "../Graph/Graph";
-import { DashboardEmployeeStatus } from "../DashboardEmployeeStatus/DashboardEmployeeStatus";
-import Analytics from "../Analytics/Analytics";
-import AttendaceCount from "../../../../Components/Dashboard/AttendanceCount/AttendaceCount";
-import EmployeeCountByDesignation from "../../../../Components/Dashboard/AttendanceCount/EmployeeCountByDesignation";
-import UpcomingEvents from "../../../../Components/Dashboard/upcomingEvents/UpcomingEvents";
-import Announcement from "../../../../Components/Dashboard/upcomingEvents/Announcement";
-import UserDashboard from "../UserDashboard/UserDashboard";
-import { useDispatch } from "react-redux";
-import { Spin } from "antd";
-import NepaliDate from "nepali-date-converter";
-import { MdCalendarToday } from "react-icons/md";
-import { useGetTokenDataQuery } from "../../../../redux/api/tokenSlice";
-import { RootState } from "../../../../store";
-import { useAppSelector } from "../../../../hooks/useTypedSelector";
-import { getRole } from "../../../../redux/features/role/userRoleSlice";
-import { useTokenData } from "../../../../hooks/userTokenData";
+import React, { useEffect, useState } from 'react';
+import './SubMenu.css';
+import { Button, Skeleton, Tabs } from 'antd';
+import { Graph } from '../Graph/Graph';
+import { DashboardEmployeeStatus } from '../DashboardEmployeeStatus/DashboardEmployeeStatus';
+import Analytics from '../Analytics/Analytics';
+import AttendaceCount from '../../../../Components/Dashboard/AttendanceCount/AttendaceCount';
+import EmployeeCountByDesignation from '../../../../Components/Dashboard/AttendanceCount/EmployeeCountByDesignation';
+import UpcomingEvents from '../../../../Components/Dashboard/upcomingEvents/UpcomingEvents';
+import Announcement from '../../../../Components/Dashboard/upcomingEvents/Announcement';
+import UserDashboard from '../UserDashboard/UserDashboard';
+import { useDispatch } from 'react-redux';
+import { Spin } from 'antd';
+import NepaliDate from 'nepali-date-converter';
+import { MdCalendarToday } from 'react-icons/md';
+import { useGetTokenDataQuery } from '../../../../redux/api/tokenSlice';
+import { RootState } from '../../../../store';
+import { useAppSelector } from '../../../../hooks/useTypedSelector';
+import { getRole } from '../../../../redux/features/role/userRoleSlice';
+import { useTokenData } from '../../../../hooks/userTokenData';
 
 type SubMenuProps = {};
 
 export const SubMenu = ({}: SubMenuProps) => {
   const dispatch = useDispatch();
-  const { data: tokenData, isLoading } = useGetTokenDataQuery("token");
+  const { data: tokenData, isLoading } = useGetTokenDataQuery('token');
   const authData = useAppSelector((state: RootState) => state.userSlice.value);
-  console.log({ authData: authData?.role });
   // const userRole = tokenData?.role;
   const userRole = authData?.role || tokenData?.role;
   useEffect(() => {
     dispatch(getRole(userRole));
   }, [userRole]);
 
-  const userRoleData = useAppSelector(
-    (state: RootState) => state.userRoleSlice
-  );
+  const userRoleData = useAppSelector((state: RootState) => state.userRoleSlice);
   const { isAdminTemp: isAdmin } = useTokenData();
   const operations = (
     <Button
       type="dashed"
       style={{
-        display: "flex",
+        display: 'flex',
         gap: 20,
-        alignItems: "center",
-        justifyContent: "center",
-        marginRight: "20px",
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: '20px',
       }}
     >
-      {new NepaliDate().format("ddd DD, MMMM YYYY")} <MdCalendarToday />
+      {new NepaliDate().format('ddd DD, MMMM YYYY')} <MdCalendarToday />
     </Button>
   );
 
@@ -56,9 +53,9 @@ export const SubMenu = ({}: SubMenuProps) => {
       <Spin
         size="large"
         style={{
-          position: "absolute",
-          top: "50%",
-          right: "50%",
+          position: 'absolute',
+          top: '50%',
+          right: '50%',
         }}
       />
     );

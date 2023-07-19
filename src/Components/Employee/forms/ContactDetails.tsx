@@ -9,10 +9,10 @@ type BasicInfoFormProps = {
   closeModal: (state: boolean) => void;
   form: FormInstance<any>;
   handleTabChange: () => void;
-  disabledForm?: boolean;
+  isFormDisabled?: boolean;
 };
 
-const ContactDetail = ({ closeModal, form, disabledForm = false, handleTabChange }: BasicInfoFormProps) => {
+const ContactDetail = ({ closeModal, form, isFormDisabled = false, handleTabChange }: BasicInfoFormProps) => {
   const handleModalClose = () => {
     form.resetFields();
     closeModal(false);
@@ -22,7 +22,7 @@ const ContactDetail = ({ closeModal, form, disabledForm = false, handleTabChange
       <ToastContainer />
       <div className="mb-4">
         <div style={{ paddingInline: 5 }}>
-          <Form layout="vertical" autoComplete="off" form={form} disabled={disabledForm}>
+          <Form layout="vertical" autoComplete="off" form={form} disabled={isFormDisabled}>
             <div
               className="row add-employee__section__tab p-2 mt-4  
              "

@@ -1,11 +1,9 @@
-import { useEffect, useState, memo, useMemo } from 'react';
-import { Button, Form, Input, Radio, RadioChangeEvent, DatePicker, Select } from 'antd';
+import { useEffect, useState } from 'react';
+import { Button, Form, Input, Radio, RadioChangeEvent, Select } from 'antd';
 import { toast } from 'react-toastify';
 
-import { apis, axiosApiInstance } from '../apis/constants/ApisService';
+import { apis } from '../apis/constants/ApisService';
 import './add-employee-form.css';
-import { useDispatch } from 'react-redux';
-import { getSingleEmployee } from '../../redux/features/singleEmployeeSlice';
 import moment from 'moment';
 import { getEmployee } from '../../redux/features/employeeSlice';
 import dayjs from 'dayjs';
@@ -27,12 +25,10 @@ export const EmployeeForm = ({
   const [status, setStatus] = useState('');
   const currentDate = new NepaliDate(new Date()).format('YYYY-MM-DD');
   // const [employeeData, setEmployeeData] = useState({} as any);
-  const dispatch = useDispatch();
   const [getDateOfJoining, setDateOfJoining] = useState();
   const [getDob, setDob] = useState();
   const defaultDob = employeeData?.dob?.split('/').join('-');
   const defaultdateOfJoining = employeeData?.dateOfJoining?.split('/').join('-');
-  console.log(defaultDob, defaultdateOfJoining);
   // useEffect(()=>{
   //   dispatch(getSingleEmployee())
   // },[])

@@ -12,7 +12,6 @@ export const tokenSliceApi = createApi({
       const tempToken = state.authSlice.token;
 
       if (token) {
-        console.log({ token });
         headers.set('Authorization', `Bearer ${token}`);
       }
       headers.set('Content-Type', 'application/json');

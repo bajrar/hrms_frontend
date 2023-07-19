@@ -11,18 +11,25 @@ import { faPen, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './onboarding.css';
 import '@sbmdkl/nepali-datepicker-reactjs/dist/index.css';
-import OnboardingForm from '../../Components/Onboarding/OnboardingForm';
 import DeleteModal from '../../Components/Ui/DeleteModal/DeleteModal';
 import { ToastContainer, toast } from 'react-toastify';
 import {
-  useOnboardingEmployeeListingsQuery,
+  useAddEmployeeMutation,
   useRemoveEmployeeMutation,
-  useUpdateEmployeeOnboardingMutation,
+  useUpdateEmployeeMutation,
+  useOnboardingEmployeeListingsQuery,
 } from '../../redux/api/employeeApiSlice';
-import form from 'antd/es/form';
+import FormController, { EmployeeInitialValues } from '../../Components/Employee/FormController';
+import useEmployee from '../../hooks/useEmployee';
 
 const Onboarding = () => {
   const [form] = Form.useForm();
+  const [transformPayload] = useEmployee();
+  const [handleRemoveEmployee] = useRemoveEmployeeMutation();
+  const [addEmployeeHandler, { isLoading: isSubmitting }] = useAddEmployeeMutation();
+  const [handleUpateEmployeeStatus] = useUpdateEmployeeMutation();
+  const { isLoading, error, data: onboardingData } = useOnboardingEmployeeListingsQuery('pending,rejected');
+
   const [searchText, setSearchText] = useState('');
   const [onboarding, setOnboarding] = useState(false);
   const [mappedOnboarding, setMappedOnboarding] = useState([]);
@@ -30,30 +37,6 @@ const Onboarding = () => {
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const [isMaskClosable, setIsMaskClosable] = useState<boolean>(true);
   const [metaIds, setMetaIds] = useState<{ id: string; empId: string }>({ id: '', empId: '' });
-
-  const [handleRemoveEmployee] = useRemoveEmployeeMutation();
-  const [handleUpateEmployeeStatus, updateResp] = useUpdateEmployeeOnboardingMutation();
-  const { isLoading, error, data: onboardingData } = useOnboardingEmployeeListingsQuery('pending,rejected');
-
-  useEffect(() => {
-    const filtered = onboardingData
-      ?.filter((employee: any) => typeof employee.payroll !== 'undefined')
-      .map((employee: any) => ({
-        _id: employee._id,
-        employeeId: employee.employeeId,
-        employeeName: employee.employeeName,
-        email: employee.email,
-        dateOfJoining: employee.dateOfJoining,
-        bank: employee?.payroll?.bankMeta?.name,
-        bankAcc: employee?.payroll?.bankMeta?.account,
-        branch: employee?.payroll?.bankMeta?.branch,
-        ssf: employee?.payroll?.ssf,
-        pan: employee?.payroll?.pan,
-        status: employee?.status,
-        action: employee._id,
-      }));
-    setMappedOnboarding(filtered);
-  }, [isLoading, onboardingData]);
 
   const columns: ColumnsType<any> = [
     {
@@ -116,6 +99,26 @@ const Onboarding = () => {
     },
   ];
 
+  useEffect(() => {
+    const filtered = onboardingData
+      ?.filter((employee: any) => typeof employee.payroll !== 'undefined')
+      .map((employee: any) => ({
+        _id: employee._id,
+        employeeId: employee.employeeId,
+        employeeName: employee.employeeName,
+        email: employee.email,
+        dateOfJoining: employee.dateOfJoining,
+        bank: employee?.payroll?.bankMeta?.name,
+        bankAcc: employee?.payroll?.bankMeta?.account,
+        branch: employee?.payroll?.bankMeta?.branch,
+        ssf: employee?.payroll?.ssf,
+        pan: employee?.payroll?.pan,
+        status: employee?.status,
+        action: employee._id,
+      }));
+    setMappedOnboarding(filtered);
+  }, [isLoading, onboardingData]);
+
   const openDeleteModal = (id: string) => {
     setDeleteModal(true);
     setMetaIds({ ...metaIds, id });
@@ -163,6 +166,12 @@ const Onboarding = () => {
     }
   };
 
+  const handleAddEmployee = async (values: EmployeeInitialValues) => {
+    setIsMaskClosable(false);
+    const payload = transformPayload(values);
+    addEmployeeHandler(payload);
+  };
+
   const handleCancel = () => {
     setUpdateStatus(false);
     form.resetFields();
@@ -202,7 +211,12 @@ const Onboarding = () => {
           <Typography.Title level={5} style={{ letterSpacing: 1.2, marginBottom: '0.8rem' }}>
             EMPLOYEE ONBOARDING
           </Typography.Title>
-          <FormContainer closeModal={setOnboarding} setMaskClosable={setIsMaskClosable} />
+          <FormController
+            closeModal={setOnboarding}
+            handleSubmit={handleAddEmployee}
+            isLoading={isSubmitting}
+            initialValues={{}}
+          />
         </ModalComponent>
 
         <ModalComponent openModal={updateStatus} closeModal={setUpdateStatus}>

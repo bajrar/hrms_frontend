@@ -48,9 +48,8 @@ export const employeeApi = createApi({
       }),
       invalidatesTags: ['employee'],
     }),
-    updateEmployeeOnboarding: builder.mutation({
+    updateEmployee: builder.mutation({
       query: ({ id, ...rest }) => {
-        console.log({ id, rest });
         return {
           url: `employee/${id}`,
           method: 'PATCH',
@@ -92,8 +91,8 @@ export const {
   useGetProfileQuery,
   useGetEmployeeQuery,
   useAddEmployeeMutation,
+  useUpdateEmployeeMutation,
   useRemoveEmployeeMutation,
   useRequestProfileUpdateMutation,
   useOnboardingEmployeeListingsQuery,
-  useUpdateEmployeeOnboardingMutation,
 } = employeeApi;

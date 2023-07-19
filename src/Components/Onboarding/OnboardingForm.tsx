@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Button, Form, Input, message } from 'antd';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import { useGetProfileQuery, useUpdateEmployeeOnboardingMutation } from '../../redux/api/employeeApiSlice';
+import { useGetProfileQuery, useUpdateEmployeeMutation } from '../../redux/api/employeeApiSlice';
 
 import { IForm } from '../Shifts/AddShiftForm';
 
@@ -30,7 +30,7 @@ const OnboardingForm = ({ setIsModalOpen, shiftId: empId = '' }: IForm) => {
   const [form] = Form.useForm();
 
   const { error, isLoading, data: profileData } = useConditionalFetch(empId);
-  const [handleUpdateOnboarding, result] = useUpdateEmployeeOnboardingMutation();
+  const [handleUpdateOnboarding, result] = useUpdateEmployeeMutation();
 
   useEffect(() => {
     if (!error && profileData) {

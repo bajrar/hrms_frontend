@@ -10,7 +10,7 @@ type BasicInfoFormProps = {
   closeModal: (state: boolean) => void;
   form: FormInstance<any>;
   handleTabChange: () => void;
-  disabledForm?: boolean;
+  isFormDisabled?: boolean;
 };
 
 const dayOptions = [
@@ -41,7 +41,7 @@ enum monthAndDaysEnum {
   month = 'probationPeriod',
   day = 'count',
 }
-const OfficeDetailsForm = ({ closeModal, form, handleTabChange, disabledForm = false }: BasicInfoFormProps) => {
+const OfficeDetailsForm = ({ closeModal, form, handleTabChange, isFormDisabled = false }: BasicInfoFormProps) => {
   useEffect(() => {
     /* on mount fetch data from redux store */
   }, []);
@@ -66,7 +66,7 @@ const OfficeDetailsForm = ({ closeModal, form, handleTabChange, disabledForm = f
   return (
     <div className="mb-4">
       <div style={{ paddingInline: 5 }}>
-        <Form layout="vertical" autoComplete="off" form={form} disabled={disabledForm}>
+        <Form layout="vertical" autoComplete="off" form={form} disabled={isFormDisabled}>
           <div className="row add-employee__section__tab p-2 mt-4">
             <Form.Item
               className="form-input col"

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Form, Table, Typography } from 'antd';
-import FormContainer from './forms/FormContainer';
+import { Button, Table, Typography } from 'antd';
 
 import './add-employee-form.css';
 import BreadCrumbs from '../Ui/BreadCrumbs/BreadCrumbs';
@@ -12,9 +11,10 @@ import { EmployeeForm } from './EmployeeForm';
 import { useNavigate } from 'react-router-dom';
 import { CompareFunction } from '../Ui/Tables/AttendaceReport';
 import { ColumnsType } from 'antd/es/table';
-import { useAppDispatch } from '../../hooks/useTypedSelector';
 import { EmployeeStats } from '../../pages/Attendance/Attendance';
-import { useGetEmployeeQuery } from '../../redux/api/employeeApiSlice';
+import { useAddEmployeeMutation, useGetEmployeeQuery } from '../../redux/api/employeeApiSlice';
+import FormController, { EmployeeInitialValues } from './FormController';
+import useEmployee from '../../hooks/useEmployee';
 
 export interface DataType {
   id?: string;
@@ -26,7 +26,7 @@ export interface DataType {
 }
 
 export const Employee = () => {
-  const [gender, setGender] = useState('');
+  const [transformPayload] = useEmployee();
   const [searchText, setSearchText] = useState('');
   const [status, setStatus] = useState('');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -34,45 +34,20 @@ export const Employee = () => {
   // const [UpdateisModalOpen, setUpdateIsModalOpen] = useState<boolean>(false);
   // const [getEmployeeData,setGetEmployeeData] = useState({}as any)
   const [activeEmployee, setActiveEmployee] = useState<any>(undefined);
-  const dispatch = useAppDispatch();
   const [attendanceData, setAttendanceData] = useState<any>([]);
   const [filterData, setFilterData] = useState<any>([]);
   const navigate = useNavigate();
   const { data: employee, isLoading: loading } = useGetEmployeeQuery('onboarded');
-  const [form] = Form.useForm();
+  const [addEmployeeHandler, { isLoading: isSubmitting }] = useAddEmployeeMutation();
   const onSelect = (e: any) => {
     setStatus(e);
   };
 
-  const showModal = () => {
-    setIsModalOpen(!isModalOpen);
+  const handleAddEmployee = async (values: EmployeeInitialValues) => {
+    setIsMaskClosable(false);
+    const payload = transformPayload(values);
+    addEmployeeHandler(payload);
   };
-  const updateEmployeeModel = (id: string) => {
-    setActiveEmployee(id);
-  };
-
-  // const onFinish = async (values: any) => {
-  //   try {
-  //     const res = await apis.addEmployee(values);
-
-  //     if (res.status === 201) {
-  //       toast.success('Employee Submitted Sucesfully', {
-  //         position: 'top-center',
-  //         autoClose: 5000,
-  //       });
-  //       window.location.reload();
-  //     }
-  //   } catch {
-  //     toast.error('Something Went Wrong', {
-  //       position: 'top-center',
-  //       autoClose: 5000,
-  //     });
-  //   }
-  // };
-
-  // const onChangeRadio = (e: RadioChangeEvent) => {
-  //   setGender(e.target.value);
-  // };
 
   const columns: ColumnsType<DataType> = [
     {
@@ -282,7 +257,12 @@ export const Employee = () => {
         <Typography.Title level={5} style={{ letterSpacing: 1.2, marginBottom: '0.8rem' }}>
           EMPLOYEE ONBOARDING
         </Typography.Title>
-        <FormContainer closeModal={setIsModalOpen} setMaskClosable={setIsMaskClosable} />
+        <FormController
+          closeModal={setIsModalOpen}
+          handleSubmit={handleAddEmployee}
+          isLoading={isSubmitting}
+          initialValues={{}}
+        />
 
         {/* <h3 className='modal-title'>ADD EMPLOYEE</h3> 
         <div className='mb-4'>

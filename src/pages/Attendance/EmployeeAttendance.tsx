@@ -112,7 +112,6 @@ const EmployeeAttendance = () => {
   const onEndDateChange = ({ bsDate }: any) => {
     setEndDate(bsDate);
   };
-  console.log({ date: todayInBs.getMonth() });
   const dispatch = useDispatch();
   const navigate = useNavigate();
   let { employeeId } = useParams();
