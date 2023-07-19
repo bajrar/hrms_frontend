@@ -24,7 +24,7 @@ import useEmployee from '../../hooks/useEmployee';
 
 const Onboarding = () => {
   const [form] = Form.useForm();
-  const [transformPayload] = useEmployee();
+  const { transformPayload } = useEmployee();
   const [handleRemoveEmployee] = useRemoveEmployeeMutation();
   const [addEmployeeHandler, { isLoading: isSubmitting }] = useAddEmployeeMutation();
   const [handleUpateEmployeeStatus] = useUpdateEmployeeMutation();

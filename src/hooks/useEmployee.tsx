@@ -50,7 +50,54 @@ const useEmployee = () => {
     return payload;
   };
 
-  return [transformPayload];
+  const transformInput = ({
+    _id,
+    employeeNumber,
+    employeeName,
+    dob,
+    gender,
+    mobileNumber,
+    email,
+    designation,
+    dateOfJoining,
+    reportingManager,
+    probation,
+    confirmationDate,
+    status,
+    emergency,
+    project,
+    payroll,
+  }: any) => {
+    return {
+      id: _id,
+      idType: 'manual',
+      employeeId: employeeNumber,
+      employeeName: employeeName,
+      dob: dob,
+      gender: gender,
+      email: email,
+      reportingManager: reportingManager,
+      status: status,
+      mobile: mobileNumber,
+      dateOfJoining: dateOfJoining,
+      confirmationDate: confirmationDate,
+      designation: designation,
+      probationPeriod: probation?.type,
+      count: probation?.count,
+      contactName: emergency?.name,
+      contact: emergency?.contact,
+      relation: emergency?.relation,
+      projectName: project?.name,
+      projectPermission: project?.permission,
+      bankName: payroll?.bankMeta.name,
+      bankAccount: payroll?.bankMeta?.account,
+      branch: payroll?.bankMeta?.branch,
+      ssf: payroll?.ssf,
+      pan: payroll?.pan,
+    };
+  };
+
+  return { transformPayload, transformInput };
 };
 
 export default useEmployee;

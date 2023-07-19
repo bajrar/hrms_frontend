@@ -7,12 +7,15 @@ import Selects from '../Ui/Selects/Selects';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faPlus } from '@fortawesome/free-solid-svg-icons';
 import ModalComponent from '../Ui/Modal/Modal';
-import { EmployeeForm } from './EmployeeForm';
 import { useNavigate } from 'react-router-dom';
 import { CompareFunction } from '../Ui/Tables/AttendaceReport';
 import { ColumnsType } from 'antd/es/table';
 import { EmployeeStats } from '../../pages/Attendance/Attendance';
-import { useAddEmployeeMutation, useGetEmployeeQuery } from '../../redux/api/employeeApiSlice';
+import {
+  useAddEmployeeMutation,
+  useGetEmployeeQuery,
+  useUpdateEmployeeMutation,
+} from '../../redux/api/employeeApiSlice';
 import FormController, { EmployeeInitialValues } from './FormController';
 import useEmployee from '../../hooks/useEmployee';
 
@@ -26,7 +29,12 @@ export interface DataType {
 }
 
 export const Employee = () => {
-  const [transformPayload] = useEmployee();
+  const navigate = useNavigate();
+  const { transformPayload } = useEmployee();
+  const { data: employee, isLoading: loading } = useGetEmployeeQuery('onboarded');
+  const [addEmployeeHandler, { isLoading: isSubmitting }] = useAddEmployeeMutation();
+  const [updateEmployeeHandler, { isLoading: isUpdating }] = useUpdateEmployeeMutation();
+
   const [searchText, setSearchText] = useState('');
   const [status, setStatus] = useState('');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -36,18 +44,6 @@ export const Employee = () => {
   const [activeEmployee, setActiveEmployee] = useState<any>(undefined);
   const [attendanceData, setAttendanceData] = useState<any>([]);
   const [filterData, setFilterData] = useState<any>([]);
-  const navigate = useNavigate();
-  const { data: employee, isLoading: loading } = useGetEmployeeQuery('onboarded');
-  const [addEmployeeHandler, { isLoading: isSubmitting }] = useAddEmployeeMutation();
-  const onSelect = (e: any) => {
-    setStatus(e);
-  };
-
-  const handleAddEmployee = async (values: EmployeeInitialValues) => {
-    setIsMaskClosable(false);
-    const payload = transformPayload(values);
-    addEmployeeHandler(payload);
-  };
 
   const columns: ColumnsType<DataType> = [
     {
@@ -203,7 +199,22 @@ export const Employee = () => {
     }
     setFilterData(data);
   }, [attendanceData, status]);
-  console.log({ filterData });
+
+  const onSelect = (e: any) => {
+    setStatus(e);
+  };
+
+  const handleAddEmployee = async (values: EmployeeInitialValues) => {
+    setIsMaskClosable(false);
+    const payload = transformPayload(values);
+    addEmployeeHandler(payload);
+  };
+
+  const handleUpdateEmployee = async (values: EmployeeInitialValues) => {
+    setIsMaskClosable(false);
+    const payload = transformPayload(values);
+    updateEmployeeHandler(payload);
+  };
   return (
     <>
       <div style={{ margin: 40 }}>
@@ -250,8 +261,8 @@ export const Employee = () => {
       <ModalComponent
         openModal={isModalOpen}
         classNames="add-employee-modal holidays-modal"
-        destroyOnClose={true}
         closeModal={setIsModalOpen}
+        destroyOnClose={true}
         maskClosable={isMaskClosable}
       >
         <Typography.Title level={5} style={{ letterSpacing: 1.2, marginBottom: '0.8rem' }}>
@@ -510,14 +521,30 @@ export const Employee = () => {
         openModal={!!activeEmployee}
         classNames="holidays-modal"
         closeModal={() => setActiveEmployee(undefined)}
+        destroyOnClose={true}
+        maskClosable={isMaskClosable}
       >
-        {!!activeEmployee && (
+        {/* {!!activeEmployee && (
           <EmployeeForm
             update
             setIsModalOpen={() => setActiveEmployee('')}
             employeeId={activeEmployee}
             defaultValue={activeEmployee}
           />
+        )} */}
+
+        {!!activeEmployee && (
+          <>
+            <Typography.Title level={5} style={{ letterSpacing: 1.2, marginBottom: '0.8rem' }}>
+              UPDATE EMPLOYEE
+            </Typography.Title>
+            <FormController
+              closeModal={() => setActiveEmployee(undefined)}
+              handleSubmit={handleUpdateEmployee}
+              isLoading={isSubmitting}
+              initialValues={activeEmployee}
+            />
+          </>
         )}
       </ModalComponent>
 

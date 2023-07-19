@@ -1,7 +1,8 @@
 import { Form } from 'antd';
 import { toast } from 'react-toastify';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import FormContainer from './forms/FormContainer';
+import useEmployee from '../../hooks/useEmployee';
 
 export type EmployeeInitialValues =
   | {
@@ -26,6 +27,7 @@ export type EmployeeInitialValues =
       pan: string;
     }
   | {};
+
 type FormControllerProps = {
   isLoading: boolean;
   initialValues: EmployeeInitialValues;
@@ -35,11 +37,15 @@ type FormControllerProps = {
 
 const FormController = ({ initialValues, isLoading, closeModal, handleSubmit }: FormControllerProps) => {
   const [form] = Form.useForm();
+  const { transformInput } = useEmployee();
+  // const memoizedTransformInput = useCallback(() => transformInput, [transformInput]);
   const [disabled, setDisabled] = useState<boolean>(false);
 
   useEffect(() => {
-    form.setFieldsValue(initialValues);
-  }, [form, initialValues]);
+    console.log(initialValues);
+    const mappedInput = transformInput(initialValues);
+    form.setFieldsValue(mappedInput);
+  }, [initialValues]);
 
   const onFinish = async (values: any) => {
     try {
