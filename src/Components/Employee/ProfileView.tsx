@@ -114,7 +114,7 @@ const ProfileView = ({ activeEmployee }: Props) => {
         <Typography.Title level={5} style={classes.title}>
           <span style={classes.label}> Basic Information</span>
         </Typography.Title>
-        <FlexBetween style={{ flexWrap: 'wrap' }}>
+        <FlexBetween style={{ flexWrap: 'wrap', justifyContent: 'flex-start', gap: '3.2rem' }}>
           {basicInfo.map((key) => (
             <EmployeeDetailsMeta key={key} label={key} value={activeEmployee?.[key]} />
           ))}
@@ -125,7 +125,7 @@ const ProfileView = ({ activeEmployee }: Props) => {
         <Typography.Title level={5} style={classes.title}>
           <span style={classes.label}>Offical Details</span>
         </Typography.Title>
-        <FlexBetween style={{ flexWrap: 'wrap', gap: '1.8rem' }}>
+        <FlexBetween style={{ flexWrap: 'wrap', justifyContent: 'flex-start', gap: '3.2rem' }}>
           {officialDetails.map((key) => {
             const value = activeEmployee?.[key];
             if (key === KEYS.PROBATION) {
@@ -153,11 +153,11 @@ const ProfileView = ({ activeEmployee }: Props) => {
         <Typography.Title level={5} style={classes.title}>
           <span style={classes.label}> Payroll Details</span>
         </Typography.Title>
-        <FlexBetween style={{ flexWrap: 'wrap', gap: '1.5rem' }}>
+        <FlexBetween style={{ flexWrap: 'wrap', justifyContent: 'flex-start', gap: '3.2rem' }}>
           {payroll.map((key) => {
             if (key === PAYROLL_KEYS.BANK) {
               return (
-                <FlexBetween style={{ flexWrap: 'wrap', gap: '1rem', width: '100%' }}>
+                <FlexBetween style={{ flexWrap: 'wrap', justifyContent: 'flex-start', gap: '3.2rem' }}>
                   <EmployeeDetailsMeta key={'bank'} label={'bank'} value={activeEmployee[KEYS.PAYROLL][key]['name']} />
                   <EmployeeDetailsMeta
                     key={'bankA/c'}
@@ -181,7 +181,7 @@ const ProfileView = ({ activeEmployee }: Props) => {
         <Typography.Title level={5} style={classes.title}>
           <span style={classes.label}>Emergeny Contact Details</span>
         </Typography.Title>
-        <FlexBetween style={{ flexWrap: 'wrap', gap: '1rem' }}>
+        <FlexBetween style={{ flexWrap: 'wrap', justifyContent: 'flex-start', gap: '3.2rem' }}>
           {emergency.map((key) => {
             return <EmployeeDetailsMeta key={key} label={key} value={activeEmployee[KEYS.EMERGENCY][key]} />;
           })}
