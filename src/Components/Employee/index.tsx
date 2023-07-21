@@ -19,6 +19,7 @@ import {
 import FormController, { EmployeeInitialValues } from './FormController';
 import useEmployee from '../../hooks/useEmployee';
 import { useForm } from 'antd/es/form/Form';
+import ProfileView from './ProfileView';
 
 export interface DataType {
   id?: string;
@@ -44,6 +45,7 @@ export const Employee = () => {
   // const [UpdateisModalOpen, setUpdateIsModalOpen] = useState<boolean>(false);
   // const [getEmployeeData,setGetEmployeeData] = useState({}as any)
   const [activeEmployee, setActiveEmployee] = useState<any>(undefined);
+  const [activeEmployeeView, setActiveEmployeeView] = useState<any>(undefined);
   const [attendanceData, setAttendanceData] = useState<any>([]);
   const [filterData, setFilterData] = useState<any>([]);
 
@@ -129,7 +131,7 @@ export const Employee = () => {
             <Button
               className="viewMoreBtn"
               onClick={() => {
-                navigate(`/employee/${item?.employeeNumber}`);
+                setActiveEmployeeView({ ...item });
               }}
               type="text"
             >
@@ -522,6 +524,7 @@ export const Employee = () => {
       </ModalComponent> */}
       <ModalComponent
         openModal={!!activeEmployee}
+        classNames="holidays-modal"
         closeModal={() => setActiveEmployee(undefined)}
         destroyOnClose={true}
         maskClosable={isMaskClosable}
@@ -530,23 +533,22 @@ export const Employee = () => {
           <EmployeeForm
             update
             setIsModalOpen={() => setActiveEmployee('')}
-            employeeId={activeEmployee}
+            employeeId={activeEmployee} 
             defaultValue={activeEmployee}
           />
         )} */}
-
         {!!activeEmployee && (
           <>
             <Typography.Title level={5} style={{ letterSpacing: 1.2, marginBottom: '0.8rem' }}>
               UPDATE STATUS
             </Typography.Title>
-            {/* <FormController
+            <FormController
               closeModal={() => setActiveEmployee(undefined)}
               handleSubmit={handleUpdateEmployee}
               isLoading={isUpdating}
               initialValues={activeEmployee}
-            /> */}
-            <Form onFinish={handleUpdateEmployee} form={form} autoComplete="off">
+            />
+            {/* <Form onFinish={handleUpdateEmployee} form={form} autoComplete="off">
               <Form.Item
                 className="form-input col"
                 name="status"
@@ -571,26 +573,20 @@ export const Employee = () => {
                   Add
                 </Button>
               </div>
-            </Form>
+            </Form> */}
           </>
         )}
       </ModalComponent>
 
       {/* view Details */}
 
-      {/* <ModalComponent
-        openModal={isViewOpen}
+      <ModalComponent
+        openModal={!!activeEmployeeView}
         classNames="add-employee-modal holidays-modal"
-        closeModal={setIsViewOpen}
+        closeModal={() => setActiveEmployeeView(undefined)}
       >
-        <EmployeeForm
-          update
-          setIsModalOpen={setIsViewOpen}
-          employeeId={activeEmployee}
-          defaultValue={activeEmployee}
-          isDisable
-        />
-      </ModalComponent> */}
+        <ProfileView activeEmployee={activeEmployeeView} />
+      </ModalComponent>
 
       {/* view Details */}
 
