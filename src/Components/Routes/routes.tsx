@@ -25,6 +25,7 @@ import { AdminProtectedRoute } from './adminProtected';
 import { ProtectedOtpRoute } from './protectedOtp';
 import { OtpSection } from '../LoginPage/OtpSection';
 import { ChangePassword } from '../LoginPage/ChangePassword';
+import LeaveSummary from '../Leave/LeaveDetails';
 import Index from '../Layout';
 
 type MainRoutesProps = {};
@@ -57,6 +58,8 @@ export const MainRoutes = ({}: MainRoutesProps) => {
             <Route path="/job-summary" element={<JobSummary />} />
             <Route path="/applicants" element={<Applicants />} />
             <Route path="/onboarding" element={<Onboarding />} />
+            <Route path="/leave-summary" element={<LeaveSummary />} />
+
             <Route path="*" element={<PageNotFound />} />
           </Route>
         </Route>

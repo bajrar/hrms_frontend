@@ -117,6 +117,14 @@ const SideBarTab = () => {
               </div>,
               '3',
             ),
+        isAdmin
+          ? getItem(
+              <div className="sidenav-link" onClick={() => closeSidebar('leave-summary')}>
+                Summary & Bookings
+              </div>,
+              '3',
+            )
+          : null,
       ],
     ),
 
