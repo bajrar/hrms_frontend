@@ -26,3 +26,4 @@ package-lock.json
 
 .firebaserc
 firebase.json
+.github/workflows
