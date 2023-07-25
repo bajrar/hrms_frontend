@@ -120,7 +120,7 @@ const SideBarTab = () => {
         isAdmin
           ? getItem(
               <div className="sidenav-link" onClick={() => closeSidebar('leave-summary')}>
-                Summary & Bookings
+                Summary & Balance
               </div>,
               '3',
             )

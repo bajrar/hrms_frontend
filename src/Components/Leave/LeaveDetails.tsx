@@ -76,7 +76,7 @@ const LeaveSummary = () => {
 };
 
 const LeaveBalance = () => {
-  return <h1>leave balance </h1>;
+  return <h1>leave </h1>;
 };
 
 const items: TabsProps['items'] = [
